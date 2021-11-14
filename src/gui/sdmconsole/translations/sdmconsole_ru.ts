@@ -518,7 +518,7 @@
         <location filename="../mainwindow.cpp" line="454"/>
         <source>&lt;p&gt;&lt;a href=&quot;info://doc/licenses/license.txt&quot;&gt;SDM framework license&lt;/a&gt;&lt;/p&gt;
 </source>
-        <translation type="unfinished">&lt;p&gt;&lt;a href=&quot;info://doc/licenses/license-ru.txt&quot;&gt;Лицензия на SDM&lt;/a&gt;&lt;/p&gt;
+        <translation>&lt;p&gt;&lt;a href=&quot;info://doc/licenses/license.txt&quot;&gt;Лицензия на SDM&lt;/a&gt;&lt;/p&gt;
 </translation>
     </message>
     <message>

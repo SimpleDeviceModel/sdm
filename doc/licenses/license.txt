@@ -1,6 +1,6 @@
-SIMPLE DEVICE MODEL FRAMEWORK LICENSE
+﻿SIMPLE DEVICE MODEL FRAMEWORK LICENSE
 
-Copyright (c) 2015-2021 by Microproject LLC
+Copyright © 2015-2021 by Microproject LLC
 
 SDM framework is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
