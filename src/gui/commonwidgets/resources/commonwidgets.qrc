@@ -1,0 +1,17 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/commonwidgets">
+	<file>icons/hzoomin.svg</file>
+	<file>icons/hzoomout.svg</file>
+	<file>icons/vzoomin.svg</file>
+	<file>icons/vzoomout.svg</file>
+	<file>icons/zoomfit.svg</file>
+	<file>icons/dragtoscroll.svg</file>
+	<file>icons/dragtozoom.svg</file>
+	<file>icons/freeze.svg</file>
+	<file>icons/saveimage.svg</file>
+	<file>icons/exportdata.svg</file>
+	<file>icons/addcursor.svg</file>
+	<file>icons/layers.svg</file>
+	<file>icons/font.svg</file>
+</qresource>
+</RCC>

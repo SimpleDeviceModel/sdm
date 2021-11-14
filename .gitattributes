@@ -1,0 +1,5 @@
+# Convert line endings for text files on Windows
+* text=auto
+
+# Always use Unix line ending format for *.ts files
+*.ts text eol=lf

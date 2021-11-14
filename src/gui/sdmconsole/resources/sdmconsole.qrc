@@ -1,0 +1,23 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+	<file>icons/appicon.svg</file>
+	<file>icons/lua-logo-nolabel.svg</file>
+	
+	<file>icons/plugin.svg</file>
+	<file>icons/device.svg</file>
+	<file>icons/channel.svg</file>
+	<file>icons/source.svg</file>
+
+	<file>icons/opened.svg</file>
+	<file>icons/closed.svg</file>
+	<file>icons/connected.svg</file>
+	<file>icons/notconnected.svg</file>
+	
+	<file>icons/quit.svg</file>
+	<file>icons/run.svg</file>
+	<file>icons/abort.svg</file>
+	<file>icons/language.svg</file>
+	<file>icons/reset.svg</file>
+	<file>icons/help.svg</file>
+</qresource>
+</RCC>

@@ -1,0 +1,42 @@
+dofile("${CMAKE_CURRENT_SOURCE_DIR}/../common/testcommon.lua")
+
+print("Loading testlib module")
+
+test=require("testlib")
+
+print("[1] Test object accessibility")
+
+obj1=test.obj1
+obj2=test.obj2
+
+assert(test.obj1.getstring()=="Default String")
+assert(test.obj2.getstring()=="Default String")
+
+print("Seems to be OK")
+
+print("[2] Test object independence")
+
+obj1.setstring("foo")
+obj2.setstring("bar")
+assert(obj1.getstring()=="foo")
+assert(obj2.getstring()=="bar")
+
+print("Seems to be OK")
+
+print("[3] Test unregistration")
+
+obj1.unregister()
+
+print("Object1 unregistered, trying to access (expecting error)")
+
+r,msg=pcall(obj1.getstring)
+assert(not r)
+assert(msg=="No such object/function or it has been deleted")
+print("Error handled properly, message was ["..msg.."]")
+
+print("Check that Object2 is still accessible")
+assert(obj2.getstring()=="bar")
+
+print("Seems to be OK")
+
+print("Test finished successfully")

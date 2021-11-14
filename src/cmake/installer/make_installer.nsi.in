@@ -1,0 +1,345 @@
+﻿Unicode true
+
+!include "MUI2.nsh"
+!include "Sections.nsh"
+!include "EnvVarUpdate.nsh"
+!include "WordFunc.nsh"
+!include "FileFunc.nsh"
+!include "x64.nsh"
+
+# Main definitions
+
+!define VENDOR_NAME "Microproject"
+!define PROGRAM_NAME "SDM"
+!define MAIN_EXECUTABLE "sdmconsole"
+
+# Definitions to be set by CMake
+
+!define PROGRAM_VERSION "@PRODUCT_VERSION_MAJOR@.@PRODUCT_VERSION_MINOR@.@PRODUCT_VERSION_PATCH@"
+!define PROGRAM_FLAVOR "@INSTALL_FLAVOR@"
+!define ARCH_STR "@TARGET_MACHINE@"
+!define ARCH_@TARGET_MACHINE@
+!define PROGRAM_FILES_ARCH @PROGRAM_FILES_ARCH@
+!define TARBALL_ROOT "@PROJECT_SOURCE_DIR@\.."
+!define VCREDIST_@USE_VCREDIST@
+!define VCREDIST_PATH "@VCREDIST_PATH_NATIVE@"
+
+# Derived definitions
+
+!define PROGRAM_NAME_WITH_ARCH "${PROGRAM_NAME} (${ARCH_STR})"
+!define PROGRAM_FULL_NAME "${VENDOR_NAME} ${PROGRAM_NAME}"
+!define PROGRAM_FULL_NAME_WITH_ARCH "${PROGRAM_FULL_NAME} (${ARCH_STR})"
+!define INSTALLER_NAME "${PROGRAM_NAME}-${PROGRAM_VERSION}-setup${PROGRAM_FLAVOR}-${ARCH_STR}.exe"
+
+# General parameters
+
+SetCompressor /SOLID LZMA
+SetCompressorDictSize 32
+
+Name "${PROGRAM_FULL_NAME}"
+OutFile "${INSTALLER_NAME}"
+InstallDir "${PROGRAM_FILES_ARCH}\${VENDOR_NAME}\${PROGRAM_NAME}"
+RequestExecutionLevel admin
+ManifestDPIAware true
+
+# Define metadata
+
+VIProductVersion "${PROGRAM_VERSION}.0"
+VIAddVersionKey "ProductName" ${PROGRAM_NAME}
+VIAddVersionKey "CompanyName" ${VENDOR_NAME}
+VIAddVersionKey "ProductVersion" "${PROGRAM_VERSION}.0"
+VIAddVersionKey "FileVersion" "${PROGRAM_VERSION}.0"
+VIAddVersionKey "FileDescription" "${PROGRAM_FULL_NAME} ${PROGRAM_VERSION} Installer"
+VIAddVersionKey "LegalCopyright" "© ${VENDOR_NAME}"
+
+# Define installer appearance
+
+!define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\orange-install.ico"
+!define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
+
+!define MUI_HEADERIMAGE
+!define MUI_HEADERIMAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Header\orange.bmp"
+!define MUI_HEADERIMAGE_UNBITMAP "${NSISDIR}\Contrib\Graphics\Header\orange-uninstall.bmp"
+
+!define MUI_WELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\orange.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\orange-uninstall.bmp"
+
+# Define installer pages
+
+!define MUI_ABORTWARNING
+!define MUI_UNABORTWARNING
+!define MUI_COMPONENTSPAGE_NODESC
+!define MUI_FINISHPAGE_RUN "$INSTDIR\${MAIN_EXECUTABLE}.exe"
+!define MUI_FINISHPAGE_RUN_TEXT $(FinishRun)
+
+!insertmacro MUI_PAGE_WELCOME
+!insertmacro MUI_PAGE_LICENSE $(LicenseFile)
+!insertmacro MUI_PAGE_COMPONENTS
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_INSTFILES
+!insertmacro MUI_PAGE_FINISH
+
+!insertmacro MUI_UNPAGE_WELCOME
+!insertmacro MUI_UNPAGE_CONFIRM
+!insertmacro MUI_UNPAGE_COMPONENTS
+!insertmacro MUI_UNPAGE_INSTFILES
+!insertmacro MUI_UNPAGE_FINISH
+
+# Languages
+
+!insertmacro MUI_LANGUAGE "English"
+!insertmacro MUI_LANGUAGE "Russian"
+
+# Language strings
+
+LicenseLangString LicenseFile ${LANG_ENGLISH} "${TARBALL_ROOT}\doc\licenses\license.txt"
+LicenseLangString LicenseFile ${LANG_RUSSIAN} "${TARBALL_ROOT}\doc\licenses\license-ru.txt"
+
+LangString AlreadyInstalled ${LANG_ENGLISH} "Other version of the ${PROGRAM_FULL_NAME} is already installed. Click OK to uninstall it or Cancel to abort installation."
+LangString AlreadyInstalled ${LANG_RUSSIAN} "Другая версия ${PROGRAM_FULL_NAME} уже установлена. Нажмите ОК, чтобы удалить её, или Отмена, чтобы прервать установку."
+
+LangString x64Required ${LANG_ENGLISH} "This program version requires a 64-bit operating system."
+LangString x64Required ${LANG_RUSSIAN} "Эта версия программы требует 64-разрядной операционной системы."
+
+LangString UninstallOldVersionFailed ${LANG_ENGLISH} "Removing old version failed. Try to uninstall it manually."
+LangString UninstallOldVersionFailed ${LANG_RUSSIAN} "Не удалось удалить старую версию. Попробуйте удалить её вручную."
+
+LangString VCRedistInstallationFailed ${LANG_ENGLISH} "Warning: Microsoft Visual C++ Redistributable installation failed (exit code $0)."
+LangString VCRedistInstallationFailed ${LANG_RUSSIAN} "Предупреждение: установка Microsoft Visual C++ Redistributable завершилась неудачей (код выхода $0)."
+
+LangString AddToPath ${LANG_ENGLISH} "Add ${PROGRAM_FULL_NAME} to the PATH variable"
+LangString AddToPath ${LANG_RUSSIAN} "Добавить ${PROGRAM_FULL_NAME} в переменную окружения PATH"
+
+LangString StartMenuShortcuts ${LANG_ENGLISH} "Create start menu shortcuts"
+LangString StartMenuShortcuts ${LANG_RUSSIAN} "Создать ярлыки в главном меню"
+
+LangString DesktopShortcuts ${LANG_ENGLISH} "Create desktop shortcut"
+LangString DesktopShortcuts ${LANG_RUSSIAN} "Создать ярлык на рабочем столе"
+
+LangString DocumentationString ${LANG_ENGLISH} "Documentation"
+LangString DocumentationString ${LANG_RUSSIAN} "Документация"
+
+LangString UninstallString ${LANG_ENGLISH} "Uninstall"
+LangString UninstallString ${LANG_RUSSIAN} "Удалить"
+
+LangString ManualString ${LANG_ENGLISH} "User Manual"
+LangString ManualString ${LANG_RUSSIAN} "Руководство пользователя"
+
+LangString UninstallProgramFiles ${LANG_ENGLISH} "Uninstall program files"
+LangString UninstallProgramFiles ${LANG_RUSSIAN} "Удалить файлы программы"
+
+LangString RemoveUserConfig ${LANG_ENGLISH} "Remove user settings"
+LangString RemoveUserConfig ${LANG_RUSSIAN} "Удалить пользовательские настройки"
+
+LangString FinishRun ${LANG_ENGLISH} "Run ${MAIN_EXECUTABLE}"
+LangString FinishRun ${LANG_RUSSIAN} "Запустить ${MAIN_EXECUTABLE}"
+
+# GetInQuotes function taken from http://nsis.sourceforge.net/GetInQuotes:_Get_string_from_between_quotes
+
+Function GetInQuotes
+	Exch $R0
+	Push $R1
+	Push $R2
+	Push $R3
+	
+	StrCpy $R2 -1
+	IntOp $R2 $R2 + 1
+	StrCpy $R3 $R0 1 $R2
+	StrCmp $R3 "" 0 +3
+	StrCpy $R0 ""
+	Goto Done
+	StrCmp $R3 '"' 0 -5
+	
+	IntOp $R2 $R2 + 1
+	StrCpy $R0 $R0 "" $R2
+	
+	StrCpy $R2 0
+	IntOp $R2 $R2 + 1
+	StrCpy $R3 $R0 1 $R2
+	StrCmp $R3 "" 0 +3
+	StrCpy $R0 ""
+	Goto Done
+	StrCmp $R3 '"' 0 -5
+	
+	StrCpy $R0 $R0 $R2
+Done:	
+	Pop $R3
+	Pop $R2
+	Pop $R1
+	Exch $R0
+FunctionEnd
+
+################################################
+# Installer
+################################################
+
+# Check if already installed, suggest to uninstall old version
+
+Function .onInit
+# Check architecture
+	!ifdef ARCH_x64
+		${IfNot} ${RunningX64}
+			IfSilent +2
+			MessageBox MB_OK|MB_ICONSTOP $(x64Required)
+			Abort
+		${EndIf}
+		SetRegView 64
+	!endif
+	
+	InitPluginsDir
+	
+	Var /GLOBAL OldUninstaller
+	Var /GLOBAL OldUninstallerPath
+	Var /GLOBAL OldPath
+# Check uninstall registry key
+	ReadRegStr $OldUninstaller HKLM \
+		"Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_FULL_NAME_WITH_ARCH}" \
+		"UninstallString"
+	StrCmp $OldUninstaller "" done
+	
+	Push $OldUninstaller
+	Call GetInQuotes
+	Pop $OldUninstallerPath
+	StrCmp $OldUninstallerPath "" 0 +2
+	StrCpy $OldUninstallerPath $OldUninstaller
+	${GetParent} $OldUninstallerPath $OldPath
+	
+# Use the same install directory by default
+	StrCpy $INSTDIR $OldPath
+
+# Compare versions
+	ReadRegStr $R0 HKLM \
+		"Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_FULL_NAME_WITH_ARCH}" \
+		"DisplayVersion"
+	${VersionCompare} ${PROGRAM_VERSION} $R0 $R0
+	
+# Continue installation if installed version is the same
+	IntCmp $R0 0 done
+
+	IfSilent uninst_silent
+	MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION $(AlreadyInstalled) IDOK uninst
+	Abort
+
+uninst:
+	CopyFiles $OldUninstallerPath $PLUGINSDIR
+	ExecWait '"$PLUGINSDIR\uninstall.exe" _?=$OldPath' $R0
+	IntCmp $R0 0 done
+	MessageBox MB_OK|MB_ICONSTOP $(UninstallOldVersionFailed)
+	Abort
+uninst_silent:
+	CopyFiles $OldUninstallerPath $PLUGINSDIR
+	ExecWait '"$PLUGINSDIR\uninstall.exe" /S _?=$OldPath' $R0
+	IntCmp $R0 0 done
+	Abort
+done:
+FunctionEnd
+
+# Install core files
+
+Section "-Core"
+	SectionIn RO
+	
+# Install Microsoft Visual C++ Redistributable (if requested and not already installed)
+	!ifdef VCREDIST_USE
+		SetOutPath $PLUGINSDIR
+		File "${VCREDIST_PATH}"
+		IfSilent vcredist_install_silent
+		ExecWait '"$PLUGINSDIR\vcredist_${ARCH_STR}.exe" /install /passive /norestart' $0
+		Goto vcredist_check_exit
+vcredist_install_silent:
+		ExecWait '"$PLUGINSDIR\vcredist_${ARCH_STR}.exe" /install /quiet /norestart' $0
+		
+# See https://msdn.microsoft.com/en-us/library/windows/desktop/aa376931(v=vs.85).aspx
+# for installer exit codes. VCRedist returns 3010 to indicate that a reboot is required,
+# 1638 if a newer version is already installed, 0 if installation is successful.
+
+vcredist_check_exit:
+		IntCmp $0 3010 vcredist_exit_3010 # reboot required
+		IntCmp $0 1638 vcredist_install_fin # a newer version is already installed - ignore
+		IntCmp $0 0 vcredist_install_fin # installation successful
+# Otherwise, display a warning message and proceed
+		IfSilent +2
+		MessageBox MB_OK|MB_ICONEXCLAMATION $(VCRedistInstallationFailed)
+		Goto vcredist_install_fin
+vcredist_exit_3010:
+		SetRebootFlag true
+vcredist_install_fin:
+	!endif
+
+	SetOutPath $INSTDIR
+	File /r /x *.nsi /x *setup*.exe /x dlldeptool.exe *.*
+SectionEnd
+
+Section "-WriteUninstaller"
+	SectionIn RO
+# Write uninstaller
+	WriteUninstaller "$INSTDIR\uninstall.exe"
+	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_FULL_NAME_WITH_ARCH}" \
+		"DisplayName" "${PROGRAM_FULL_NAME_WITH_ARCH}"
+	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_FULL_NAME_WITH_ARCH}" \
+		"DisplayVersion" ${PROGRAM_VERSION}
+	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_FULL_NAME_WITH_ARCH}" \
+		"UninstallString" "$\"$INSTDIR\uninstall.exe$\""
+	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_FULL_NAME_WITH_ARCH}" \
+		"DisplayIcon" "$\"$INSTDIR\${MAIN_EXECUTABLE}.exe$\""
+	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_FULL_NAME_WITH_ARCH}" \
+		"Publisher" "${VENDOR_NAME}"
+SectionEnd
+
+Section $(AddToPath)
+# Modify PATH environment variable
+	${EnvVarUpdate} $0 "PATH" "A" "HKLM" "$INSTDIR"
+SectionEnd
+
+Section $(StartMenuShortcuts)
+	CreateDirectory "$SMPROGRAMS\${VENDOR_NAME}"
+	CreateDirectory "$SMPROGRAMS\${VENDOR_NAME}\${PROGRAM_NAME_WITH_ARCH}"
+	CreateDirectory "$SMPROGRAMS\${VENDOR_NAME}\${PROGRAM_NAME_WITH_ARCH}\$(DocumentationString)"
+	
+	CreateShortCut "$SMPROGRAMS\${VENDOR_NAME}\${PROGRAM_NAME_WITH_ARCH}\${MAIN_EXECUTABLE}.lnk" "$INSTDIR\${MAIN_EXECUTABLE}.exe"
+	CreateShortCut "$SMPROGRAMS\${VENDOR_NAME}\${PROGRAM_NAME_WITH_ARCH}\$(UninstallString) ${PROGRAM_FULL_NAME}.lnk" "$INSTDIR\uninstall.exe"
+
+	CreateShortCut "$SMPROGRAMS\${VENDOR_NAME}\${PROGRAM_NAME_WITH_ARCH}\$(DocumentationString)\$(ManualString).lnk" "$INSTDIR\doc\manual.pdf"
+SectionEnd
+
+Section $(DesktopShortcuts)
+	CreateShortCut "$DESKTOP\${MAIN_EXECUTABLE} (${ARCH_STR}).lnk" "$INSTDIR\${MAIN_EXECUTABLE}.exe"
+SectionEnd
+
+################################################
+# Uninstaller
+################################################
+
+Function un.onInit
+	!ifdef ARCH_x64
+		SetRegView 64
+	!endif
+FunctionEnd
+
+Section "un.$(UninstallProgramFiles)"
+	SectionIn RO
+# Remove program from PATH
+	${un.EnvVarUpdate} $0 "PATH" "R" "HKLM" "$INSTDIR"
+
+# Remove unistaller entry
+	DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_FULL_NAME_WITH_ARCH}"
+
+# Remove shortcuts
+	RMDir /r /REBOOTOK "$SMPROGRAMS\${VENDOR_NAME}\${PROGRAM_NAME_WITH_ARCH}"
+	RMDir /REBOOTOK "$SMPROGRAMS\${VENDOR_NAME}"
+	Delete /REBOOTOK "$DESKTOP\${MAIN_EXECUTABLE} (${ARCH_STR}).lnk"
+
+# Remove uninstaller
+	Delete /REBOOTOK "$INSTDIR\Uninstall.exe"
+
+# Remove program
+	RMDir /r /REBOOTOK "$INSTDIR"
+	RMDir /REBOOTOK "$INSTDIR\.." # remove parent only if empty
+SectionEnd
+
+Section /o "un.$(RemoveUserConfig)"
+# Remove user settings
+	RMDir /r /REBOOTOK "$APPDATA\${VENDOR_NAME}\${MAIN_EXECUTABLE}"
+	Delete /REBOOTOK "$APPDATA\${VENDOR_NAME}\${MAIN_EXECUTABLE}.ini"
+	RMDir /REBOOTOK "$APPDATA\${VENDOR_NAME}"
+SectionEnd

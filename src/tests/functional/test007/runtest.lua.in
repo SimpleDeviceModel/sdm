@@ -1,0 +1,5 @@
+package.cpath=arg[1].."/?.dll;"..package.cpath
+package.cpath=arg[1].."/?.so;"..package.cpath
+
+print(package.cpath)
+dofile("${LFS_TEST}")

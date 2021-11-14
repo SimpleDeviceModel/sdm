@@ -1,0 +1,9 @@
+dofile("${CMAKE_CURRENT_SOURCE_DIR}/../common/testcommon.lua")
+
+print("Basic Lua sanity check")
+
+assert(sdm.info("host")=="sdmhost")
+assert(sdm.info("os"):len()>0)
+
+print("Seems to be OK")
+print("Test finished successfully")

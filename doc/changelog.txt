@@ -1,0 +1,409 @@
+========================
+SDM 0.9.5
+------------------------
+Released on 2021-10-23
+========================
+
+* non-synchronized stream reading is no longer supported
+* new properties recognized by sdmconsole: ShowStreams and ViewMode
+* plotter: an option to export data to CSV
+* plotter: user can now set both input and output offset for layer transformation
+* sdm.time() method added
+* codec.path() replaced with sdm.path(), duplicated functionality in sdm.info() removed
+* mls plugin now supports SPF
+
+========================
+SDM 0.9.4
+------------------------
+Released on 2020-09-29
+========================
+
+* a new plugin, mls, has been added
+* sdmconsole: stream viewer improvements
+* sdmconsole: minor plotter improvements
+* bundled Lua interpreter updated to 5.3.6
+* luart: fixed enumeration of serial ports under Windows
+
+========================
+SDM 0.9.3
+------------------------
+Released on 2018-01-19
+========================
+
+sdmconsole changes:
+
+* plotter: a new presentation mode, "Video", has been added
+* plotter: "Binary" mode now supports up to 53-bit samples
+* console: better support for the "Select All" (Ctrl+A) key sequence
+
+Dependencies:
+
+* luafilesystem: update to the latest upstream release, 1.7.0
+
+========================
+SDM 0.9.2
+------------------------
+Released on 2017-10-16
+========================
+
+* sdmconsole: plotter: user can now change the line width in the Plot mode, other minor fixes
+* a new codec.path() method added to query sdmconsole paths or path to the current script
+* binary packages for Windows are now built against Qt 5.6.3  
+
+========================
+SDM 0.9.1
+------------------------
+Released on 2017-05-15
+========================
+
+General changes:
+
+* indicate that Windows 7 SP1 is the minimum Windows version supported by SDM
+
+sdmconsole and sdmhost changes:
+
+* don't expect user input continuation if the incomplete chunk was loaded with dofile()/codec.dofile()
+* recognize console commands surrounded by whitespace characters (including "clear" and "quit")
+* sdmconsole: don't add commands starting with the space character to the history (like in bash)
+* sdmconsole: an option to change the Lua console font size with Control+Wheel
+
+Scripting API changes:
+
+* a new sdm.info() tag: "prefix", returns SDM installation prefix
+* codec.createcodec() now supports more encodings
+* luaipsockets: bug fixed: accept() method didn't return remote address/port as it should
+* luaipsockets: send() can now send empty datagrams
+* luadfic: improved security: don't acquire both write and execute permissions for JIT compiled code at once
+* luadfic: fixed a bug which could cause incorrect loading/unloading of system DLLs on Windows
+
+========================
+SDM 0.9.0
+------------------------
+Released on 2017-04-22
+========================
+
+* api: a new optional SDM object property, "UserScripts", which lists Lua scripts associated with the object
+* sdmconsole: create additional buttons for user scripts
+* electro2: define UserScripts properties for devices and channels
+* luaipsockets: shutdown() method implemented
+* luaipsockets: prevent the SIGPIPE signal on Linux when trying to send data through a closed connection
+
+========================
+SDM 0.8.6
+------------------------
+Released on 2017-04-20
+========================
+
+* sdmconsole: fixed an UI defect with incorrect scrolling in the plotter window
+* sdmhost: print greeting and diagnostic messages to stderr instead of stdout
+* luaipsockets: a bug in handling some socket options on Windows fixed, support more socket options
+
+========================
+SDM 0.8.4
+------------------------
+Released on 2017-04-19
+========================
+
+New features:
+
+* sdmconsole now supports exporting data streams to raw binary files
+* MHDB file format updated to 1.2, added support for more sample formats. Note that MHDB 1.2 is backwards compatible with MHDB 1.0, but not MHDB 1.1
+* a new Lua extension module, "luaipsockets", was added (IPv4 connectivity)
+
+Scripting API changes:
+
+* "Plotter" dialog now supports the "preferred" display mode (either "bars" or "plot", depending on the last user choice)
+
+Dependencies:
+
+* bundled Lua interpreter updated to 5.3.4
+
+========================
+SDM 0.8.3
+------------------------
+Released on 2017-01-10
+========================
+
+* electro2 register map and firmware generation script updated
+* luafilesystem: updated to the latest upstream version
+* installer: migrate to NSIS 3.0
+
+========================
+SDM 0.8.1
+------------------------
+Released on 2016-08-08
+========================
+
+New features:
+
+* new plugin: OPMR
+* full support for Windows 10 and MSVC 2015
+* bundled Lua interpreter updated to 5.3.3
+* sdmconsole: better display of slow streams in the stream viewer window
+* signal analyzer script now reports average packet size
+* register maps updated for the MRMP and Electro2 plugins
+
+========================
+SDM 0.8.0
+------------------------
+Released on 2016-01-11
+========================
+
+New features:
+
+* experimental support for MSVC 2015 in the build system
+* sdmconsole: register map (*.srm) format changed to store array data more efficiently (incompatible with previous versions)
+* sdmconsole: multiple minor UI improvements
+
+Scripting API changes:
+
+* luart: on Windows, prepend COM port name with "\\.\" unless it already starts with a backslash
+* "objtype" and "rowtype" fields renamed to "type"
+
+Other:
+
+* preliminary support for the MSU-MR-MP device with a new "mrmp" plugin
+
+========================
+SDM 0.7.4
+------------------------
+Released on 2015-11-01
+========================
+
+* sdmconsole: plotter: minor regression fixed
+* sdmconsole: plotter: show FPS count in the status bar
+
+========================
+SDM 0.7.3
+------------------------
+Released on 2015-10-31
+========================
+
+* sdmconsole: plotter: significant performance improvements for "Bitmap" and "Binary" mode rasterizers
+
+========================
+SDM 0.7.2
+------------------------
+Released on 2015-10-29
+========================
+
+Bugs fixed:
+
+* sdmconsole: "Read" toolbar button in the register map window was not working
+* sdmconsole: use proper encoding for script file names in command line arguments
+
+========================
+SDM 0.7.1
+------------------------
+Released on 2015-10-28
+========================
+
+New features (sdmconsole):
+
+* syntax highlighting implemented for Lua console and register custom action editor
+* a new option to cycle through multiple layers when displaying a single data stream
+* plotter layers can now be configured
+* FIFO data editor improved and can now handle tens of millions of items
+* more efficient FIFO data storage in the XML register map; old format is no longer supported
+* source panel now allows the user to specify the maximum packet size
+* full screen mode implemented
+* object tree now supports context menus
+* "Scripts" menu flattened, menu keyboard accelerators added
+* plotter window now uses either Bars or Plot mode by default, depending on last user choice
+* Lua console now better handles situation when output is printed when the user types text
+* a new dialog added to the gui library: "textviewer"
+
+New features (other):
+
+* sdmhostw: a headless version of sdmhost for Windows (doesn't create console window)
+* codec library now supports stateful text codecs and arbitraty encodings
+* new types supported by luadfic: clock_t, time_t
+
+Removed and deprecated features:
+
+* sdmconsole: additional toolbar for "Plot" mode removed
+* sdmconsole: "Execute on startup" feature removed
+
+Dependencies:
+
+* binary packages for Windows are now built against Qt 5.5.1
+
+SDM API changes:
+
+* SDM_STREAMNOTSELECTED error code has been removed
+* meaning of "packets" parameter of sdmSelectReadStream() slightly changed
+* new values for AutoOpenChannels and AutoOpenSources properties: "open" and "connect"; "true" is removed
+
+Scripting API changes:
+
+* new sdm.info() keys: "version" and "uilanguages"
+* plotter.setoption() semantics slightly changed; plotter.setlayeroption() added
+* new search order for codec.dofile()
+
+Bugs fixed:
+
+* properly reset sdmconsole main window geometry when resetting to default configuration
+* fixed regression with Lua console prompt not being shown in certain circumstances
+* luadfic: bug fixed in SystemV AMD64 ABI calling convention implementation
+
+Localization support:
+
+* always use standard ("C") locale for number conversion when interacting with Lua
+* omit thousands group separators regardless of current locale
+* user interface language detection improved
+* script names can now be translated
+
+========================
+SDM 0.6.0
+------------------------
+Released on 2015-09-21
+========================
+
+New features:
+
+* SDM base system now recognizes a new plugin property, "MinimumSDMVersion"
+* sdmconsole will skip connection parameters dialog if "ConnectionParameters" device property is absent or empty
+* new types supported by luadfic: wchar_t, long long, unsigned long long, ptrdiff_t
+* better support of paths with spaces by the build system
+
+Removed and deprecated features:
+
+* CMake 3.1-3.2 support has been dropped. CMake 3.3 or later is now required to build SDM from source.
+* Test suite no longer provides an option to redefine global new and delete operators to trace memory leaks. An option to use Valgrind has been added instead.
+
+SDM API changes:
+
+* SDK header and source names and locations have been changed
+* names of function pointer types defined in sdmtypes.h have been changed
+* sdmWriteMem() and sdmReadMem() now work with arrays of sdm_reg_t instead of char
+* pluginprovider public interface simplified
+* SDMAPI macro now expands to __attribute__((visibility("default"))) when using GCC 4.0 or later provided that EXPORT_SDM_SYMBOLS macro is defined
+* a new example plugin written in C, "simpleplugin", added to the SDK
+
+Bugs fixed:
+
+* source object properties were incorrectly accessed using sdmGetChannelProperty/sdmSetChannelProperty instead of sdmGetSourceProperty/sdmSetSourceProperty. Both sdmhost and sdmconsole were affected.
+* sdmconsole: do not wait for newline to display standard output in the Lua console
+
+========================
+SDM 0.5.1
+------------------------
+Released on 2015-09-06
+========================
+
+This is a maintenance release that fixes a few minor inconsistencies:
+
+* it is now possible to have both 32-bit and 64-bit versions of SDM installed at the same time on Windows
+* CMake package for SDM no longer uses SDM_PLUGINPROVIDER_EXPORT variable
+* sdm::pluginprovider library is now deployed as a set for source files to improve compatibility with different compilers
+
+========================
+SDM 0.5.0
+------------------------
+Released on 2015-09-04
+========================
+
+New features:
+
+* sdmconsole stream viewer will now display partial packet if it takes too long to receive the whole packet
+* a new Lua extension module, "luadfic" - an implementation of foreign function interface for Lua
+* improved compatibility with third-party Lua addons
+* sdmconsole now uses a single worker thread to execute Lua code
+
+Removed and deprecated features:
+
+* compiling Lua as C++ is no longer supported
+* CMake 3.0 support has been dropped. CMake 3.1 or later is now required to build SDM from source.
+* prepending SDM plugin exported function names with an underscore is now deprecated and may be removed in one of the future versions
+
+Scripting API changes:
+
+* sdm.info() now takes a key and returns the corresponding value (as opposed to returning the whole table)
+* Plotter type objects now support new removedata() method
+* common modeless dialog interface "destroy()" method renamed to "close()" for consistency (applies to Plotter, FormDialog and ProgressDialog)
+
+Bugs fixed:
+
+* sdmconsole: fixed incorrect exception handling in sdmconsole stream viewer that used to cause crashes when SDM plugin throws an exception
+* electro2plugin: workarounds for a few instances of incorrect behavior in KIA BOS IK firmware
+
+========================
+SDM 0.4.0
+------------------------
+Released on 2015-08-10
+========================
+
+New features:
+
+* plotter window now provides cursors to track selected sample values
+* sdmconsole now can execute scripts passed as command line arguments
+    (sdmconsole --run <script> <arguments> or sdmconsole --batch <script> <arguments>)
+* "Moment Estimator" script replaced with a more advanced "Signal Statistics" which can also draw histograms
+* a new Lua extension module: "luart" - cross-platform serial port library
+* codec library now provides codec.open() function that can be used instead of io.open() to open files with UTF8-encoded names
+* compiling SDM with Microsoft Visual Studio 2015 is now supported
+
+Removed and deprecated features:
+
+* Lua 5.1 support has been dropped. Lua 5.2 is now the minimum supported version.
+
+Dependencies:
+
+* LuaFileSystem merged with the current upstream master branch (b6d5b37).
+* Binary packages for Windows are now built against Qt 5.5.0.
+
+SDM API changes:
+
+* sdmWriteFIFO(), sdmReadFIFO() and sdmReadStream() are now allowed to return in blocking mode even if the amount of data written/read is less than requested, provided that at least one byte/word/sample is written/read
+
+Scripting API changes:
+
+* channel.writefifo(), channel.readfifo() and source.readstream() now support three operation modes: "all" - write/read the requested amount of data (blocking), "part" - write/read up to the requested amount of data (blocking) and "nb" - write/read up to the requested amount of data (non-blocking)
+* codec.dofile() now supports reading from standard input when invoked without parameters, for compatibility with standard dofile()
+
+Bugs fixed:
+
+* sdmconsole command history was stored in local encoding instead of UTF-8
+* codec.dofile(): remove argument from the stack before calling chunk
+
+========================
+SDM 0.3.0
+------------------------
+Released on 2015-07-20
+========================
+
+New features:
+
+* register map and stream viewer windows are now opened automatically provided that certain properties are set by the plugin
+* register map window now has a status bar
+* Lua console now accepts dropped scripts
+* plotter window zoom guessing algorithm improved
+
+SDM API changes:
+
+* sdmGetConnectionStatus() now returns non-zero if connected, zero if not connected. "Lost" status has been dropped.
+
+Scripting API changes:
+
+* codec.dofile() now searches for a script in the directory containing the currently executed file (if any), and only after that - in the current directory
+* sdm.lock() is now supported in sdmhost (but doesn't do anything)
+* device.getconnectionstatus() replaced with device.isconnected() which returns boolean, not string
+* getproperty() now doesn't raise an error; instead it returns nil or a default value (if passed) if the property doesn't exist. The same for __index metamethod.
+* sdm.plugins(), plugin.devices(), device.channels() and device.streams() now count children from 1, not 0
+* form.addfileoption() and gui.filedialog() no longer accept default extension (selected filter is used instead)
+
+Bugs fixed:
+
+* electro2plugin: multiple bugfixes and workarounds
+* sdmconsole: fixed deadlock conditions related to stream reading and object destruction
+* sdmconsole: fixed bug with auto-level function being broken in Bitmap plotter mode when Y axis is inverted
+* sdmconsole: fixed bug with register map autowrite being triggered when user changes number representation
+* sdmconsole: crashes fixed in stream reader and object tree
+
+========================
+SDM 0.2.0
+------------------------
+Released on 2015-07-06
+========================
+
+Initial public release.

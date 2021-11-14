@@ -1,0 +1,8 @@
+bin_viewer.lua,Binary file viewer
+bin_viewer.lua,Просмотр двоичных файлов,ru
+mhdb_viewer.lua,MHDB file viewer
+mhdb_viewer.lua,Просмотр файлов MHDB,ru
+plot_graph.lua,Plot a graph
+plot_graph.lua,Построить график,ru
+signal_analyzer.lua,Signal analyzer
+signal_analyzer.lua,Анализатор сигналов,ru

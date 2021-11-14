@@ -1,0 +1,81 @@
+dofile("${CMAKE_CURRENT_SOURCE_DIR}/../common/testcommon.lua")
+
+print("Loading testlib module")
+
+test=require("testlib")
+
+print("[1] Create objects in global scope")
+
+assert(test.refcount()==0)
+
+gobj1=test.makeDynamicObject()
+assert(test.refcount()==1)
+gobj2=test.makeDynamicObject()
+assert(test.refcount()==2)
+
+assert(gobj1.getstring()=="Default String")
+assert(gobj2.getstring()=="Default String")
+
+print("Seems to be OK")
+
+do
+	print("[2] Create objects in local scope")
+	
+	local lobj1=test.makeDynamicObject()
+	assert(test.refcount()==3)
+	local lobj2=test.makeDynamicObject()
+	assert(test.refcount()==4)
+	
+	gobj1.setstring("test1")
+	gobj2.setstring("test2")
+	lobj1.setstring("test3")
+	lobj2.setstring("test4")
+	
+	assert(gobj1.getstring()=="test1")
+	assert(gobj2.getstring()=="test2")
+	assert(lobj1.getstring()=="test3")
+	assert(lobj2.getstring()=="test4")
+	
+	lobj1.close()
+	assert(test.refcount()==3)
+	
+	print("Seems to be OK")
+end
+
+print("[3] Checking that garbage collection works")
+
+collectgarbage()
+assert(test.refcount()==2)
+
+print("Seems to be OK")
+
+print("[4] Test for to-be-closed variables (Lua 5.4 or later only)")
+
+if _VERSION>="Lua 5.4" then
+	dofile("test_toclose.lua")
+end
+
+print("[5] Delete object and try to access it (expecting error)")
+
+tmpref=test.refcount()
+gobj1.close()
+assert(test.refcount()==tmpref-1)
+
+r,msg=pcall(gobj1.getstring)
+assert(not r)
+assert(msg=="No such object/function or it has been deleted")
+print("Error handled properly, message was ["..msg.."]")
+
+print("Check that the remaining object is still accessible")
+assert(gobj2.getstring()=="test2")
+
+print("Seems to be OK")
+
+print("[6] Check that object deleted by C++ code is detached from Lua server")
+
+r,msg=pcall(deleted.getstring)
+assert(not r)
+assert(msg=="No such object/function or it has been deleted")
+print("Error handled properly, message was ["..msg.."]")
+
+print("Test finished successfully")

@@ -1,0 +1,141 @@
+dofile("${CMAKE_CURRENT_SOURCE_DIR}/../common/testcommon.lua")
+
+seed=os.time()
+print("Setting random seed "..seed)
+math.randomseed(seed)
+
+print("[1] Loading dummy SDM plugin")
+
+plugin=sdm.openplugin(arg[1])
+
+assert(plugin.path():find("testplugin"))
+
+print("Seems to be OK")
+
+print("[2] Checking that plugin properties work")
+
+props=plugin.listproperties("*")
+
+print("Plugin properties:")
+
+rprops={}
+for k,v in pairs(props) do
+	print(k..":\t"..v)
+	rprops[v]=plugin[v]
+end
+
+assert(rprops["Name"]=="Software simulated test")
+assert(rprops["Vendor"]=="Microproject LLC")
+assert(rprops["Verbosity"]=="Default")
+
+plugin.Verbosity="Quiet" -- set property using __newindex metamethod
+assert(plugin.getproperty("Verbosity")=="Quiet")
+plugin.setproperty("Verbosity","Default") -- set property using setproperty method
+assert(plugin.Verbosity=="Default")
+
+assert(plugin.getproperty("Verbosity","foo")=="Default")
+assert(plugin.getproperty("NoSuchProperty","foo")=="foo")
+assert(plugin.getproperty("NoSuchProperty")==nil)
+
+print("Trying to write a readonly property (expecting error)")
+
+r,msg=pcall(plugin.setproperty,"Name","Cool New Name")
+assert(not r)
+print("Error properly handled with message ["..msg.."]")
+
+print("Seems to be OK")
+
+print("[2] Check that device can be opened and connected")
+
+dev=plugin.opendevice(0)
+assert(dev.Name=="Test device 1")
+assert(dev.id()==0)
+
+print("Device opened, getting list of connection parameters")
+
+cpars=dev.listproperties("ConnectionParameters")
+
+for k,v in pairs(cpars) do
+	print(k..":\t"..v)
+end
+
+print("Setting connection parameters")
+
+dev.IPaddress="172.16.0.210"
+dev.Port="11288"
+assert(dev.getproperty("IPaddress")=="172.16.0.210")
+assert(dev.getproperty("Port")=="11288")
+
+print("Connecting...")
+
+assert(dev.isconnected()==false)
+dev.connect()
+assert(dev.isconnected()==true)
+
+do
+	print("[3] Checking that control channel works (in local scope)")
+	
+	for i=1,dev.channels() do dev.channels(1).close() end -- close auto-opened channels (if any)
+	for i=1,dev.sources() do dev.sources(1).close() end -- close auto-opened sources (if any)
+	
+	local ch=dev.openchannel(0)
+	assert(ch.Name=="Measurement equipment")
+	assert(ch.id()==0)
+	
+	plugin.Verbosity="Verbose"
+	
+	print("Test writereg/readreg...")
+	
+	local r=math.random(0,65535)
+	ch.writereg(99,r)
+	assert(ch.readreg(99)==r)
+	
+	print("Test writefifo/readfifo")
+	
+	local fifodata={}
+	
+	for i=1,10 do
+		fifodata[i]=math.random(0,65535)
+	end
+	
+	ch.writefifo(0,fifodata)
+	
+	local fifodata_r=ch.readfifo(0,8)
+	assert(#fifodata_r==8)
+	for i=1,#fifodata_r do
+		assert(fifodata_r[i]==fifodata[i])
+	end
+	
+	print("Test writemem/readmem")
+	
+	local mem={10,20,30,40,50,11,21,31,41,51}
+	ch.writemem(51,mem)
+	local mem_r=ch.readmem(51,10)
+	assert(comparetables(mem,mem_r))
+	
+	plugin.Verbosity="Default"
+	
+	print("Seems to be OK")
+	
+	print("[4] Trying to open a non-existent channel (expecting error)")
+	
+	r,msg=pcall(dev.openchannel,10)
+	assert(not r)
+	print("Error properly handled with message ["..msg.."]")
+	
+	print("Seems to be OK")
+	
+	print("[5] Checking resource disposal")
+	
+	ch.close()
+end
+
+print("Channel should be now closed, trying to disconnect device")
+
+assert(dev.isconnected()==true)
+dev.disconnect()
+assert(dev.isconnected()==false)
+
+plugin.close()
+
+print("Test finished successfully")

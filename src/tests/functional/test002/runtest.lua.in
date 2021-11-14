@@ -1,0 +1,65 @@
+dofile("${CMAKE_CURRENT_SOURCE_DIR}/../common/testcommon.lua")
+
+print("Loading testlib module")
+
+test=require("testlib")
+
+print("[1] Test value passing from C++ to Lua")
+
+tnil,tb,tnum,tint,tstr,ttab,tcf,tlud=test.test1()
+
+assert(tnil==nil)
+assert(tb==true)
+assert(tnum==-98.2)
+assert(tint==15485941)
+if _VERSION>="Lua 5.3" then assert(math.type(tint)=="integer") end
+assert(tstr,"The quick brown fox jumps over the lazy dog")
+
+expected_table={[1]="one",[1.5]="one and a half",["two"]=2,["nested"]={[1000]="thousand",[1001]="thousand one"}}
+assert(comparetables(ttab,expected_table))
+
+assert(type(tcf)=="function")
+assert(type(tlud)=="userdata")
+
+print("Seems to be OK")
+
+print("[2] Test value passing from Lua to C++")
+
+test.test2(nil,tb,tnum,tint,tstr,ttab,tcf,tlud)
+
+print("Seems to be OK")
+
+print("[3] Check that global environment pulling doesn't lead to infinite recursion")
+
+n=test.test3()
+
+print(n.." elements pulled (counting both keys and values)")
+
+print("[4] Test upvalues")
+
+test.test4()
+
+print("Seems to be OK")
+
+print("[5] Test \"array\" pseudo-type")
+
+t=test.test5();
+expected_table={10,115}
+assert(comparetables(t,expected_table))
+
+print("[6] Test callback unregistration")
+
+test.test6()
+
+print("test1() should be unregistered now, trying to call (expecting error)")
+
+r,msg=pcall(test.test1)
+
+assert(not r)
+assert(msg=="No such object/function or it has been deleted")
+	
+print("Error handled properly, message was ["..msg.."]")
+
+print("Seems to be OK")
+
+print("Test finished successfully")

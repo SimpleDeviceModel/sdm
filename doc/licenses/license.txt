@@ -1,0 +1,46 @@
+SIMPLE DEVICE MODEL FRAMEWORK LICENSE
+
+Copyright (c) 2015-2021 by Microproject LLC
+
+SDM framework is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+SDM framework is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with SDM framework.  If not, see <https://www.gnu.org/licenses/>.
+
+SDM framework can be shipped with additional plugins which are not covered
+by this license.
+
+SIMPLE DEVICE MODEL SDK LICENSE
+
+In addition to the above, SDK for SDM plugin development is also licensed
+under the terms of the MIT license (see sdk-license.txt).
+
+THIRD PARTY SOFTWARE COMPONENTS
+
+SDM framework includes the following third party software components. License
+conditions for third-party software are provided in the documentation.
+
+    * Lua: Copyright © 1994–2020 Lua.org, PUC-Rio.
+    * LuaFileSystem: Copyright © 2003-2020 Kepler Project.
+    * The Qt Toolkit: Copyright © 2015 The Qt Company Ltd.
+
+TRADEMARK NOTICES
+
+Linux® is the registered trademark of Linus Torvalds in the U.S. and other countries.
+
+Microsoft, Windows, Visual Studio and Visual C++ are either registered trademarks or
+trademarks of Microsoft Corporation in the United States and/or other countries.
+
+Qt is a registered trademark of The Qt Company Ltd. and/or its subsidiaries.
+
+Ubuntu is a registered trademark of Canonical Ltd.
+
+All other trademarks are property of their respective owners.

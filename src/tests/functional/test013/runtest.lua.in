@@ -1,0 +1,38 @@
+dofile("${CMAKE_CURRENT_SOURCE_DIR}/../common/testcommon.lua")
+
+print("Loading testlib module")
+
+test=require("testlib")
+
+print("[1] Create some nested tables")
+
+t={1,"qwerty",22.5,[1000]={0,3,5},["kkk"]={{1,2},{"one",["changeme"]="two"}}}
+
+test.test1(t)
+
+assert(t.kkk[2].changeme=="done!")
+
+print("[2] Creating iterators for explicit keys")
+
+t2={["qwe"]=123.123,[55.5]={17,"qqq"}}
+
+r=test.test2()
+assert(r=="qqq_test")
+
+print("[3] Test STL compatibility")
+
+t3={100,"two",{0.5,1.2,1.5},1,17,700,-200,50.1}
+
+count,maxkey,maxval=test.test3(t3) -- count values >=50
+print("count="..count..", maxkey="..maxkey..", maxval="..maxval)
+assert(count==3)
+assert(maxkey==6)
+assert(maxval==700)
+
+print("[4] Test global table management")
+
+foo="hello"
+test.test4("foo")
+assert(foo=="123456")
+
+print("Test finished successfully")

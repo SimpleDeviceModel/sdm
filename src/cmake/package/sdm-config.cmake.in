@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.3.0)
+
+include("${CMAKE_CURRENT_LIST_DIR}/sdm-targets.cmake")
+
+# Define variables to reference various objects
+
+set(SDM_INSTALL_PREFIX "${CMAKE_CURRENT_LIST_DIR}/@INSTALL_PREFIX_FROM_CONFIG_PACKAGE@")

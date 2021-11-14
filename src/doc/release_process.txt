@@ -1,0 +1,35 @@
+REGULAR RELEASE
+
+1. Create a release branch ("release-x.x.x") off "develop".
+
+2. Bump version number (src/cmake/Version.cmake), rebuild the project.
+
+3. Compile the documentation, move compiled manual to /doc.
+
+4. Commit.
+
+5. Run automated tests (on all supported platforms).
+
+6. Perform manual testing (on all supported platforms).
+
+7. Test deployment (installer).
+
+8. Update changelog.
+
+9. Merge the release branch into "master" (no fast-forward).
+
+10. Create an annotated tag (git tag -a "x.x.x" -m <message>).
+
+11. Rebuild the project, create source and binary packages.
+
+12. Push "master" to origin (git push --follow-tags).
+
+13. Merge the release branch into "develop" (no fast-forward). Delete the release branch (also on the origin if it was pushed). Push "develop" to origin.
+
+14. Publish packages.
+
+Note: after any fix is applied, tests must be repeated from the beginning.
+
+HOTFIX RELEASE
+
+As above, but hotfix branch is created off "master" instead of "develop".

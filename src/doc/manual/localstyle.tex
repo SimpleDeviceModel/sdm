@@ -1,0 +1,198 @@
+\usepackage{microtype}
+\usepackage{alltt}
+\usepackage{enumitem}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{needspace}
+\usepackage{longtable}
+
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+
+\usepackage{fontspec}
+\setmainfont[Ligatures=TeX]{XCharter}
+\setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono}
+
+\usepackage[english]{babel}
+
+\usepackage{listings}
+\lstset{breaklines,breakatwhitespace,showstringspaces=false}
+
+\usepackage{perpage}
+\MakePerPage{footnote}
+
+\newcommand{\styledtitleref}[1]{\emph{\titleref{#1}}}
+\newcommand{\lscaps}[1]{\textls[25]{\MakeTextUppercase{\textit{#1}}}}
+
+\newlength{\baseparindent}
+\setlength{\baseparindent}{\parindent}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Various Memoir class settings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\sloppybottom
+\setsecnumdepth{subsection}
+
+\makeevenhead{headings}{\thepage}{}{\itshape\lscaps{\leftmark}}
+\makeoddhead{headings}{\itshape\lscaps{\rightmark}}{}{\thepage}
+
+\setpnumwidth{2.55em}
+\setrmarg{3.55em}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Shell commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\shellcmd}[1]{\texttt{#1}}
+\newcommand{\smallshellcmd}[1]{\small\texttt{#1}}
+
+\newenvironment{shellcmds}{%
+	\vspace{0.5\baselineskip}\begin{tcolorbox}[fontupper=\footnotesize]\begin{alltt}%
+}{%
+	\end{alltt}\end{tcolorbox}\vspace{0.5\baselineskip}%
+}
+
+\newenvironment{breakshellcmds}{%
+	\vspace{0.5\baselineskip}\begin{tcolorbox}[fontupper=\footnotesize,breakable]\begin{alltt}%
+		}{%
+	\end{alltt}\end{tcolorbox}\vspace{0.5\baselineskip}%
+}
+
+\newenvironment{breakshellcmdsnamed}[1]{%
+	\vspace{0.5\baselineskip}\begin{tcolorbox}[fontupper=\footnotesize,breakable,title=#1]\begin{alltt}%
+		}{%
+	\end{alltt}\end{tcolorbox}\vspace{0.5\baselineskip}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Progam elements
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\uielement}[1]{\emph{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+\newcolumntype{Q}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{E}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{W}[1]{>{\centering\arraybackslash}p{#1}}
+
+\newcommand{\tabcutin}[2]{\multicolumn{#1}{c}{\emph{#2}}}
+
+% Declare esktlongtable environment
+
+\RequirePackage{longtable}
+\RequirePackage{caption}
+
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+
+\DeclareCaptionLabelFormat{onlynumber}{#2}
+\DeclareCaptionFormat{conttable}{Continuation of the Table #1}
+
+\newenvironment{eskdlongtable}[4]{%
+	\noindent\begin{longtable}{@{\extracolsep{\fill}}#1}
+	\ifx \\#3\\ \else \label{#3}\\ \fi%
+	\caption{#2}\\
+	\toprule
+	#4\\
+	\midrule\endfirsthead
+	\captionsetup{labelformat=onlynumber,format=conttable}\caption[]{#2}\\
+	\toprule
+	#4\\
+	\midrule\endhead
+}{%
+	\end{longtable}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Code
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\expr}[1]{\texttt{#1}}
+\newcommand{\cexpr}[1]{\texttt{\lstinline[language=C++]`#1`}}
+\newcommand{\luaexpr}[1]{\texttt{\lstinline[language={[5.2]Lua}]`#1`}}
+
+\lstnewenvironment{ccode}{\lstset{language=C++}\ttfamily}{}
+\lstnewenvironment{luacode}{\lstset{language=[5.2]Lua}\ttfamily}{}
+
+\newcommand{\objtype}[1]{\emph{#1}}
+\newcommand{\luatype}[1]{\emph{#1}}
+
+% Function description
+
+\newlength{\funcparskip}
+\setlength{\funcparskip}{0.5\baselineskip}
+
+\lstnewenvironment{cfuncprototype}{%
+	\needspace{4\baselineskip}
+	\lstset{language=C++,aboveskip=1\funcparskip,belowskip=2\funcparskip,basicstyle=\ttfamily}%
+}{}
+
+\newenvironment{luafuncprototype}{
+	\par\vspace{0.5\funcparskip}%
+	\ttfamily\bfseries\noindent\raggedright\ignorespaces%
+}{%
+	\par\nopagebreak%
+	\vspace{1.5\funcparskip}\nopagebreak
+}
+
+\newenvironment{funcdescr}
+{\setlength{\parindent}{0pt}}
+{\par\vspace{\funcparskip}}
+
+\newcommand{\funcparam}[1]{\item\expr{#1}}
+
+\newenvironment{funcparams}{%
+	\noindent \emph{Parameters}:\par\nopagebreak%
+	\vspace{0.5\funcparskip}\nopagebreak%
+	\begin{itemize}[topsep=0pt,partopsep=0pt,parsep=0pt,itemsep=0.25\funcparskip,label=,leftmargin=\parindent]
+}{%
+	\end{itemize}
+	\par\vspace{\funcparskip}
+}
+
+\newenvironment{funcret}{%
+	\noindent \emph{Return value}:\par\nopagebreak%
+	\vspace{0.5\funcparskip}\nopagebreak%
+}{%
+	\par\vspace{\funcparskip}
+}
+
+\newenvironment{funcremarks}{%
+	\noindent \emph{Remarks}:\par\nopagebreak%
+	\vspace{0.5\funcparskip}\nopagebreak%
+}{%
+	\par\vspace{\funcparskip}
+}
+
+\newenvironment{funcexamples}{%
+	\noindent \emph{Examples}:\par\nopagebreak%
+	\vspace{0.5\funcparskip}\nopagebreak%
+}{%
+	\par\vspace{\funcparskip}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Various stuff
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\cplusplus}{C\texttt{\raisebox{0.05em}{++}}}
+
+\newcommand{\tocitem}[2]{\phantomsection\addcontentsline{toc}{#1}{#2}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Hyperlinks
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[bookmarks=true,
+	bookmarksnumbered=true,
+	bookmarksdepth=3,
+	hypertexnames=false]
+	{hyperref}

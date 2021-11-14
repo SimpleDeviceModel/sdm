@@ -1,0 +1,59 @@
+cmake_minimum_required(VERSION 3.3.0)
+
+set(PRODUCT_VERSION_MAJOR @PRODUCT_VERSION_MAJOR@)
+set(PRODUCT_VERSION_MINOR @PRODUCT_VERSION_MINOR@)
+set(PRODUCT_VERSION_PATCH @PRODUCT_VERSION_PATCH@)
+
+set(COMPILER_ID @CMAKE_C_COMPILER_ID@)
+set(COMPILER_VERSION @CMAKE_C_COMPILER_VERSION@)
+
+set(SYSTEM_NAME @CMAKE_SYSTEM_NAME@)
+set(TARGET_MACHINE @TARGET_MACHINE@)
+
+# Get git branch name (if available)
+
+execute_process(COMMAND git rev-parse --abbrev-ref HEAD
+	OUTPUT_VARIABLE GIT_BRANCH
+	RESULT_VARIABLE GIT_BRANCH_RESULT
+	OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+if(NOT (GIT_BRANCH_RESULT EQUAL 0)) # Git error, don't use suffix
+	set(PRODUCT_VERSION_SUFFIX)
+else()
+	string(REGEX MATCH "master" GIT_BRANCH_ISMASTER "${GIT_BRANCH}")
+	string(REGEX MATCH "release" GIT_BRANCH_ISRELEASE "${GIT_BRANCH}")
+
+	if(GIT_BRANCH_ISMASTER) # no suffix for master branch
+		set(PRODUCT_VERSION_SUFFIX)
+	elseif(GIT_BRANCH_ISRELEASE) # "-rc" suffix for release branches
+		set(PRODUCT_VERSION_SUFFIX "-rc")
+	else() # append commit hash for other branches
+		execute_process(COMMAND git rev-parse --short HEAD
+			OUTPUT_VARIABLE GIT_COMMIT_HASH_SHORT
+			OUTPUT_STRIP_TRAILING_WHITESPACE)
+		set(PRODUCT_VERSION_SUFFIX +${GIT_COMMIT_HASH_SHORT})
+		execute_process(COMMAND git rev-parse HEAD
+			OUTPUT_VARIABLE GIT_COMMIT_HASH
+			OUTPUT_STRIP_TRAILING_WHITESPACE)
+	endif()
+	
+# Mark working copy status if dirty
+	execute_process(COMMAND git status --porcelain
+		OUTPUT_VARIABLE GIT_STATUS
+		OUTPUT_STRIP_TRAILING_WHITESPACE)
+	if(GIT_STATUS)
+		set(PRODUCT_VERSION_SUFFIX "${PRODUCT_VERSION_SUFFIX}.dirty")
+	endif()
+endif()
+
+# Obtain commit timestamp (if available)
+execute_process(COMMAND git show -s --format=%ct
+	OUTPUT_VARIABLE COMMIT_TIMESTAMP
+	OUTPUT_STRIP_TRAILING_WHITESPACE)
+if(NOT COMMIT_TIMESTAMP)
+	set(COMMIT_TIMESTAMP 0)
+endif()
+
+message("Creating version file...")
+
+configure_file("@CMAKE_CURRENT_SOURCE_DIR@/sdmvercfg.h.in" "@CMAKE_CURRENT_BINARY_DIR@/sdmvercfg.h")
