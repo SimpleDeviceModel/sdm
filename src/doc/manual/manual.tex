@@ -1599,8 +1599,8 @@ device["IPaddress"]="127.0.0.1"
 
 \begin{funcparams}
 	\funcparam{streams} (\luatype{table}): stream ids to select (table of integers)
-	\funcparam{packets} (\luatype{integer}, optional): suggested minimum number of packets to deliver consecutively (per stream), \cexpr{0} for default
-	\funcparam{df} (\luatype{integer}, optional): decimation factor (only one of each \luaexpr{df} packets will be delivered)
+	\funcparam{packets} (\luatype{integer}, optional): suggested minimum number of packets to deliver consecutively (per stream), the value of \cexpr{0} leaves the decision to the plugin, default value is \cexpr{0}
+	\funcparam{df} (\luatype{integer}, optional): suggested decimation factor (a non-binding request to reduce the source bandwidth by the factor of \luaexpr{df}), \cexpr{1} or greater, default value is \cexpr{1}
 \end{funcparams}
 
 \begin{funcremarks}
@@ -5595,7 +5595,7 @@ SDMAPI int SDMCALL sdmSelectReadStreams(void *h, const int *streams, size_t n, s
 	\funcparam{streams}: pointer to an array of stream ids
 	\funcparam{n}: size of the array, can be \cexpr{0}
 	\funcparam{packets}: suggested minimum number of packets to deliver consecutively (per stream), \cexpr{0} for default (see the Remarks below)
-	\funcparam{df}: decimation factor (only 1 of each \cexpr{df} packets will be delivered)
+	\funcparam{df}: suggested decimation factor, \cexpr{1} or greater, see the Remarks below
 \end{funcparams}
 
 \begin{funcret}
@@ -5605,7 +5605,9 @@ SDMAPI int SDMCALL sdmSelectReadStreams(void *h, const int *streams, size_t n, s
 \begin{funcremarks}
 	The \cexpr{streams} argument is ignored when \cexpr{n=0} (no streams are selected).
 	
-	A non-zero \cexpr{packets} value is a non-binding request to deliver at least the specified number of consecutive packets after this function is called (for streams that don't support the notion of packets, this argument is interpreted as a number of samples). This information can be used by an implementation, for example, to allocate a buffer of suitable size. The implementation is not required to honor this argument.
+	A non-zero \cexpr{packets} value is a non-binding request to deliver at least the specified number of consecutive packets after this function is called (for streams that don't support the notion of packets, this argument is interpreted as a number of samples). This information can be used by the plugin, for example, to allocate a buffer of suitable size. The plugin is not required to honor this argument.
+	
+	A \cexpr{df} argument value greater than 1 is a non-binding request to reduce the source output bandwidth by the factor of \cexpr{df}. How the decimation is performed, if at all, is up to the implementation: for example, it can deliver only one of each \cexpr{df} packets, or deliver all packets, but only one of each \cexpr{df} samples in each packet. For high-bandwidth data sources that generate too much data to be processed in real time, it gives the user a choice: either receive decimated data in real time (e.g. for visualisation), or receive complete data for a limited duration (until the buffer is full). This implies some kind of data buffering by the device.
 	
 	If the stream supports the notion of packets, the next read operation after this function has been called will read from the start of the packet.
 	
