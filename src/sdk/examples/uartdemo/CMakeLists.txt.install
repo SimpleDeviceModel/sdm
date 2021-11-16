@@ -1,0 +1,13 @@
+cmake_minimum_required(VERSION 3.3.0)
+
+project(uartdemo)
+
+set(CMAKE_CXX_STANDARD 11)
+
+find_package(sdm REQUIRED)
+
+add_library(uartdemo MODULE uartdemo.cpp)
+
+target_link_libraries(uartdemo sdm::pluginprovider sdm::uart)
+
+set_target_properties(uartdemo PROPERTIES PREFIX "")
