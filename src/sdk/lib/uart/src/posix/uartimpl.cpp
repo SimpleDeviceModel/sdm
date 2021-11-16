@@ -377,7 +377,7 @@ void UartImpl::setDTR(bool b) {
 	if(r==-1) throw std::runtime_error("Cannot set DTR line status");
 	status&=~TIOCM_DTR;
 	if(b) status|=TIOCM_DTR;
-	r=ioctl(_port,TIOCMSET,status);
+	r=ioctl(_port,TIOCMSET,&status);
 	if(r==-1) throw std::runtime_error("Cannot set DTR line status");
 }
 
@@ -397,7 +397,7 @@ void UartImpl::setRTS(bool b) {
 	if(r==-1) throw std::runtime_error("Cannot set RTS line status");
 	status&=~TIOCM_RTS;
 	if(b) status|=TIOCM_RTS;
-	r=ioctl(_port,TIOCMSET,status);
+	r=ioctl(_port,TIOCMSET,&status);
 	if(r==-1) throw std::runtime_error("Cannot set RTS line status");
 }
 
