@@ -84,10 +84,13 @@ public:
 /*
  * Send/receive data
  * 
- * Note: "timeout" is measured in msecs, 0 indicates a non-blocking
- * operation, -1 waits indefinitely.
- * readLine() reads until the next newline character and is always
- * blocking. The newline character itself is not returned.
+ * write() and read() process up to "n" bytes of data. "timeout" is measured
+ * in msecs, 0 indicates a non-blocking operation, -1 waits indefinitely.
+ * They return the number of bytes that has actually been written/read.
+ * As usual for I/O functions, it is not an error if the number of bytes
+ * written/read is less than requested.
+ * readLine() reads until the next newline character and is always blocking.
+ * The newline character itself is not returned.
  * readAll() returns all data that are currently available for reading,
  * non-blocking.
  */

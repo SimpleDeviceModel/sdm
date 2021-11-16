@@ -88,6 +88,8 @@ public:
 	void getsockname(Address &localAddr,unsigned int &localPort);
 	void getpeername(Address &addr,unsigned int &port);
 	
+// keep in mind that for TCP sockets, it is not an error when
+// the number of bytes sent (received) is less than requested.
 	int sendto(const char *buf,std::size_t len,Address dstAddr,unsigned int dstPort);
 	int send(const char *buf,std::size_t len);
 	int recvfrom(char *buf,std::size_t len,Address &addr,unsigned int &port);

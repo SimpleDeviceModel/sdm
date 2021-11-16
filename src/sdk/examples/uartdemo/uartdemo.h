@@ -30,11 +30,15 @@
 #include "sdmprovider.h"
 #include "uart.h"
 
+// Plugin object
+
 class UartPlugin : public SDMAbstractPluginProvider {
 public:
 	UartPlugin();
 	virtual SDMAbstractDeviceProvider *openDevice(int id) override;
 };
+
+// Device object
 
 class UartDevice : public SDMAbstractDeviceProvider {
 	Uart _port;
@@ -51,6 +55,8 @@ public:
 	virtual int getConnectionStatus() override;
 };
 
+// Channel object
+
 class UartChannel : public SDMAbstractChannelProvider {
 	Uart &_port;
 public:
@@ -60,6 +66,13 @@ public:
 	
 	virtual int writeReg(sdm_addr_t addr,sdm_reg_t data) override;
 	virtual sdm_reg_t readReg(sdm_addr_t addr,int *status) override;
+// Note: Default implementations of writeFIFO(), readFIFO(), writeMem()
+// and readMem() provided by SDMAbstractChannelProvider work by repeatedly
+// calling writeReg and readReg. If the protocol supports block transactions,
+// these methods should be overriden for better performance.
+private:
+	void sendBytes(const std::string &s);
+	std::string receiveBytes(std::size_t n);
 };
 /*
 class UartSource : public SDMAbstractSourceProvider {

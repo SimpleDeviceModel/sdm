@@ -5335,11 +5335,11 @@ SDMAPI sdm_reg_t SDMCALL sdmReadReg(void *h, sdm_addr_t addr, int *status);
 \begin{funcparams}
 	\funcparam{h}: channel handle
 	\funcparam{addr}: register address
-	\funcparam{status}: pointer to a variable to receive operation error status, can be \cexpr{NULL}
+	\funcparam{status}: pointer to a variable to receive operation success status, can be \cexpr{NULL}
 \end{funcparams}
 
 \begin{funcret}
-	If successful, returns a value read from the register. Otherwise \cexpr{*status} is set to a non-zero value (if \cexpr{status} is not \cexpr{NULL}) and the return value is undefined.
+	If successful, returns the value read from the register. If \cexpr{status} is not \cexpr{NULL}, sets \cexpr{*status} to \cexpr{0} in case of success and to a non-zero value otherwise.
 \end{funcret}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

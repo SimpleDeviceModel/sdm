@@ -25,7 +25,8 @@
  */
 
 #include "uartdemo.h"
-#include <iostream>
+
+#include <vector>
 
 /*
  * UartPlugin instance
@@ -115,7 +116,7 @@ int UartChannel::writeReg(sdm_addr_t addr,sdm_reg_t data) {
 	packet.push_back('\x50');
 	packet.push_back(static_cast<char>(addr&0xFF));
 	packet.push_back(static_cast<char>(data&0xFF));
-	_port.write(packet.data(),packet.size());
+	sendBytes(packet);
 	return 0;
 }
 
@@ -123,12 +124,31 @@ sdm_reg_t UartChannel::readReg(sdm_addr_t addr,int *status) {
 	std::string packet;
 	packet.push_back('\x51');
 	packet.push_back(static_cast<char>(addr&0xFF));
-	_port.write(packet.data(),packet.size());
-	char buf[2];
-	int r=_port.read(buf,2,-1);
-	std::cout<<r<<" bytes read"<<std::endl;
+	sendBytes(packet);
+	std::string r=receiveBytes(2);
 	if(status) *status=0;
-	return ((buf[0]&0xF)<<4)|(buf[1]&0xF);
+	return ((r[0]&0xF)<<4)|(r[1]&0xF);
+}
+
+void UartChannel::sendBytes(const std::string &s) {
+	const char *p=s.data();
+	std::size_t towrite=s.size();
+	while(towrite>0) {
+		std::size_t r=_port.write(p,towrite);
+		p+=r;
+		towrite-=r;
+	}
+}
+
+std::string UartChannel::receiveBytes(std::size_t n) {
+	std::vector<char> buf(n);
+	char *p=buf.data();
+	while(n>0) {
+		std::size_t r=_port.read(p,n);
+		p+=r;
+		n-=r;
+	}
+	return std::string(buf.data(),buf.size());
 }
 
 /*
