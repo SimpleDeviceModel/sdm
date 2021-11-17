@@ -4,6 +4,7 @@ byte adcReadIndex=0;
 int debug_cnt=0;
 
 byte pinState[14];
+byte pinPWM[14];
 
 void setup() {
 /* 
@@ -17,8 +18,6 @@ void setup() {
   ADMUX=0x40;
   ADCSRB=0;
   ADCSRA=0xEF;
-// Set initial pin states, but don't touch UART pins
-  for(byte i=2;i<14;i++) setPinState(i,0);
   Serial.begin(115200);
 }
 
@@ -64,17 +63,24 @@ void loop() {
 }
 
 void writeVirtualRegister(byte addr,byte data) {
-  if(addr>1&&addr<14) setPinState(addr,data);
+  if(addr>1&&addr<14) {
+    pinState[addr]=data;
+    setPinState(addr);
+  }
+  if(addr>17&&addr<30) {
+    pinPWM[addr-16]=data;
+    setPinState(addr-16);
+  }
 }
 
 byte readVirtualRegister(byte addr) {
-  if(addr==0) return adcWriteIndex;
   if(addr>1&&addr<14) return pinState[addr];
+  if(addr>17&&addr<30) return pinPWM[addr-16];
   return 0;
 }
 
-void setPinState(byte pin,byte state) {
-  switch(state) {
+void setPinState(byte pin) {
+  switch(pinState[pin]) {
   case 0: // input
     pinMode(pin,INPUT);
     break;
@@ -89,8 +95,10 @@ void setPinState(byte pin,byte state) {
     pinMode(pin,OUTPUT);
     digitalWrite(pin,HIGH);
     break;
+  case 4: // PWM
+    analogWrite(pin,pinPWM[pin]);
+    break;
   }
-  pinState[pin]=state;
 }
 
 ISR(ADC_vect) {
