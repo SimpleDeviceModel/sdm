@@ -210,7 +210,7 @@ int UartSource::readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) {
 	_cnt+=loaded;
 // Note that "loaded" can't be zero in the blocking mode due to the preceding loop
 	if(loaded==0) return SDM_WOULDBLOCK;
-	return loaded;
+	return static_cast<int>(loaded);
 }
 
 int UartSource::readNextPacket() {
