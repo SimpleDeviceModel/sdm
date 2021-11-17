@@ -112,6 +112,7 @@ int UartDevice::getConnectionStatus() {
 
 UartChannel::UartChannel(Uart &port,std::deque<char> &q): _port(port),_q(q) {
 	addConstProperty("Name","Digital pins");
+	addConstProperty("RegisterMapFile","uartdemo/uartdemo.srm");
 }
 
 int UartChannel::close() {
