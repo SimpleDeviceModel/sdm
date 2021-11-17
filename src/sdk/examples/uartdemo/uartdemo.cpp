@@ -65,7 +65,11 @@ UartDevice::UartDevice() {
 	addConstProperty("Name","Arduino Uno");
 	addConstProperty("AutoOpenChannels","open");
 	addConstProperty("AutoOpenSources","open");
+#ifdef _WIN32
+	addProperty("SerialPort","COM1");
+#else
 	addProperty("SerialPort","/dev/ttyACM0");
+#endif
 	addListItem("ConnectionParameters","SerialPort");
 	addListItem("Channels","Digital pins");
 	addListItem("Sources","ADC");
