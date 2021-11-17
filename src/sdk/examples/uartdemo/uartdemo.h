@@ -30,6 +30,8 @@
 #include "sdmprovider.h"
 #include "uart.h"
 
+#include <deque>
+
 // Plugin object
 
 class UartPlugin : public SDMAbstractPluginProvider {
@@ -42,6 +44,7 @@ public:
 
 class UartDevice : public SDMAbstractDeviceProvider {
 	Uart _port;
+	std::deque<char> _q;
 public:
 	UartDevice();
 	
@@ -59,8 +62,9 @@ public:
 
 class UartChannel : public SDMAbstractChannelProvider {
 	Uart &_port;
+	std::deque<char> &_q;
 public:
-	UartChannel(Uart &port);
+	UartChannel(Uart &port,std::deque<char> &q);
 	
 	virtual int close() override;
 	
@@ -74,24 +78,13 @@ private:
 	void sendBytes(const std::string &s);
 	std::string receiveBytes(std::size_t n);
 };
-/*
+
 class UartSource : public SDMAbstractSourceProvider {
-	struct Streams {
-		int npacket[2] {};
-		int pos[2] {};
-		bool selectedStreams[2] {};
-		int df=1;
-		std::chrono::steady_clock::time_point begin;
-		
-		sdm_sample_t word(int stream,int i);
-	};
-	
-	int _id;
-	Streams _s;
-	const bool &_connected;
-	int _msPerPacket=10;
+	Uart &_port;
+	std::deque<char> &_q;
+	std::size_t _cnt;
 public:
-	UartSource(int id,const bool &connected);
+	UartSource(Uart &port,std::deque<char> &q);
 	
 	virtual int close() override;
 	
@@ -101,8 +94,8 @@ public:
 	virtual void discardPackets() override;
 	virtual int readStreamErrors() override;
 	
-	virtual void setProperty(const std::string &name,const std::string &value) override;
+private:
+	std::size_t loadFromQueue(sdm_sample_t *data,std::size_t n);
 };
-*/
 
 #endif

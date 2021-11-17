@@ -27,6 +27,11 @@
 #include "uartdemo.h"
 
 #include <vector>
+#include <thread>
+#include <chrono>
+
+#define MAXBUFSIZE 65536
+#define PACKETSIZE 2000
 
 /*
  * UartPlugin instance
@@ -59,9 +64,11 @@ SDMAbstractDeviceProvider *UartPlugin::openDevice(int id) {
 UartDevice::UartDevice() {
 	addConstProperty("Name","Arduino Uno");
 	addConstProperty("AutoOpenChannels","open");
+	addConstProperty("AutoOpenSources","open");
 	addProperty("SerialPort","/dev/ttyACM0");
 	addListItem("ConnectionParameters","SerialPort");
-	addListItem("Channels","Virtual registers");
+	addListItem("Channels","Digital pins");
+	addListItem("Sources","ADC");
 }
 
 int UartDevice::close() {
@@ -71,11 +78,12 @@ int UartDevice::close() {
 
 SDMAbstractChannelProvider *UartDevice::openChannel(int id) {
 	if(id!=0) throw std::runtime_error("No channel with such ID");
-	return new UartChannel(_port);
+	return new UartChannel(_port,_q);
 }
 
 SDMAbstractSourceProvider *UartDevice::openSource(int id) {
-	return nullptr;
+	if(id!=0) throw std::runtime_error("No source with such ID");
+	return new UartSource(_port,_q);
 }
 
 int UartDevice::connect() {
@@ -102,8 +110,8 @@ int UartDevice::getConnectionStatus() {
  * UartChannel members
  */
 
-UartChannel::UartChannel(Uart &port): _port(port) {
-	addConstProperty("Name","Virtual registers");
+UartChannel::UartChannel(Uart &port,std::deque<char> &q): _port(port),_q(q) {
+	addConstProperty("Name","Digital pins");
 }
 
 int UartChannel::close() {
@@ -112,6 +120,7 @@ int UartChannel::close() {
 }
 
 int UartChannel::writeReg(sdm_addr_t addr,sdm_reg_t data) {
+// Send "Write register" command packet: 0x50 ADDR[7:0] DATA[7:0]
 	std::string packet;
 	packet.push_back('\x50');
 	packet.push_back(static_cast<char>(addr&0xFF));
@@ -121,13 +130,23 @@ int UartChannel::writeReg(sdm_addr_t addr,sdm_reg_t data) {
 }
 
 sdm_reg_t UartChannel::readReg(sdm_addr_t addr,int *status) {
+// Send "Read register" command packet: 0x51 ADDR[7:0]
 	std::string packet;
 	packet.push_back('\x51');
 	packet.push_back(static_cast<char>(addr&0xFF));
 	sendBytes(packet);
-	std::string r=receiveBytes(2);
+// Receive data
+	char ch,ch2;
+	for(;;) {
+		_port.read(&ch,1);
+		if((ch&0xC0)!=0x80) { // not a register data packet, add to queue
+			if(_q.size()<MAXBUFSIZE) _q.push_back(ch);
+		}
+		else break;
+	}
+	_port.read(&ch2,1);
 	if(status) *status=0;
-	return ((r[0]&0xF)<<4)|(r[1]&0xF);
+	return ((ch&0xF)<<4)|(ch2&0xF);
 }
 
 void UartChannel::sendBytes(const std::string &s) {
@@ -154,160 +173,85 @@ std::string UartChannel::receiveBytes(std::size_t n) {
 /*
  * UartSource members
  */
-/*
-sdm_sample_t UartSource::Streams::word(int stream,int i) {
-	if(i==0) return static_cast<sdm_sample_t>(npacket[stream]%16384);
-	if(i==1) return static_cast<sdm_sample_t>(stream);
-	if(i<400) return 0;
-	if(i<1000) return static_cast<sdm_sample_t>(stream?(6400-i):i);
-	if(i<2000) return (npacket[stream]+(stream?(6400-(i-1000)):(i-1000)))%16384;
-	return std::rand()%16384;
-}
 
-UartSource::UartSource(int id,const bool &connected):
-	_id(id),
-	_connected(connected)
-{
-	if(SDMAbstractPluginProvider::instance()->getProperty("DisableChildProperties")=="true") return;
-	if(_id==0) addConstProperty("Name","Source 1");
-	else if(_id==1) addConstProperty("Name","Source 2");
-	if(_id==0) addConstProperty("ShowStreams","0,1");
-	else if(_id==1) addConstProperty("ShowStreams","0,1");
-	addProperty("MsPerPacket",std::to_string(_msPerPacket));
-	addListItem("Streams","Stream 1");
-	addListItem("Streams","Stream 2");
+UartSource::UartSource(Uart &port,std::deque<char> &q): _port(port),_q(q),_cnt(0) {
+	addConstProperty("Name","ADC");
+	addListItem("Streams","ADC data");
 	addListItem("UserScripts","Signal Analyzer");
 	addListItem("UserScripts","signal_analyzer.lua");
 }
 
 int UartSource::close() {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")!="Quiet")
-		std::cout<<"UartPlugin: entered sdmCloseSource()"<<std::endl;
-
 	delete this;
 	return 0;
 }
 
 int UartSource::selectReadStreams(const int *streams,std::size_t n,std::size_t packets,int df) {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")!="Quiet") {
-		std::cout<<"UartPlugin: entered sdmSelectReadStreams()"<<std::endl;
-		std::cout<<"UartPlugin: selected streams: ";
-		for(std::size_t i=0;i<n;i++) std::cout<<streams[i]<<", ";
-		std::cout<<"suggested number of packets: "<<packets<<", decimation factor: "<<df<<std::endl;
-	}
-	
-	if(!_connected) return SDM_ERROR;
-	
-	for(std::size_t i=0;i<n;i++) if(streams[i]!=0&&streams[i]!=1) return SDM_ERROR;
-	
-	for(std::size_t i=0;i<2;i++) _s.selectedStreams[i]=false;
-	
-	if(n==0) return 0;
-	
-	for(std::size_t i=0;i<n;i++) {
-		_s.selectedStreams[streams[i]]=true;
-		_s.npacket[streams[i]]=0;
-	}
-	
-	_s.begin=std::chrono::steady_clock::now();
-	
-	if(df<1) return SDM_ERROR;
-	_s.df=df;
+// In this example we don't need to do anything specific when streams
+// are selected since the device is always transmitting data
+	UartSource::discardPackets();
 	return 0;
 }
 
 int UartSource::readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")=="Verbose") {
-		std::cout<<"UartPlugin: entered sdmReadStream()"<<std::endl;
-		std::cout<<"UartPlugin: "<<n<<" data words requested for stream "<<stream<<std::endl;
-		std::cout<<"UartPlugin: "<<(nb?"non-blocking mode":"blocking mode")<<std::endl;
-	}
-	
+/*	std::cout<<"Entered "<<__PRETTY_FUNCTION__<<std::endl;
+	std::cout<<"n="<<n<<std::endl;
+	std::cout<<"_cnt="<<_cnt<<std::endl;*/
+	if(n>PACKETSIZE-_cnt) n=PACKETSIZE-_cnt;
 	if(n==0) return 0;
-	if(n>INT_MAX) n=INT_MAX;
 	
-	if(!_connected) return SDM_ERROR;
-	
-	if(stream<0||stream>1) return SDM_ERROR;
-	
-	if(!_s.selectedStreams[stream]) return SDM_ERROR; // reading of non-selected streams is not allowed
-	
-	const int expectedPacket=_s.npacket[stream];
-	
-	for(;;) {
-		int &pos=_s.pos[stream];
-		if(pos==6400) return 0; // end of packet
-		
-		const int timeElapsed=static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>
-			(std::chrono::steady_clock::now()-_s.begin).count());
-		
-		const int currentPacketTime=timeElapsed-expectedPacket*_msPerPacket;
-		int availableSamples=0;
-		
-		if(currentPacketTime>0) {
-			if(currentPacketTime>=_msPerPacket) availableSamples=6400; // full packet
-			else availableSamples=currentPacketTime*6400/_msPerPacket; // partial packet
-		}
-		
-		if(availableSamples==0||pos>=availableSamples) {
-// Data are not available yet. Return if nonblocking, wait otherwise
-			if(nb) return SDM_WOULDBLOCK;
-			if(currentPacketTime<0)
-				std::this_thread::sleep_for(std::chrono::milliseconds(-currentPacketTime));
-			else std::this_thread::sleep_for(std::chrono::milliseconds(1));
-			continue;
-		}
-		
-		int toread;
-		if(static_cast<int>(n)<availableSamples-pos) toread=static_cast<int>(n);
-		else toread=availableSamples-pos;
-		
-// Read data
-		for(int i=0;i<toread;i++) data[i]=_s.word(stream,i+pos);
-		pos+=toread;
-		return toread;
+// Process data from the queue
+	std::size_t loaded=loadFromQueue(data,n);
+// Read new data from the serial port
+	if(_q.size()<MAXBUFSIZE) {
+		std::size_t toread=MAXBUFSIZE-_q.size();
+		bool nonBlocking=(nb!=0||loaded==n);
+		std::vector<char> buf(toread);
+		auto r=_port.read(buf.data(),toread,nonBlocking?0:-1); // will read "toread" bytes or fewer
+		_q.insert(_q.end(),buf.begin(),buf.begin()+r);
 	}
+	
+	if(loaded<n) loaded+=loadFromQueue(data+loaded,n-loaded);
+	_cnt+=loaded;
+	if(loaded==0) return SDM_WOULDBLOCK; // to do: fix this (blocking operation should never return SDM_WOULDBLOCK)
+	return loaded;
 }
 
 int UartSource::readNextPacket() {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")=="Verbose")
-		std::cout<<"UartPlugin: entered sdmReadNextPacket()"<<std::endl;
-	
-	if(!_connected) return SDM_ERROR;
-	
-	for(int i=0;i<2;i++) {
-		_s.npacket[i]+=_s.df;
-		_s.pos[i]=0;
-	}
+	_cnt=0;
 	return 0;
 }
 
 void UartSource::discardPackets() {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")=="Verbose")
-		std::cout<<"UartPlugin: entered sdmDiscardPackets()"<<std::endl;
-	
-	_s.begin=std::chrono::steady_clock::now();
-	for(int i=0;i<2;i++) {
-		_s.npacket[i]=0;
-		_s.pos[i]=0;
-	}
+	_cnt=0;
+	_q.clear();
+// Note: after the first readAll() there may still be some out-of-sequence
+// data in the serial port buffer. Wait a bit and repeat.
+	_port.readAll();
+	std::this_thread::sleep_for(std::chrono::milliseconds(50));
+	_port.readAll();
 }
 
 int UartSource::readStreamErrors() {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")=="Verbose")
-		std::cout<<"UartPlugin: entered sdmSelectReadStreams()"<<std::endl;	
-	
 	return 0;
 }
 
-void UartSource::setProperty(const std::string &name,const std::string &value) {
-	SDMAbstractSourceProvider::setProperty(name,value);
+std::size_t UartSource::loadFromQueue(sdm_sample_t *data,std::size_t n) {
+	if(n==0) return 0;
+
+	std::size_t current=0;
+
+	while(current<n&&!_q.empty()) {
+		if((_q.front()&0x80)==0) { // MSB not set, skip this byte
+			_q.pop_front();
+			continue;
+		}
+		if(_q.size()<2) break; // packet size is 2 bytes
+		int sample=((_q[0]&0x1F)<<5)|(_q[1]&0x1F);
+		data[current]=static_cast<sdm_sample_t>(sample);
+		current++;
+		_q.erase(_q.begin(),_q.begin()+1);
+	}
 	
-	try {
-		_msPerPacket=std::max(std::stoi(getProperty("MsPerPacket")),1);
-	}
-	catch(std::exception &) {
-		std::cout<<"Warning: bad property value \""<<value<<"\""<<std::endl;
-	}
+	return current; // number of samples loaded from the queue
 }
-*/
