@@ -76,7 +76,6 @@ public:
 // these methods should be overriden for better performance.
 private:
 	void sendBytes(const std::string &s);
-	std::string receiveBytes(std::size_t n);
 };
 
 class UartSource : public SDMAbstractSourceProvider {

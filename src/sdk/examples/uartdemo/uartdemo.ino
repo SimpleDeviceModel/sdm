@@ -23,24 +23,40 @@ void setup() {
 }
 
 void loop() {
+  static byte cmdBuffer[3];
+  static byte cmdBytes=0;
+
   if(Serial.available()) {
+// Process commands from the PC
     byte ch=Serial.read();
-    if(ch==0x50) { // Write register
-      while(!Serial.available());
-      byte addr=Serial.read();
-      while(!Serial.available());
-      byte data=Serial.read();
-      writeVirtualRegister(addr,data);
+    if(cmdBytes==0) {
+// Look for a start of a packet
+      if(ch==0x50||ch==0x51) {
+        cmdBuffer[0]=ch;
+        cmdBytes++;
+      }
     }
-    else if(ch==0x51) { // Read register
-      while(!Serial.available());
-      byte addr=Serial.read();
-      byte data=readVirtualRegister(addr);
+    else {
+// Packet continuation
+      cmdBuffer[cmdBytes]=ch;
+      cmdBytes++;
+    }
+    
+    if(cmdBuffer[0]==0x50&&cmdBytes==3) {
+// Write register
+      writeVirtualRegister(cmdBuffer[1],cmdBuffer[2]);
+      cmdBytes=0;
+    }
+    else if(cmdBuffer[0]==0x51&&cmdBytes==2) {
+// Read register
+      byte data=readVirtualRegister(cmdBuffer[1]);
       Serial.write(0x80|(data>>4)); // upper 4 bits
       Serial.write(data&0x0F); // lower 4 bits
+      cmdBytes=0;
     }
   }
   else if(adcReadIndex!=adcWriteIndex) {
+// Send ADC data
     unsigned int data=adcBuffer[adcReadIndex++];
     Serial.write(0xC0|(data>>5)); // upper 5 bits
     Serial.write(data&0x1F); // lower 5 bits

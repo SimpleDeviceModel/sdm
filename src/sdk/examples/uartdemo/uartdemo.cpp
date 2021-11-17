@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  *
- * This module implements an SDM plugin used in the test suite.
+ * This module implements classes of the UartDemo plugin.
  */
 
 #include "uartdemo.h"
@@ -159,17 +159,6 @@ void UartChannel::sendBytes(const std::string &s) {
 	}
 }
 
-std::string UartChannel::receiveBytes(std::size_t n) {
-	std::vector<char> buf(n);
-	char *p=buf.data();
-	while(n>0) {
-		std::size_t r=_port.read(p,n);
-		p+=r;
-		n-=r;
-	}
-	return std::string(buf.data(),buf.size());
-}
-
 /*
  * UartSource members
  */
@@ -194,26 +183,28 @@ int UartSource::selectReadStreams(const int *streams,std::size_t n,std::size_t p
 }
 
 int UartSource::readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) {
-/*	std::cout<<"Entered "<<__PRETTY_FUNCTION__<<std::endl;
-	std::cout<<"n="<<n<<std::endl;
-	std::cout<<"_cnt="<<_cnt<<std::endl;*/
 	if(n>PACKETSIZE-_cnt) n=PACKETSIZE-_cnt;
-	if(n==0) return 0;
+	if(n==0) return 0; // end of packet
 	
 // Process data from the queue
 	std::size_t loaded=loadFromQueue(data,n);
-// Read new data from the serial port
-	if(_q.size()<MAXBUFSIZE) {
-		std::size_t toread=MAXBUFSIZE-_q.size();
-		bool nonBlocking=(nb!=0||loaded==n);
-		std::vector<char> buf(toread);
-		auto r=_port.read(buf.data(),toread,nonBlocking?0:-1); // will read "toread" bytes or fewer
-		_q.insert(_q.end(),buf.begin(),buf.begin()+r);
-	}
 	
-	if(loaded<n) loaded+=loadFromQueue(data+loaded,n-loaded);
+	do {
+// Read new data from the serial port
+		if(_q.size()<MAXBUFSIZE) {
+			std::size_t toread=MAXBUFSIZE-_q.size();
+			bool nonBlocking=(nb!=0||loaded==n);
+			std::vector<char> buf(toread);
+			auto r=_port.read(buf.data(),toread,nonBlocking?0:-1); // will read "toread" bytes or fewer
+			_q.insert(_q.end(),buf.begin(),buf.begin()+r);
+		}
+		
+		if(loaded<n) loaded+=loadFromQueue(data+loaded,n-loaded);
+	} while(loaded==0&&nb==0);
+	
 	_cnt+=loaded;
-	if(loaded==0) return SDM_WOULDBLOCK; // to do: fix this (blocking operation should never return SDM_WOULDBLOCK)
+// Note that "loaded" can't be zero in the blocking mode due to the preceding loop
+	if(loaded==0) return SDM_WOULDBLOCK;
 	return loaded;
 }
 
