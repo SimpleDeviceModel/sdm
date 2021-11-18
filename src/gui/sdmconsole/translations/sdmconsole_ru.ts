@@ -344,13 +344,6 @@
         <translation>Пожалуйста, перезапустите программу для применения настроек</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="447"/>
-        <source>&lt;p&gt;Simple Device Model is a modular framework for instrument control and data acquisition.&lt;/p&gt;
-</source>
-        <translation>&lt;p&gt;Simple Device Model – модульная система для управления приборами и захвата данных.&lt;/p&gt;
-</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="448"/>
         <source>&lt;p&gt;&lt;a href=&quot;info://build&quot;&gt;Build information&lt;/a&gt;&lt;/p&gt;
 </source>
@@ -380,45 +373,45 @@
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="452"/>
-        <source>&lt;p&gt;Copyright © 2015-2021 by Microproject LLC. Includes third party software components.&lt;/p&gt;
-</source>
-        <translation>&lt;p&gt;© ООО «Микропроект», 2015-2021. Включает компоненты, права на которые принадлежат третьим лицам.&lt;/p&gt;
-</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="453"/>
         <source>&lt;p&gt;This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions. See the link below for details.&lt;/p&gt;
 </source>
         <translation>&lt;p&gt;Данная программа поставляется СОВЕРШЕННО БЕЗ ГАРАНТИЙ. Данная программа является свободным программным обеспечением, и Вы имеете право распространять её на определённых условиях. Подробности доступны по нижеприведённой ссылке.&lt;/p&gt;
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="491"/>
+        <location filename="../mainwindow.cpp" line="453"/>
+        <source>&lt;p&gt;&lt;a href=&quot;info://doc/licenses/license.txt&quot;&gt;Copyright and licensing information&lt;/a&gt;&lt;/p&gt;
+</source>
+        <translation>&lt;p&gt;&lt;a href=&quot;info://doc/licenses/license.txt&quot;&gt;Информация об авторских правах и лицензировании&lt;/a&gt;&lt;/p&gt;
+</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="490"/>
         <source>Build information</source>
         <translation>Информация о сборке</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="495"/>
+        <location filename="../mainwindow.cpp" line="494"/>
         <source>Platform</source>
         <translation>Платформа</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="496"/>
+        <location filename="../mainwindow.cpp" line="495"/>
         <source>Compiler</source>
         <translation>Компилятор</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="498"/>
+        <location filename="../mainwindow.cpp" line="497"/>
         <source>Commit hash</source>
         <translation>Хеш коммита</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="499"/>
+        <location filename="../mainwindow.cpp" line="498"/>
         <source>Commit timestamp</source>
         <translation>Дата/время коммита</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="544"/>
+        <location filename="../mainwindow.cpp" line="543"/>
         <source>Press %1 to exit full screen mode</source>
         <translation>Нажмите %1 для выхода из полноэкранного режима</translation>
     </message>
@@ -434,7 +427,7 @@
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="393"/>
-        <location filename="../mainwindow.cpp" line="463"/>
+        <location filename="../mainwindow.cpp" line="462"/>
         <source>Lua interpreter is busy</source>
         <translation>Интерпретатор Lua занят</translation>
     </message>
@@ -515,34 +508,34 @@
         <translation>Сбросить настройки программы к настройкам по умолчанию?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="454"/>
-        <source>&lt;p&gt;&lt;a href=&quot;info://doc/licenses/license.txt&quot;&gt;SDM framework license&lt;/a&gt;&lt;/p&gt;
+        <location filename="../mainwindow.cpp" line="447"/>
+        <source>&lt;p&gt;Simple Device Model is an open source framework for instrument control and data acquisition.&lt;/p&gt;
 </source>
-        <translation>&lt;p&gt;&lt;a href=&quot;info://doc/licenses/license.txt&quot;&gt;Лицензия на SDM&lt;/a&gt;&lt;/p&gt;
+        <translation>&lt;p&gt;Simple Device Model – система для управления приборами и захвата данных с открытым исходным кодом.&lt;/p&gt;
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="466"/>
+        <location filename="../mainwindow.cpp" line="465"/>
         <source>Cannot open script file &quot;</source>
         <translation>Невозможно открыть файл скрипта &quot;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="494"/>
+        <location filename="../mainwindow.cpp" line="493"/>
         <source>Version</source>
         <translation>Версия</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="497"/>
+        <location filename="../mainwindow.cpp" line="496"/>
         <source>Toolkit version</source>
         <translation>Версия инструментария</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="556"/>
+        <location filename="../mainwindow.cpp" line="555"/>
         <source>Lua status: Busy</source>
         <translation>Интерпретатор Lua: Занят</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="557"/>
+        <location filename="../mainwindow.cpp" line="556"/>
         <source>Lua status: Ready</source>
         <translation>Интерпретатор Lua: Готов</translation>
     </message>
@@ -666,8 +659,8 @@
         <location filename="../docpanels.cpp" line="624"/>
         <location filename="../mainwindow.cpp" line="389"/>
         <location filename="../mainwindow.cpp" line="415"/>
-        <location filename="../mainwindow.cpp" line="473"/>
-        <location filename="../mainwindow.cpp" line="506"/>
+        <location filename="../mainwindow.cpp" line="472"/>
+        <location filename="../mainwindow.cpp" line="505"/>
         <location filename="../openplugindialog.cpp" line="207"/>
         <location filename="../propertyeditor.cpp" line="138"/>
         <location filename="../propertyeditor.cpp" line="155"/>
