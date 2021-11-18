@@ -31,7 +31,7 @@
 #include <chrono>
 
 #define MAXBUFSIZE 65536
-#define PACKETSIZE 2000
+#define PACKETSIZE 1000
 
 /*
  * UartPlugin instance
@@ -142,12 +142,13 @@ sdm_reg_t UartChannel::readReg(sdm_addr_t addr,int *status) {
 	sendBytes(packet);
 // Receive data
 	char ch,ch2;
-	for(;;) {
+	for(int i=0;;i++) {
 		_port.read(&ch,1);
 		if((ch&0xC0)!=0x80) { // not a register data packet, add to queue
 			if(_q.size()<MAXBUFSIZE) _q.push_back(ch);
 		}
 		else break;
+		if(i==10000) throw std::runtime_error("Device is not responding");
 	}
 	_port.read(&ch2,1);
 	if(status) *status=0;
