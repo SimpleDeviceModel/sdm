@@ -31,7 +31,7 @@
 #include <chrono>
 
 #define MAXBUFSIZE 65536
-#define PACKETSIZE 500
+#define DEFAULT_PACKET_SIZE 500
 
 /*
  * UartPlugin instance
@@ -179,6 +179,7 @@ UartSource::UartSource(Uart &port,std::deque<char> &q): _port(port),_q(q),_cnt(0
 	addListItem("Streams","A0");
 	addListItem("UserScripts","Signal Analyzer");
 	addListItem("UserScripts","signal_analyzer.lua");
+	addProperty("PacketSize","500");
 }
 
 int UartSource::close() {
@@ -194,8 +195,19 @@ int UartSource::selectReadStreams(const int *streams,std::size_t n,std::size_t p
 }
 
 int UartSource::readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) {
-// After delivering PACKETSIZE samples, return 0 until readNextPacket() is called
-	if(n>PACKETSIZE-_cnt) n=PACKETSIZE-_cnt;
+// Note: for a faster interface, it would have been preferable to override
+// SDMPropertyManager::setProperty() to avoid string -> integer conversion
+// each time UartSource::readStream() is called
+	std::size_t packetSize;
+	try {
+		packetSize=std::stoul(getProperty("PacketSize"),nullptr,0);
+	}
+	catch(std::exception &) {
+		packetSize=DEFAULT_PACKET_SIZE;
+	}
+	if(_cnt>packetSize) _cnt=packetSize;
+// After delivering packetSize samples, return 0 until readNextPacket() is called
+	if(n>packetSize-_cnt) n=packetSize-_cnt;
 	if(n==0) return 0; // end of packet
 	
 // Process data from the queue
