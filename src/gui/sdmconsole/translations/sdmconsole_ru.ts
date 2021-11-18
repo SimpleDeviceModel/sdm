@@ -358,13 +358,6 @@
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="450"/>
-        <source>&lt;p&gt;&lt;a href=&quot;http://www.micro-project.ru&quot;&gt;Website&lt;/a&gt;&lt;/p&gt;
-</source>
-        <translation>&lt;p&gt;&lt;a href=&quot;http://www.micro-project.ru&quot;&gt;Вебсайт&lt;/a&gt;&lt;/p&gt;
-</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="451"/>
         <source>&lt;h4&gt;Legal information&lt;/h4&gt;
 </source>
@@ -512,6 +505,13 @@
         <source>&lt;p&gt;Simple Device Model is an open source framework for instrument control and data acquisition.&lt;/p&gt;
 </source>
         <translation>&lt;p&gt;Simple Device Model – система для управления приборами и захвата данных с открытым исходным кодом.&lt;/p&gt;
+</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="450"/>
+        <source>&lt;p&gt;&lt;a href=&quot;https://simpledevicemodel.github.io/&quot;&gt;Website&lt;/a&gt;&lt;/p&gt;
+</source>
+        <translation>&lt;p&gt;&lt;a href=&quot;https://simpledevicemodel.github.io/&quot;&gt;Вебсайт&lt;/a&gt;&lt;/p&gt;
 </translation>
     </message>
     <message>
