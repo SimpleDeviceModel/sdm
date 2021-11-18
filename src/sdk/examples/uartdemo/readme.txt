@@ -1,7 +1,7 @@
 This plugin communicates with an Arduino Uno board using the serial port.
 It allows the user to control digital pins and provides a virtual
-oscilloscope on the A0 analog channel. Before use, load the "uartdemo.ino"
-sketch to your Arduino.
+oscilloscope on the A0 analog channel. Before use, upload the
+"uartdemo_sketch" to your Arduino.
 
 FEATURES
 

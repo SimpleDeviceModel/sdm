@@ -21,4 +21,4 @@ install(FILES CMakeLists.txt.install
 	DESTINATION "${EXAMPLES_INSTALL_DIR}/uartdemo"
 	RENAME CMakeLists.txt)
 install(DIRECTORY data DESTINATION "${EXAMPLES_INSTALL_DIR}/uartdemo")
-install(DIRECTORY sketch DESTINATION "${EXAMPLES_INSTALL_DIR}/uartdemo")
+install(DIRECTORY uartdemo_sketch DESTINATION "${EXAMPLES_INSTALL_DIR}/uartdemo")

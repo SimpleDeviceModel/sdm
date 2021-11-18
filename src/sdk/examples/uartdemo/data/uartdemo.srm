@@ -216,7 +216,7 @@
 			</Data>
 		</Register>
 		<Register>
-			<Name>Pin 13 mode</Name>
+			<Name>Pin 13 mode (LED)</Name>
 			<Id></Id>
 			<Address>0xD</Address>
 			<Data>
