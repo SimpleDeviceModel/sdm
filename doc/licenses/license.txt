@@ -15,13 +15,39 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with SDM framework.  If not, see <https://www.gnu.org/licenses/>.
 
-SDM framework can be shipped with additional plugins which are not covered
-by this license.
 
-SIMPLE DEVICE MODEL SDK LICENSE NOTICE
 
-In addition to the above, SDK for SDM plugin development is also licensed
-under the terms of the MIT license (see sdk-license.txt).
+
+SIMPLE DEVICE MODEL SDK LICENSE
+
+SDM plugin development SDK includes the following components:
+
+    * SDM API headers,
+    * libraries for plugin development,
+    * example plugins.
+
+Copyright © 2015-2021 by Microproject LLC
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom
+the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+IN THE SOFTWARE.
+
+
+
 
 THIRD PARTY SOFTWARE COMPONENTS
 
@@ -31,16 +57,3 @@ conditions for third-party software are provided in the documentation.
     * Lua: Copyright © 1994–2020 Lua.org, PUC-Rio.
     * LuaFileSystem: Copyright © 2003-2020 Kepler Project.
     * The Qt Toolkit: Copyright © 2015 The Qt Company Ltd.
-
-TRADEMARK NOTICES
-
-Linux® is the registered trademark of Linus Torvalds in the U.S. and other countries.
-
-Microsoft, Windows, Visual Studio and Visual C++ are either registered trademarks or
-trademarks of Microsoft Corporation in the United States and/or other countries.
-
-Qt is a registered trademark of The Qt Company Ltd. and/or its subsidiaries.
-
-Ubuntu is a registered trademark of Canonical Ltd.
-
-All other trademarks are property of their respective owners.

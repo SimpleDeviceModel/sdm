@@ -4944,7 +4944,7 @@ Target & Description \\
 
 \shellcmd{sdm::api} is an interface library which does not provide object code, but only adds the directory containing SDM API headers to the list of directories searched for include files.
 
-\shellcmd{sdm::ipsockets} and \shellcmd{sdm::uart} are the \cplusplus{} libraries on which the \shellcmd{luaipsockets} and \shellcmd{luart} bindings are based (see Chapter \ref{ch:scripting}). These libraries use the RAII principle to control object lifetime. Error handling is based on \cplusplus{} exceptions. To use these libraries, include \shellcmd{"ipsocket.h"} or \shellcmd{"uart.h"}, respectively, and link against the corresponding library files.
+\shellcmd{sdm::ipsockets} and \shellcmd{sdm::uart} are the \cplusplus{} libraries on which the \shellcmd{luaipsockets} and \shellcmd{luart} bindings are based (see Chapter \ref{ch:scripting}). These libraries are included in the SDK because example plugins depend on them.
 
 For example, \shellcmd{simpleplugin} (see Section \ref{sec:sdmpluginc}) can be built with the following CMake script:
 
