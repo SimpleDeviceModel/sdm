@@ -179,7 +179,7 @@ UartSource::UartSource(Uart &port,std::deque<char> &q): _port(port),_q(q),_cnt(0
 	addListItem("Streams","A0");
 	addListItem("UserScripts","Signal Analyzer");
 	addListItem("UserScripts","signal_analyzer.lua");
-	addProperty("PacketSize","500");
+	addProperty("PacketSize",std::to_string(DEFAULT_PACKET_SIZE));
 }
 
 int UartSource::close() {
