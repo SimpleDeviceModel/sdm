@@ -31,7 +31,7 @@
 			</Data>
 		</Register>
 		<Register>
-			<Name>Pin 3 PWM</Name>
+			<Name>Pin 3 PWM value</Name>
 			<Id></Id>
 			<Address>0x13</Address>
 			<Data>
@@ -69,7 +69,7 @@
 			</Data>
 		</Register>
 		<Register>
-			<Name>Pin 5 PWM</Name>
+			<Name>Pin 5 PWM value</Name>
 			<Id></Id>
 			<Address>0x15</Address>
 			<Data>
@@ -93,7 +93,7 @@
 			</Data>
 		</Register>
 		<Register>
-			<Name>Pin 6 PWM</Name>
+			<Name>Pin 6 PWM value</Name>
 			<Id></Id>
 			<Address>0x16</Address>
 			<Data>
@@ -145,7 +145,7 @@
 			</Data>
 		</Register>
 		<Register>
-			<Name>Pin 9 PWM</Name>
+			<Name>Pin 9 PWM value</Name>
 			<Id></Id>
 			<Address>0x19</Address>
 			<Data>
@@ -169,7 +169,7 @@
 			</Data>
 		</Register>
 		<Register>
-			<Name>Pin 10 PWM</Name>
+			<Name>Pin 10 PWM value</Name>
 			<Id></Id>
 			<Address>0x1A</Address>
 			<Data>
@@ -193,7 +193,7 @@
 			</Data>
 		</Register>
 		<Register>
-			<Name>Pin 11 PWM</Name>
+			<Name>Pin 11 PWM value</Name>
 			<Id></Id>
 			<Address>0x1B</Address>
 			<Data>

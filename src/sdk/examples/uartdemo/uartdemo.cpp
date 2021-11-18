@@ -21,7 +21,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  *
- * This module implements classes of the UartDemo plugin.
+ * This module implements the UartDemo plugin classes.
  */
 
 #include "uartdemo.h"
@@ -31,10 +31,15 @@
 #include <chrono>
 
 #define MAXBUFSIZE 65536
-#define PACKETSIZE 1000
+#define PACKETSIZE 500
 
 /*
  * UartPlugin instance
+ * 
+ * This static member function returns a pointer to the UartPlugin instance.
+ * The object itself is defined as a static local variable to ensure
+ * that it is initialized before use, thus avoiding the so-called "static
+ * initialization order fiasco".
  */
 
 SDMAbstractPluginProvider *SDMAbstractPluginProvider::instance() {
@@ -72,7 +77,7 @@ UartDevice::UartDevice() {
 #endif
 	addListItem("ConnectionParameters","SerialPort");
 	addListItem("Channels","Digital pins");
-	addListItem("Sources","ADC");
+	addListItem("Sources","Virtual oscilloscope");
 }
 
 int UartDevice::close() {
@@ -170,8 +175,8 @@ void UartChannel::sendBytes(const std::string &s) {
  */
 
 UartSource::UartSource(Uart &port,std::deque<char> &q): _port(port),_q(q),_cnt(0) {
-	addConstProperty("Name","ADC");
-	addListItem("Streams","ADC data");
+	addConstProperty("Name","Virtual oscilloscope");
+	addListItem("Streams","A0");
 	addListItem("UserScripts","Signal Analyzer");
 	addListItem("UserScripts","signal_analyzer.lua");
 }
@@ -189,6 +194,7 @@ int UartSource::selectReadStreams(const int *streams,std::size_t n,std::size_t p
 }
 
 int UartSource::readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) {
+// After delivering PACKETSIZE samples, return 0 until readNextPacket() is called
 	if(n>PACKETSIZE-_cnt) n=PACKETSIZE-_cnt;
 	if(n==0) return 0; // end of packet
 	
@@ -199,7 +205,7 @@ int UartSource::readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) {
 // Read new data from the serial port
 		if(_q.size()<MAXBUFSIZE) {
 			std::size_t toread=MAXBUFSIZE-_q.size();
-			bool nonBlocking=(nb!=0||loaded==n);
+			bool nonBlocking=(nb!=0||loaded==n); // don't need to block if we already filled the user's buffer
 			std::vector<char> buf(toread);
 			auto r=_port.read(buf.data(),toread,nonBlocking?0:-1); // will read "toread" bytes or fewer
 			_q.insert(_q.end(),buf.begin(),buf.begin()+r);

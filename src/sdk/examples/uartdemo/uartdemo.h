@@ -21,7 +21,8 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  *
- * This header files defines classes for the UartDemo plugin.
+ * This header files defines plugin, device, channel and stream classes
+ * for the UartDemo plugin.
  */
 
 #ifndef UARTDEMO_H_INCLUDED
@@ -32,7 +33,7 @@
 
 #include <deque>
 
-// Plugin object
+// Plugin class
 
 class UartPlugin : public SDMAbstractPluginProvider {
 public:
@@ -40,11 +41,11 @@ public:
 	virtual SDMAbstractDeviceProvider *openDevice(int id) override;
 };
 
-// Device object
+// Device class
 
 class UartDevice : public SDMAbstractDeviceProvider {
-	Uart _port;
-	std::deque<char> _q;
+	Uart _port; // serial port used to communicate
+	std::deque<char> _q; // stream data buffer
 public:
 	UartDevice();
 	
@@ -58,7 +59,7 @@ public:
 	virtual int getConnectionStatus() override;
 };
 
-// Channel object
+// Channel class
 
 class UartChannel : public SDMAbstractChannelProvider {
 	Uart &_port;
@@ -70,18 +71,23 @@ public:
 	
 	virtual int writeReg(sdm_addr_t addr,sdm_reg_t data) override;
 	virtual sdm_reg_t readReg(sdm_addr_t addr,int *status) override;
-// Note: Default implementations of writeFIFO(), readFIFO(), writeMem()
-// and readMem() provided by SDMAbstractChannelProvider work by repeatedly
-// calling writeReg and readReg. If the protocol supports block transactions,
-// these methods should be overriden for better performance.
+/*
+ * Note: Default implementations of writeFIFO(), readFIFO(), writeMem()
+ * and readMem() provided by SDMAbstractChannelProvider work by repeatedly
+ * calling writeReg and readReg. If the communication protocol supported
+ * block transactions, these methods should have been overriden for better
+ * performance.
+ */
 private:
 	void sendBytes(const std::string &s);
 };
 
+// Source class
+
 class UartSource : public SDMAbstractSourceProvider {
 	Uart &_port;
 	std::deque<char> &_q;
-	std::size_t _cnt;
+	std::size_t _cnt; // number of samples delivered for the current packet
 public:
 	UartSource(Uart &port,std::deque<char> &q);
 	

@@ -15,7 +15,7 @@ install(DIRECTORY data/ DESTINATION "${DATA_INSTALL_DIR}/uartdemo")
 
 # install sources
 
-install(FILES uartdemo.cpp uartdemo.h uartdemo.ino
+install(FILES uartdemo.cpp uartdemo.h uartdemo.ino readme.txt
 	DESTINATION "${EXAMPLES_INSTALL_DIR}/uartdemo")
 install(FILES CMakeLists.txt.install
 	DESTINATION "${EXAMPLES_INSTALL_DIR}/uartdemo"
