@@ -49,7 +49,7 @@ PlotterBarScene::PlotterBarScene(Mode m):
 
 // _width spinbox
 	QSettings s;
-	_lineWidth=s.value("Plotter/PlotLineWidth",0).toInt();
+	_lineWidth=s.value("Plotter/PlotLineWidth",2).toInt();
 	
 	_widthWidget=new QSpinBox;
 	_widthWidget->setRange(0,16);
