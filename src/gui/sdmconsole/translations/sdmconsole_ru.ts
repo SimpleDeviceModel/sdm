@@ -1458,7 +1458,7 @@
     <message>
         <location filename="../docpanels.cpp" line="511"/>
         <source>Display timeout (ms): </source>
-        <translation>Таймаут отображения (мс): </translation>
+        <translation>Таймаут (мс): </translation>
     </message>
     <message>
         <location filename="../docpanels.cpp" line="524"/>
