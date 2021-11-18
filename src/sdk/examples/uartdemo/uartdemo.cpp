@@ -201,6 +201,7 @@ int UartSource::readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) {
 	std::size_t packetSize;
 	try {
 		packetSize=std::stoul(getProperty("PacketSize"),nullptr,0);
+		if(packetSize==0) packetSize=DEFAULT_PACKET_SIZE;
 	}
 	catch(std::exception &) {
 		packetSize=DEFAULT_PACKET_SIZE;

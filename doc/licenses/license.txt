@@ -1,4 +1,4 @@
-﻿SIMPLE DEVICE MODEL FRAMEWORK LICENSE
+﻿SIMPLE DEVICE MODEL FRAMEWORK LICENSE NOTICE
 
 Copyright © 2015-2021 by Microproject LLC
 
@@ -18,7 +18,7 @@ along with SDM framework.  If not, see <https://www.gnu.org/licenses/>.
 SDM framework can be shipped with additional plugins which are not covered
 by this license.
 
-SIMPLE DEVICE MODEL SDK LICENSE
+SIMPLE DEVICE MODEL SDK LICENSE NOTICE
 
 In addition to the above, SDK for SDM plugin development is also licensed
 under the terms of the MIT license (see sdk-license.txt).

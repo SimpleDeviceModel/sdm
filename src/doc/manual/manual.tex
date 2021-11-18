@@ -4917,7 +4917,7 @@ SDMAbstractPluginProvider *SDMAbstractPluginProvider::instance() {
 	\item Add the \shellcmd{pluginprovider} sources to the build process.
 \end{enumerate}
 
-SDM SDK includes an example, \shellcmd{testplugin}, based on \shellcmd{pluginprovider}. It is more advanced than \shellcmd{simpleplugin} and is used by the SDM internal test suite. To build \shellcmd{testplugin}, a modern compiler supporting \cplusplus{}11 standard is required (\shellcmd{pluginprovider} itself doesn't use \cplusplus{}11 features).
+SDM SDK includes an example, \shellcmd{uartdemo}, based on \shellcmd{pluginprovider}. It communicates with an Arduino Uno board over the serial port and provides the means to control pin states and capture data from the integrated ADC.
 
 \section{Using SDM with CMake package system}
 \label{sec:cmakeconfig}

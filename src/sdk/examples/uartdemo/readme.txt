@@ -1,4 +1,4 @@
-This plugin communicates with an Arduino Uno board using the serial port.
+This plugin communicates with an Arduino Uno board over the serial port.
 It allows the user to control digital pins and provides a virtual
 oscilloscope on the A0 analog channel. Before use, upload the
 "uartdemo_sketch" to your Arduino.
@@ -21,6 +21,9 @@ Pins 0 and 1 are used for serial communication and can't be controlled.
 Signal on the A0 pin is sampled with a frequency of 4808 Hz.
 
 PROTOCOL
+
+Serial port configuration: 115200 baud, 8 data bits, 1 stop bit, no parity,
+no flow control.
 
 Write register (master -> slave): 01010000 ADDR[7:0] DATA[7:0]
 Read register (master-> slave):   01010001 ADDR[7:0]
