@@ -148,14 +148,16 @@ sdm_reg_t UartChannel::readReg(sdm_addr_t addr,int *status) {
 // Receive data
 	char ch,ch2;
 	for(int i=0;;i++) {
-		_port.read(&ch,1);
+		auto r=_port.read(&ch,1);
+		if(r==0) throw std::runtime_error("Can't read data from the serial port");
 		if((ch&0xC0)!=0x80) { // not a register data packet, add to queue
 			if(_q.size()<MAXBUFSIZE) _q.push_back(ch);
 		}
 		else break;
 		if(i==10000) throw std::runtime_error("Device is not responding");
 	}
-	_port.read(&ch2,1);
+	auto r=_port.read(&ch2,1);
+	if(r==0) throw std::runtime_error("Can't read data from the serial port");
 	if(status) *status=0;
 	return ((ch&0xF)<<4)|(ch2&0xF);
 }
