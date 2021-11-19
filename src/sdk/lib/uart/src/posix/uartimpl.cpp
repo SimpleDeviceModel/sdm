@@ -364,9 +364,12 @@ std::size_t UartImpl::read(char *buf,std::size_t n,int timeout) {
 		} while(r==-1&&errno==EINTR); // select() can be spuriously interrupted by signals
 	}
 	
-// Perform write
+// Perform read
 	int r=::read(_port,buf,n);
-	if(r==-1) throw std::runtime_error("Serial port read failed");
+	if(r==-1) {
+		if(errno==EAGAIN) return 0; // non-blocking operation
+		throw std::runtime_error("Serial port read failed");
+	}
 	
 	return static_cast<std::size_t>(r);
 }
