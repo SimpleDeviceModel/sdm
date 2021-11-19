@@ -2,6 +2,22 @@
 <RegisterMap>
 	<Page name="Page 1">
 		<Register>
+			<Name>ADC input channel</Name>
+			<Id></Id>
+			<Address>0</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="A0" value="0"/>
+					<Option name="A1" value="1"/>
+					<Option name="A2" value="2"/>
+					<Option name="A3" value="3"/>
+					<Option name="A4" value="4"/>
+					<Option name="A5" value="5"/>
+				</Widget>
+				<Value>0</Value>
+			</Data>
+		</Register>
+		<Register>
 			<Name>Pin 2 mode</Name>
 			<Id></Id>
 			<Address>0x2</Address>

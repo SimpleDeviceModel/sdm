@@ -71,12 +71,16 @@ void loop() {
 }
 
 void writeVirtualRegister(byte addr,byte data) {
-  if(addr>1&&addr<14) {
+  if(addr==0) {
+/* ADC input channel */
+    ADMUX=(ADMUX&0xF0)|(data&0x0F);
+  }
+  else if(addr>=2&&addr<=13) {
 /* Pin mode registers */
     pinState[addr]=data;
     setPinState(addr);
   }
-  if(addr>17&&addr<30) {
+  else if(addr>=18&&addr<=29) {
 /* PWM value registers */
     pinPWM[addr-16]=data;
     setPinState(addr-16);
@@ -84,8 +88,9 @@ void writeVirtualRegister(byte addr,byte data) {
 }
 
 byte readVirtualRegister(byte addr) {
-  if(addr>1&&addr<14) return pinState[addr];
-  if(addr>17&&addr<30) return pinPWM[addr-16];
+  if(addr==0) return ADMUX&0x0F;
+  else if(addr>=2&&addr<=13) return pinState[addr];
+  else if(addr>=18&&addr<=29) return pinPWM[addr-16];
   return 0;
 }
 
@@ -111,10 +116,17 @@ void setPinState(byte pin) {
   }
 }
 
-/* Process the ADC interrupt */
+/*
+ * Process the ADC interrupt
+ * 
+ * Every second sample is written to the circular buffer, so the sampling
+ * frequency is:
+ * 
+ *   Fs = 16000000 (CPU clock frequency) / 128 (ADC prescaler) /
+ *        13 (cycles per conversion) / 2 = 4807.69 Hz
+ */
 
 ISR(ADC_vect) {
-/* Write every second sample to the ADC circular buffer */
   static bool t=0;
   t=!t;
   if(t) adcBuffer[adcWriteIndex++]=ADCL|(ADCH<<8);

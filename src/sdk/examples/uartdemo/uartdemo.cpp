@@ -73,7 +73,7 @@ UartDevice::UartDevice() {
 	addConstProperty("AutoOpenSources","open");
 	
 	addListItem("ConnectionParameters","SerialPort");
-	addListItem("Channels","Digital pins");
+	addListItem("Channels","Pin settings");
 	addListItem("Sources","Virtual oscilloscope");
 	
 #ifdef _WIN32
@@ -123,7 +123,7 @@ int UartDevice::getConnectionStatus() {
  */
 
 UartChannel::UartChannel(Uart &port,std::deque<char> &q): _port(port),_q(q) {
-	addConstProperty("Name","Digital pins");
+	addConstProperty("Name","Pin settings");
 	addConstProperty("RegisterMapFile","uartdemo/uartdemo.srm");
 }
 
@@ -182,7 +182,7 @@ void UartChannel::sendBytes(const std::string &s) {
 UartSource::UartSource(Uart &port,std::deque<char> &q): _port(port),_q(q) {
 	addConstProperty("Name","Virtual oscilloscope");
 	addConstProperty("ViewMode","plot"); // default view mode for sdmconsole
-	addListItem("Streams","A0");
+	addListItem("Streams","ADC");
 	addListItem("UserScripts","Signal Analyzer");
 	addListItem("UserScripts","signal_analyzer.lua");
 	addProperty("PacketSize",std::to_string(DEFAULT_PACKET_SIZE));
