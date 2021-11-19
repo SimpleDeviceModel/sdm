@@ -17,6 +17,21 @@
  * along with SDM framework.  If not, see <https://www.gnu.org/licenses/>.
  *
  * This module provides an implementation of the StreamReader class.
+ * 
+ * Notes:
+ * 
+ * 1) There is a separate StreamReader object (and, by extension, worker
+ * thread) for every source. Since SDM API methods are not thread-safe,
+ * the threads compete for the same mutex. The whole thing should be probably
+ * rewritten to have just one worker thread servicing all sources.
+ * 
+ * 2) We can't use blocking I/O here for a couple of reasons:
+ *    * Blocking operation can block for a long time, or indefinitely, which
+ *      would prevent worker thread from being stopped, short of killing the
+ *      sdmconsole process.
+ *    * More importantly, some sources may be slower then other, and blocking
+ *      readStream() would prevent reading the faster source in a timely
+ *      manner.
  */
 
 #include "appwidelock.h"
@@ -39,6 +54,7 @@
 extern MainWindow *g_MainWindow;
 
 static const int MaxWait=100;
+static const int WaitIncrement=5;
 static const int PacketTimeOut=200;
 
 const int StreamReader::DefaultPacketSizeHint=16384;
@@ -199,7 +215,7 @@ void StreamReader::run() try {
 			glock.unlock();
 			marshalAsync(&StreamReader::dispatch,std::move(packets));
 			packets.clear();
-			if(msecWait>0) msecWait--;
+			msecWait=0;
 			t.start();
 			QThread::yieldCurrentThread(); // give other threads a chance
 			continue;
@@ -214,7 +230,7 @@ void StreamReader::run() try {
 		}
 		
 		QThread::msleep(msecWait);
-		if(msecWait<MaxWait) msecWait++;
+		if(msecWait<MaxWait) msecWait+=WaitIncrement;
 	}
 }
 catch(std::exception &ex) {
