@@ -4,7 +4,7 @@
 		<Register>
 			<Name>ADC input channel</Name>
 			<Id></Id>
-			<Address>0</Address>
+			<Address>0x0</Address>
 			<Data>
 				<Widget type="DropDown">
 					<Option name="A0" value="0"/>
@@ -15,6 +15,19 @@
 					<Option name="A5" value="5"/>
 				</Widget>
 				<Value>0</Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>ADC reference voltage</Name>
+			<Id></Id>
+			<Address>0x1</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="AVCC (5V)" value="1"/>
+					<Option name="Internal (1.1V)" value="3"/>
+					<Option name="External (AREF)" value="0"/>
+				</Widget>
+				<Value>1</Value>
 			</Data>
 		</Register>
 		<Register>

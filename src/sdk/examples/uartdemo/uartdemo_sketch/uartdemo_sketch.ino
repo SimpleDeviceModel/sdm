@@ -75,6 +75,10 @@ void writeVirtualRegister(byte addr,byte data) {
 /* ADC input channel */
     ADMUX=(ADMUX&0xF0)|(data&0x0F);
   }
+  else if(addr==1) {
+/* ADC reference voltage */
+    ADMUX=(ADMUX&0x3F)|(data<<6);
+  }
   else if(addr>=2&&addr<=13) {
 /* Pin mode registers */
     pinState[addr]=data;
@@ -89,6 +93,7 @@ void writeVirtualRegister(byte addr,byte data) {
 
 byte readVirtualRegister(byte addr) {
   if(addr==0) return ADMUX&0x0F;
+  else if(addr==1) return ADMUX>>6;
   else if(addr>=2&&addr<=13) return pinState[addr];
   else if(addr>=18&&addr<=29) return pinPWM[addr-16];
   return 0;
