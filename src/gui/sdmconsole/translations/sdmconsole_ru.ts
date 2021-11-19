@@ -689,7 +689,7 @@
         <location filename="../registermapwidget.cpp" line="489"/>
         <location filename="../registermapworker.cpp" line="86"/>
         <location filename="../sidebar.cpp" line="143"/>
-        <location filename="../streamreader.cpp" line="418"/>
+        <location filename="../streamreader.cpp" line="424"/>
         <location filename="../streamselector.cpp" line="319"/>
         <location filename="../streamselector.cpp" line="323"/>
         <location filename="../streamselector.cpp" line="327"/>
@@ -1487,37 +1487,37 @@
 <context>
     <name>StreamReader</name>
     <message>
-        <location filename="../streamreader.cpp" line="113"/>
+        <location filename="../streamreader.cpp" line="116"/>
         <source>Data export is already in progress</source>
         <translation>Экспорт данных уже в процессе выполнения</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="127"/>
+        <location filename="../streamreader.cpp" line="130"/>
         <source>Writing stream data:</source>
         <translation>Запись потоков данных:</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="237"/>
+        <location filename="../streamreader.cpp" line="243"/>
         <source>Stream reader error: </source>
         <translation>Ошибка чтения потока: </translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="350"/>
+        <location filename="../streamreader.cpp" line="356"/>
         <source>Error: </source>
         <translation>Ошибка: </translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="364"/>
+        <location filename="../streamreader.cpp" line="370"/>
         <source>Data streams were successfully saved</source>
         <translation>Потоки данных были успешно сохранены</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="369"/>
+        <location filename="../streamreader.cpp" line="375"/>
         <source>Operation has been aborted by the user</source>
         <translation>Операция была прервана пользователем</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="419"/>
+        <location filename="../streamreader.cpp" line="425"/>
         <source>Cannot apply data stream set</source>
         <translation>Невозможно применить набор потоков данных</translation>
     </message>
