@@ -13,6 +13,9 @@
 					<Option name="A3" value="3"/>
 					<Option name="A4" value="4"/>
 					<Option name="A5" value="5"/>
+					<Option name="Temperature sensor" value="8"/>
+					<Option name="1.1 reference" value="14"/>
+					<Option name="GND" value="15"/>
 				</Widget>
 				<Value>0</Value>
 			</Data>
