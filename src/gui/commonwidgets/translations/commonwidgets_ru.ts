@@ -137,12 +137,12 @@
         <translation>Бит в слове: </translation>
     </message>
     <message>
-        <location filename="../plotterbinaryscene.cpp" line="73"/>
+        <location filename="../plotterbinaryscene.cpp" line="75"/>
         <source>LSB first</source>
         <translation>Младший первый</translation>
     </message>
     <message>
-        <location filename="../plotterbinaryscene.cpp" line="78"/>
+        <location filename="../plotterbinaryscene.cpp" line="81"/>
         <source>Invert Y</source>
         <translation>Инверсия Y</translation>
     </message>
@@ -175,7 +175,7 @@
         <translation>Строк: </translation>
     </message>
     <message>
-        <location filename="../plotterbitmapscene.cpp" line="91"/>
+        <location filename="../plotterbitmapscene.cpp" line="92"/>
         <source>Invert Y</source>
         <translation>Инверсия Y</translation>
     </message>

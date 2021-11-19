@@ -88,7 +88,9 @@ PlotterBitmapScene::PlotterBitmapScene(): _toolBar(tr("Bitmap mode toolbar")) {
 	_toolBar.addWidget(_linesWidget);
 
 // Y inversion checkbox
+	_invertY=s.value("Plotter/BitmapInvertY",_invertY).toBool();
 	_invertYCheckBox=new QCheckBox(tr("Invert Y"));
+	_invertYCheckBox->setChecked(_invertY);
 	QObject::connect(_invertYCheckBox,&QCheckBox::toggled,this,&PlotterBitmapScene::invertYChanged);
 	_toolBar.addWidget(_invertYCheckBox);
 }
@@ -387,5 +389,7 @@ void PlotterBitmapScene::linesChanged() {
 
 void PlotterBitmapScene::invertYChanged(bool b) {
 	_invertY=b;
+	QSettings s;
+	s.setValue("Plotter/BitmapInvertY",_invertY);
 	emit changed();
 }

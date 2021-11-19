@@ -59,6 +59,8 @@ PlotterBinaryScene::PlotterBinaryScene(): _tb(tr("Binary mode toolbar")) {
 	auto bitsText=new QLabel(tr("Bits per word: "));
 	bitsText->setMargin(0.2*em);
 	_tb.addWidget(bitsText);
+	
+	_bits=s.value("Plotter/BinaryBits",_bits).toInt();
 
 // _bits spinbox
 	_bitsWidget=new QSpinBox;
@@ -75,7 +77,9 @@ PlotterBinaryScene::PlotterBinaryScene(): _tb(tr("Binary mode toolbar")) {
 	_tb.addWidget(_endiannessCheckBox);
 
 // Y inversion checkbox
+	_invertY=s.value("Plotter/BinaryInvertY",_invertY).toBool();
 	_invertYCheckBox=new QCheckBox(tr("Invert Y"));
+	_invertYCheckBox->setChecked(_invertY);
 	QObject::connect(_invertYCheckBox,&QCheckBox::toggled,this,&PlotterBinaryScene::invertYChanged);
 	_tb.addWidget(_invertYCheckBox);
 }
@@ -305,6 +309,8 @@ void PlotterBinaryScene::linesChanged() {
 
 void PlotterBinaryScene::bitsChanged(int i) {
 	_bits=i;
+	QSettings s;
+	s.setValue("Plotter/BinaryBits",_bits);
 	_rect=QRectF(-0.5,-0.5,_width*_bits,_lines);
 	emit changed();
 }
@@ -316,5 +322,7 @@ void PlotterBinaryScene::endiannessChanged(bool b) {
 
 void PlotterBinaryScene::invertYChanged(bool b) {
 	_invertY=b;
+	QSettings s;
+	s.setValue("Plotter/BinaryInvertY",_invertY);
 	emit changed();
 }
