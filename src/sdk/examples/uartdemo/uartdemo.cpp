@@ -68,16 +68,19 @@ SDMAbstractDeviceProvider *UartPlugin::openDevice(int id) {
 
 UartDevice::UartDevice() {
 	addConstProperty("Name","Arduino Uno");
+// Make sdmconsole open channels and sources automatically
 	addConstProperty("AutoOpenChannels","open");
 	addConstProperty("AutoOpenSources","open");
+	
+	addListItem("ConnectionParameters","SerialPort");
+	addListItem("Channels","Digital pins");
+	addListItem("Sources","Virtual oscilloscope");
+	
 #ifdef _WIN32
 	addProperty("SerialPort","COM1");
 #else
 	addProperty("SerialPort","/dev/ttyACM0");
 #endif
-	addListItem("ConnectionParameters","SerialPort");
-	addListItem("Channels","Digital pins");
-	addListItem("Sources","Virtual oscilloscope");
 }
 
 int UartDevice::close() {
@@ -178,6 +181,7 @@ void UartChannel::sendBytes(const std::string &s) {
 
 UartSource::UartSource(Uart &port,std::deque<char> &q): _port(port),_q(q) {
 	addConstProperty("Name","Virtual oscilloscope");
+	addConstProperty("ViewMode","plot"); // default view mode for sdmconsole
 	addListItem("Streams","A0");
 	addListItem("UserScripts","Signal Analyzer");
 	addListItem("UserScripts","signal_analyzer.lua");
