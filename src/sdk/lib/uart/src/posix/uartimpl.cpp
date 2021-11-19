@@ -411,45 +411,59 @@ bool UartImpl::getCTS() const {
 	return ((status&TIOCM_CTS)!=0);
 }
 
+static bool checkDevice(const std::string &path) {
+// Try to open it
+	int fd=::open(path.c_str(),O_RDWR|O_NOCTTY|O_NONBLOCK|O_NDELAY);
+	if(fd==-1) return false;
+// Try to obtain termios structure
+	struct termios tmp;
+	int r=tcgetattr(fd,&tmp);
+	if(r==-1) {
+		::close(fd);
+		return false;
+	}
+// Try to obtain modem status bits
+	int status;
+	r=ioctl(fd,TIOCMGET,&status);
+	if(r==-1) {
+		::close(fd);
+		return false;
+	}
+
+// OK, this seems to be a serial port
+	::close(fd);
+	return true;
+}
+
 std::vector<std::string> UartImpl::listSerialPorts() {
 	std::vector<std::string> res;
 	
 	DIR *dir=opendir("/dev");
-	if(!dir) return res;
-	
-	for(;;) {
-		auto entry=readdir(dir);
-		if(!entry) break;
-		auto const prefix=std::string(entry->d_name).substr(0,3);
-		if(prefix=="tty"||prefix=="cua") { // "cua" is used on BSD systems
-			std::string path("/dev/");
-			path+=entry->d_name;
-// Try to open it
-			int fd=::open(path.c_str(),O_RDWR|O_NOCTTY|O_NONBLOCK|O_NDELAY);
-			if(fd==-1) continue;
-// Try to obtain termios structure
-			struct termios tmp;
-			int r=tcgetattr(fd,&tmp);
-			if(r==-1) {
-				::close(fd);
-				continue;
+	if(dir) {
+		for(;;) {
+			auto entry=readdir(dir);
+			if(!entry) break;
+			auto const prefix=std::string(entry->d_name).substr(0,3);
+			if(prefix=="tty"||prefix=="cua") { // "cua" is used on BSD systems
+				std::string path("/dev/");
+				path+=entry->d_name;
+				if(checkDevice(path)) res.emplace_back(path);
 			}
-// Try to obtain modem status bits
-			int status;
-			r=ioctl(fd,TIOCMGET,&status);
-			if(r==-1) {
-				::close(fd);
-				continue;
-			}
-
-// OK, this seems to be a serial port
-			::close(fd);
-			
-			res.emplace_back(path);
 		}
+		closedir(dir);
 	}
 	
-	closedir(dir);
+	dir=opendir("/dev/serial/by-id");
+	if(dir) {
+		for(;;) {
+			auto entry=readdir(dir);
+			if(!entry) break;
+			std::string path("/dev/serial/by-id/");
+			path+=entry->d_name;
+			if(checkDevice(path)) res.emplace_back(path);
+		}
+		closedir(dir);
+	}
 	
 	std::sort(res.begin(),res.end());
 	
