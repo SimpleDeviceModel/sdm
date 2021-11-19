@@ -176,7 +176,7 @@ void UartChannel::sendBytes(const std::string &s) {
  * UartSource members
  */
 
-UartSource::UartSource(Uart &port,std::deque<char> &q): _port(port),_q(q),_cnt(0) {
+UartSource::UartSource(Uart &port,std::deque<char> &q): _port(port),_q(q) {
 	addConstProperty("Name","Virtual oscilloscope");
 	addListItem("Streams","A0");
 	addListItem("UserScripts","Signal Analyzer");
@@ -191,12 +191,23 @@ int UartSource::close() {
 
 int UartSource::selectReadStreams(const int *streams,std::size_t n,std::size_t packets,int df) {
 // In this example we don't need to do anything specific when streams
-// are selected since the device is always transmitting data
+// are selected since the device is always transmitting data.
+// Nevertheless, reading stream data before selecting the stream is an error
+// per SDM API spec, so we check for that.
+// Here we have only one stream, so the user can select either it or nothing.
+	if(n==0) _selected=false;
+	else if(n==1&&streams[0]==0) _selected=true;
+	else throw std::runtime_error("Bad stream set");
+	
 	UartSource::discardPackets();
 	return 0;
 }
 
 int UartSource::readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) {
+// Reading stream data before selecting the stream is an error
+	if(!_selected) throw std::runtime_error("Stream not selected");
+// We have only one stream
+	if(stream!=0) throw std::runtime_error("Bad stream ID");
 // Note: for a faster interface, it would have been preferable to override
 // SDMPropertyManager::setProperty() to avoid string -> integer conversion
 // each time UartSource::readStream() is called

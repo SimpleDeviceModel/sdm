@@ -87,7 +87,8 @@ private:
 class UartSource : public SDMAbstractSourceProvider {
 	Uart &_port;
 	std::deque<char> &_q;
-	std::size_t _cnt; // number of samples delivered for the current packet
+	std::size_t _cnt=0; // number of samples delivered for the current packet
+	bool _selected=false;
 public:
 	UartSource(Uart &port,std::deque<char> &q);
 	
