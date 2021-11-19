@@ -18,8 +18,13 @@ to the PWM mode.
 
 Pins 0 and 1 are used for serial communication and can't be controlled.
 
-ADC input channel (A0-A5) can be selected by the user. Sampling
-frequency is 4808 Hz.
+ADC input channel and reference voltage can be selected by the user.
+Sampling frequency is 4808 Hz.
+
+For temperature measurement, select the "Temperature sensor" input channel
+and the 1.1V reference. Conversion formula:
+
+    T (°C) = 0.782 * CODE - 250.4
 
 PROTOCOL
 
