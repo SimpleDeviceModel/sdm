@@ -122,27 +122,27 @@
 <context>
     <name>PlotterBinaryScene</name>
     <message>
-        <location filename="../plotterbinaryscene.cpp" line="36"/>
+        <location filename="../plotterbinaryscene.cpp" line="37"/>
         <source>Binary mode toolbar</source>
         <translation>Двоичный режим</translation>
     </message>
     <message>
-        <location filename="../plotterbinaryscene.cpp" line="42"/>
+        <location filename="../plotterbinaryscene.cpp" line="41"/>
         <source>Lines: </source>
         <translation>Строк: </translation>
     </message>
     <message>
-        <location filename="../plotterbinaryscene.cpp" line="55"/>
+        <location filename="../plotterbinaryscene.cpp" line="59"/>
         <source>Bits per word: </source>
         <translation>Бит в слове: </translation>
     </message>
     <message>
-        <location filename="../plotterbinaryscene.cpp" line="69"/>
+        <location filename="../plotterbinaryscene.cpp" line="73"/>
         <source>LSB first</source>
         <translation>Младший первый</translation>
     </message>
     <message>
-        <location filename="../plotterbinaryscene.cpp" line="74"/>
+        <location filename="../plotterbinaryscene.cpp" line="78"/>
         <source>Invert Y</source>
         <translation>Инверсия Y</translation>
     </message>
@@ -150,32 +150,32 @@
 <context>
     <name>PlotterBitmapScene</name>
     <message>
-        <location filename="../plotterbitmapscene.cpp" line="37"/>
+        <location filename="../plotterbitmapscene.cpp" line="38"/>
         <source>Bitmap mode toolbar</source>
         <translation>Режим изображения</translation>
     </message>
     <message>
-        <location filename="../plotterbitmapscene.cpp" line="43"/>
+        <location filename="../plotterbitmapscene.cpp" line="42"/>
         <source>Black: </source>
         <translation>Чёрный: </translation>
     </message>
     <message>
-        <location filename="../plotterbitmapscene.cpp" line="57"/>
+        <location filename="../plotterbitmapscene.cpp" line="56"/>
         <source>White: </source>
         <translation>Белый: </translation>
     </message>
     <message>
-        <location filename="../plotterbitmapscene.cpp" line="71"/>
+        <location filename="../plotterbitmapscene.cpp" line="70"/>
         <source>Auto levels</source>
         <translation>Авто уровни</translation>
     </message>
     <message>
-        <location filename="../plotterbitmapscene.cpp" line="74"/>
+        <location filename="../plotterbitmapscene.cpp" line="73"/>
         <source>Lines: </source>
         <translation>Строк: </translation>
     </message>
     <message>
-        <location filename="../plotterbitmapscene.cpp" line="87"/>
+        <location filename="../plotterbitmapscene.cpp" line="91"/>
         <source>Invert Y</source>
         <translation>Инверсия Y</translation>
     </message>

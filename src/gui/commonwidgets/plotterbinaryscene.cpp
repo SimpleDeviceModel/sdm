@@ -28,20 +28,24 @@
 #include <QCheckBox>
 #include <QFontInfo>
 #include <QTextStream>
+#include <QSettings>
 
 #include <limits>
 #include <algorithm>
 #include <cstdint>
 
 PlotterBinaryScene::PlotterBinaryScene(): _tb(tr("Binary mode toolbar")) {
-	_buffer.resize(_lines);
-	
 	auto em=QFontInfo(QFont()).pixelSize();
 	
 // _lines label
 	auto linesText=new QLabel(tr("Lines: "));
 	linesText->setMargin(0.2*em);
 	_tb.addWidget(linesText);
+	
+// Restore lines value from settings
+	QSettings s;
+	_lines=s.value("Plotter/BinaryLines",_lines).toInt();
+	_buffer.resize(_lines);
 
 // _lines spinbox
 	_linesWidget=new QSpinBox;
@@ -281,6 +285,9 @@ inline int PlotterBinaryScene::getSourceBit(int x,int y) const {
 
 void PlotterBinaryScene::linesChanged() {
 	_lines=_linesWidget->value();
+	
+	QSettings s;
+	s.setValue("Plotter/BinaryLines",_lines);
 	
 	if(static_cast<int>(_buffer.size())>_lines) {
 // Retain the last _lines in the _buffer

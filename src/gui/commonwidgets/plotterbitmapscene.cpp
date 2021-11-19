@@ -29,14 +29,13 @@
 #include <QFontInfo>
 #include <QSettings>
 #include <QTextStream>
+#include <QSettings>
 
 #include <cmath>
 #include <algorithm>
 #include <limits>
 
 PlotterBitmapScene::PlotterBitmapScene(): _toolBar(tr("Bitmap mode toolbar")) {
-	_buffer.resize(_lines);
-	
 	auto em=QFontInfo(QFont()).pixelSize();
 	
 // Black point label
@@ -74,6 +73,11 @@ PlotterBitmapScene::PlotterBitmapScene(): _toolBar(tr("Bitmap mode toolbar")) {
 	auto linesText=new QLabel(tr("Lines: "));
 	linesText->setMargin(0.2*em);
 	_toolBar.addWidget(linesText);
+	
+// Restore lines value from settings
+	QSettings s;
+	_lines=s.value("Plotter/BitmapLines",_lines).toInt();
+	_buffer.resize(_lines);
 
 // _lines spinbox
 	_linesWidget=new QSpinBox;
@@ -363,6 +367,9 @@ void PlotterBitmapScene::autoLevels() {
 
 void PlotterBitmapScene::linesChanged() {
 	_lines=_linesWidget->value();
+	
+	QSettings s;
+	s.setValue("Plotter/BitmapLines",_lines);
 	
 	if(static_cast<int>(_buffer.size())>_lines) {
 // Retain the last _lines in the _buffer
