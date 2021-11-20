@@ -1,9 +1,9 @@
 /*
- * ADC sampling decimation factor. Only on of each DECIMATION_FACTOR
+ * ADC sampling decimation factor. Only one of each DECIMATION_FACTOR
  * samples will be written to the buffer. Increase this value if you
  * are having problems with communication reliability.
  * 
- * The sampling frequency will be:
+ * The sampling frequency (in Hz) will be:
  * 
  *   Fs = 16000000 (CPU clock frequency) / 128 (ADC prescaler) /
  *        13 (cycles per conversion) / DECIMATION_FACTOR

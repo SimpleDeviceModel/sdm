@@ -202,7 +202,6 @@ int UartSource::selectReadStreams(const int *streams,std::size_t n,std::size_t p
 	if(n==0) _selected=false;
 	else if(n==1&&streams[0]==0) _selected=true;
 	else throw std::runtime_error("Bad stream set");
-	
 	UartSource::discardPackets();
 	return 0;
 }
