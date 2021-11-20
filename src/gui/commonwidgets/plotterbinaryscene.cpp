@@ -72,7 +72,9 @@ PlotterBinaryScene::PlotterBinaryScene(): _tb(tr("Binary mode toolbar")) {
 	_tb.addWidget(_bitsWidget);
 
 // Endiannes checkbox
+	_lsbFirst=s.value("Plotter/BinaryLsbFirst",_lsbFirst).toBool();
 	_endiannessCheckBox=new QCheckBox(tr("LSB first"));
+	_endiannessCheckBox->setChecked(_lsbFirst);
 	QObject::connect(_endiannessCheckBox,&QCheckBox::toggled,this,&PlotterBinaryScene::endiannessChanged);
 	_tb.addWidget(_endiannessCheckBox);
 
@@ -317,6 +319,8 @@ void PlotterBinaryScene::bitsChanged(int i) {
 
 void PlotterBinaryScene::endiannessChanged(bool b) {
 	_lsbFirst=b;
+	QSettings s;
+	s.setValue("Plotter/BinaryLsbFirst",_lsbFirst);
 	emit changed();
 }
 
