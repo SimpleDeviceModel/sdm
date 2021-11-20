@@ -71,7 +71,7 @@ try
 	utf8cerr()<<"sdmhost "<<Config::version()<<" ("<<Config::architecture()<<")"<<endl;
 	utf8cerr()<<"Copyright (c) 2015-2021 by Microproject LLC"<<endl;
 	utf8cerr()<<"This program comes with ABSOLUTELY NO WARRANTY."<<endl;
-	utf8cerr()<<"This is free software, and you are welcome to redistribute it under certain conditions; see the documentation for details."<<endl;
+	utf8cerr()<<"This is free software, and you are welcome to redistribute it under certain conditions; see license.txt for details."<<endl;
 	
 	std::string strFileName;
 	bool interactive;

@@ -72,8 +72,7 @@ LuaWidget::LuaWidget(LuaServer &l,const FString &name,QWidget *parent):
 	QObject::connect(&timer,&QTimer::timeout,this,&LuaWidget::updatePrompt);
 	
 	FString welcome=QCoreApplication::applicationName()+" "+
-		Config::version()+" ("+Config::architecture()+") "+
-		tr("Copyright © 2015-2021 by Microproject LLC\n");
+		Config::version()+" ("+Config::architecture()+")\n";
 	
 	consoleOutput(welcome);
 	consolePrompt("> ");

@@ -236,13 +236,6 @@
         <translation>Используется альтернативный метод перенаправления стандартного вывода
 </translation>
     </message>
-    <message>
-        <location filename="../luawidget.cpp" line="76"/>
-        <source>Copyright © 2015-2021 by Microproject LLC
-</source>
-        <translation>© ООО «Микропроект», 2015-2021
-</translation>
-    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -365,46 +358,46 @@
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="452"/>
+        <location filename="../mainwindow.cpp" line="453"/>
         <source>&lt;p&gt;This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions. See the link below for details.&lt;/p&gt;
 </source>
         <translation>&lt;p&gt;Данная программа поставляется СОВЕРШЕННО БЕЗ ГАРАНТИЙ. Данная программа является свободным программным обеспечением, и Вы имеете право распространять её на определённых условиях. Подробности доступны по нижеприведённой ссылке.&lt;/p&gt;
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="453"/>
+        <location filename="../mainwindow.cpp" line="454"/>
         <source>&lt;p&gt;&lt;a href=&quot;info://doc/licenses/license.txt&quot;&gt;Copyright and licensing information&lt;/a&gt;&lt;/p&gt;
 </source>
         <translation>&lt;p&gt;&lt;a href=&quot;info://doc/licenses/license.txt&quot;&gt;Информация об авторских правах и лицензировании&lt;/a&gt;&lt;/p&gt;
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="490"/>
+        <location filename="../mainwindow.cpp" line="491"/>
         <source>Build information</source>
         <translation>Информация о сборке</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="494"/>
+        <location filename="../mainwindow.cpp" line="495"/>
         <source>Platform</source>
         <translation>Платформа</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="495"/>
+        <location filename="../mainwindow.cpp" line="496"/>
         <source>Compiler</source>
         <translation>Компилятор</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="497"/>
+        <location filename="../mainwindow.cpp" line="498"/>
         <source>Commit hash</source>
         <translation>Хеш коммита</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="498"/>
+        <location filename="../mainwindow.cpp" line="499"/>
         <source>Commit timestamp</source>
         <translation>Дата/время коммита</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="543"/>
+        <location filename="../mainwindow.cpp" line="544"/>
         <source>Press %1 to exit full screen mode</source>
         <translation>Нажмите %1 для выхода из полноэкранного режима</translation>
     </message>
@@ -420,7 +413,7 @@
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="393"/>
-        <location filename="../mainwindow.cpp" line="462"/>
+        <location filename="../mainwindow.cpp" line="463"/>
         <source>Lua interpreter is busy</source>
         <translation>Интерпретатор Lua занят</translation>
     </message>
@@ -515,27 +508,34 @@
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="465"/>
+        <location filename="../mainwindow.cpp" line="452"/>
+        <source>Copyright © 2015-2021 by Microproject LLC
+</source>
+        <translation>© ООО «Микропроект», 2015-2021
+</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="466"/>
         <source>Cannot open script file &quot;</source>
         <translation>Невозможно открыть файл скрипта &quot;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="493"/>
+        <location filename="../mainwindow.cpp" line="494"/>
         <source>Version</source>
         <translation>Версия</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="496"/>
+        <location filename="../mainwindow.cpp" line="497"/>
         <source>Toolkit version</source>
         <translation>Версия инструментария</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="555"/>
+        <location filename="../mainwindow.cpp" line="556"/>
         <source>Lua status: Busy</source>
         <translation>Интерпретатор Lua: Занят</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="556"/>
+        <location filename="../mainwindow.cpp" line="557"/>
         <source>Lua status: Ready</source>
         <translation>Интерпретатор Lua: Готов</translation>
     </message>
@@ -659,8 +659,8 @@
         <location filename="../docpanels.cpp" line="624"/>
         <location filename="../mainwindow.cpp" line="389"/>
         <location filename="../mainwindow.cpp" line="415"/>
-        <location filename="../mainwindow.cpp" line="472"/>
-        <location filename="../mainwindow.cpp" line="505"/>
+        <location filename="../mainwindow.cpp" line="473"/>
+        <location filename="../mainwindow.cpp" line="506"/>
         <location filename="../openplugindialog.cpp" line="207"/>
         <location filename="../propertyeditor.cpp" line="138"/>
         <location filename="../propertyeditor.cpp" line="155"/>
@@ -689,7 +689,7 @@
         <location filename="../registermapwidget.cpp" line="489"/>
         <location filename="../registermapworker.cpp" line="86"/>
         <location filename="../sidebar.cpp" line="143"/>
-        <location filename="../streamreader.cpp" line="424"/>
+        <location filename="../streamreader.cpp" line="423"/>
         <location filename="../streamselector.cpp" line="319"/>
         <location filename="../streamselector.cpp" line="323"/>
         <location filename="../streamselector.cpp" line="327"/>
@@ -1487,37 +1487,37 @@
 <context>
     <name>StreamReader</name>
     <message>
-        <location filename="../streamreader.cpp" line="116"/>
+        <location filename="../streamreader.cpp" line="115"/>
         <source>Data export is already in progress</source>
         <translation>Экспорт данных уже в процессе выполнения</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="130"/>
+        <location filename="../streamreader.cpp" line="129"/>
         <source>Writing stream data:</source>
         <translation>Запись потоков данных:</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="243"/>
+        <location filename="../streamreader.cpp" line="242"/>
         <source>Stream reader error: </source>
         <translation>Ошибка чтения потока: </translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="356"/>
+        <location filename="../streamreader.cpp" line="355"/>
         <source>Error: </source>
         <translation>Ошибка: </translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="370"/>
+        <location filename="../streamreader.cpp" line="369"/>
         <source>Data streams were successfully saved</source>
         <translation>Потоки данных были успешно сохранены</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="375"/>
+        <location filename="../streamreader.cpp" line="374"/>
         <source>Operation has been aborted by the user</source>
         <translation>Операция была прервана пользователем</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="425"/>
+        <location filename="../streamreader.cpp" line="424"/>
         <source>Cannot apply data stream set</source>
         <translation>Невозможно применить набор потоков данных</translation>
     </message>
