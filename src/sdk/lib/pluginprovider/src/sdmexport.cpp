@@ -38,7 +38,7 @@
 
 namespace {
 	void displayErrorMessage(const char *what) {
-		std::cout<<"Exception in SDM plugin: "<<what<<std::endl;
+		std::cout<<"SDM plugin exception: "<<what<<std::endl;
 	}
 
 	int getProperty(const SDMPropertyManager *obj,const char *name,char *buf,std::size_t n) {
