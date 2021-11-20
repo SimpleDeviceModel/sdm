@@ -1,3 +1,16 @@
+/*
+ * ADC sampling decimation factor. Only on of each DECIMATION_FACTOR
+ * samples will be written to the buffer. Increase this value if you
+ * are having problems with communication reliability.
+ * 
+ * The sampling frequency will be:
+ * 
+ *   Fs = 16000000 (CPU clock frequency) / 128 (ADC prescaler) /
+ *        13 (cycles per conversion) / DECIMATION_FACTOR
+ */
+
+#define DECIMATION_FACTOR 2
+
 /* 
  * A circular buffer to store up to 256 ADC samples. Indexes are of
  * "byte" type to make buffer overrun impossible.
@@ -121,18 +134,11 @@ void setPinState(byte pin) {
   }
 }
 
-/*
- * Process the ADC interrupt
- * 
- * Every second sample is written to the circular buffer, so the sampling
- * frequency is:
- * 
- *   Fs = 16000000 (CPU clock frequency) / 128 (ADC prescaler) /
- *        13 (cycles per conversion) / 2 = 4807.69 Hz
- */
+/* Process the ADC interrupt */
 
 ISR(ADC_vect) {
-  static bool t=0;
-  t=!t;
-  if(t) adcBuffer[adcWriteIndex++]=ADCL|(ADCH<<8);
+  static byte cnt=0;
+  cnt++;
+  if(cnt==DECIMATION_FACTOR) cnt=0;
+  if(cnt==0) adcBuffer[adcWriteIndex++]=ADCL|(ADCH<<8);
 }

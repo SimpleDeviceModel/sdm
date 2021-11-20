@@ -35,3 +35,8 @@ Write register (master -> slave): 01010000 ADDR[7:0] DATA[7:0]
 Read register (master-> slave):   01010001 ADDR[7:0]
 Register data (slave -> master):  1000 DATA[7:4] 0000 DATA[3:0]
 Stream data (slave -> master):    110 DATA[9:5] 000 DATA[4:0]
+
+TROUBLESHOOTING
+
+If you are having problems with communication reliability (lost commands
+etc.), increase the DECIMATION_FACTOR value in the "uartdemo_sketch.ino".
