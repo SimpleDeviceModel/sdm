@@ -200,9 +200,9 @@ std::size_t UartImpl::read(char *buf,std::size_t n,int timeout) {
 		_commTimeouts.ReadTotalTimeoutConstant=0;
 	}
 	else if(timeout==-1) { // block indefinitely
-		_commTimeouts.ReadIntervalTimeout=10;
-		_commTimeouts.ReadTotalTimeoutMultiplier=0;
-		_commTimeouts.ReadTotalTimeoutConstant=0;
+		_commTimeouts.ReadIntervalTimeout=MAXDWORD;
+		_commTimeouts.ReadTotalTimeoutMultiplier=MAXDWORD;
+		_commTimeouts.ReadTotalTimeoutConstant=MAXDWORD-1;
 	}
 	SetCommTimeouts(_hPort,&_commTimeouts);
 	
