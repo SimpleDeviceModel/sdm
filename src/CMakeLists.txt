@@ -72,7 +72,6 @@ endif()
 # Optional Lua modules
 if(NOT OPTION_NO_LUAMODULES)
 	add_subdirectory(luamodules)
-	add_subdirectory(3rdparty/luafilesystem)
 endif()
 
 ###########################
