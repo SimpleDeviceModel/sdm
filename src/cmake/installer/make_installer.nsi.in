@@ -10,13 +10,13 @@
 # Main definitions
 
 !define VENDOR_NAME "Microproject"
-!define PROGRAM_NAME "SDM"
+!define PROGRAM_NAME "Simple Device Model"
+!define PROGRAM_SHORT_NAME "SDM"
 !define MAIN_EXECUTABLE "sdmconsole"
 
 # Definitions to be set by CMake
 
 !define PROGRAM_VERSION "@PRODUCT_VERSION_MAJOR@.@PRODUCT_VERSION_MINOR@.@PRODUCT_VERSION_PATCH@"
-!define PROGRAM_FLAVOR "@INSTALL_FLAVOR@"
 !define ARCH_STR "@TARGET_MACHINE@"
 !define ARCH_@TARGET_MACHINE@
 !define PROGRAM_FILES_ARCH @PROGRAM_FILES_ARCH@
@@ -26,19 +26,16 @@
 
 # Derived definitions
 
-!define PROGRAM_NAME_WITH_ARCH "${PROGRAM_NAME} (${ARCH_STR})"
-!define PROGRAM_FULL_NAME "${VENDOR_NAME} ${PROGRAM_NAME}"
-!define PROGRAM_FULL_NAME_WITH_ARCH "${PROGRAM_FULL_NAME} (${ARCH_STR})"
-!define INSTALLER_NAME "${PROGRAM_NAME}-${PROGRAM_VERSION}-setup${PROGRAM_FLAVOR}-${ARCH_STR}.exe"
+!define PROGRAM_FULL_NAME_WITH_ARCH "${PROGRAM_NAME} (${ARCH_STR})"
 
 # General parameters
 
 SetCompressor /SOLID LZMA
 SetCompressorDictSize 32
 
-Name "${PROGRAM_FULL_NAME}"
-OutFile "${INSTALLER_NAME}"
-InstallDir "${PROGRAM_FILES_ARCH}\${VENDOR_NAME}\${PROGRAM_NAME}"
+Name "${PROGRAM_NAME}"
+OutFile "${PROGRAM_SHORT_NAME}-${PROGRAM_VERSION}-setup-${ARCH_STR}.exe"
+InstallDir "${PROGRAM_FILES_ARCH}\${PROGRAM_NAME}"
 RequestExecutionLevel admin
 ManifestDPIAware true
 ShowInstDetails show
@@ -46,11 +43,11 @@ ShowInstDetails show
 # Define metadata
 
 VIProductVersion "${PROGRAM_VERSION}.0"
-VIAddVersionKey "ProductName" ${PROGRAM_NAME}
-VIAddVersionKey "CompanyName" ${VENDOR_NAME}
+VIAddVersionKey "ProductName" "${PROGRAM_NAME}"
+VIAddVersionKey "CompanyName" "${VENDOR_NAME}"
 VIAddVersionKey "ProductVersion" "${PROGRAM_VERSION}.0"
 VIAddVersionKey "FileVersion" "${PROGRAM_VERSION}.0"
-VIAddVersionKey "FileDescription" "${PROGRAM_FULL_NAME} ${PROGRAM_VERSION} Installer"
+VIAddVersionKey "FileDescription" "${PROGRAM_NAME} ${PROGRAM_VERSION} installer"
 VIAddVersionKey "LegalCopyright" "© ${VENDOR_NAME}"
 
 # Define installer appearance
@@ -96,8 +93,8 @@ VIAddVersionKey "LegalCopyright" "© ${VENDOR_NAME}"
 LicenseLangString LicenseFile ${LANG_ENGLISH} "${TARBALL_ROOT}\doc\licenses\license.txt"
 LicenseLangString LicenseFile ${LANG_RUSSIAN} "${TARBALL_ROOT}\doc\licenses\license.txt"
 
-LangString AlreadyInstalled ${LANG_ENGLISH} "Other version of the ${PROGRAM_FULL_NAME} is already installed. Click OK to uninstall it or Cancel to abort installation."
-LangString AlreadyInstalled ${LANG_RUSSIAN} "Другая версия ${PROGRAM_FULL_NAME} уже установлена. Нажмите ОК, чтобы удалить её, или Отмена, чтобы прервать установку."
+LangString AlreadyInstalled ${LANG_ENGLISH} "Other version of the ${PROGRAM_SHORT_NAME} is already installed. Click OK to uninstall it or Cancel to abort installation."
+LangString AlreadyInstalled ${LANG_RUSSIAN} "Другая версия ${PROGRAM_SHORT_NAME} уже установлена. Нажмите ОК, чтобы удалить её, или Отмена, чтобы прервать установку."
 
 LangString x64Required ${LANG_ENGLISH} "This program version requires a 64-bit operating system."
 LangString x64Required ${LANG_RUSSIAN} "Эта версия программы требует 64-разрядной операционной системы."
@@ -108,17 +105,14 @@ LangString UninstallOldVersionFailed ${LANG_RUSSIAN} "Не удалось уда
 LangString VCRedistInstallationFailed ${LANG_ENGLISH} "Warning: Microsoft Visual C++ Redistributable installation failed (exit code $0)."
 LangString VCRedistInstallationFailed ${LANG_RUSSIAN} "Предупреждение: установка Microsoft Visual C++ Redistributable завершилась неудачей (код выхода $0)."
 
-LangString AddToPath ${LANG_ENGLISH} "Add ${PROGRAM_FULL_NAME} to the PATH variable"
-LangString AddToPath ${LANG_RUSSIAN} "Добавить ${PROGRAM_FULL_NAME} в переменную окружения PATH"
+LangString AddToPath ${LANG_ENGLISH} "Add ${PROGRAM_SHORT_NAME} to the PATH variable"
+LangString AddToPath ${LANG_RUSSIAN} "Добавить ${PROGRAM_SHORT_NAME} в переменную окружения PATH"
 
 LangString StartMenuShortcuts ${LANG_ENGLISH} "Create start menu shortcuts"
 LangString StartMenuShortcuts ${LANG_RUSSIAN} "Создать ярлыки в главном меню"
 
 LangString DesktopShortcuts ${LANG_ENGLISH} "Create desktop shortcut"
 LangString DesktopShortcuts ${LANG_RUSSIAN} "Создать ярлык на рабочем столе"
-
-LangString DocumentationString ${LANG_ENGLISH} "Documentation"
-LangString DocumentationString ${LANG_RUSSIAN} "Документация"
 
 LangString UninstallString ${LANG_ENGLISH} "Uninstall"
 LangString UninstallString ${LANG_RUSSIAN} "Удалить"
@@ -293,14 +287,10 @@ Section $(AddToPath)
 SectionEnd
 
 Section $(StartMenuShortcuts)
-	CreateDirectory "$SMPROGRAMS\${VENDOR_NAME}"
-	CreateDirectory "$SMPROGRAMS\${VENDOR_NAME}\${PROGRAM_NAME_WITH_ARCH}"
-	CreateDirectory "$SMPROGRAMS\${VENDOR_NAME}\${PROGRAM_NAME_WITH_ARCH}\$(DocumentationString)"
-	
-	CreateShortCut "$SMPROGRAMS\${VENDOR_NAME}\${PROGRAM_NAME_WITH_ARCH}\${MAIN_EXECUTABLE}.lnk" "$INSTDIR\${MAIN_EXECUTABLE}.exe"
-	CreateShortCut "$SMPROGRAMS\${VENDOR_NAME}\${PROGRAM_NAME_WITH_ARCH}\$(UninstallString) ${PROGRAM_FULL_NAME}.lnk" "$INSTDIR\uninstall.exe"
-
-	CreateShortCut "$SMPROGRAMS\${VENDOR_NAME}\${PROGRAM_NAME_WITH_ARCH}\$(DocumentationString)\$(ManualString).lnk" "$INSTDIR\doc\manual.pdf"
+	CreateDirectory "$SMPROGRAMS\${PROGRAM_FULL_NAME_WITH_ARCH}"
+	CreateShortCut "$SMPROGRAMS\${PROGRAM_FULL_NAME_WITH_ARCH}\${MAIN_EXECUTABLE}.lnk" "$INSTDIR\${MAIN_EXECUTABLE}.exe"
+	CreateShortCut "$SMPROGRAMS\${PROGRAM_FULL_NAME_WITH_ARCH}\$(UninstallString) ${PROGRAM_NAME}.lnk" "$INSTDIR\uninstall.exe"
+	CreateShortCut "$SMPROGRAMS\${PROGRAM_FULL_NAME_WITH_ARCH}\$(ManualString).lnk" "$INSTDIR\doc\manual.pdf"
 SectionEnd
 
 Section $(DesktopShortcuts)
@@ -326,8 +316,7 @@ Section "un.$(UninstallProgramFiles)"
 	DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_FULL_NAME_WITH_ARCH}"
 
 # Remove shortcuts
-	RMDir /r /REBOOTOK "$SMPROGRAMS\${VENDOR_NAME}\${PROGRAM_NAME_WITH_ARCH}"
-	RMDir /REBOOTOK "$SMPROGRAMS\${VENDOR_NAME}"
+	RMDir /r /REBOOTOK "$SMPROGRAMS\${PROGRAM_FULL_NAME_WITH_ARCH}"
 	Delete /REBOOTOK "$DESKTOP\${MAIN_EXECUTABLE} (${ARCH_STR}).lnk"
 
 # Remove uninstaller
@@ -335,7 +324,6 @@ Section "un.$(UninstallProgramFiles)"
 
 # Remove program
 	RMDir /r /REBOOTOK "$INSTDIR"
-	RMDir /REBOOTOK "$INSTDIR\.." # remove parent only if empty
 SectionEnd
 
 Section /o "un.$(RemoveUserConfig)"
