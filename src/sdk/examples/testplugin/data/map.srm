@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RegisterMap>
+	<Page name="Страница 1">
+		<Fifo>
+			<Name>FIFO block</Name>
+			<Id></Id>
+			<Address>0</Address>
+			<Size>0</Size>
+		</Fifo>
+		<Register>
+			<Name>Normal register</Name>
+			<Id></Id>
+			<Address>1</Address>
+			<Data>
+				<Widget type="LineEdit"/>
+				<Value></Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Slow register (simulates read delay)</Name>
+			<Id></Id>
+			<Address>127</Address>
+			<Data>
+				<Widget type="LineEdit"/>
+				<Value></Value>
+			</Data>
+		</Register>
+	</Page>
+</RegisterMap>

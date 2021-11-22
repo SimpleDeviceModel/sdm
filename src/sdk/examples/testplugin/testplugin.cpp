@@ -175,9 +175,11 @@ TestChannel::TestChannel(int id,const bool &connected):
 	if(SDMAbstractPluginProvider::instance()->getProperty("DisableChildProperties")=="true") return;
 	if(_id==0) {
 		addConstProperty("Name","Measurement equipment");
+		addConstProperty("RegisterMapFile","testplugin/map.srm");
 	}
 	else if(_id==1) {
 		addConstProperty("Name","Unit under test");
+		addConstProperty("RegisterMapFile","testplugin/map.srm");
 	}
 }
 
