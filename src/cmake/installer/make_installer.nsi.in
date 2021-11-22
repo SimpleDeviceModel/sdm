@@ -287,10 +287,7 @@ Section $(AddToPath)
 SectionEnd
 
 Section $(StartMenuShortcuts)
-	CreateDirectory "$SMPROGRAMS\${PROGRAM_FULL_NAME_WITH_ARCH}"
-	CreateShortCut "$SMPROGRAMS\${PROGRAM_FULL_NAME_WITH_ARCH}\${MAIN_EXECUTABLE}.lnk" "$INSTDIR\${MAIN_EXECUTABLE}.exe"
-	CreateShortCut "$SMPROGRAMS\${PROGRAM_FULL_NAME_WITH_ARCH}\$(UninstallString) ${PROGRAM_NAME}.lnk" "$INSTDIR\uninstall.exe"
-	CreateShortCut "$SMPROGRAMS\${PROGRAM_FULL_NAME_WITH_ARCH}\$(ManualString).lnk" "$INSTDIR\doc\manual.pdf"
+	CreateShortCut "$SMPROGRAMS\${MAIN_EXECUTABLE} (${ARCH_STR}).lnk" "$INSTDIR\${MAIN_EXECUTABLE}.exe"
 SectionEnd
 
 Section $(DesktopShortcuts)
@@ -316,7 +313,7 @@ Section "un.$(UninstallProgramFiles)"
 	DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_FULL_NAME_WITH_ARCH}"
 
 # Remove shortcuts
-	RMDir /r /REBOOTOK "$SMPROGRAMS\${PROGRAM_FULL_NAME_WITH_ARCH}"
+	RMDir /REBOOTOK "$SMPROGRAMS\${MAIN_EXECUTABLE} (${ARCH_STR}).lnk"
 	Delete /REBOOTOK "$DESKTOP\${MAIN_EXECUTABLE} (${ARCH_STR}).lnk"
 
 # Remove uninstaller
