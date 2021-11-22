@@ -13,10 +13,6 @@ if(WIN32 AND (TARGET_MACHINE STREQUAL "x86" OR TARGET_MACHINE STREQUAL "x64"))
 		set(PROGRAM_FILES_ARCH "$PROGRAMFILES")
 	endif()
 	
-	if(DEFINED EXTRA_PLUGINS_DIR)
-		set(INSTALL_FLAVOR "-extra")
-	endif()
-	
 	# Find vcredist_*.exe if requested
 	
 	if(MSVC AND OPTION_USE_VCREDIST)
