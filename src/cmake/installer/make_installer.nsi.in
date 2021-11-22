@@ -41,6 +41,7 @@ OutFile "${INSTALLER_NAME}"
 InstallDir "${PROGRAM_FILES_ARCH}\${VENDOR_NAME}\${PROGRAM_NAME}"
 RequestExecutionLevel admin
 ManifestDPIAware true
+ShowInstDetails show
 
 # Define metadata
 
