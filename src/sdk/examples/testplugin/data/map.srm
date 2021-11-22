@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RegisterMap>
 	<Page name="Страница 1">
-		<Fifo>
-			<Name>FIFO block</Name>
-			<Id></Id>
-			<Address>0</Address>
-			<Size>0</Size>
-		</Fifo>
+		<SectionHeader>Registers</SectionHeader>
 		<Register>
 			<Name>Normal register</Name>
 			<Id></Id>
@@ -25,5 +20,19 @@
 				<Value></Value>
 			</Data>
 		</Register>
+		<SectionHeader>RAM and FIFO blocks</SectionHeader>
+		<Memory>
+			<Name>Memory block</Name>
+			<Id></Id>
+			<Address>128</Address>
+			<Size>128</Size>
+			<DefaultValue>0</DefaultValue>
+		</Memory>
+		<Fifo>
+			<Name>FIFO block</Name>
+			<Id></Id>
+			<Address>0</Address>
+			<Size>0</Size>
+		</Fifo>
 	</Page>
 </RegisterMap>
