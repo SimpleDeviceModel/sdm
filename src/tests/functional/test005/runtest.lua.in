@@ -61,10 +61,10 @@ end
 
 print("Setting connection parameters")
 
-dev.IPaddress="172.16.0.210"
-dev.Port="11288"
-assert(dev.getproperty("IPaddress")=="172.16.0.210")
-assert(dev.getproperty("Port")=="11288")
+dev.Setting1="172.16.0.210"
+dev.Setting2="11288"
+assert(dev.getproperty("Setting1")=="172.16.0.210")
+assert(dev.getproperty("Setting2")=="11288")
 
 print("Connecting...")
 
