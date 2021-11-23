@@ -1,4 +1,35 @@
 ========================
+SDM 1.0.0
+------------------------
+Released on XXXX-XX-XX
+========================
+
+General:
+
+* first open source release
+* proprietary plugins moved to a separate repository
+* bundled Lua interpreter updated to 5.4.3
+* some directories were moved
+* default install path changed
+
+Scripting engine:
+
+* new luaipsockets methods, sendall() and recvall()
+* SDM will no longer search for Lua modules in systemwide directories when using bundled interpreter
+* a few bugs fixed in the uart module (setting DTR/RTS, blocking read under Windows)
+* luafilesystem removed from the default install
+
+sdmconsole:
+
+* on Linux, use a standard Qt file dialog (instead of a native one)
+* removed the option to create dockable windows as undocked by default
+* plotter widget should now remember scene-dependent settings
+
+SDK:
+
+* uartdemo, a new example plugin for Arduino Uno
+
+========================
 SDM 0.9.5
 ------------------------
 Released on 2021-10-23
