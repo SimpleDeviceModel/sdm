@@ -111,10 +111,10 @@ test7.setpluginproperty("Verbosity","Verbose")
 -- Open device
 dev=test7.opendevice(0)
 
--- Get "IPaddress" property
-r=test7.getdeviceproperty(dev,"IPaddress",nil,0)
+-- Get "Setting1" property
+r=test7.getdeviceproperty(dev,"Setting1",nil,0)
 assert(r>0)
-r,ipaddress=test7.getdeviceproperty(dev,"IPaddress",256,256)
+r,ipaddress=test7.getdeviceproperty(dev,"Setting1",256,256)
 assert(ipaddress=="A.B.C.D")
 
 -- Connect

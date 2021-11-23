@@ -29,14 +29,13 @@
 #include <QFontInfo>
 #include <QSettings>
 #include <QTextStream>
+#include <QSettings>
 
 #include <cmath>
 #include <algorithm>
 #include <limits>
 
 PlotterBitmapScene::PlotterBitmapScene(): _toolBar(tr("Bitmap mode toolbar")) {
-	_buffer.resize(_lines);
-	
 	auto em=QFontInfo(QFont()).pixelSize();
 	
 // Black point label
@@ -74,6 +73,11 @@ PlotterBitmapScene::PlotterBitmapScene(): _toolBar(tr("Bitmap mode toolbar")) {
 	auto linesText=new QLabel(tr("Lines: "));
 	linesText->setMargin(0.2*em);
 	_toolBar.addWidget(linesText);
+	
+// Restore lines value from settings
+	QSettings s;
+	_lines=s.value("Plotter/BitmapLines",_lines).toInt();
+	_buffer.resize(_lines);
 
 // _lines spinbox
 	_linesWidget=new QSpinBox;
@@ -84,7 +88,9 @@ PlotterBitmapScene::PlotterBitmapScene(): _toolBar(tr("Bitmap mode toolbar")) {
 	_toolBar.addWidget(_linesWidget);
 
 // Y inversion checkbox
+	_invertY=s.value("Plotter/BitmapInvertY",_invertY).toBool();
 	_invertYCheckBox=new QCheckBox(tr("Invert Y"));
+	_invertYCheckBox->setChecked(_invertY);
 	QObject::connect(_invertYCheckBox,&QCheckBox::toggled,this,&PlotterBitmapScene::invertYChanged);
 	_toolBar.addWidget(_invertYCheckBox);
 }
@@ -364,6 +370,9 @@ void PlotterBitmapScene::autoLevels() {
 void PlotterBitmapScene::linesChanged() {
 	_lines=_linesWidget->value();
 	
+	QSettings s;
+	s.setValue("Plotter/BitmapLines",_lines);
+	
 	if(static_cast<int>(_buffer.size())>_lines) {
 // Retain the last _lines in the _buffer
 		_buffer.erase(_buffer.begin(),_buffer.end()-_lines);
@@ -380,5 +389,7 @@ void PlotterBitmapScene::linesChanged() {
 
 void PlotterBitmapScene::invertYChanged(bool b) {
 	_invertY=b;
+	QSettings s;
+	s.setValue("Plotter/BitmapInvertY",_invertY);
 	emit changed();
 }

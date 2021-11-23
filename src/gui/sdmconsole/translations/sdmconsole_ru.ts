@@ -236,13 +236,6 @@
         <translation>Используется альтернативный метод перенаправления стандартного вывода
 </translation>
     </message>
-    <message>
-        <location filename="../luawidget.cpp" line="76"/>
-        <source>Copyright © 2015-2021 by Microproject LLC
-</source>
-        <translation>© ООО «Микропроект», 2015-2021
-</translation>
-    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -344,13 +337,6 @@
         <translation>Пожалуйста, перезапустите программу для применения настроек</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="447"/>
-        <source>&lt;p&gt;Simple Device Model is a modular framework for instrument control and data acquisition.&lt;/p&gt;
-</source>
-        <translation>&lt;p&gt;Simple Device Model – модульная система для управления приборами и захвата данных.&lt;/p&gt;
-</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="448"/>
         <source>&lt;p&gt;&lt;a href=&quot;info://build&quot;&gt;Build information&lt;/a&gt;&lt;/p&gt;
 </source>
@@ -365,13 +351,6 @@
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="450"/>
-        <source>&lt;p&gt;&lt;a href=&quot;http://www.micro-project.ru&quot;&gt;Website&lt;/a&gt;&lt;/p&gt;
-</source>
-        <translation>&lt;p&gt;&lt;a href=&quot;http://www.micro-project.ru&quot;&gt;Вебсайт&lt;/a&gt;&lt;/p&gt;
-</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="451"/>
         <source>&lt;h4&gt;Legal information&lt;/h4&gt;
 </source>
@@ -379,17 +358,17 @@
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="452"/>
-        <source>&lt;p&gt;Copyright © 2015-2021 by Microproject LLC. Includes third party software components.&lt;/p&gt;
-</source>
-        <translation>&lt;p&gt;© ООО «Микропроект», 2015-2021. Включает компоненты, права на которые принадлежат третьим лицам.&lt;/p&gt;
-</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="453"/>
         <source>&lt;p&gt;This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions. See the link below for details.&lt;/p&gt;
 </source>
         <translation>&lt;p&gt;Данная программа поставляется СОВЕРШЕННО БЕЗ ГАРАНТИЙ. Данная программа является свободным программным обеспечением, и Вы имеете право распространять её на определённых условиях. Подробности доступны по нижеприведённой ссылке.&lt;/p&gt;
+</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="454"/>
+        <source>&lt;p&gt;&lt;a href=&quot;info://doc/licenses/license.txt&quot;&gt;Copyright and licensing information&lt;/a&gt;&lt;/p&gt;
+</source>
+        <translation>&lt;p&gt;&lt;a href=&quot;info://doc/licenses/license.txt&quot;&gt;Информация об авторских правах и лицензировании&lt;/a&gt;&lt;/p&gt;
 </translation>
     </message>
     <message>
@@ -515,10 +494,24 @@
         <translation>Сбросить настройки программы к настройкам по умолчанию?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="454"/>
-        <source>&lt;p&gt;&lt;a href=&quot;info://doc/licenses/license.txt&quot;&gt;SDM framework license&lt;/a&gt;&lt;/p&gt;
+        <location filename="../mainwindow.cpp" line="447"/>
+        <source>&lt;p&gt;Simple Device Model is an open source framework for instrument control and data acquisition.&lt;/p&gt;
 </source>
-        <translation type="unfinished">&lt;p&gt;&lt;a href=&quot;info://doc/licenses/license-ru.txt&quot;&gt;Лицензия на SDM&lt;/a&gt;&lt;/p&gt;
+        <translation>&lt;p&gt;Simple Device Model – система для управления приборами и захвата данных с открытым исходным кодом.&lt;/p&gt;
+</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="450"/>
+        <source>&lt;p&gt;&lt;a href=&quot;https://simpledevicemodel.github.io/&quot;&gt;Website&lt;/a&gt;&lt;/p&gt;
+</source>
+        <translation>&lt;p&gt;&lt;a href=&quot;https://simpledevicemodel.github.io/&quot;&gt;Вебсайт&lt;/a&gt;&lt;/p&gt;
+</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="452"/>
+        <source>Copyright © 2015-2021 by Microproject LLC
+</source>
+        <translation>© ООО «Микропроект», 2015-2021
 </translation>
     </message>
     <message>
@@ -696,7 +689,7 @@
         <location filename="../registermapwidget.cpp" line="489"/>
         <location filename="../registermapworker.cpp" line="86"/>
         <location filename="../sidebar.cpp" line="143"/>
-        <location filename="../streamreader.cpp" line="402"/>
+        <location filename="../streamreader.cpp" line="423"/>
         <location filename="../streamselector.cpp" line="319"/>
         <location filename="../streamselector.cpp" line="323"/>
         <location filename="../streamselector.cpp" line="327"/>
@@ -1458,7 +1451,7 @@
     <message>
         <location filename="../docpanels.cpp" line="511"/>
         <source>Display timeout (ms): </source>
-        <translation>Таймаут отображения (мс): </translation>
+        <translation>Таймаут (мс): </translation>
     </message>
     <message>
         <location filename="../docpanels.cpp" line="524"/>
@@ -1494,37 +1487,37 @@
 <context>
     <name>StreamReader</name>
     <message>
-        <location filename="../streamreader.cpp" line="97"/>
+        <location filename="../streamreader.cpp" line="115"/>
         <source>Data export is already in progress</source>
         <translation>Экспорт данных уже в процессе выполнения</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="111"/>
+        <location filename="../streamreader.cpp" line="129"/>
         <source>Writing stream data:</source>
         <translation>Запись потоков данных:</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="221"/>
+        <location filename="../streamreader.cpp" line="242"/>
         <source>Stream reader error: </source>
         <translation>Ошибка чтения потока: </translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="334"/>
+        <location filename="../streamreader.cpp" line="355"/>
         <source>Error: </source>
         <translation>Ошибка: </translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="348"/>
+        <location filename="../streamreader.cpp" line="369"/>
         <source>Data streams were successfully saved</source>
         <translation>Потоки данных были успешно сохранены</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="353"/>
+        <location filename="../streamreader.cpp" line="374"/>
         <source>Operation has been aborted by the user</source>
         <translation>Операция была прервана пользователем</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="403"/>
+        <location filename="../streamreader.cpp" line="424"/>
         <source>Cannot apply data stream set</source>
         <translation>Невозможно применить набор потоков данных</translation>
     </message>

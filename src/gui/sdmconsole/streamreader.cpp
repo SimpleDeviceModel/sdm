@@ -17,6 +17,21 @@
  * along with SDM framework.  If not, see <https://www.gnu.org/licenses/>.
  *
  * This module provides an implementation of the StreamReader class.
+ * 
+ * Notes:
+ * 
+ * 1) There is a separate StreamReader object (and, by extension, worker
+ * thread) for every source. Since SDM API methods are not thread-safe,
+ * the threads compete for the same mutex. The whole thing should be probably
+ * rewritten to have just one worker thread servicing all sources.
+ * 
+ * 2) We can't use blocking I/O here for a couple of reasons:
+ *    * Blocking operation can block for a long time, or indefinitely, which
+ *      would prevent worker thread from being stopped, short of killing the
+ *      sdmconsole process.
+ *    * More importantly, some sources may be slower then other, and blocking
+ *      readStream() would prevent reading the faster source in a timely
+ *      manner.
  */
 
 #include "appwidelock.h"
@@ -39,6 +54,9 @@
 extern MainWindow *g_MainWindow;
 
 static const int MaxWait=100;
+static const int WaitIncrement=5;
+static const std::size_t MinPreferredSamplesPerIteration=50;
+static const std::size_t MaxPreferredSamplesPerIteration=100;
 static const int PacketTimeOut=200;
 
 const int StreamReader::DefaultPacketSizeHint=16384;
@@ -155,7 +173,7 @@ void StreamReader::run() try {
 		if(nStreams==0) break;
 		
 		std::size_t ready=0;
-		bool newData=false;
+		std::size_t maxNewSamples=0;
 		try {
 			for(int s: _streams.streams) {
 				if(packets[s].finished) {
@@ -164,11 +182,12 @@ void StreamReader::run() try {
 				}
 				auto oldSize=packets[s].data.size();
 				auto r=readFullPacket(s,packets[s].data);
+				std::size_t newSamples=packets[s].data.size()-oldSize;
+				maxNewSamples=std::max(newSamples,maxNewSamples);
 				if(r==FullPacket) {
 					packets[s].finished=true;
 					ready++;
 				}
-				if(packets[s].data.size()>oldSize) newData=true;
 			}
 		}
 		catch(std::exception &) {
@@ -189,6 +208,10 @@ void StreamReader::run() try {
 			else throw;
 		}
 		
+// Manipulate delay so that we get a reasonable number of samples per loop iteration
+		if(maxNewSamples<MinPreferredSamplesPerIteration&&msecWait<MaxWait) msecWait+=WaitIncrement;
+		else if(maxNewSamples>MaxPreferredSamplesPerIteration&&msecWait>=WaitIncrement) msecWait-=WaitIncrement;
+		
 		readFailures=0;
 		
 		if(ready==nStreams) { // all streams are ready, produce full result
@@ -199,7 +222,6 @@ void StreamReader::run() try {
 			glock.unlock();
 			marshalAsync(&StreamReader::dispatch,std::move(packets));
 			packets.clear();
-			if(msecWait>0) msecWait--;
 			t.start();
 			QThread::yieldCurrentThread(); // give other threads a chance
 			continue;
@@ -207,14 +229,13 @@ void StreamReader::run() try {
 		
 		glock.unlock();
 		
-		if(newData&&t.elapsed()>_displayTimeout) { // too much time since last result, try to produce partial result
+		if(maxNewSamples>0&&t.elapsed()>_displayTimeout) { // too much time since last result, try to produce partial result
 // Copy packets instead of moving since we aren't done yet
 			marshalAsync(&StreamReader::dispatch,packets);
 			t.start();
 		}
 		
 		QThread::msleep(msecWait);
-		if(msecWait<MaxWait) msecWait++;
 	}
 }
 catch(std::exception &ex) {

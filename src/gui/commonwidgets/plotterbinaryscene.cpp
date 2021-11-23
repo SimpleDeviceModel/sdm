@@ -28,20 +28,24 @@
 #include <QCheckBox>
 #include <QFontInfo>
 #include <QTextStream>
+#include <QSettings>
 
 #include <limits>
 #include <algorithm>
 #include <cstdint>
 
 PlotterBinaryScene::PlotterBinaryScene(): _tb(tr("Binary mode toolbar")) {
-	_buffer.resize(_lines);
-	
 	auto em=QFontInfo(QFont()).pixelSize();
 	
 // _lines label
 	auto linesText=new QLabel(tr("Lines: "));
 	linesText->setMargin(0.2*em);
 	_tb.addWidget(linesText);
+	
+// Restore lines value from settings
+	QSettings s;
+	_lines=s.value("Plotter/BinaryLines",_lines).toInt();
+	_buffer.resize(_lines);
 
 // _lines spinbox
 	_linesWidget=new QSpinBox;
@@ -55,6 +59,8 @@ PlotterBinaryScene::PlotterBinaryScene(): _tb(tr("Binary mode toolbar")) {
 	auto bitsText=new QLabel(tr("Bits per word: "));
 	bitsText->setMargin(0.2*em);
 	_tb.addWidget(bitsText);
+	
+	_bits=s.value("Plotter/BinaryBits",_bits).toInt();
 
 // _bits spinbox
 	_bitsWidget=new QSpinBox;
@@ -66,12 +72,16 @@ PlotterBinaryScene::PlotterBinaryScene(): _tb(tr("Binary mode toolbar")) {
 	_tb.addWidget(_bitsWidget);
 
 // Endiannes checkbox
+	_lsbFirst=s.value("Plotter/BinaryLsbFirst",_lsbFirst).toBool();
 	_endiannessCheckBox=new QCheckBox(tr("LSB first"));
+	_endiannessCheckBox->setChecked(_lsbFirst);
 	QObject::connect(_endiannessCheckBox,&QCheckBox::toggled,this,&PlotterBinaryScene::endiannessChanged);
 	_tb.addWidget(_endiannessCheckBox);
 
 // Y inversion checkbox
+	_invertY=s.value("Plotter/BinaryInvertY",_invertY).toBool();
 	_invertYCheckBox=new QCheckBox(tr("Invert Y"));
+	_invertYCheckBox->setChecked(_invertY);
 	QObject::connect(_invertYCheckBox,&QCheckBox::toggled,this,&PlotterBinaryScene::invertYChanged);
 	_tb.addWidget(_invertYCheckBox);
 }
@@ -282,6 +292,9 @@ inline int PlotterBinaryScene::getSourceBit(int x,int y) const {
 void PlotterBinaryScene::linesChanged() {
 	_lines=_linesWidget->value();
 	
+	QSettings s;
+	s.setValue("Plotter/BinaryLines",_lines);
+	
 	if(static_cast<int>(_buffer.size())>_lines) {
 // Retain the last _lines in the _buffer
 		_buffer.erase(_buffer.begin(),_buffer.end()-_lines);
@@ -298,16 +311,22 @@ void PlotterBinaryScene::linesChanged() {
 
 void PlotterBinaryScene::bitsChanged(int i) {
 	_bits=i;
+	QSettings s;
+	s.setValue("Plotter/BinaryBits",_bits);
 	_rect=QRectF(-0.5,-0.5,_width*_bits,_lines);
 	emit changed();
 }
 
 void PlotterBinaryScene::endiannessChanged(bool b) {
 	_lsbFirst=b;
+	QSettings s;
+	s.setValue("Plotter/BinaryLsbFirst",_lsbFirst);
 	emit changed();
 }
 
 void PlotterBinaryScene::invertYChanged(bool b) {
 	_invertY=b;
+	QSettings s;
+	s.setValue("Plotter/BinaryInvertY",_invertY);
 	emit changed();
 }

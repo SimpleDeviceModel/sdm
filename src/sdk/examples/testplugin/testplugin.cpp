@@ -84,10 +84,10 @@ TestDevice::TestDevice(int id) {
 	addConstProperty("AutoOpenChannels",aom);
 	addConstProperty("AutoOpenSources",aom);
 	
-	addProperty("IPaddress","A.B.C.D");
-	addListItem("ConnectionParameters","IPaddress");
-	addProperty("Port","XXXX");
-	addListItem("ConnectionParameters","Port");
+	addProperty("Setting1","A.B.C.D");
+	addListItem("ConnectionParameters","Setting1");
+	addProperty("Setting2","XXXX");
+	addListItem("ConnectionParameters","Setting2");
 	
 	addListItem("Channels","Measurement equipment");
 	addListItem("Channels","Unit under test");
@@ -139,8 +139,8 @@ int TestDevice::connect() {
 		std::cout<<"testplugin: entered sdmConnect()"<<std::endl;
 		if(SDMAbstractPluginProvider::instance()->getProperty("DisableChildProperties")!="true") {
 			std::cout<<"testplugin: connection parameters are: "<<
-				"IPaddress=\""<<getProperty("IPaddress")<<"\", "<<
-				"Port=\""<<getProperty("Port")<<"\""<<std::endl;
+				"Setting1=\""<<getProperty("Setting1")<<"\", "<<
+				"Setting2=\""<<getProperty("Setting2")<<"\""<<std::endl;
 		}
 	}
 
@@ -175,9 +175,11 @@ TestChannel::TestChannel(int id,const bool &connected):
 	if(SDMAbstractPluginProvider::instance()->getProperty("DisableChildProperties")=="true") return;
 	if(_id==0) {
 		addConstProperty("Name","Measurement equipment");
+		addConstProperty("RegisterMapFile","testplugin/map.srm");
 	}
 	else if(_id==1) {
 		addConstProperty("Name","Unit under test");
+		addConstProperty("RegisterMapFile","testplugin/map.srm");
 	}
 }
 

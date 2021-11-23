@@ -64,15 +64,9 @@ add_subdirectory(luaserver)
 # luabridge
 add_subdirectory(luabridge)
 
-# Optional plugins
-if(DEFINED EXTRA_PLUGINS_DIR)
-	add_subdirectory(${EXTRA_PLUGINS_DIR} plugins)
-endif()
-
 # Optional Lua modules
 if(NOT OPTION_NO_LUAMODULES)
 	add_subdirectory(luamodules)
-	add_subdirectory(3rdparty/luafilesystem)
 endif()
 
 ###########################

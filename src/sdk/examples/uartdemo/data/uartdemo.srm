@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RegisterMap>
+	<Page name="Page 1">
+		<Register>
+			<Name>ADC input channel</Name>
+			<Id></Id>
+			<Address>0x0</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="A0" value="0"/>
+					<Option name="A1" value="1"/>
+					<Option name="A2" value="2"/>
+					<Option name="A3" value="3"/>
+					<Option name="A4" value="4"/>
+					<Option name="A5" value="5"/>
+					<Option name="Temperature sensor" value="8"/>
+					<Option name="1.1V reference" value="14"/>
+					<Option name="GND" value="15"/>
+				</Widget>
+				<Value>0</Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>ADC reference voltage</Name>
+			<Id></Id>
+			<Address>0x1</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="AVCC (5V)" value="1"/>
+					<Option name="Internal (1.1V)" value="3"/>
+					<Option name="External (AREF)" value="0"/>
+				</Widget>
+				<Value>1</Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Pin 2 mode</Name>
+			<Id></Id>
+			<Address>0x2</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="Input" value="0"/>
+					<Option name="Input with pullup" value="1"/>
+					<Option name="Force low" value="2"/>
+					<Option name="Force high" value="3"/>
+				</Widget>
+				<Value>0</Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Pin 3 mode</Name>
+			<Id></Id>
+			<Address>0x3</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="Input" value="0"/>
+					<Option name="Input with pullup" value="1"/>
+					<Option name="Force low" value="2"/>
+					<Option name="Force high" value="3"/>
+					<Option name="PWM" value="4"/>
+				</Widget>
+				<Value>0</Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Pin 3 PWM value</Name>
+			<Id></Id>
+			<Address>0x13</Address>
+			<Data>
+				<Widget type="LineEdit"/>
+				<Value></Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Pin 4 mode</Name>
+			<Id></Id>
+			<Address>0x4</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="Input" value="0"/>
+					<Option name="Input with pullup" value="1"/>
+					<Option name="Force low" value="2"/>
+					<Option name="Force high" value="3"/>
+				</Widget>
+				<Value>0</Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Pin 5 mode</Name>
+			<Id></Id>
+			<Address>0x5</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="Input" value="0"/>
+					<Option name="Input with pullup" value="1"/>
+					<Option name="Force low" value="2"/>
+					<Option name="Force high" value="3"/>
+					<Option name="PWM" value="4"/>
+				</Widget>
+				<Value>0</Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Pin 5 PWM value</Name>
+			<Id></Id>
+			<Address>0x15</Address>
+			<Data>
+				<Widget type="LineEdit"/>
+				<Value></Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Pin 6 mode</Name>
+			<Id></Id>
+			<Address>0x6</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="Input" value="0"/>
+					<Option name="Input with pullup" value="1"/>
+					<Option name="Force low" value="2"/>
+					<Option name="Force high" value="3"/>
+					<Option name="PWM" value="4"/>
+				</Widget>
+				<Value>0</Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Pin 6 PWM value</Name>
+			<Id></Id>
+			<Address>0x16</Address>
+			<Data>
+				<Widget type="LineEdit"/>
+				<Value></Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Pin 7 mode</Name>
+			<Id></Id>
+			<Address>0x7</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="Input" value="0"/>
+					<Option name="Input with pullup" value="1"/>
+					<Option name="Force low" value="2"/>
+					<Option name="Force high" value="3"/>
+				</Widget>
+				<Value>0</Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Pin 8 mode</Name>
+			<Id></Id>
+			<Address>0x8</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="Input" value="0"/>
+					<Option name="Input with pullup" value="1"/>
+					<Option name="Force low" value="2"/>
+					<Option name="Force high" value="3"/>
+				</Widget>
+				<Value>0</Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Pin 9 mode</Name>
+			<Id></Id>
+			<Address>0x9</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="Input" value="0"/>
+					<Option name="Input with pullup" value="1"/>
+					<Option name="Force low" value="2"/>
+					<Option name="Force high" value="3"/>
+					<Option name="PWM" value="4"/>
+				</Widget>
+				<Value>0</Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Pin 9 PWM value</Name>
+			<Id></Id>
+			<Address>0x19</Address>
+			<Data>
+				<Widget type="LineEdit"/>
+				<Value></Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Pin 10 mode</Name>
+			<Id></Id>
+			<Address>0xA</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="Input" value="0"/>
+					<Option name="Input with pullup" value="1"/>
+					<Option name="Force low" value="2"/>
+					<Option name="Force high" value="3"/>
+					<Option name="PWM" value="4"/>
+				</Widget>
+				<Value>0</Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Pin 10 PWM value</Name>
+			<Id></Id>
+			<Address>0x1A</Address>
+			<Data>
+				<Widget type="LineEdit"/>
+				<Value></Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Pin 11 mode</Name>
+			<Id></Id>
+			<Address>0xB</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="Input" value="0"/>
+					<Option name="Input with pullup" value="1"/>
+					<Option name="Force low" value="2"/>
+					<Option name="Force high" value="3"/>
+					<Option name="PWM" value="4"/>
+				</Widget>
+				<Value>0</Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Pin 11 PWM value</Name>
+			<Id></Id>
+			<Address>0x1B</Address>
+			<Data>
+				<Widget type="LineEdit"/>
+				<Value></Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Pin 12 mode</Name>
+			<Id></Id>
+			<Address>0xC</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="Input" value="0"/>
+					<Option name="Input with pullup" value="1"/>
+					<Option name="Force low" value="2"/>
+					<Option name="Force high" value="3"/>
+				</Widget>
+				<Value>0</Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Pin 13 mode (LED)</Name>
+			<Id></Id>
+			<Address>0xD</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="Input" value="0"/>
+					<Option name="Input with pullup" value="1"/>
+					<Option name="Force low" value="2"/>
+					<Option name="Force high" value="3"/>
+				</Widget>
+				<Value>0</Value>
+			</Data>
+		</Register>
+	</Page>
+</RegisterMap>

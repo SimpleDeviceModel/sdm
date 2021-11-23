@@ -224,8 +224,6 @@ Option & Description \\
 \tabcutin{2}{SDM specific variables}\\
 \midrule
 
-\shellcmd{EXTRA\_PLUGINS\_DIR} & Path to an out of tree plugins source directory to be build alongside SDM. The directory must contain CMakeLists.txt. Optional.\\
-
 \shellcmd{VCREDIST\_PREFIX} & Directory to search for the Microsoft Visual C++ Redistributable package (MSVC only, optional, autodetected by default).\\
 
 \bottomrule
@@ -739,7 +737,6 @@ In addition to that, SDM can use Lua extension modules. Modules shipped with the
 		Library & Description \\
 		\midrule
 		
-		\luaexpr{lfs} & LuaFileSystem: access directory structure and file attributes \\
 		\luaexpr{luadfic} & Invoke functions from external shared libraries \\
 		\luaexpr{luaipsockets} & IP version 4 connectivity \\
 		\luaexpr{luart} & Serial port library \\
@@ -748,7 +745,7 @@ In addition to that, SDM can use Lua extension modules. Modules shipped with the
 	\end{tabularx}
 \end{table}
 
-\luaexpr{lfs} is a third-party extension module developed by the Kepler Project\footnote{\url{https://keplerproject.github.io/luafilesystem/}}. It comes with its own documentation and will not be covered in this manual. \luaexpr{luadfic}, \luaexpr{luaipsockets} and \luaexpr{luart} are developed as parts of the SDM project, but can be also used with a standalone Lua interpreter.
+\luaexpr{luadfic}, \luaexpr{luaipsockets} and \luaexpr{luart} are parts of the SDM project, but can be also used with a standalone Lua interpreter.
 
 \section[sdm library]{\expr{sdm} library}
 
@@ -1599,8 +1596,8 @@ device["IPaddress"]="127.0.0.1"
 
 \begin{funcparams}
 	\funcparam{streams} (\luatype{table}): stream ids to select (table of integers)
-	\funcparam{packets} (\luatype{integer}, optional): suggested minimum number of packets to deliver consecutively (per stream), \cexpr{0} for default
-	\funcparam{df} (\luatype{integer}, optional): decimation factor (only one of each \luaexpr{df} packets will be delivered)
+	\funcparam{packets} (\luatype{integer}, optional): suggested minimum number of packets to deliver consecutively (per stream), the value of \cexpr{0} leaves the decision to the plugin, default value is \cexpr{0}
+	\funcparam{df} (\luatype{integer}, optional): suggested decimation factor (a non-binding request to reduce the source bandwidth by the factor of \luaexpr{df}), \cexpr{1} or greater, default value is \cexpr{1}
 \end{funcparams}
 
 \begin{funcremarks}
@@ -4917,7 +4914,7 @@ SDMAbstractPluginProvider *SDMAbstractPluginProvider::instance() {
 	\item Add the \shellcmd{pluginprovider} sources to the build process.
 \end{enumerate}
 
-SDM SDK includes an example, \shellcmd{testplugin}, based on \shellcmd{pluginprovider}. It is more advanced than \shellcmd{simpleplugin} and is used by the SDM internal test suite. To build \shellcmd{testplugin}, a modern compiler supporting \cplusplus{}11 standard is required (\shellcmd{pluginprovider} itself doesn't use \cplusplus{}11 features).
+SDM SDK includes an example, \shellcmd{uartdemo}, based on \shellcmd{pluginprovider}. It communicates with an Arduino Uno board over the serial port and provides the means to control pin states and capture data from the integrated ADC.
 
 \section{Using SDM with CMake package system}
 \label{sec:cmakeconfig}
@@ -4944,7 +4941,7 @@ Target & Description \\
 
 \shellcmd{sdm::api} is an interface library which does not provide object code, but only adds the directory containing SDM API headers to the list of directories searched for include files.
 
-\shellcmd{sdm::ipsockets} and \shellcmd{sdm::uart} are the \cplusplus{} libraries on which the \shellcmd{luaipsockets} and \shellcmd{luart} bindings are based (see Chapter \ref{ch:scripting}). These libraries use the RAII principle to control object lifetime. Error handling is based on \cplusplus{} exceptions. To use these libraries, include \shellcmd{"ipsocket.h"} or \shellcmd{"uart.h"}, respectively, and link against the corresponding library files.
+\shellcmd{sdm::ipsockets} and \shellcmd{sdm::uart} are the \cplusplus{} libraries on which the \shellcmd{luaipsockets} and \shellcmd{luart} bindings are based (see Chapter \ref{ch:scripting}). These libraries are included in the SDK because example plugins depend on them.
 
 For example, \shellcmd{simpleplugin} (see Section \ref{sec:sdmpluginc}) can be built with the following CMake script:
 
@@ -5335,11 +5332,11 @@ SDMAPI sdm_reg_t SDMCALL sdmReadReg(void *h, sdm_addr_t addr, int *status);
 \begin{funcparams}
 	\funcparam{h}: channel handle
 	\funcparam{addr}: register address
-	\funcparam{status}: pointer to a variable to receive operation error status, can be \cexpr{NULL}
+	\funcparam{status}: pointer to a variable to receive operation success status, can be \cexpr{NULL}
 \end{funcparams}
 
 \begin{funcret}
-	If successful, returns a value read from the register. Otherwise \cexpr{*status} is set to a non-zero value (if \cexpr{status} is not \cexpr{NULL}) and the return value is undefined.
+	If successful, returns the value read from the register. If \cexpr{status} is not \cexpr{NULL}, sets \cexpr{*status} to \cexpr{0} in case of success and to a non-zero value otherwise.
 \end{funcret}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -5595,7 +5592,7 @@ SDMAPI int SDMCALL sdmSelectReadStreams(void *h, const int *streams, size_t n, s
 	\funcparam{streams}: pointer to an array of stream ids
 	\funcparam{n}: size of the array, can be \cexpr{0}
 	\funcparam{packets}: suggested minimum number of packets to deliver consecutively (per stream), \cexpr{0} for default (see the Remarks below)
-	\funcparam{df}: decimation factor (only 1 of each \cexpr{df} packets will be delivered)
+	\funcparam{df}: suggested decimation factor, \cexpr{1} or greater, see the Remarks below
 \end{funcparams}
 
 \begin{funcret}
@@ -5605,7 +5602,9 @@ SDMAPI int SDMCALL sdmSelectReadStreams(void *h, const int *streams, size_t n, s
 \begin{funcremarks}
 	The \cexpr{streams} argument is ignored when \cexpr{n=0} (no streams are selected).
 	
-	A non-zero \cexpr{packets} value is a non-binding request to deliver at least the specified number of consecutive packets after this function is called (for streams that don't support the notion of packets, this argument is interpreted as a number of samples). This information can be used by an implementation, for example, to allocate a buffer of suitable size. The implementation is not required to honor this argument.
+	A non-zero \cexpr{packets} value is a non-binding request to deliver at least the specified number of consecutive packets after this function is called (for streams that don't support the notion of packets, this argument is interpreted as a number of samples). This information can be used by the plugin, for example, to allocate a buffer of suitable size. The plugin is not required to honor this argument.
+	
+	A \cexpr{df} argument value greater than 1 is a non-binding request to reduce the source output bandwidth by the factor of \cexpr{df}. How the decimation is performed, if at all, is up to the implementation: for example, it can deliver only one of each \cexpr{df} packets, or deliver all packets, but only one of each \cexpr{df} samples in each packet. For high-bandwidth data sources that generate too much data to be processed in real time, it gives the user a choice: either receive decimated data in real time (e.g. for visualisation), or receive complete data for a limited duration (until the buffer is full). This implies some kind of data buffering by the device.
 	
 	If the stream supports the notion of packets, the next read operation after this function has been called will read from the start of the packet.
 	

@@ -10,11 +10,6 @@ add_subdirectory(test003)
 add_subdirectory(test004)
 add_subdirectory(test005)
 add_subdirectory(test006)
-
-if(NOT OPTION_NO_LUAMODULES)
-	add_subdirectory(test007)
-endif()
-
 add_subdirectory(test008)
 add_subdirectory(test009)
 add_subdirectory(test010)

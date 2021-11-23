@@ -444,14 +444,14 @@ void MainWindow::menuHelpAbout() {
 	msgBox.setTextFormat(Qt::RichText);
 	msgBox.setText(QStringLiteral("<h3>Simple Device Model %1 (%2)</h3>").arg(Config::version(),Config::architecture()));
 	
-	auto text=tr("<p>Simple Device Model is a modular framework for instrument control and data acquisition.</p>\n")+
+	auto text=tr("<p>Simple Device Model is an open source framework for instrument control and data acquisition.</p>\n")+
 		tr("<p><a href=\"info://build\">Build information</a></p>\n")+
 		tr("<p><a href=\"info://doc/changelog.txt\">Changelog</a></p>\n")+
-		tr("<p><a href=\"http://www.micro-project.ru\">Website</a></p>\n")+
+		tr("<p><a href=\"https://simpledevicemodel.github.io/\">Website</a></p>\n")+
 		tr("<h4>Legal information</h4>\n")+
-		tr("<p>Copyright \xC2\xA9 2015-2021 by Microproject LLC. Includes third party software components.</p>\n")+
+		tr("Copyright © 2015-2021 by Microproject LLC\n")+
 		tr("<p>This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions. See the link below for details.</p>\n")+
-		tr("<p><a href=\"info://doc/licenses/license.txt\">SDM framework license</a></p>\n");
+		tr("<p><a href=\"info://doc/licenses/license.txt\">Copyright and licensing information</a></p>\n");
 	
 	msgBox.setInformativeText(text);
 	auto iconWidth=QApplication::style()->pixelMetric(QStyle::PM_LargeIconSize)*2;
