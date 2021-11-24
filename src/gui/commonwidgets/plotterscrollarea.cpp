@@ -254,8 +254,8 @@ QSize PlotterScrollArea::sizeHint() const {
 }
 
 void PlotterScrollArea::scrollContentsBy(int dx,int dy) {
-	if(horizontalScrollBar()->maximum()>0) _transform.setDx(_scrollHelper.scrollToDx(horizontalScrollBar()->value()));
-	if(verticalScrollBar()->maximum()>0) _transform.setDy(_scrollHelper.scrollToDy(verticalScrollBar()->value()));
+	_transform.setDx(_scrollHelper.scrollToDx(horizontalScrollBar()->value()));
+	_transform.setDy(_scrollHelper.scrollToDy(verticalScrollBar()->value()));
 	updateCursors();
 	viewport()->update();
 }
@@ -350,8 +350,16 @@ void PlotterScrollArea::mouseMoveEvent(QMouseEvent *e) {
 			QPoint localPos=viewport()->mapFromGlobal(globalPos);
 			QPoint diff=localPos-_mouseDragPos;
 			_mouseDragPos=localPos;
-			horizontalScrollBar()->setValue(horizontalScrollBar()->value()-diff.x());
-			verticalScrollBar()->setValue(verticalScrollBar()->value()-diff.y());
+			
+			auto hValue=horizontalScrollBar()->value()-diff.x();
+			if(hValue<horizontalScrollBar()->minimum()) horizontalScrollBar()->setMinimum(hValue);
+			if(hValue>horizontalScrollBar()->maximum()) horizontalScrollBar()->setMaximum(hValue);
+			horizontalScrollBar()->setValue(hValue);
+			
+			auto vValue=verticalScrollBar()->value()-diff.y();
+			if(vValue<verticalScrollBar()->minimum()) verticalScrollBar()->setMinimum(vValue);
+			if(vValue>verticalScrollBar()->maximum()) verticalScrollBar()->setMaximum(vValue);
+			verticalScrollBar()->setValue(vValue);
 		}
 		else {
 			_rubberBand->setGeometry(QRect(_mouseDragPos,e->pos()).normalized());
