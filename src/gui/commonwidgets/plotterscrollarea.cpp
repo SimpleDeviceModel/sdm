@@ -338,10 +338,41 @@ void PlotterScrollArea::wheelEvent(QWheelEvent *e) {
 			_transform=_transform.scaled(1,1/1.2,invariantSrc.x(),invariantSrc.y());
 			_wheelPos.setY(0);
 		}
-		updateCursors();
 		_alwaysFit=false;
 	}
 	
+	updateCursors();
+	viewport()->update();
+}
+
+void PlotterScrollArea::keyPressEvent(QKeyEvent *e) {
+	int hscroll=std::max(viewport()->rect().width()/5,1);
+	int vscroll=std::max(viewport()->rect().height()/5,1);
+	
+	switch(e->key()) {
+	case Qt::Key_PageUp:
+		_transform.setDy(_transform.dy()+vscroll*5);
+		break;
+	case Qt::Key_PageDown:
+		_transform.setDy(_transform.dy()-vscroll*5);
+		break;
+	case Qt::Key_Up:
+		_transform.setDy(_transform.dy()+vscroll);
+		break;
+	case Qt::Key_Down:
+		_transform.setDy(_transform.dy()-vscroll);
+		break;
+	case Qt::Key_Left:
+		_transform.setDx(_transform.dx()+hscroll);
+		break;
+	case Qt::Key_Right:
+		_transform.setDx(_transform.dx()-hscroll);
+		break;
+	default:
+		return QAbstractScrollArea::keyPressEvent(e);
+	}
+	
+	updateCursors();
 	viewport()->update();
 }
 

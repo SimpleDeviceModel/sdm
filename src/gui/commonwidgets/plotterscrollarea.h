@@ -126,6 +126,7 @@ protected:
 	virtual void mouseReleaseEvent(QMouseEvent *e) override;
 	virtual void mouseMoveEvent(QMouseEvent *e) override;
 	virtual void wheelEvent(QWheelEvent *e) override;
+	virtual void keyPressEvent(QKeyEvent *e) override;
 
 private:
 	void restoreCursor();
