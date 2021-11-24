@@ -230,27 +230,27 @@
 <context>
     <name>PlotterScrollArea</name>
     <message>
-        <location filename="../plotterscrollarea.cpp" line="520"/>
+        <location filename="../plotterscrollarea.cpp" line="437"/>
         <source>Image generation failed</source>
         <translation>Не удалось сохранить изображение</translation>
     </message>
     <message>
-        <location filename="../plotterscrollarea.cpp" line="527"/>
+        <location filename="../plotterscrollarea.cpp" line="444"/>
         <source>Cursor %1</source>
         <translation>Курсор %1</translation>
     </message>
     <message>
-        <location filename="../plotterscrollarea.cpp" line="625"/>
+        <location filename="../plotterscrollarea.cpp" line="497"/>
         <source>Selected: </source>
         <translation>Выделение: </translation>
     </message>
     <message>
-        <location filename="../plotterscrollarea.cpp" line="627"/>
+        <location filename="../plotterscrollarea.cpp" line="499"/>
         <source>width=</source>
         <translation>ширина=</translation>
     </message>
     <message>
-        <location filename="../plotterscrollarea.cpp" line="628"/>
+        <location filename="../plotterscrollarea.cpp" line="500"/>
         <source>height=</source>
         <translation>высота=</translation>
     </message>
