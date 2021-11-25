@@ -76,11 +76,17 @@ UartDevice::UartDevice() {
 	addListItem("Channels","Pin settings");
 	addListItem("Sources","Virtual oscilloscope");
 	
+// Try to auto detect serial port
 #ifdef _WIN32
-	addProperty("SerialPort","COM1");
+	std::string defaultPort("COM1");
 #else
-	addProperty("SerialPort","/dev/ttyACM0");
+	std::string defaultPort("/dev/ttyACM0");
 #endif
+	
+	auto portlist=Uart::listSerialPorts();
+	if(!portlist.empty()) defaultPort=portlist[0];
+	
+	addProperty("SerialPort",defaultPort);
 }
 
 int UartDevice::close() {

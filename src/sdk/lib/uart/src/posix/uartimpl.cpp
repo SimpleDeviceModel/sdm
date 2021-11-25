@@ -437,6 +437,7 @@ static bool checkDevice(const std::string &path) {
 
 std::vector<std::string> UartImpl::listSerialPorts() {
 	std::vector<std::string> res;
+	std::vector<std::string> res_byid;
 	
 	DIR *dir=opendir("/dev");
 	if(dir) {
@@ -451,6 +452,7 @@ std::vector<std::string> UartImpl::listSerialPorts() {
 			}
 		}
 		closedir(dir);
+		std::sort(res.begin(),res.end());
 	}
 	
 	dir=opendir("/dev/serial/by-id");
@@ -460,12 +462,13 @@ std::vector<std::string> UartImpl::listSerialPorts() {
 			if(!entry) break;
 			std::string path("/dev/serial/by-id/");
 			path+=entry->d_name;
-			if(checkDevice(path)) res.emplace_back(path);
+			if(checkDevice(path)) res_byid.emplace_back(path);
 		}
 		closedir(dir);
+		std::sort(res_byid.begin(),res_byid.end());
 	}
 	
-	std::sort(res.begin(),res.end());
+	res.insert(res.end(),res_byid.begin(),res_byid.end());
 	
 	return res;
 }
