@@ -86,7 +86,7 @@ private:
 	bool _alwaysFit=true;
 	
 	QRectF _fullSceneRect;
-	QRectF _prevSceneRect;
+	qreal _maxSceneWidth=-1;
 	int _stableCounter=0;
 	
 	std::set<QPointer<PlotterCursorWidget> > _cursors;

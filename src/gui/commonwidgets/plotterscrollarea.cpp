@@ -180,7 +180,7 @@ void PlotterScrollArea::setScene(PlotterAbstractScene *s) {
 	viewport()->update();
 	_alwaysFit=true;
 	_fullSceneRect=QRectF();
-	_prevSceneRect=QRectF();
+	_maxSceneWidth=-1;
 	_stableCounter=0;
 }
 
@@ -410,15 +410,27 @@ void PlotterScrollArea::setDragMode(DragMode m) {
 }
 
 void PlotterScrollArea::sceneChanged() {
+/*
+ * This function implements an autofit algorithm. Its purpose is
+ * to establish a sensible initial scale and change it automatically
+ * when appropriate.
+ * 
+ * The idea is that when maximum scene width is increased, we perform autofit
+ * for the next few scene changes. The expectation is that maximum scene width
+ * will be reached rather quickly after initial setup (or when the packet lenght
+ * increases). Conversely, increase of maximum scene height alone does not trigger
+ * autofit. Lastly, if the user manually changes scale (other then by using
+ * the zoom fit command), we don't perform autofit.
+ */
 	auto r=_scene->rect();
 	
-	if(_scene->rect().isValid()&&r.width()<=_prevSceneRect.width()) {
+	if(_scene->rect().isValid()&&r.width()<=_maxSceneWidth) {
 		if(_stableCounter<StableCounterMax) _stableCounter++;
 	}
 	else _stableCounter=0;
-	_prevSceneRect=r;
+	_maxSceneWidth=std::max(r.width(),_maxSceneWidth);
 	
-	if(_scene->rect().isValid()&&_alwaysFit&&!_fullSceneRect.contains(r)&&_stableCounter<StableCounterMax) zoomFit();
+	if(_scene->rect().isValid()&&_alwaysFit&&_stableCounter<StableCounterMax) zoomFit();
 	
 	viewport()->update();
 }
