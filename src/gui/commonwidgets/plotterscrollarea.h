@@ -26,7 +26,7 @@
 
 #include <QAbstractScrollArea>
 #include <QPointer>
-#include <QTime>
+#include <QElapsedTimer>
 
 #include <set>
 
@@ -91,7 +91,7 @@ private:
 	std::set<QPointer<PlotterCursorWidget> > _cursors;
 	int _nextCursorNumber=1;
 	
-	QTime _time;
+	QElapsedTimer _time;
 	int _frames=0;
 public:
 	PlotterScrollArea(QWidget *parent=nullptr);
