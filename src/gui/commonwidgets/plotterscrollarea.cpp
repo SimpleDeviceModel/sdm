@@ -179,8 +179,8 @@ void PlotterScrollArea::setScene(PlotterAbstractScene *s) {
 	updateCursors();
 	viewport()->update();
 	_alwaysFit=true;
-	_fullSceneWidth=-1;
-	_prevSceneWidth=-1;
+	_fullSceneRect=QRectF();
+	_prevSceneRect=QRectF();
 	_stableCounter=0;
 }
 
@@ -401,7 +401,7 @@ void PlotterScrollArea::zoomFit() {
 	updateCursors();
 	viewport()->update();
 	_alwaysFit=true;
-	_fullSceneWidth=_scene->rect().width();
+	_fullSceneRect=_scene->rect();
 }
 
 void PlotterScrollArea::setDragMode(DragMode m) {
@@ -410,15 +410,15 @@ void PlotterScrollArea::setDragMode(DragMode m) {
 }
 
 void PlotterScrollArea::sceneChanged() {
-	auto w=_scene->rect().width();
+	auto r=_scene->rect();
 	
-	if(_scene->rect().isValid()&&_alwaysFit&&w>_fullSceneWidth&&_stableCounter<StableCounterMax) zoomFit();
+	if(_scene->rect().isValid()&&_alwaysFit&&!_fullSceneRect.contains(r)&&_stableCounter<StableCounterMax) zoomFit();
 	
-	if(_scene->rect().isValid()&&w==_prevSceneWidth) {
+	if(_scene->rect().isValid()&&r.width()<=_prevSceneRect.width()) {
 		if(_stableCounter<StableCounterMax) _stableCounter++;
 	}
 	else _stableCounter=0;
-	_prevSceneWidth=w;
+	_prevSceneRect=r;
 	
 	viewport()->update();
 }

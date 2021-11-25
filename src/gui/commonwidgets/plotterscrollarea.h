@@ -85,8 +85,8 @@ private:
 	DragMode _drag=DragToScroll;
 	bool _alwaysFit=true;
 	
-	int _fullSceneWidth=-1;
-	int _prevSceneWidth=-1;
+	QRectF _fullSceneRect;
+	QRectF _prevSceneRect;
 	int _stableCounter=0;
 	
 	std::set<QPointer<PlotterCursorWidget> > _cursors;
