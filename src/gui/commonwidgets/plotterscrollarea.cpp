@@ -276,6 +276,7 @@ void PlotterScrollArea::mouseMoveEvent(QMouseEvent *e) {
 			
 			_transform.setDx(_transform.dx()+diff.x());
 			_transform.setDy(_transform.dy()+diff.y());
+			_alwaysFit=false;
 			updateCursors();
 			viewport()->update();
 		}
@@ -339,9 +340,9 @@ void PlotterScrollArea::wheelEvent(QWheelEvent *e) {
 			_transform=_transform.scaled(1,1/1.2,invariantSrc.x(),invariantSrc.y());
 			_wheelPos.setY(0);
 		}
-		_alwaysFit=false;
 	}
 	
+	_alwaysFit=false;
 	updateCursors();
 	viewport()->update();
 }
@@ -373,6 +374,7 @@ void PlotterScrollArea::keyPressEvent(QKeyEvent *e) {
 		return QAbstractScrollArea::keyPressEvent(e);
 	}
 	
+	_alwaysFit=false;
 	updateCursors();
 	viewport()->update();
 }
