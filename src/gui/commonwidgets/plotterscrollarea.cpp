@@ -412,13 +412,13 @@ void PlotterScrollArea::setDragMode(DragMode m) {
 void PlotterScrollArea::sceneChanged() {
 	auto r=_scene->rect();
 	
-	if(_scene->rect().isValid()&&_alwaysFit&&!_fullSceneRect.contains(r)&&_stableCounter<StableCounterMax) zoomFit();
-	
 	if(_scene->rect().isValid()&&r.width()<=_prevSceneRect.width()) {
 		if(_stableCounter<StableCounterMax) _stableCounter++;
 	}
 	else _stableCounter=0;
 	_prevSceneRect=r;
+	
+	if(_scene->rect().isValid()&&_alwaysFit&&!_fullSceneRect.contains(r)&&_stableCounter<StableCounterMax) zoomFit();
 	
 	viewport()->update();
 }
