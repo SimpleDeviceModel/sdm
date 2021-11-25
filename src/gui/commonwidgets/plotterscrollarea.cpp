@@ -400,6 +400,7 @@ void PlotterScrollArea::zoomFit() {
 	updateCursors();
 	viewport()->update();
 	_alwaysFit=true;
+	_maxSceneWidth=_scene->rect().width();
 }
 
 void PlotterScrollArea::setDragMode(DragMode m) {
@@ -414,21 +415,28 @@ void PlotterScrollArea::sceneChanged() {
  * when appropriate.
  * 
  * The idea is that when maximum scene width is increased, we perform autofit
- * for the next few scene changes. The expectation is that maximum scene width
- * will be reached rather quickly after initial setup (or when the packet lenght
- * increases). Conversely, increase of maximum scene height alone does not trigger
- * autofit. Lastly, if the user manually changes scale (other then by using
- * the zoom fit command), we don't perform autofit.
+ * for the next few scene changes if certain conditions are met. The expectation
+ * is that maximum scene width will be reached rather quickly after initial
+ * setup (or when the packet lenght increases). Conversely, increase of maximum
+ * scene height alone does not trigger autofit. Lastly, if the user manually
+ * changes scale (other then by using the zoom fit command), we don't
+ * perform autofit.
  */
 	auto r=_scene->rect();
+	if(!r.isValid()) return;
 	
-	if(_scene->rect().isValid()&&r.width()<=_maxSceneWidth) {
+	if(r.width()<=_maxSceneWidth) {
 		if(_stableCounter<StableCounterMax) _stableCounter++;
 	}
-	else _stableCounter=0;
-	_maxSceneWidth=std::max(r.width(),_maxSceneWidth);
+	else {
+		_stableCounter=0;
+		_maxSceneWidth=r.width();
+	}
 	
-	if(_scene->rect().isValid()&&_alwaysFit&&_stableCounter<StableCounterMax) zoomFit();
+// We don't want to decrease the width using autofit, since most likely
+// it will increase again.
+	
+	if(_alwaysFit&&r.width()==_maxSceneWidth&&_stableCounter<StableCounterMax) zoomFit();
 	
 	viewport()->update();
 }
