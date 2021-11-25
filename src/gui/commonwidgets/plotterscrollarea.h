@@ -85,7 +85,6 @@ private:
 	DragMode _drag=DragToScroll;
 	bool _alwaysFit=true;
 	
-	QRectF _fullSceneRect;
 	qreal _maxSceneWidth=-1;
 	int _stableCounter=0;
 	

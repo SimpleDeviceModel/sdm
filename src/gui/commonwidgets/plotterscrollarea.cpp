@@ -179,7 +179,6 @@ void PlotterScrollArea::setScene(PlotterAbstractScene *s) {
 	updateCursors();
 	viewport()->update();
 	_alwaysFit=true;
-	_fullSceneRect=QRectF();
 	_maxSceneWidth=-1;
 	_stableCounter=0;
 }
@@ -401,7 +400,6 @@ void PlotterScrollArea::zoomFit() {
 	updateCursors();
 	viewport()->update();
 	_alwaysFit=true;
-	_fullSceneRect=_scene->rect();
 }
 
 void PlotterScrollArea::setDragMode(DragMode m) {
