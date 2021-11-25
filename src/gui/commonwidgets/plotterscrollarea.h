@@ -87,6 +87,7 @@ private:
 	
 	qreal _maxSceneWidth=-1;
 	int _stableCounter=0;
+	QElapsedTimer _stableTimer;
 	
 	std::set<QPointer<PlotterCursorWidget> > _cursors;
 	int _nextCursorNumber=1;

@@ -149,6 +149,7 @@ PlotterScrollArea::Transform PlotterScrollArea::Transform::rectToRect(const QRec
  */
 
 static const int StableCounterMax=5;
+static const int StableTimerMaxMsec=1000;
 
 PlotterScrollArea::PlotterScrollArea(QWidget *parent):
 	QAbstractScrollArea(parent)
@@ -181,6 +182,7 @@ void PlotterScrollArea::setScene(PlotterAbstractScene *s) {
 	_alwaysFit=true;
 	_maxSceneWidth=-1;
 	_stableCounter=0;
+	_stableTimer.start();
 }
 
 QSize PlotterScrollArea::sizeHint() const {
@@ -421,6 +423,10 @@ void PlotterScrollArea::sceneChanged() {
  * scene height alone does not trigger autofit. Lastly, if the user manually
  * changes scale (other then by using the zoom fit command), we don't
  * perform autofit.
+ * 
+ * _stableCounter shows how many times scene was changed since the last time
+ * maximum width was increased. _stableTimer shows how many milliseconds
+ * elapsed since the same time.
  */
 	auto r=_scene->rect();
 	if(!r.isValid()) return;
@@ -430,13 +436,16 @@ void PlotterScrollArea::sceneChanged() {
 	}
 	else {
 		_stableCounter=0;
+		_stableTimer.start();
 		_maxSceneWidth=r.width();
 	}
 	
 // We don't want to decrease the width using autofit, since most likely
 // it will increase again.
 	
-	if(_alwaysFit&&r.width()==_maxSceneWidth&&_stableCounter<StableCounterMax) zoomFit();
+	if(_alwaysFit&&r.width()==_maxSceneWidth&&
+		(_stableCounter<StableCounterMax||_stableTimer.elapsed()<StableTimerMaxMsec))
+		zoomFit();
 	
 	viewport()->update();
 }
