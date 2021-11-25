@@ -270,10 +270,6 @@ void UartSource::discardPackets() {
 	_port.readAll();
 }
 
-int UartSource::readStreamErrors() {
-	return 0;
-}
-
 std::size_t UartSource::loadFromQueue(sdm_sample_t *data,std::size_t n) {
 	if(n==0) return 0;
 
