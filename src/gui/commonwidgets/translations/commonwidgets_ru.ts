@@ -461,7 +461,7 @@
         <location filename="../plotterlayersdialog.cpp" line="126"/>
         <location filename="../plotterwidget.cpp" line="277"/>
         <location filename="../plotterwidget.cpp" line="312"/>
-        <location filename="../textviewer.cpp" line="251"/>
+        <location filename="../textviewer.cpp" line="252"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
@@ -477,48 +477,48 @@
 <context>
     <name>TextViewer</name>
     <message>
-        <location filename="../textviewer.cpp" line="88"/>
+        <location filename="../textviewer.cpp" line="89"/>
         <source>Word wrap</source>
         <translation>Перенос по словам</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="93"/>
+        <location filename="../textviewer.cpp" line="94"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="97"/>
+        <location filename="../textviewer.cpp" line="98"/>
         <source>Save as...</source>
         <translation>Сохранить как...</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="101"/>
+        <location filename="../textviewer.cpp" line="102"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="143"/>
-        <location filename="../textviewer.cpp" line="242"/>
+        <location filename="../textviewer.cpp" line="144"/>
+        <location filename="../textviewer.cpp" line="243"/>
         <source>Cannot open file: &quot;</source>
         <translation>Невозможно открыть файл: &quot;</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="231"/>
+        <location filename="../textviewer.cpp" line="232"/>
         <source>Text files (*.txt)</source>
         <translation>Текстовые файлы (*.txt)</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="231"/>
+        <location filename="../textviewer.cpp" line="232"/>
         <source>All files (*)</source>
         <translation>Все файлы (*)</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="246"/>
+        <location filename="../textviewer.cpp" line="247"/>
         <source>Cannot save document</source>
         <translation>Невозможно сохранить документ</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="267"/>
+        <location filename="../textviewer.cpp" line="268"/>
         <source>Choose font...</source>
         <translation>Выбрать шрифт...</translation>
     </message>

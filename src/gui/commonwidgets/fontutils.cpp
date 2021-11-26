@@ -27,6 +27,7 @@
 QFont FontUtils::defaultFixedFont() {
 	QFont f=QFontDatabase::systemFont(QFontDatabase::FixedFont);
 	if(!QFontInfo(f).fixedPitch()) { // failed to get monospaced font, try an alternative method
+		f=QFont();
 		f.setStyleHint(QFont::TypeWriter);
 		f.setFixedPitch(true);
 		f.setFamily(f.defaultFamily());
