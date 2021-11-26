@@ -104,6 +104,10 @@ void StreamReader::setDisplayTimeout(int i) {
 	_displayTimeout=i;
 }
 
+void StreamReader::flush() {
+	_flush=true;
+}
+
 void StreamReader::addViewer(PlotterWidget *w,int stream,int layer,int multi) {
 	_widgets.emplace(w,StreamLayer(w,stream,layer,multi));
 	prepareStreamSet();
@@ -171,6 +175,8 @@ void StreamReader::run() try {
 		
 		std::size_t nStreams=_streams.streams.size();
 		if(nStreams==0) break;
+		
+		if(_flush.exchange(false)) packets.clear();
 		
 		std::size_t ready=0;
 		std::size_t maxNewSamples=0;

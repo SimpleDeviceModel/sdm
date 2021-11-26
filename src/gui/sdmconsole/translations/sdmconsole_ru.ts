@@ -658,10 +658,10 @@
         <location filename="../docpanels.cpp" line="552"/>
         <location filename="../docpanels.cpp" line="563"/>
         <location filename="../docpanels.cpp" line="584"/>
-        <location filename="../docpanels.cpp" line="592"/>
-        <location filename="../docpanels.cpp" line="604"/>
-        <location filename="../docpanels.cpp" line="616"/>
-        <location filename="../docpanels.cpp" line="624"/>
+        <location filename="../docpanels.cpp" line="593"/>
+        <location filename="../docpanels.cpp" line="605"/>
+        <location filename="../docpanels.cpp" line="617"/>
+        <location filename="../docpanels.cpp" line="625"/>
         <location filename="../mainwindow.cpp" line="396"/>
         <location filename="../mainwindow.cpp" line="422"/>
         <location filename="../mainwindow.cpp" line="485"/>
@@ -694,7 +694,7 @@
         <location filename="../registermapwidget.cpp" line="489"/>
         <location filename="../registermapworker.cpp" line="86"/>
         <location filename="../sidebar.cpp" line="143"/>
-        <location filename="../streamreader.cpp" line="423"/>
+        <location filename="../streamreader.cpp" line="429"/>
         <location filename="../streamselector.cpp" line="319"/>
         <location filename="../streamselector.cpp" line="323"/>
         <location filename="../streamselector.cpp" line="327"/>
@@ -1509,17 +1509,17 @@
         <translation>Соединение с устройством не установлено</translation>
     </message>
     <message>
-        <location filename="../docpanels.cpp" line="634"/>
+        <location filename="../docpanels.cpp" line="635"/>
         <source>Stream set is empty</source>
         <translation>Набор потоков пуст</translation>
     </message>
     <message>
-        <location filename="../docpanels.cpp" line="636"/>
+        <location filename="../docpanels.cpp" line="637"/>
         <source>Cycle mode doesn&apos;t support multiple streams</source>
         <translation>Режим переключения слоёв не поддерживает отображения нескольких потоков</translation>
     </message>
     <message>
-        <location filename="../docpanels.cpp" line="657"/>
+        <location filename="../docpanels.cpp" line="658"/>
         <source>stream</source>
         <translation>поток</translation>
     </message>
@@ -1527,37 +1527,37 @@
 <context>
     <name>StreamReader</name>
     <message>
-        <location filename="../streamreader.cpp" line="115"/>
+        <location filename="../streamreader.cpp" line="119"/>
         <source>Data export is already in progress</source>
         <translation>Экспорт данных уже в процессе выполнения</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="129"/>
+        <location filename="../streamreader.cpp" line="133"/>
         <source>Writing stream data:</source>
         <translation>Запись потоков данных:</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="242"/>
+        <location filename="../streamreader.cpp" line="248"/>
         <source>Stream reader error: </source>
         <translation>Ошибка чтения потока: </translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="355"/>
+        <location filename="../streamreader.cpp" line="361"/>
         <source>Error: </source>
         <translation>Ошибка: </translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="369"/>
+        <location filename="../streamreader.cpp" line="375"/>
         <source>Data streams were successfully saved</source>
         <translation>Потоки данных были успешно сохранены</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="374"/>
+        <location filename="../streamreader.cpp" line="380"/>
         <source>Operation has been aborted by the user</source>
         <translation>Операция была прервана пользователем</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="424"/>
+        <location filename="../streamreader.cpp" line="430"/>
         <source>Cannot apply data stream set</source>
         <translation>Невозможно применить набор потоков данных</translation>
     </message>
