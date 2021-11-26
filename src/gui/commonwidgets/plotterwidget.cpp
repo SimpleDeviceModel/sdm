@@ -106,9 +106,9 @@ PlotterWidget::PlotterWidget(PlotMode m,QWidget *parent):
 	
 	_toolBar->addSeparator();
 	
-	auto freezeAction=_toolBar->addAction(QIcon(":/commonwidgets/icons/freeze.svg"),tr("Freeze"));
-	freezeAction->setCheckable(true);
-	QObject::connect(freezeAction,&QAction::toggled,this,&PlotterWidget::setFreezed);
+	_freezeAction=_toolBar->addAction(QIcon(":/commonwidgets/icons/freeze.svg"),tr("Freeze"));
+	_freezeAction->setCheckable(true);
+	QObject::connect(_freezeAction,&QAction::toggled,this,&PlotterWidget::setFreezed);
 	
 	a=_toolBar->addAction(QIcon(":/commonwidgets/icons/saveimage.svg"),tr("Save image")+"...");
 	QObject::connect(a,&QAction::triggered,this,&PlotterWidget::saveImage);
@@ -382,6 +382,11 @@ void PlotterWidget::mousePressEvent(QMouseEvent *e) {
 		else _dragToZoomAction->toggle();
 		e->accept();
 	}
+}
+
+void PlotterWidget::keyPressEvent(QKeyEvent *e) {
+	if(e->key()==Qt::Key_Space) _freezeAction->toggle();
+	else QMainWindow::keyPressEvent(e);
 }
 
 /*
