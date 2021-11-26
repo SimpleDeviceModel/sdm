@@ -34,8 +34,10 @@ QFont FontUtils::defaultFixedFont() {
 	}
 #ifdef _WIN32
 // On Windows, the above method returns Courier New. Try to use Consolas if available
-	QFont consolas("Consolas",11);
-	if(QFontInfo(f).exactMatch()&&QFontInfo(f).fixedPitch()) f=consolas;
+	if(f.family()=="Courier New") {
+		QFont consolas("Consolas",11);
+		if(QFontInfo(f).exactMatch()&&QFontInfo(f).fixedPitch()) f=consolas;
+	}
 #endif
 	return f;
 }
