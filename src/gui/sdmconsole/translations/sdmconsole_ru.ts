@@ -1537,22 +1537,22 @@
         <translation>Запись потоков данных:</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="248"/>
+        <location filename="../streamreader.cpp" line="247"/>
         <source>Stream reader error: </source>
         <translation>Ошибка чтения потока: </translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="361"/>
+        <location filename="../streamreader.cpp" line="360"/>
         <source>Error: </source>
         <translation>Ошибка: </translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="375"/>
+        <location filename="../streamreader.cpp" line="374"/>
         <source>Data streams were successfully saved</source>
         <translation>Потоки данных были успешно сохранены</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="380"/>
+        <location filename="../streamreader.cpp" line="379"/>
         <source>Operation has been aborted by the user</source>
         <translation>Операция была прервана пользователем</translation>
     </message>

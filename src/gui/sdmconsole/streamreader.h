@@ -118,7 +118,7 @@ protected:
 	virtual void run() override;
 private:
 	void prepareStreamSet();
-	void applyStreamSet(bool force=false);
+	bool applyStreamSet(bool force=false);
 	
 	ReadResult readFullPacket(int s,QVector<sdm_sample_t> &data);
 	void dispatch(const std::map<int,StreamPacket> &data);
