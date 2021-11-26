@@ -23,6 +23,7 @@
 
 #include "consolewidget.h"
 #include "fstring.h"
+#include "fontutils.h"
 
 #include <QTextBlock>
 #include <QMenu>
@@ -35,7 +36,6 @@
 #include <QFile>
 #include <QTextStream>
 #include <QTextCodec>
-#include <QFontDatabase>
 #include <QFontMetrics>
 
 const int ConsoleWidget::maxHistorySize=500;
@@ -52,7 +52,7 @@ ConsoleWidget::ConsoleWidget(const QString &name,QWidget *parent):
 	setWordWrapMode(QTextOption::WrapAnywhere);
 
 // Set up font
-	QFont f=QFontDatabase::systemFont(QFontDatabase::FixedFont);
+	QFont f=FontUtils::defaultFixedFont();
 	QSettings s;
 	if(s.contains("ConsoleWidget/Font")) f.fromString(s.value("ConsoleWidget/Font").toString());
 	applyFont(f);

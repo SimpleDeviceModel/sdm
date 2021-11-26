@@ -21,6 +21,7 @@
  */
 
 #include "codeeditor.h"
+#include "fontutils.h"
 
 #include <QTextCursor>
 #include <QTextDocument>
@@ -32,7 +33,6 @@
 #include <QAction>
 #include <QSettings>
 #include <QFontDialog>
-#include <QFontDatabase>
 #include <QFontMetrics>
 
 #include <memory>
@@ -52,7 +52,7 @@ CodeEditor::CodeEditor(QWidget *parent):
 		f.fromString(savedFont.toString());
 		applyFont(f);
 	}
-	else applyFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+	else applyFont(FontUtils::defaultFixedFont());
 	
 	setShowWhiteSpace(s.value("ShowWhiteSpace",true).toBool());
 	setWrapped(s.value("Wrap",true).toBool());

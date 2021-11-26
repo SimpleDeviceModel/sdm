@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.3.0)
 # LIBRARY
 ###########################
 
-add_library(commonwidgets STATIC autoresizingtable.cpp codeeditor.cpp consolewidget.cpp dockwrapper.cpp filedialogex.cpp fileselector.cpp formdialog.cpp iconbutton.cpp luahighlighter.cpp optionselectordialog.cpp plotterabstractscene.cpp plotteraddcursordialog.cpp plotterbarscene.cpp plotterbinaryscene.cpp plotterbitmapscene.cpp plottervideoscene.cpp plottercursorwidget.cpp plotterlayersdialog.cpp plotterscrollarea.cpp plotterwidget.cpp statusprogresswidget.cpp textviewer.cpp resources/commonwidgets.qrc)
+add_library(commonwidgets STATIC autoresizingtable.cpp codeeditor.cpp consolewidget.cpp dockwrapper.cpp filedialogex.cpp fileselector.cpp fontutils.cpp formdialog.cpp iconbutton.cpp luahighlighter.cpp optionselectordialog.cpp plotterabstractscene.cpp plotteraddcursordialog.cpp plotterbarscene.cpp plotterbinaryscene.cpp plotterbitmapscene.cpp plottervideoscene.cpp plottercursorwidget.cpp plotterlayersdialog.cpp plotterscrollarea.cpp plotterwidget.cpp statusprogresswidget.cpp textviewer.cpp resources/commonwidgets.qrc)
 
 target_include_directories(commonwidgets PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 

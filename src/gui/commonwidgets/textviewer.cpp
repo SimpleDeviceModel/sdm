@@ -23,6 +23,7 @@
 
 #include "fruntime_error.h"
 #include "filedialogex.h"
+#include "fontutils.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -80,7 +81,7 @@ TextViewer::TextViewer(QWidget *parent): QDialog(parent) {
 		f.fromString(savedFont.toString());
 		applyFont(f);
 	}
-	else applyFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+	else applyFont(FontUtils::defaultFixedFont());
 	
 	auto hbox=new QHBoxLayout;
 	hbox->addStretch();

@@ -52,7 +52,6 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QLocale>
-#include <QFontDatabase>
 #include <QStyle>
 
 #include <map>
