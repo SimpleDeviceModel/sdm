@@ -6,7 +6,7 @@ include(SetUpRpath)
 # EXECUTABLE
 ###########################
 
-add_executable(sdmconsole WIN32 main.cpp cmdargs.cpp extrakeywords.cpp appwidelock.cpp mainwindow.cpp luagui.cpp luadialogserver.cpp luaformdialog.cpp luaplotterwidget.cpp luatextviewer.cpp docroot.cpp docpanels.cpp propertyeditor.cpp sidebar.cpp luawidget.cpp registermapwidget.cpp registermapengine.cpp registermapworker.cpp registermaptable.cpp registermapitem.cpp registerconfigdialog.cpp registermapxml.cpp openplugindialog.cpp streamreader.cpp streamselector.cpp mhdbwriter.cpp luaserverqt.cpp translations.cpp resources/sdmconsole.qrc win32/sdmconsole.rc)
+add_executable(sdmconsole WIN32 main.cpp cmdargs.cpp extrakeywords.cpp appwidelock.cpp hints.cpp mainwindow.cpp luagui.cpp luadialogserver.cpp luaformdialog.cpp luaplotterwidget.cpp luatextviewer.cpp docroot.cpp docpanels.cpp propertyeditor.cpp sidebar.cpp luawidget.cpp registermapwidget.cpp registermapengine.cpp registermapworker.cpp registermaptable.cpp registermapitem.cpp registerconfigdialog.cpp registermapxml.cpp openplugindialog.cpp streamreader.cpp streamselector.cpp mhdbwriter.cpp luaserverqt.cpp translations.cpp resources/sdmconsole.qrc win32/sdmconsole.rc)
 
 add_subdirectory(translations)
 add_subdirectory(scripts)

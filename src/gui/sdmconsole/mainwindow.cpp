@@ -220,6 +220,14 @@ void MainWindow::constructMainMenu() {
 	populateLanguageMenu(langMenu);
 	m->addAction(QIcon(":/commonwidgets/icons/font.svg"),tr("Console font")+"...",
 		_luaConsole,SLOT(menuChooseFont()));
+	
+	a=m->addAction(tr("Display hints"),this,SLOT(menuSettingsDisplayHints(bool)));
+	a->setCheckable(true);
+	auto displayHints=s.value("DisplayHints",true).toBool();
+	a->setChecked(displayHints);
+	
+	m->addSeparator();
+	
 	m->addAction(QIcon(":/icons/reset.svg"),tr("Reset to defaults")+"...",
 		this,SLOT(menuSettingsReset()));
 	
@@ -413,6 +421,11 @@ void MainWindow::menuLuaRunScriptFromFile() try {
 }
 catch(std::exception &ex) {
 	QMessageBox::critical(this,QObject::tr("Error"),ex.what(),QMessageBox::Ok);
+}
+
+void MainWindow::menuSettingsDisplayHints(bool b) {
+	QSettings s;
+	s.setValue("MainWindow/DisplayHints",b);
 }
 
 void MainWindow::menuSettingsReset() {
