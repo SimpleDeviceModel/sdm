@@ -293,7 +293,7 @@
     <message>
         <location filename="../plotterwidget.cpp" line="74"/>
         <source>Bars</source>
-        <translation>Столбчатая диаграмма</translation>
+        <translation>Столбцы</translation>
     </message>
     <message>
         <location filename="../plotterwidget.cpp" line="75"/>

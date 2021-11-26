@@ -35,6 +35,7 @@ namespace {
 		hints.push_back(QObject::tr("double click in the plotter viewport area resets the scale to fit the entire image."));
 		hints.push_back(QObject::tr("you can change the plot scale along both axes with a mouse wheel while holding Ctrl or Ctrl+Shift."));
 		hints.push_back(QObject::tr("right click in the plotter viewport area switches between scroll and zoom modes."));
+		hints.push_back(QObject::tr("if a plotter is too slow in the “Plot” mode, turn antialiasing off or use the “Bars” mode."));
 		hints.push_back(QObject::tr("object tree items can be controlled with context menus."));
 		hints.push_back(QObject::tr("you can disable these hints in the Settings menu."));
 	}

@@ -783,16 +783,21 @@
     </message>
     <message>
         <location filename="../hints.cpp" line="38"/>
+        <source>if a plotter is too slow in the “Plot” mode, turn antialiasing off or use the “Bars” mode.</source>
+        <translation>если графопостроитель медленно работает в режиме «График», отключите антиалиасинг или используйте режим «Столбцы».</translation>
+    </message>
+    <message>
+        <location filename="../hints.cpp" line="39"/>
         <source>object tree items can be controlled with context menus.</source>
         <translation>элементами дерева объектов можно управлять с помощью контекстных меню.</translation>
     </message>
     <message>
-        <location filename="../hints.cpp" line="39"/>
+        <location filename="../hints.cpp" line="40"/>
         <source>you can disable these hints in the Settings menu.</source>
         <translation>Вы можете отключить эти подсказки в меню «Настройки».</translation>
     </message>
     <message>
-        <location filename="../hints.cpp" line="51"/>
+        <location filename="../hints.cpp" line="52"/>
         <source>Hint: </source>
         <translation>Подсказка: </translation>
     </message>
