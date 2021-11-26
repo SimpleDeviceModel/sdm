@@ -240,307 +240,307 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="79"/>
+        <location filename="../mainwindow.cpp" line="78"/>
         <source>Lua console</source>
         <translation>Консоль Lua</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="215"/>
+        <location filename="../mainwindow.cpp" line="214"/>
         <source>Statistics</source>
         <translation>Статистика</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="240"/>
-        <location filename="../mainwindow.cpp" line="456"/>
+        <location filename="../mainwindow.cpp" line="239"/>
+        <location filename="../mainwindow.cpp" line="455"/>
         <source>About SDM</source>
         <translation>Об SDM</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="219"/>
+        <location filename="../mainwindow.cpp" line="218"/>
         <source>Language</source>
         <translation>Язык</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="176"/>
+        <location filename="../mainwindow.cpp" line="175"/>
         <source>&amp;File</source>
         <translation>&amp;Файл</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="177"/>
+        <location filename="../mainwindow.cpp" line="176"/>
         <source>&amp;Open plugin</source>
         <translation>&amp;Открыть плагин</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="180"/>
+        <location filename="../mainwindow.cpp" line="179"/>
         <source>&amp;Exit</source>
         <translation>В&amp;ыход</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="183"/>
+        <location filename="../mainwindow.cpp" line="182"/>
         <source>&amp;View</source>
         <translation>&amp;Вид</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="205"/>
+        <location filename="../mainwindow.cpp" line="204"/>
         <source>S&amp;cripts</source>
         <translation>С&amp;крипты</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="208"/>
+        <location filename="../mainwindow.cpp" line="207"/>
         <source>E&amp;xecute</source>
         <translation>В&amp;ыполнить</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="211"/>
+        <location filename="../mainwindow.cpp" line="210"/>
         <source>&amp;Terminate</source>
         <translation>&amp;Прервать выполнение</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="218"/>
+        <location filename="../mainwindow.cpp" line="217"/>
         <source>&amp;Settings</source>
         <translation>&amp;Настройки</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="194"/>
+        <location filename="../mainwindow.cpp" line="193"/>
         <source>Group similar windows</source>
         <translation>Группировать похожие окна</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="199"/>
+        <location filename="../mainwindow.cpp" line="198"/>
         <source>Auto-open tool windows</source>
         <translation>Открывать окна инструментов</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="231"/>
+        <location filename="../mainwindow.cpp" line="230"/>
         <source>Reset to defaults</source>
         <translation>Сбросить настройки</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="234"/>
+        <location filename="../mainwindow.cpp" line="233"/>
         <source>&amp;Help</source>
         <translation>&amp;Справка</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="235"/>
+        <location filename="../mainwindow.cpp" line="234"/>
         <source>User &amp;manual</source>
         <translation>&amp;Руководство пользователя</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="237"/>
+        <location filename="../mainwindow.cpp" line="236"/>
         <source>Lua &amp;reference</source>
         <translation>С&amp;правка по Lua</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="310"/>
-        <location filename="../mainwindow.cpp" line="441"/>
+        <location filename="../mainwindow.cpp" line="309"/>
+        <location filename="../mainwindow.cpp" line="440"/>
         <source>Please restart the program to apply settings</source>
         <translation>Пожалуйста, перезапустите программу для применения настроек</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="461"/>
+        <location filename="../mainwindow.cpp" line="460"/>
         <source>&lt;p&gt;&lt;a href=&quot;info://build&quot;&gt;Build information&lt;/a&gt;&lt;/p&gt;
 </source>
         <translation>&lt;p&gt;&lt;a href=&quot;info://build&quot;&gt;Информация о сборке&lt;/a&gt;&lt;/p&gt;
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="462"/>
+        <location filename="../mainwindow.cpp" line="461"/>
         <source>&lt;p&gt;&lt;a href=&quot;info://doc/changelog.txt&quot;&gt;Changelog&lt;/a&gt;&lt;/p&gt;
 </source>
         <translation>&lt;p&gt;&lt;a href=&quot;info://doc/changelog.txt&quot;&gt;Список изменений&lt;/a&gt;&lt;/p&gt;
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="464"/>
+        <location filename="../mainwindow.cpp" line="463"/>
         <source>&lt;h4&gt;Legal information&lt;/h4&gt;
 </source>
         <translation>&lt;h4&gt;Правовая информация&lt;/h4&gt;
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="466"/>
+        <location filename="../mainwindow.cpp" line="465"/>
         <source>&lt;p&gt;This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions. See the link below for details.&lt;/p&gt;
 </source>
         <translation>&lt;p&gt;Данная программа поставляется СОВЕРШЕННО БЕЗ ГАРАНТИЙ. Данная программа является свободным программным обеспечением, и Вы имеете право распространять её на определённых условиях. Подробности доступны по нижеприведённой ссылке.&lt;/p&gt;
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="467"/>
+        <location filename="../mainwindow.cpp" line="466"/>
         <source>&lt;p&gt;&lt;a href=&quot;info://doc/licenses/license.txt&quot;&gt;Copyright and licensing information&lt;/a&gt;&lt;/p&gt;
 </source>
         <translation>&lt;p&gt;&lt;a href=&quot;info://doc/licenses/license.txt&quot;&gt;Информация об авторских правах и лицензировании&lt;/a&gt;&lt;/p&gt;
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="504"/>
+        <location filename="../mainwindow.cpp" line="503"/>
         <source>Build information</source>
         <translation>Информация о сборке</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="508"/>
+        <location filename="../mainwindow.cpp" line="507"/>
         <source>Platform</source>
         <translation>Платформа</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="509"/>
+        <location filename="../mainwindow.cpp" line="508"/>
         <source>Compiler</source>
         <translation>Компилятор</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="511"/>
+        <location filename="../mainwindow.cpp" line="510"/>
         <source>Commit hash</source>
         <translation>Хеш коммита</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="512"/>
+        <location filename="../mainwindow.cpp" line="511"/>
         <source>Commit timestamp</source>
         <translation>Дата/время коммита</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="557"/>
+        <location filename="../mainwindow.cpp" line="556"/>
         <source>Press %1 to exit full screen mode</source>
         <translation>Нажмите %1 для выхода из полноэкранного режима</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="361"/>
+        <location filename="../mainwindow.cpp" line="360"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="361"/>
+        <location filename="../mainwindow.cpp" line="360"/>
         <source>Lua interpreter is not currently running</source>
         <translation>Интерпретатор Lua в настоящее время не запущен</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="401"/>
-        <location filename="../mainwindow.cpp" line="476"/>
+        <location filename="../mainwindow.cpp" line="400"/>
+        <location filename="../mainwindow.cpp" line="475"/>
         <source>Lua interpreter is busy</source>
         <translation>Интерпретатор Lua занят</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="375"/>
+        <location filename="../mainwindow.cpp" line="374"/>
         <source>ms</source>
         <translation>мс</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="185"/>
+        <location filename="../mainwindow.cpp" line="184"/>
         <source>Full screen mode</source>
         <translation>Полноэкранный режим</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="221"/>
+        <location filename="../mainwindow.cpp" line="220"/>
         <source>Console font</source>
         <translation>Шрифт консоли</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="224"/>
+        <location filename="../mainwindow.cpp" line="223"/>
         <source>Display hints</source>
         <translation>Отображать подсказки</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="373"/>
+        <location filename="../mainwindow.cpp" line="372"/>
         <source>Interpreter version</source>
         <translation>Версия интерпретатора</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="374"/>
+        <location filename="../mainwindow.cpp" line="373"/>
         <source>Number of calls</source>
         <translation>Количество вызовов</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="375"/>
+        <location filename="../mainwindow.cpp" line="374"/>
         <source>Total execution time</source>
         <translation>Общее время выполнения</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="379"/>
+        <location filename="../mainwindow.cpp" line="378"/>
         <source>kB</source>
         <translation>кБ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="379"/>
+        <location filename="../mainwindow.cpp" line="378"/>
         <source>Memory used</source>
         <translation>Используемая память</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="380"/>
-        <location filename="../mainwindow.cpp" line="383"/>
+        <location filename="../mainwindow.cpp" line="379"/>
+        <location filename="../mainwindow.cpp" line="382"/>
         <source>Status</source>
         <translation>Состояние</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="380"/>
+        <location filename="../mainwindow.cpp" line="379"/>
         <source>Ready</source>
         <translation>Готов</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="383"/>
+        <location filename="../mainwindow.cpp" line="382"/>
         <source>Busy</source>
         <translation>Занят</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="390"/>
+        <location filename="../mainwindow.cpp" line="389"/>
         <source>Lua statistics</source>
         <translation>Статистика Lua</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="407"/>
+        <location filename="../mainwindow.cpp" line="406"/>
         <source>Execute script</source>
         <translation>Выполнить скрипт</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="410"/>
+        <location filename="../mainwindow.cpp" line="409"/>
         <source>Lua scripts (*.lua);;All files (*)</source>
         <translation>Скрипты Lua (*.lua);;Все файлы (*)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="433"/>
+        <location filename="../mainwindow.cpp" line="432"/>
         <source>Reset program settings to defaults?</source>
         <translation>Сбросить настройки программы к настройкам по умолчанию?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="460"/>
+        <location filename="../mainwindow.cpp" line="459"/>
         <source>&lt;p&gt;Simple Device Model is an open source framework for instrument control and data acquisition.&lt;/p&gt;
 </source>
         <translation>&lt;p&gt;Simple Device Model – система для управления приборами и захвата данных с открытым исходным кодом.&lt;/p&gt;
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="463"/>
+        <location filename="../mainwindow.cpp" line="462"/>
         <source>&lt;p&gt;&lt;a href=&quot;https://simpledevicemodel.github.io/&quot;&gt;Website&lt;/a&gt;&lt;/p&gt;
 </source>
         <translation>&lt;p&gt;&lt;a href=&quot;https://simpledevicemodel.github.io/&quot;&gt;Вебсайт&lt;/a&gt;&lt;/p&gt;
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="465"/>
+        <location filename="../mainwindow.cpp" line="464"/>
         <source>Copyright © 2015-2021 by Microproject LLC
 </source>
         <translation>© ООО «Микропроект», 2015-2021
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="479"/>
+        <location filename="../mainwindow.cpp" line="478"/>
         <source>Cannot open script file &quot;</source>
         <translation>Невозможно открыть файл скрипта &quot;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="507"/>
+        <location filename="../mainwindow.cpp" line="506"/>
         <source>Version</source>
         <translation>Версия</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="510"/>
+        <location filename="../mainwindow.cpp" line="509"/>
         <source>Toolkit version</source>
         <translation>Версия инструментария</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="569"/>
+        <location filename="../mainwindow.cpp" line="568"/>
         <source>Lua status: Busy</source>
         <translation>Интерпретатор Lua: Занят</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="570"/>
+        <location filename="../mainwindow.cpp" line="569"/>
         <source>Lua status: Ready</source>
         <translation>Интерпретатор Lua: Готов</translation>
     </message>
@@ -662,10 +662,10 @@
         <location filename="../docpanels.cpp" line="604"/>
         <location filename="../docpanels.cpp" line="616"/>
         <location filename="../docpanels.cpp" line="624"/>
-        <location filename="../mainwindow.cpp" line="397"/>
-        <location filename="../mainwindow.cpp" line="423"/>
-        <location filename="../mainwindow.cpp" line="486"/>
-        <location filename="../mainwindow.cpp" line="519"/>
+        <location filename="../mainwindow.cpp" line="396"/>
+        <location filename="../mainwindow.cpp" line="422"/>
+        <location filename="../mainwindow.cpp" line="485"/>
+        <location filename="../mainwindow.cpp" line="518"/>
         <location filename="../openplugindialog.cpp" line="207"/>
         <location filename="../propertyeditor.cpp" line="138"/>
         <location filename="../propertyeditor.cpp" line="155"/>
