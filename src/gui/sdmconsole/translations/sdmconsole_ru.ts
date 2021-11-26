@@ -773,8 +773,8 @@
     </message>
     <message>
         <location filename="../hints.cpp" line="36"/>
-        <source>you can change the plot scale with a mouse wheel while holding Ctrl or Ctrl+Shift.</source>
-        <translation>масштаб графика можно изменить колесом мыши при зажатых Ctrl или Ctrl+Shift.</translation>
+        <source>you can change the plot scale along both axes with a mouse wheel while holding Ctrl or Ctrl+Shift.</source>
+        <translation>масштаб графика по обеим осям можно изменить колесом мыши при зажатых Ctrl или Ctrl+Shift.</translation>
     </message>
     <message>
         <location filename="../hints.cpp" line="37"/>
