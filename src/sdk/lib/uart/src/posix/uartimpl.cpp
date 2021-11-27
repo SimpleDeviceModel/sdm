@@ -445,7 +445,7 @@ std::vector<std::string> UartImpl::listSerialPorts() {
 			auto entry=readdir(dir);
 			if(!entry) break;
 			auto const prefix=std::string(entry->d_name).substr(0,3);
-			if(prefix=="tty"||prefix=="cua") { // "cua" is used on BSD systems
+			if(prefix=="tty") {
 				std::string path("/dev/");
 				path+=entry->d_name;
 				if(checkDevice(path)) res.emplace_back(path);

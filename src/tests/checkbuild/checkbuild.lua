@@ -15,7 +15,6 @@ function detectos()
 		os.execute("rm -f "..tmp)
 		if not uname then return "unix" end
 		if uname:lower():match("linux") then return "unix linux" end
-		if uname:lower():match("freebsd") then return "unix freebsd" end
 		return "unix"
 	end
 end
@@ -67,13 +66,8 @@ if ostype=="windows" then
 
 else
 	deltree_cmd="rm -rf build_*"
-	if ostype:match("linux") then
-		table.insert(cmake_options,"OPTION_LUA_SYSTEM")
-		toolchains={"gcc","clang"}
-	else -- FreeBSD
-		table.insert(cmake_options,"OPTION_LUA_SYSTEM")
-		toolchains={"clang"}
-	end
+	table.insert(cmake_options,"OPTION_LUA_SYSTEM")
+	toolchains={"gcc","clang"}
 end
 
 if arg then
@@ -94,8 +88,6 @@ end
 system(deltree_cmd)
 
 build_type="-DCMAKE_INSTALL_PREFIX=test_install -DCMAKE_BUILD_TYPE=Release -DOPTION_DIAGNOSTIC=ON "
-
--- Note: GUI is not built if OS is FreeBSD
 
 if ostype=="windows" then
 	for k,v in ipairs(toolchains) do
@@ -127,7 +119,7 @@ if ostype=="windows" then
 			error("Error: unrecognized toolchain \""..v.."\"")
 		end
 	end
-elseif ostype:match("linux") then
+else
 	for k,v in ipairs(toolchains) do
 		if(v=="gcc") then
 			-- GCC
@@ -137,16 +129,6 @@ elseif ostype:match("linux") then
 			-- Clang
 			make_cmd="make -j8"
 			test_option("CC=clang CXX=clang++ cmake "..build_type,1)
-		else
-			error("Error: unrecognized toolchain \""..v.."\"")
-		end
-	end
-else -- FreeBSD
-	for k,v in ipairs(toolchains) do
-		if(v=="clang") then
-			-- Clang
-			make_cmd="make -j8"
-			test_option("CC=clang CXX=clang++ cmake -DOPTION_NO_QT=ON "..build_type,1)
 		else
 			error("Error: unrecognized toolchain \""..v.."\"")
 		end
