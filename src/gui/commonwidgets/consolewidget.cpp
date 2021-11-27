@@ -183,7 +183,7 @@ void ConsoleWidget::saveCmdHistory() {
 	QTextStream ts(&f);
 	auto codec=QTextCodec::codecForName("UTF-8");
 	ts.setCodec(codec);
-	for(auto const str: history) ts<<str<<endl;
+	for(auto const &str: history) ts<<str<<endl;
 }
 
 void ConsoleWidget::loadCmdHistory() {
