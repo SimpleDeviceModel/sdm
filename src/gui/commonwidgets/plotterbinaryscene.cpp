@@ -307,6 +307,7 @@ void PlotterBinaryScene::linesChanged() {
 	
 	_rect=QRectF(-0.5,-0.5,_width*_bits,_lines);
 	emit changed();
+	emit replaced();
 }
 
 void PlotterBinaryScene::bitsChanged(int i) {

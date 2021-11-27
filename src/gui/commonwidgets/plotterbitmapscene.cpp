@@ -385,6 +385,7 @@ void PlotterBitmapScene::linesChanged() {
 	
 	_rect=QRectF(-0.5,-0.5,_width,_lines);
 	emit changed();
+	emit replaced();
 }
 
 void PlotterBitmapScene::invertYChanged(bool b) {

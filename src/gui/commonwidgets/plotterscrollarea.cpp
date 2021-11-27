@@ -173,8 +173,8 @@ void PlotterScrollArea::setupViewport(QWidget *viewport) {
 
 void PlotterScrollArea::setScene(PlotterAbstractScene *s) {
 	_scene=s;
-	QObject::disconnect(this,SLOT(sceneChanged()));
 	QObject::connect(_scene,&PlotterAbstractScene::changed,this,&PlotterScrollArea::sceneChanged);
+	QObject::connect(_scene,&PlotterAbstractScene::replaced,this,&PlotterScrollArea::zoomFit);
 	_transform=Transform();
 	for(auto &c: _cursors) if(!c.isNull()) c->setScene(s);
 	updateCursors();
