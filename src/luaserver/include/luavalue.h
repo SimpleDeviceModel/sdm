@@ -114,10 +114,15 @@ public:
 	
 	LuaValue &clear();
 	
-	bool operator==(const LuaValue &right) const;
-	bool operator!=(const LuaValue &right) const {return !(operator==(right));}
 // for std::map, all non-equal values must be strictly ordered
-	bool operator<(const LuaValue &right) const;
+	int compare(const LuaValue &right) const;
+	
+	bool operator==(const LuaValue &right) const {return (compare(right)==0);}
+	bool operator!=(const LuaValue &right) const {return (compare(right)!=0);}
+	bool operator<(const LuaValue &right) const {return (compare(right)<0);}
+	bool operator>(const LuaValue &right) const {return (compare(right)>0);}
+	bool operator<=(const LuaValue &right) const {return (compare(right)<=0);}
+	bool operator>=(const LuaValue &right) const {return (compare(right)>=0);}
 	
 	std::size_t size() const;
 
