@@ -13,6 +13,7 @@
 @EMPTY@rm -f @FREEDESKTOP_INSTALL_DIR@/applications/sdmconsole.desktop
 @EMPTY@rm -f @FREEDESKTOP_INSTALL_DIR@/icons/hicolor/scalable/apps/sdmconsole.svg
 @EMPTY@rm -f @FREEDESKTOP_INSTALL_DIR@/icons/hicolor/256x256/apps/sdmconsole.png
+@EMPTY@rm -f @FREEDESKTOP_INSTALL_DIR@/icons/hicolor/48x48/apps/sdmconsole.png
 
 # Remove user configuration
 
