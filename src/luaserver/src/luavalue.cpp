@@ -117,57 +117,64 @@ LuaValue &LuaValue::clear() {
 	return *this;
 }
 
-// for std::map, all non-equal values must be strictly ordered
-int LuaValue::compare(const LuaValue &right) const {
-	if(t>right.t) return 1;
-	if(t<right.t) return -1;
+bool LuaValue::operator==(const LuaValue &right) const {
+	if(t!=right.t) return false;
 	
 	switch(t) {
 	case Nil:
-		return 0;
+		return true;
 	case Boolean:
-		if(v.b&&!right.v.b) return 1;
-		if(!v.b&&right.v.b) return -1;
-		return 0;
+		return (v.b==right.v.b);
 	case Number:
-		if(v.d>right.v.d) return 1;
-		if(v.d<right.v.d) return -1;
-		return 0;
+		return (v.d==right.v.d);
 	case Integer:
-		if(v.i>right.v.i) return 1;
-		if(v.i<right.v.i) return -1;
-		return 0;
+		return (v.i==right.v.i);
 	case String:
-		return v.pstr->compare(*right.v.pstr);
+		return (*v.pstr==*right.v.pstr);
 	case Array:
-		if(*v.parray>*right.v.parray) return 1;
-		if(*v.parray<*right.v.parray) return -1;
-		return 0;
+		return (*v.parray==*right.v.parray);
 	case Table:
-		if(v.ptable->dict>right.v.ptable->dict) return 1;
-		if(v.ptable->dict<right.v.ptable->dict) return -1;
-		if(v.ptable->meta>right.v.ptable->meta) return 1;
-		if(v.ptable->meta<right.v.ptable->meta) return -1;
-		return 0;
+		return (v.ptable->dict==right.v.ptable->dict&&v.ptable->meta==right.v.ptable->meta);
 	case CFunction:
-		if(v.pclosure->pf>right.v.pclosure->pf) return 1;
-		if(v.pclosure->pf<right.v.pclosure->pf) return -1;
-		if(v.pclosure->upvalues>right.v.pclosure->upvalues) return 1;
-		if(v.pclosure->upvalues<right.v.pclosure->upvalues) return -1;
-		return 0;
+		return (v.pclosure->pf==right.v.pclosure->pf);
 	case LightUserData:
-		if(v.plud>right.v.plud) return 1;
-		if(v.plud<right.v.plud) return -1;
-		return 0;
+		return (v.plud==right.v.plud);
 	case FileHandle:
-		if(v.fh>right.v.fh) return 1;
-		if(v.fh<right.v.fh) return -1;
-		return 0;
+		return (v.fh==right.v.fh);
 	case Invalid:
-		return 0;
+		return true;
 	}
 	
-	return 0;
+	return true;
+}
+
+// for std::map, all non-equal values must be strictly ordered
+bool LuaValue::operator<(const LuaValue &right) const {
+	if(t>right.t) return false;
+	if(t<right.t) return true;
+	
+	switch(t) {
+	case Nil:
+		return false;
+	case Boolean:
+		return (!v.b&&right.v.b);
+	case Number:
+		return (v.d<right.v.d);
+	case Integer:
+		return (v.i<right.v.i);
+	case String:
+		return (*v.pstr<*right.v.pstr);
+	case Array:
+	case Table:
+	case CFunction:
+	case LightUserData:
+	case FileHandle:
+		throw std::runtime_error("Lua values of this type don't support ordered comparison");
+	case Invalid:
+		return false;
+	}
+	
+	return true;
 }
 
 size_t LuaValue::size() const {
