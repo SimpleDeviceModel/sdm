@@ -28,7 +28,7 @@ install(TARGETS sdmconsole
 	DESTINATION "${BIN_INSTALL_DIR}")
 
 if(UNIX)
-	install(FILES freedesktop/sdmconsole.desktop DESTINATION share/applications)
-	INSTALL(FILES resources/icons/appicon.svg DESTINATION share/icons/hicolor/scalable/apps RENAME sdmconsole.svg)
-	INSTALL(FILES freedesktop/sdmconsole.png DESTINATION share/icons/hicolor/256x256/apps)
+	install(FILES freedesktop/sdmconsole.desktop DESTINATION "${FREEDESKTOP_INSTALL_DIR}/applications")
+	INSTALL(FILES resources/icons/appicon.svg DESTINATION "${FREEDESKTOP_INSTALL_DIR}/icons/hicolor/scalable/apps" RENAME sdmconsole.svg)
+	INSTALL(FILES freedesktop/sdmconsole.png DESTINATION "${FREEDESKTOP_INSTALL_DIR}/icons/hicolor/256x256/apps")
 endif()

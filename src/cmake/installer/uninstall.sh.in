@@ -10,9 +10,9 @@
 
 # Remove desktop entries
 
-@EMPTY@rm -f @CMAKE_INSTALL_PREFIX@/share/applications/sdmconsole.desktop
-@EMPTY@rm -f @CMAKE_INSTALL_PREFIX@/share/icons/hicolor/scalable/apps/sdmconsole.svg
-@EMPTY@rm -f @CMAKE_INSTALL_PREFIX@/share/icons/hicolor/256x256/apps/sdmconsole.png
+@EMPTY@rm -f @FREEDESKTOP_INSTALL_DIR@/applications/sdmconsole.desktop
+@EMPTY@rm -f @FREEDESKTOP_INSTALL_DIR@/icons/hicolor/scalable/apps/sdmconsole.svg
+@EMPTY@rm -f @FREEDESKTOP_INSTALL_DIR@/icons/hicolor/256x256/apps/sdmconsole.png
 
 # Remove user configuration
 
@@ -25,11 +25,5 @@
 @DONTREMOVE@rm -df @CMAKE_INSTALL_PREFIX@/bin
 @DONTREMOVE@rm -df @CMAKE_INSTALL_PREFIX@/lib
 @DONTREMOVE@rm -df @CMAKE_INSTALL_PREFIX@/include
-@DONTREMOVE@rm -df @CMAKE_INSTALL_PREFIX@/share/applications
-@DONTREMOVE@rm -df @CMAKE_INSTALL_PREFIX@/share/icons/hicolor/scalable/apps
-@DONTREMOVE@rm -df @CMAKE_INSTALL_PREFIX@/share/icons/hicolor/scalable
-@DONTREMOVE@rm -df @CMAKE_INSTALL_PREFIX@/share/icons/hicolor/256x256
-@DONTREMOVE@rm -df @CMAKE_INSTALL_PREFIX@/share/icons/hicolor
-@DONTREMOVE@rm -df @CMAKE_INSTALL_PREFIX@/share/icons
 @DONTREMOVE@rm -df @CMAKE_INSTALL_PREFIX@/share
 @DONTREMOVE@rm -df @CMAKE_INSTALL_PREFIX@
