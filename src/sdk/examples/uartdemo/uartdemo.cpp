@@ -29,6 +29,7 @@
 #include <vector>
 #include <thread>
 #include <chrono>
+#include <stdexcept>
 
 #define MAXBUFSIZE 65536
 #define DEFAULT_PACKET_SIZE 500
