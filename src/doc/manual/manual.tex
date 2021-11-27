@@ -66,7 +66,7 @@ SDM is officially supported on machines with an x86 or x86-64 CPU architecture a
 
 \begin{itemize}
 	\item Microsoft® Windows® 7 SP1 or later;
-	\item Ubuntu® 16.04 or later.
+	\item Ubuntu® 18.04 or later.
 \end{itemize}
 
 It is also possible that SDM will work on other platforms. In particular, any modern (vendor-supported) Linux® distribution that can install the build system dependencies (Subsection \ref{subsec:dependencies}) is likely capable of building and running SDM.
@@ -86,13 +86,12 @@ Uninstallation is performed, as usual, from the Control Panel or by running \she
 
 \section{Installation on Ubuntu}
 
-The following instructions are tailored for Ubuntu 16.04, but might also work with other versions. Installation is performed by building SDM from source. First, build system dependencies must be installed:
+Installation is performed by building SDM from source. First, build system dependencies must be installed:
 
 \begin{shellcmds}
-sudo apt-get install build-essential qt5-default \textbackslash
+sudo apt install build-essential qtbase5-dev qtbase5-dev-tools \textbackslash
     libqt5svg5-dev qttools5-dev qttools5-dev-tools \textbackslash
-    qttranslations5-l10n qt5-image-formats-plugins \textbackslash
-    cmake
+    qttranslations5-l10n qt5-image-formats-plugins cmake
 \end{shellcmds}
 
 After that, SDM itself can be built with the following commands (assuming that they are run from the SDM source distribution top-level directory):
