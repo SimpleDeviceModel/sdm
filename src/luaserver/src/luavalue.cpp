@@ -27,6 +27,7 @@
 #include <sstream>
 #include <cstdint>
 #include <iomanip>
+#include <functional>
 
 /*
  * Public members
@@ -150,18 +151,18 @@ int LuaValue::compare(const LuaValue &right) const {
 		if(v.ptable->meta<right.v.ptable->meta) return -1;
 		return 0;
 	case CFunction:
-		if(v.pclosure->pf>right.v.pclosure->pf) return 1;
-		if(v.pclosure->pf<right.v.pclosure->pf) return -1;
+		if(std::greater<lua_CFunction>()(v.pclosure->pf,right.v.pclosure->pf)) return 1;
+		if(std::less<lua_CFunction>()(v.pclosure->pf,right.v.pclosure->pf)) return -1;
 		if(v.pclosure->upvalues>right.v.pclosure->upvalues) return 1;
 		if(v.pclosure->upvalues<right.v.pclosure->upvalues) return -1;
 		return 0;
 	case LightUserData:
-		if(v.plud>right.v.plud) return 1;
-		if(v.plud<right.v.plud) return -1;
+		if(std::greater<void*>()(v.plud,right.v.plud)) return 1;
+		if(std::less<void*>()(v.plud,right.v.plud)) return -1;
 		return 0;
 	case FileHandle:
-		if(v.fh>right.v.fh) return 1;
-		if(v.fh<right.v.fh) return -1;
+		if(std::greater<std::FILE*>()(v.fh,right.v.fh)) return 1;
+		if(std::less<std::FILE*>()(v.fh,right.v.fh)) return -1;
 		return 0;
 	case Invalid:
 		return 0;
