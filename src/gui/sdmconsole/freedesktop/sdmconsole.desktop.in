@@ -4,6 +4,6 @@ Name=sdmconsole
 GenericName=Instrument control and data acquisition framework
 GenericName[ru]=Система управления приборами и захвата данных
 Icon=sdmconsole
-Exec=sdmconsole
+Exec=@CMAKE_INSTALL_PREFIX@/@BIN_INSTALL_DIR@/sdmconsole
 Categories=Development
 StartupNotify=true

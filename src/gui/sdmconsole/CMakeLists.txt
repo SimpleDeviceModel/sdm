@@ -17,6 +17,7 @@ target_link_libraries(sdmconsole Qt5::Widgets config commonwidgets luaserver sdm
 
 if(UNIX)
 	target_link_libraries(sdmconsole pthread)
+	configure_file(freedesktop/sdmconsole.desktop.in sdmconsole.desktop @ONLY)
 endif()
 
 ###########################
@@ -28,7 +29,7 @@ install(TARGETS sdmconsole
 	DESTINATION "${BIN_INSTALL_DIR}")
 
 if(UNIX)
-	install(FILES freedesktop/sdmconsole.desktop DESTINATION "${FREEDESKTOP_INSTALL_DIR}/applications")
+	install(FILES "${CMAKE_CURRENT_BINARY_DIR}/sdmconsole.desktop" DESTINATION "${FREEDESKTOP_INSTALL_DIR}/applications")
 	INSTALL(FILES resources/icons/appicon.svg DESTINATION "${FREEDESKTOP_INSTALL_DIR}/icons/hicolor/scalable/apps" RENAME sdmconsole.svg)
 	INSTALL(FILES freedesktop/sdmconsole.png DESTINATION "${FREEDESKTOP_INSTALL_DIR}/icons/hicolor/256x256/apps")
 endif()
