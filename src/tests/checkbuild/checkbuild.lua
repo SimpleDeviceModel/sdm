@@ -124,11 +124,11 @@ else
 		if(v=="gcc") then
 			-- GCC
 			make_cmd="make -j8"
-			test_option("CC=gcc CXX=g++ cmake "..build_type,1)
+			test_option("CC=gcc CXX=g++ cmake -DOPTION_NO_ICONS=ON "..build_type,1)
 		elseif(v=="clang") then
 			-- Clang
 			make_cmd="make -j8"
-			test_option("CC=clang CXX=clang++ cmake "..build_type,1)
+			test_option("CC=clang CXX=clang++ cmake -DOPTION_NO_ICONS=ON "..build_type,1)
 		else
 			error("Error: unrecognized toolchain \""..v.."\"")
 		end
