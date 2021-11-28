@@ -4,17 +4,17 @@
 <context>
     <name>CodeEditor</name>
     <message>
-        <location filename="../codeeditor.cpp" line="162"/>
+        <location filename="../codeeditor.cpp" line="163"/>
         <source>Choose font...</source>
         <translation>Выбрать шрифт...</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="165"/>
+        <location filename="../codeeditor.cpp" line="166"/>
         <source>Show whitespace</source>
         <translation>Показывать пробелы</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="170"/>
+        <location filename="../codeeditor.cpp" line="171"/>
         <source>Wrap words</source>
         <translation>Перенос по словам</translation>
     </message>

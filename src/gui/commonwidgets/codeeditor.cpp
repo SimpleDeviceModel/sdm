@@ -56,7 +56,7 @@ CodeEditor::CodeEditor(QWidget *parent):
 	
 	setShowWhiteSpace(s.value("ShowWhiteSpace",true).toBool());
 	setWrapped(s.value("Wrap",true).toBool());
-	setTabWidth(s.value("TabWidth",8).toInt());
+	setTabWidth(s.value("TabWidth",_tabWidth).toInt());
 	
 // Usually QPlainTextEdit changes text color when disabled, but
 // in the presence of syntax highlighting it may not be obvious.
@@ -83,7 +83,8 @@ void CodeEditor::chooseFont() {
 
 void CodeEditor::applyFont(const QFont &f) {
 	setFont(f);
-	setTabStopWidth(QFontMetrics(f).averageCharWidth()*_tabWidth);
+	QString tmp(_tabWidth,'0');
+	setTabStopWidth(QFontMetrics(f).width(tmp));
 }
 
 void CodeEditor::modifyFontSize(int increment) {
