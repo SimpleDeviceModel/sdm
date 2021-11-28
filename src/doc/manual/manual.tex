@@ -360,6 +360,14 @@ Installation directories for SDM components are listed in Table \ref{tab:install
 
 User settings are stored in \shellcmd{\%APPDATA\%\textbackslash{}Microproject} on Microsoft Windows and in \shellcmd{\$HOME/.config/Microproject} on Linux.
 
+On Linux, how desktop entries (shortcuts and icons) are installed depends on the \shellcmd{CMAKE\_INSTALL\_PREFIX} value:
+
+\begin{itemize}
+\item if \shellcmd{CMAKE\_INSTALL\_PREFIX} is in the current user's home directory, desktop entries are installed to \shellcmd{\$HOME/.local/share};
+\item otherwise, if \shellcmd{CMAKE\_INSTALL\_PREFIX} is \shellcmd{/usr}, desktop entries are installed to \shellcmd{/usr/share};
+\item otherwise, \shellcmd{/usr/local/share} is used.
+\end{itemize}
+
 \chapter{Basic usage}
 \label{ch:basicusage}
 
