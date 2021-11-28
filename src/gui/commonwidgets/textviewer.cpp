@@ -131,7 +131,8 @@ void TextViewer::chooseFont() {
 
 void TextViewer::applyFont(const QFont &f) {
 	_edit->setFont(f);
-	_edit->setTabStopWidth(QFontMetrics(f).averageCharWidth()*8);
+	QString tmp(8,'0');
+	_edit->setTabStopWidth(QFontMetrics(f).width(tmp));
 }
 
 void TextViewer::clear() {

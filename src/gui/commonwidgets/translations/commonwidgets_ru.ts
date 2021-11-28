@@ -22,32 +22,32 @@
 <context>
     <name>ConsoleWidget</name>
     <message>
-        <location filename="../consolewidget.cpp" line="445"/>
+        <location filename="../consolewidget.cpp" line="446"/>
         <source>Cut</source>
         <translation>Вырезать</translation>
     </message>
     <message>
-        <location filename="../consolewidget.cpp" line="449"/>
+        <location filename="../consolewidget.cpp" line="450"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../consolewidget.cpp" line="453"/>
+        <location filename="../consolewidget.cpp" line="454"/>
         <source>Paste</source>
         <translation>Вставить</translation>
     </message>
     <message>
-        <location filename="../consolewidget.cpp" line="457"/>
+        <location filename="../consolewidget.cpp" line="458"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../consolewidget.cpp" line="463"/>
+        <location filename="../consolewidget.cpp" line="464"/>
         <source>Select All</source>
         <translation>Выделить всё</translation>
     </message>
     <message>
-        <location filename="../consolewidget.cpp" line="470"/>
+        <location filename="../consolewidget.cpp" line="471"/>
         <source>Choose font...</source>
         <translation>Выбрать шрифт...</translation>
     </message>
@@ -461,7 +461,7 @@
         <location filename="../plotterlayersdialog.cpp" line="126"/>
         <location filename="../plotterwidget.cpp" line="277"/>
         <location filename="../plotterwidget.cpp" line="312"/>
-        <location filename="../textviewer.cpp" line="252"/>
+        <location filename="../textviewer.cpp" line="253"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
@@ -497,28 +497,28 @@
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="144"/>
-        <location filename="../textviewer.cpp" line="243"/>
+        <location filename="../textviewer.cpp" line="145"/>
+        <location filename="../textviewer.cpp" line="244"/>
         <source>Cannot open file: &quot;</source>
         <translation>Невозможно открыть файл: &quot;</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="232"/>
+        <location filename="../textviewer.cpp" line="233"/>
         <source>Text files (*.txt)</source>
         <translation>Текстовые файлы (*.txt)</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="232"/>
+        <location filename="../textviewer.cpp" line="233"/>
         <source>All files (*)</source>
         <translation>Все файлы (*)</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="247"/>
+        <location filename="../textviewer.cpp" line="248"/>
         <source>Cannot save document</source>
         <translation>Невозможно сохранить документ</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="268"/>
+        <location filename="../textviewer.cpp" line="269"/>
         <source>Choose font...</source>
         <translation>Выбрать шрифт...</translation>
     </message>

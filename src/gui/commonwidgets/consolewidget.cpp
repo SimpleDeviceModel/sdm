@@ -285,7 +285,8 @@ void ConsoleWidget::runCommand(const QString &cmd,bool suppressEcho) {
 
 void ConsoleWidget::applyFont(const QFont &f) {
 	setFont(f);
-	setTabStopWidth(QFontMetrics(f).averageCharWidth()*8);
+	QString tmp(8,'0');
+	setTabStopWidth(QFontMetrics(f).width(tmp));
 }
 
 /*
