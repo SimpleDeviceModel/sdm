@@ -81,7 +81,7 @@ LuaWidget::LuaWidget(LuaServer &l,const FString &name,QWidget *parent):
 	QSettings s;
 	if(s.value("MainWindow/DisplayHints",true).toBool()) {
 		FString hint=Hints::getHint();
-		consoleOutput(hint);
+		consoleOutput(hint+"\n");
 	}
 	
 	consolePrompt("> ");

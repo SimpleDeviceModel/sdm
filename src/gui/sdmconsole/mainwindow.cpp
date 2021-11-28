@@ -92,14 +92,14 @@ MainWindow::MainWindow(LuaServerQt &l,DocRoot &d,QWidget *parent):
 
 // Set up dock widget notifications
 	QObject::connect(this,&MainWindow::dockChange,this,&MainWindow::arrangeDockWidgets,Qt::QueuedConnection);
-
-// Set up geometry
-	restoreMetrics();
-	QObject::connect(_splitter,&QSplitter::splitterMoved,[this](int pos,int i){_sidebarSize=pos;});
 	
 // Obtain full screen keyboard shortcut
 	_fullScreenShortcut=QKeySequence::FullScreen;
 	if(_fullScreenShortcut.isEmpty()) _fullScreenShortcut=QKeySequence("F11");
+
+// Set up geometry
+	restoreMetrics();
+	QObject::connect(_splitter,&QSplitter::splitterMoved,[this](int pos,int i){_sidebarSize=pos;});
 	
 // Create main menu
 	constructMainMenu();
