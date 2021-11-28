@@ -33,7 +33,6 @@
 #include <QAction>
 #include <QSettings>
 #include <QFontDialog>
-#include <QFontMetrics>
 
 #include <memory>
 
@@ -82,9 +81,9 @@ void CodeEditor::chooseFont() {
 }
 
 void CodeEditor::applyFont(const QFont &f) {
-	setFont(f);
-	QString tmp(_tabWidth,'0');
-	setTabStopWidth(QFontMetrics(f).width(tmp));
+	QFont newFont=f;
+	setTabStopWidth(FontUtils::tweakForTabStops(newFont,_tabWidth));
+	setFont(newFont);
 }
 
 void CodeEditor::modifyFontSize(int increment) {

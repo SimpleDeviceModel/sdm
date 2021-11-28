@@ -36,7 +36,6 @@
 #include <QFile>
 #include <QTextStream>
 #include <QTextCodec>
-#include <QFontMetrics>
 
 const int ConsoleWidget::maxHistorySize=500;
 const int ConsoleWidget::maxBlocks=10000;
@@ -284,9 +283,9 @@ void ConsoleWidget::runCommand(const QString &cmd,bool suppressEcho) {
 }
 
 void ConsoleWidget::applyFont(const QFont &f) {
-	setFont(f);
-	QString tmp(8,'0');
-	setTabStopWidth(QFontMetrics(f).width(tmp));
+	QFont newFont=f;
+	setTabStopWidth(FontUtils::tweakForTabStops(newFont,8));
+	setFont(newFont);
 }
 
 /*

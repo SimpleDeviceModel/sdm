@@ -48,7 +48,6 @@
 #include <QClipboard>
 #include <QFile>
 #include <QFileInfo>
-#include <QFontMetrics>
 #include <QFontDialog>
 #include <QContextMenuEvent>
 #include <QMenu>
@@ -130,9 +129,9 @@ void TextViewer::chooseFont() {
 }
 
 void TextViewer::applyFont(const QFont &f) {
-	_edit->setFont(f);
-	QString tmp(8,'0');
-	_edit->setTabStopWidth(QFontMetrics(f).width(tmp));
+	QFont newFont=f;
+	_edit->setTabStopWidth(FontUtils::tweakForTabStops(newFont,8));
+	_edit->setFont(newFont);
 }
 
 void TextViewer::clear() {

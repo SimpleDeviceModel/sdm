@@ -26,7 +26,14 @@
 #include <QFont>
 
 namespace FontUtils {
+// Default fixed-width font
 	QFont defaultFixedFont();
+	
+// Tweak font letterspacing to make tab stop width integral. This is needed
+// because QPlainTextEdit::setTabStopWidth() accepts integer argument.
+// f: font to tweak, n: number of tab stop characters,
+// returns the number of pixels to be passed to setTabStopWidth()
+	int tweakForTabStops(QFont &f,int n);
 }
 
 #endif

@@ -23,6 +23,7 @@
 
 #include <QFontDatabase>
 #include <QFontInfo>
+#include <QFontMetricsF>
 
 QFont FontUtils::defaultFixedFont() {
 	QFont f=QFontDatabase::systemFont(QFontDatabase::FixedFont);
@@ -40,4 +41,14 @@ QFont FontUtils::defaultFixedFont() {
 	}
 #endif
 	return f;
+}
+
+int FontUtils::tweakForTabStops(QFont &f,int n) {
+	f.setLetterSpacing(QFont::AbsoluteSpacing,0);
+	QString tmp(n,' ');
+	qreal w=QFontMetricsF(f).width(tmp);
+	int wi=static_cast<int>(w);
+	qreal err=(w-wi)/n;
+	f.setLetterSpacing(QFont::AbsoluteSpacing,-err);
+	return wi;
 }
