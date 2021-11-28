@@ -25,6 +25,8 @@
 #include <QFontInfo>
 #include <QFontMetricsF>
 
+#include <cmath>
+
 QFont FontUtils::defaultFixedFont() {
 	QFont f=QFontDatabase::systemFont(QFontDatabase::FixedFont);
 	if(!QFontInfo(f).fixedPitch()) { // failed to get monospaced font, try an alternative method
@@ -47,7 +49,7 @@ int FontUtils::tweakForTabStops(QFont &f,int n) {
 	f.setLetterSpacing(QFont::AbsoluteSpacing,0);
 	QString tmp(n,' ');
 	qreal w=QFontMetricsF(f).width(tmp);
-	int wi=static_cast<int>(w);
+	int wi=std::lround(w);
 	qreal err=(w-wi)/n;
 	f.setLetterSpacing(QFont::AbsoluteSpacing,-err);
 	return wi;

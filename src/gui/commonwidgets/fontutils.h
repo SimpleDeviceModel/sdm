@@ -32,7 +32,9 @@ namespace FontUtils {
 // Tweak font letterspacing to make tab stop width integral. This is needed
 // because QPlainTextEdit::setTabStopWidth() accepts integer argument.
 // f: font to tweak, n: number of tab stop characters,
-// returns the number of pixels to be passed to setTabStopWidth()
+// returns the number of pixels to be passed to setTabStopWidth().
+// Note: since Qt 5.10 this hack is not needed, there is the new
+// setTabStopDistance() function which accepts qreal.
 	int tweakForTabStops(QFont &f,int n);
 }
 
