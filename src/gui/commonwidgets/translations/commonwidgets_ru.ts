@@ -81,17 +81,17 @@
 <context>
     <name>PlotterAddCursorDialog</name>
     <message>
-        <location filename="../plotteraddcursordialog.cpp" line="34"/>
+        <location filename="../plotteraddcursordialog.cpp" line="36"/>
         <source>Add cursor</source>
         <translation>Добавить курсор</translation>
     </message>
     <message>
-        <location filename="../plotteraddcursordialog.cpp" line="39"/>
+        <location filename="../plotteraddcursordialog.cpp" line="41"/>
         <source>Name</source>
         <translation>Имя</translation>
     </message>
     <message>
-        <location filename="../plotteraddcursordialog.cpp" line="43"/>
+        <location filename="../plotteraddcursordialog.cpp" line="45"/>
         <source>Position</source>
         <translation>Положение</translation>
     </message>
@@ -99,22 +99,22 @@
 <context>
     <name>PlotterBarScene</name>
     <message>
-        <location filename="../plotterbarscene.cpp" line="41"/>
+        <location filename="../plotterbarscene.cpp" line="42"/>
         <source>Plot mode toolbar</source>
         <translation>Режим графика</translation>
     </message>
     <message>
-        <location filename="../plotterbarscene.cpp" line="46"/>
+        <location filename="../plotterbarscene.cpp" line="47"/>
         <source>Line width: </source>
         <translation>Толщина линии: </translation>
     </message>
     <message>
-        <location filename="../plotterbarscene.cpp" line="57"/>
+        <location filename="../plotterbarscene.cpp" line="58"/>
         <source>Default</source>
         <translation>По умолчанию</translation>
     </message>
     <message>
-        <location filename="../plotterbarscene.cpp" line="64"/>
+        <location filename="../plotterbarscene.cpp" line="65"/>
         <source>Antialiasing</source>
         <translation>Антиалиасинг</translation>
     </message>

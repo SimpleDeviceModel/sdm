@@ -35,6 +35,7 @@
 #include <vector>
 #include <functional>
 #include <cmath>
+#include <limits>
 
 PlotterBarScene::PlotterBarScene(Mode m):
 	_mode(m),
