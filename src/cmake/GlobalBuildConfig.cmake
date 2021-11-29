@@ -80,7 +80,13 @@ if(GCC_CMDLINE_SYNTAX)
 # to the Qt's "emit" macro which expands to nothing and breaks indentation.
 # -Wno-stringop-overflow prevents bogus GCC11 warning in the
 # QVector<T>::append(), probably a compiler bug.
-	set(GCC_WARNINGS "-pedantic -Wall -Wextra -Wno-unused-parameter -Wno-misleading-indentation -Wno-stringop-overflow")
+	set(GCC_WARNINGS "-pedantic -Wall -Wextra -Wno-unused-parameter")
+	if(CMAKE_C_COMPILER_ID STREQUAL GNU)
+		set(GCC_WARNINGS "${GCC_WARNINGS} -Wno-stringop-overflow")
+	endif()
+	if(CMAKE_C_COMPILER_ID STREQUAL Clang)
+		set(GCC_WARNINGS "${GCC_WARNINGS} -Wno-unknown-warning-option -Wno-misleading-indentation")
+	endif()
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${GCC_WARNINGS}")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_WARNINGS}")
 endif()
