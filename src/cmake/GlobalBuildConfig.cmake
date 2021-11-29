@@ -76,8 +76,13 @@ endif()
 # Set up warning level
 
 if(GCC_CMDLINE_SYNTAX)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pedantic -Wall -Wextra -Wno-unused-parameter -Wno-misleading-indentation")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -Wall -Wextra -Wno-unused-parameter -Wno-misleading-indentation")
+# Note: -Wno-misleading-indentation prevents bogus Clang warnings related
+# to the Qt's "emit" macro which expands to nothing and breaks indentation.
+# -Wno-stringop-overflow prevents bogus GCC11 warning in the
+# QVector<T>::append(), probably a compiler bug.
+	set(GCC_WARNINGS "-pedantic -Wall -Wextra -Wno-unused-parameter -Wno-misleading-indentation -Wno-stringop-overflow")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${GCC_WARNINGS}")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_WARNINGS}")
 endif()
 
 # Don't export unnecessary symbols from the executables
