@@ -190,8 +190,14 @@ Function .onInit
 	ReadRegStr $OldUninstaller HKLM \
 		"Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_FULL_NAME_WITH_ARCH}" \
 		"UninstallString"
+	StrCmp $OldUninstaller "" 0 process_old_uninstaller
+# Detect legacy Microproject SDM installations
+	ReadRegStr $OldUninstaller HKLM \
+		"Software\Microsoft\Windows\CurrentVersion\Uninstall\Microproject SDM (${ARCH_STR})" \
+		"UninstallString"
 	StrCmp $OldUninstaller "" done
 	
+process_old_uninstaller:
 	Push $OldUninstaller
 	Call GetInQuotes
 	Pop $OldUninstallerPath
