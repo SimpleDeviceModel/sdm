@@ -52,7 +52,8 @@ IN THE SOFTWARE.
 THIRD PARTY SOFTWARE COMPONENTS
 
 SDM framework includes the following third party software components. License
-conditions for third-party software are provided in the documentation.
+conditions for third-party software are provided in the documentation
+directory.
 
     * Lua: Copyright © 1994–2020 Lua.org, PUC-Rio.
     * The Qt Toolkit: Copyright © 2015 The Qt Company Ltd.

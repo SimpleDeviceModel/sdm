@@ -23,6 +23,7 @@
 
 #include "consolewidget.h"
 #include "fstring.h"
+#include "fontutils.h"
 
 #include <QTextBlock>
 #include <QMenu>
@@ -35,8 +36,6 @@
 #include <QFile>
 #include <QTextStream>
 #include <QTextCodec>
-#include <QFontDatabase>
-#include <QFontMetrics>
 
 const int ConsoleWidget::maxHistorySize=500;
 const int ConsoleWidget::maxBlocks=10000;
@@ -52,7 +51,7 @@ ConsoleWidget::ConsoleWidget(const QString &name,QWidget *parent):
 	setWordWrapMode(QTextOption::WrapAnywhere);
 
 // Set up font
-	QFont f=QFontDatabase::systemFont(QFontDatabase::FixedFont);
+	QFont f=FontUtils::defaultFixedFont();
 	QSettings s;
 	if(s.contains("ConsoleWidget/Font")) f.fromString(s.value("ConsoleWidget/Font").toString());
 	applyFont(f);
@@ -183,7 +182,7 @@ void ConsoleWidget::saveCmdHistory() {
 	QTextStream ts(&f);
 	auto codec=QTextCodec::codecForName("UTF-8");
 	ts.setCodec(codec);
-	for(auto const str: history) ts<<str<<endl;
+	for(auto const &str: history) ts<<str<<endl;
 }
 
 void ConsoleWidget::loadCmdHistory() {
@@ -284,8 +283,9 @@ void ConsoleWidget::runCommand(const QString &cmd,bool suppressEcho) {
 }
 
 void ConsoleWidget::applyFont(const QFont &f) {
-	setFont(f);
-	setTabStopWidth(QFontMetrics(f).averageCharWidth()*8);
+	QFont newFont=f;
+	setTabStopWidth(FontUtils::tweakForTabStops(newFont,8));
+	setFont(newFont);
 }
 
 /*

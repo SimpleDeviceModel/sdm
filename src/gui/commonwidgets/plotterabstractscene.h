@@ -78,6 +78,7 @@ public:
 	static bool isVectorDevice(QPainter &painter);
 signals:
 	void changed();
+	void replaced();
 protected:
 	void drawGrid(QPainter &painter) const;
 	void fillBackground(QPainter &painter) const;

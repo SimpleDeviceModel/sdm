@@ -66,7 +66,7 @@ SDM is officially supported on machines with an x86 or x86-64 CPU architecture a
 
 \begin{itemize}
 	\item Microsoft® Windows® 7 SP1 or later;
-	\item Ubuntu® 16.04 or later.
+	\item Ubuntu® 18.04 or later.
 \end{itemize}
 
 It is also possible that SDM will work on other platforms. In particular, any modern (vendor-supported) Linux® distribution that can install the build system dependencies (Subsection \ref{subsec:dependencies}) is likely capable of building and running SDM.
@@ -86,13 +86,12 @@ Uninstallation is performed, as usual, from the Control Panel or by running \she
 
 \section{Installation on Ubuntu}
 
-The following instructions are tailored for Ubuntu 16.04, but might also work with other versions. Installation is performed by building SDM from source. First, build system dependencies must be installed:
+Installation is performed by building SDM from source. First, build system dependencies must be installed:
 
 \begin{shellcmds}
-sudo apt-get install build-essential qt5-default \textbackslash
+sudo apt install build-essential qtbase5-dev qtbase5-dev-tools \textbackslash
     libqt5svg5-dev qttools5-dev qttools5-dev-tools \textbackslash
-    qttranslations5-l10n qt5-image-formats-plugins \textbackslash
-    cmake
+    qttranslations5-l10n qt5-image-formats-plugins cmake
 \end{shellcmds}
 
 After that, SDM itself can be built with the following commands (assuming that they are run from the SDM source distribution top-level directory):
@@ -117,10 +116,10 @@ SDM can be removed from the system by running \shellcmd{uninstall.sh} from the b
 	\item A toolchain for \cplusplus{} development:
 		\begin{itemize}
 			\item for Microsoft Windows: Microsoft Visual Studio® 2013 or later, or MinGW-w64 GCC 4.8 or later (see notes below). Pre-built Windows packages are created with Microsoft Visual Studio 2013.
-			\item for Linux: GCC 4.8 or later, or Clang 3.4 or later.
+			\item for Linux: GCC 4.9 or later, or Clang 3.4 or later.
 		\end{itemize}
 	\item CMake 3.3 or later;
-	\item Qt® 5.x, x $\ge$ 2 (optional, for \shellcmd{sdmconsole});
+	\item Qt® 5.x, x $\ge$ 6 (optional, for \shellcmd{sdmconsole});
 	\item NSIS 3.0 or later (optional, for Windows installer);
 	\item TeX Live 2013 or later (optional, for \LaTeX{} documentation).
 \end{itemize}
@@ -219,6 +218,8 @@ Option & Description \\
 \shellcmd{OPTION\_USE\_VCREDIST} & When building the installer package, deploy the Microsoft Visual \cplusplus{} Runtime using \shellcmd{vcredist\_*.exe} (MSVC only). Default is \shellcmd{OFF} for Microsoft Visual Studio 2013, \shellcmd{ON} for later versions. See also Subsection \ref{subsec:wininstaller}. \\
 
 \shellcmd{OPTION\_VALGRIND} & Enable using \shellcmd{valgrind} by the test suite to track memory leaks (Linux only). \\
+
+\shellcmd{OPTION\_NO\_ICONS} & Skip installation of desktop entries (Linux only). \\
 
 \midrule
 \tabcutin{2}{SDM specific variables}\\
@@ -358,6 +359,14 @@ Installation directories for SDM components are listed in Table \ref{tab:install
 \end{table}
 
 User settings are stored in \shellcmd{\%APPDATA\%\textbackslash{}Microproject} on Microsoft Windows and in \shellcmd{\$HOME/.config/Microproject} on Linux.
+
+On Linux, how desktop entries (shortcuts and icons) are installed depends on the \shellcmd{CMAKE\_INSTALL\_PREFIX} value:
+
+\begin{itemize}
+\item if \shellcmd{CMAKE\_INSTALL\_PREFIX} is in the current user's home directory, desktop entries are installed to \shellcmd{\$HOME/.local/share};
+\item otherwise, if \shellcmd{CMAKE\_INSTALL\_PREFIX} is \shellcmd{/usr}, desktop entries are installed to \shellcmd{/usr/share};
+\item otherwise, \shellcmd{/usr/local/share} is used.
+\end{itemize}
 
 \chapter{Basic usage}
 \label{ch:basicusage}
@@ -652,8 +661,6 @@ Plotter window provides multiple ways to navigate the viewport area, which are s
 Control & To scroll & To zoom \\
 \toprule
 Keyboard & \uielement{Up}, \uielement{Down}, \uielement{Left}, \uielement{Right}, \uielement{PageUp}, \uielement{PageDown} keys & --- \\
-\midrule
-Scroll bars & As usual & --- \\
 \midrule
 Wheel & Scroll up/down, with \uielement{Shift}: left/right & With \uielement{Control}: zoom vertically, with \uielement{Shift}+\uielement{Control}: zoom horizontally \\
 \midrule

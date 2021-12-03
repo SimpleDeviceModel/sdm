@@ -54,6 +54,7 @@ private:
 	QToolBar *_toolBar;
 	QAction *_dragToScrollAction;
 	QAction *_dragToZoomAction;
+	QAction *_freezeAction;
 	QLabel *_fpsLabel;
 	
 	bool _freezed=false;
@@ -97,6 +98,7 @@ public slots:
 protected:
 	virtual void changeEvent(QEvent *e) override;
 	virtual void mousePressEvent(QMouseEvent *e) override;
+	virtual void keyPressEvent(QKeyEvent *e) override;
 
 private:
 	void setupFgBrushes();

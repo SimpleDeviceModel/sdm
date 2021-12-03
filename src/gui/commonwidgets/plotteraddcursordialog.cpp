@@ -28,6 +28,8 @@
 #include <QSpinBox>
 #include <QDialogButtonBox>
 
+#include <limits>
+
 PlotterAddCursorDialog::PlotterAddCursorDialog(QWidget *parent):
 	QDialog(parent)
 {

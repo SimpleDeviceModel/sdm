@@ -76,8 +76,19 @@ endif()
 # Set up warning level
 
 if(GCC_CMDLINE_SYNTAX)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pedantic -Wall -Wextra -Wno-unused-parameter")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -Wall -Wextra -Wno-unused-parameter")
+# Note: -Wno-misleading-indentation prevents bogus Clang warnings related
+# to the Qt's "emit" macro which expands to nothing and breaks indentation.
+# -Wno-stringop-overflow prevents bogus GCC11 warning in the
+# QVector<T>::append(), probably a compiler bug.
+	set(GCC_WARNINGS "-pedantic -Wall -Wextra -Wno-unused-parameter")
+	if(CMAKE_C_COMPILER_ID STREQUAL GNU)
+		set(GCC_WARNINGS "${GCC_WARNINGS} -Wno-stringop-overflow")
+	endif()
+	if(CMAKE_C_COMPILER_ID STREQUAL Clang)
+		set(GCC_WARNINGS "${GCC_WARNINGS} -Wno-unknown-warning-option -Wno-misleading-indentation")
+	endif()
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${GCC_WARNINGS}")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_WARNINGS}")
 endif()
 
 # Don't export unnecessary symbols from the executables
@@ -95,11 +106,4 @@ endif()
 if(GCC_CMDLINE_SYNTAX)
 	set(CMAKE_C_VISIBILITY_PRESET hidden)
 	set(CMAKE_CXX_VISIBILITY_PRESET hidden)
-endif()
-
-# Enable timed mutex workaround for libstdc++
-
-if(GCC_CMDLINE_SYNTAX)
-	include_directories(${CMAKE_CURRENT_LIST_DIR}/workarounds)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -include timed_mutex_workaround.h")
 endif()

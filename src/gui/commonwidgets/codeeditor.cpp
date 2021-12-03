@@ -21,6 +21,7 @@
  */
 
 #include "codeeditor.h"
+#include "fontutils.h"
 
 #include <QTextCursor>
 #include <QTextDocument>
@@ -32,8 +33,6 @@
 #include <QAction>
 #include <QSettings>
 #include <QFontDialog>
-#include <QFontDatabase>
-#include <QFontMetrics>
 
 #include <memory>
 
@@ -52,11 +51,11 @@ CodeEditor::CodeEditor(QWidget *parent):
 		f.fromString(savedFont.toString());
 		applyFont(f);
 	}
-	else applyFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+	else applyFont(FontUtils::defaultFixedFont());
 	
 	setShowWhiteSpace(s.value("ShowWhiteSpace",true).toBool());
 	setWrapped(s.value("Wrap",true).toBool());
-	setTabWidth(s.value("TabWidth",8).toInt());
+	setTabWidth(s.value("TabWidth",_tabWidth).toInt());
 	
 // Usually QPlainTextEdit changes text color when disabled, but
 // in the presence of syntax highlighting it may not be obvious.
@@ -82,8 +81,9 @@ void CodeEditor::chooseFont() {
 }
 
 void CodeEditor::applyFont(const QFont &f) {
-	setFont(f);
-	setTabStopWidth(QFontMetrics(f).averageCharWidth()*_tabWidth);
+	QFont newFont=f;
+	setTabStopWidth(FontUtils::tweakForTabStops(newFont,_tabWidth));
+	setFont(newFont);
 }
 
 void CodeEditor::modifyFontSize(int increment) {

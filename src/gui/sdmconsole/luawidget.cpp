@@ -26,11 +26,13 @@
 #include "ioredirector.h"
 #include "cmdargs.h"
 #include "sdmconfig.h"
+#include "hints.h"
 
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QMimeData>
 #include <QCoreApplication>
+#include <QSettings>
 
 using namespace std::placeholders;
 
@@ -75,6 +77,13 @@ LuaWidget::LuaWidget(LuaServer &l,const FString &name,QWidget *parent):
 		Config::version()+" ("+Config::architecture()+")\n";
 	
 	consoleOutput(welcome);
+	
+	QSettings s;
+	if(s.value("MainWindow/DisplayHints",true).toBool()) {
+		FString hint=Hints::getHint();
+		consoleOutput(hint+"\n");
+	}
+	
 	consolePrompt("> ");
 	
 	setAcceptDrops(true);

@@ -23,6 +23,7 @@
 
 #include "fruntime_error.h"
 #include "filedialogex.h"
+#include "fontutils.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -47,7 +48,6 @@
 #include <QClipboard>
 #include <QFile>
 #include <QFileInfo>
-#include <QFontMetrics>
 #include <QFontDialog>
 #include <QContextMenuEvent>
 #include <QMenu>
@@ -80,7 +80,7 @@ TextViewer::TextViewer(QWidget *parent): QDialog(parent) {
 		f.fromString(savedFont.toString());
 		applyFont(f);
 	}
-	else applyFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+	else applyFont(FontUtils::defaultFixedFont());
 	
 	auto hbox=new QHBoxLayout;
 	hbox->addStretch();
@@ -129,8 +129,9 @@ void TextViewer::chooseFont() {
 }
 
 void TextViewer::applyFont(const QFont &f) {
-	_edit->setFont(f);
-	_edit->setTabStopWidth(QFontMetrics(f).averageCharWidth()*8);
+	QFont newFont=f;
+	_edit->setTabStopWidth(FontUtils::tweakForTabStops(newFont,8));
+	_edit->setFont(newFont);
 }
 
 void TextViewer::clear() {

@@ -89,9 +89,9 @@ void PlotterAbstractScene::drawGrid(QPainter &painter) const {
 	const QSizeF pixelSize(std::abs(1/t.m11()),std::abs(1/t.m22()));
 
 // Calculate max label width in scene coordinates
-	const int digits=static_cast<int>(std::ceil(std::log10(bounds.right())));
-	const QString test(digits,'0');
-	const QSizeF labelSize(painter.fontMetrics().width(test),painter.fontMetrics().height());
+	auto rightWidth=painter.fontMetrics().boundingRect(QString::number(bounds.right())).width();
+	auto leftWidth=painter.fontMetrics().boundingRect(QString::number(bounds.left())).width();
+	const QSizeF labelSize(std::max(rightWidth,leftWidth),painter.fontMetrics().height());
 	const QPointF labelMargin(0.3*painter.fontMetrics().height(),1.1*labelSize.height());
 
 // Draw vertical grid lines

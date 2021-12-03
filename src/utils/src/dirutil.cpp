@@ -32,7 +32,6 @@
 	#include <unistd.h>
 	#include <limits.h>
 	#include <sys/types.h>
-	#include <sys/sysctl.h>
 	#include <pwd.h>
 #endif
 
@@ -187,7 +186,7 @@ Path Path::home() {
 
 Path Path::exePath() {
 	u8e::Codec codec(u8e::LocalMB,u8e::UTF8);
-// Linux method
+// Note: this code is Linux-specific
 	Path res;
 	char *sz=realpath("/proc/self/exe",NULL);
 	if(sz) {
@@ -201,16 +200,6 @@ Path Path::exePath() {
 		free(sz);
 		return res;
 	}
-
-// FreeBSD method
-#ifdef KERN_PROC_PATHNAME
-	char buf[PATH_MAX+1];
-	int name[4]={CTL_KERN,KERN_PROC,KERN_PROC_PATHNAME,-1};
-	std::size_t len=PATH_MAX+1;
-	int r=sysctl(name,4,buf,&len,NULL,0);
-	if(r==0) return Path(codec.transcode(buf));
-#endif
-
 	return Path();
 }
 

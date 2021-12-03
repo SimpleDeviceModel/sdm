@@ -96,6 +96,7 @@ public slots:
 	void menuHelpLuaHelp();
 	void menuHelpAbout();
 	
+	void menuSettingsDisplayHints(bool b);
 	void menuSettingsReset();
 	
 	void executeScript(const QString &path);

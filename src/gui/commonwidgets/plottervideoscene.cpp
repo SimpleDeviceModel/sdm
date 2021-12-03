@@ -340,4 +340,5 @@ void PlotterVideoScene::videoWidthChanged(int i) {
 	s.setValue("Plotter/VideoWidth",_videoWidth);
 	updateRect();
 	emit changed();
+	emit replaced();
 }

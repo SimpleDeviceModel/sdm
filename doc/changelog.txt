@@ -1,4 +1,25 @@
 ========================
+SDM 1.0.1
+------------------------
+Released on 2021-12-03
+========================
+
+sdmconsole:
+
+* plotter now supports limitless scrolling, scrollbars have been removed
+* various minor ergonomic enhancements in the plotter module
+* default console font for Windows changed from Courier New to Consolas (if available)
+* implement unobtrusive hints on startup
+* fixed minor glitches in the stream viewer
+
+Build system:
+
+* Linux installer now creates an sdmconsole application shortcut
+* requirements bumped: gcc>=4.9, Qt>=5.6, Ubuntu>=18.04
+* fixed a bunch of compiler errors/warnings generated with newer Qt, gcc, clang and libstdc++
+* experimental BSD-specific code removed
+
+========================
 SDM 1.0.0
 ------------------------
 Released on 2021-11-23

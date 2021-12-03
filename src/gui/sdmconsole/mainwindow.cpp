@@ -52,7 +52,6 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QLocale>
-#include <QFontDatabase>
 #include <QStyle>
 
 #include <map>
@@ -93,14 +92,14 @@ MainWindow::MainWindow(LuaServerQt &l,DocRoot &d,QWidget *parent):
 
 // Set up dock widget notifications
 	QObject::connect(this,&MainWindow::dockChange,this,&MainWindow::arrangeDockWidgets,Qt::QueuedConnection);
-
-// Set up geometry
-	restoreMetrics();
-	QObject::connect(_splitter,&QSplitter::splitterMoved,[this](int pos,int i){_sidebarSize=pos;});
 	
 // Obtain full screen keyboard shortcut
 	_fullScreenShortcut=QKeySequence::FullScreen;
 	if(_fullScreenShortcut.isEmpty()) _fullScreenShortcut=QKeySequence("F11");
+
+// Set up geometry
+	restoreMetrics();
+	QObject::connect(_splitter,&QSplitter::splitterMoved,[this](int pos,int i){_sidebarSize=pos;});
 	
 // Create main menu
 	constructMainMenu();
@@ -220,6 +219,14 @@ void MainWindow::constructMainMenu() {
 	populateLanguageMenu(langMenu);
 	m->addAction(QIcon(":/commonwidgets/icons/font.svg"),tr("Console font")+"...",
 		_luaConsole,SLOT(menuChooseFont()));
+	
+	a=m->addAction(tr("Display hints"),this,SLOT(menuSettingsDisplayHints(bool)));
+	a->setCheckable(true);
+	auto displayHints=s.value("DisplayHints",true).toBool();
+	a->setChecked(displayHints);
+	
+	m->addSeparator();
+	
 	m->addAction(QIcon(":/icons/reset.svg"),tr("Reset to defaults")+"...",
 		this,SLOT(menuSettingsReset()));
 	
@@ -413,6 +420,11 @@ void MainWindow::menuLuaRunScriptFromFile() try {
 }
 catch(std::exception &ex) {
 	QMessageBox::critical(this,QObject::tr("Error"),ex.what(),QMessageBox::Ok);
+}
+
+void MainWindow::menuSettingsDisplayHints(bool b) {
+	QSettings s;
+	s.setValue("MainWindow/DisplayHints",b);
 }
 
 void MainWindow::menuSettingsReset() {

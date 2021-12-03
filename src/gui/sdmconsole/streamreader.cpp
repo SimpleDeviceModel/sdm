@@ -104,6 +104,10 @@ void StreamReader::setDisplayTimeout(int i) {
 	_displayTimeout=i;
 }
 
+void StreamReader::flush() {
+	_flush=true;
+}
+
 void StreamReader::addViewer(PlotterWidget *w,int stream,int layer,int multi) {
 	_widgets.emplace(w,StreamLayer(w,stream,layer,multi));
 	prepareStreamSet();
@@ -167,7 +171,8 @@ void StreamReader::run() try {
 			}
 		}
 		
-		applyStreamSet(force);
+		if(applyStreamSet(force)) packets.clear();
+		if(_flush.exchange(false)) packets.clear();
 		
 		std::size_t nStreams=_streams.streams.size();
 		if(nStreams==0) break;
@@ -388,9 +393,10 @@ void StreamReader::prepareStreamSet() {
 	_newStreams.dirty=true;
 }
 
-void StreamReader::applyStreamSet(bool force) {
+bool StreamReader::applyStreamSet(bool force) {
+// returns true is selectReadStreams() has been actually called
 	auto lock=lock_t(_streamMutex);
-	if(!_newStreams.dirty&&!force) return;
+	if(!_newStreams.dirty&&!force) return false;
 	_newStreams.dirty=false;
 	std::vector<int> sv(_newStreams.streams.cbegin(),_newStreams.streams.cend());
 	try {
@@ -422,9 +428,10 @@ void StreamReader::applyStreamSet(bool force) {
 		prepareStreamSet();
 		if(bad) marshalAsync([]{QMessageBox::critical(nullptr,QObject::tr("Error"),
 			tr("Cannot apply data stream set"),QMessageBox::Ok);});
-		return;
+		return true;
 	}
 	_streams=_newStreams;
+	return true;
 }
 
 // Note: StreamReader::reset() is intended to be run from the GUI thread

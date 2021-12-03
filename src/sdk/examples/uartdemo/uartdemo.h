@@ -98,7 +98,6 @@ public:
 	virtual int readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) override;
 	virtual int readNextPacket() override;
 	virtual void discardPackets() override;
-	virtual int readStreamErrors() override;
 	
 private:
 	std::size_t loadFromQueue(sdm_sample_t *data,std::size_t n);

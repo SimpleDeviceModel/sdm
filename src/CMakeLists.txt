@@ -25,6 +25,7 @@ endif()
 
 if(UNIX)
 	option(OPTION_VALGRIND "Enable Valgrind in the main test suite")
+	option(OPTION_NO_ICONS "Skip installation of desktop entries")
 endif()
 
 include(Version)

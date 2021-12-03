@@ -81,17 +81,17 @@
 <context>
     <name>PlotterAddCursorDialog</name>
     <message>
-        <location filename="../plotteraddcursordialog.cpp" line="34"/>
+        <location filename="../plotteraddcursordialog.cpp" line="36"/>
         <source>Add cursor</source>
         <translation>Добавить курсор</translation>
     </message>
     <message>
-        <location filename="../plotteraddcursordialog.cpp" line="39"/>
+        <location filename="../plotteraddcursordialog.cpp" line="41"/>
         <source>Name</source>
         <translation>Имя</translation>
     </message>
     <message>
-        <location filename="../plotteraddcursordialog.cpp" line="43"/>
+        <location filename="../plotteraddcursordialog.cpp" line="45"/>
         <source>Position</source>
         <translation>Положение</translation>
     </message>
@@ -99,22 +99,22 @@
 <context>
     <name>PlotterBarScene</name>
     <message>
-        <location filename="../plotterbarscene.cpp" line="41"/>
+        <location filename="../plotterbarscene.cpp" line="42"/>
         <source>Plot mode toolbar</source>
         <translation>Режим графика</translation>
     </message>
     <message>
-        <location filename="../plotterbarscene.cpp" line="46"/>
+        <location filename="../plotterbarscene.cpp" line="47"/>
         <source>Line width: </source>
         <translation>Толщина линии: </translation>
     </message>
     <message>
-        <location filename="../plotterbarscene.cpp" line="57"/>
+        <location filename="../plotterbarscene.cpp" line="58"/>
         <source>Default</source>
         <translation>По умолчанию</translation>
     </message>
     <message>
-        <location filename="../plotterbarscene.cpp" line="64"/>
+        <location filename="../plotterbarscene.cpp" line="65"/>
         <source>Antialiasing</source>
         <translation>Антиалиасинг</translation>
     </message>
@@ -230,27 +230,27 @@
 <context>
     <name>PlotterScrollArea</name>
     <message>
-        <location filename="../plotterscrollarea.cpp" line="516"/>
+        <location filename="../plotterscrollarea.cpp" line="497"/>
         <source>Image generation failed</source>
         <translation>Не удалось сохранить изображение</translation>
     </message>
     <message>
-        <location filename="../plotterscrollarea.cpp" line="523"/>
+        <location filename="../plotterscrollarea.cpp" line="504"/>
         <source>Cursor %1</source>
         <translation>Курсор %1</translation>
     </message>
     <message>
-        <location filename="../plotterscrollarea.cpp" line="621"/>
+        <location filename="../plotterscrollarea.cpp" line="557"/>
         <source>Selected: </source>
         <translation>Выделение: </translation>
     </message>
     <message>
-        <location filename="../plotterscrollarea.cpp" line="623"/>
+        <location filename="../plotterscrollarea.cpp" line="559"/>
         <source>width=</source>
         <translation>ширина=</translation>
     </message>
     <message>
-        <location filename="../plotterscrollarea.cpp" line="624"/>
+        <location filename="../plotterscrollarea.cpp" line="560"/>
         <source>height=</source>
         <translation>высота=</translation>
     </message>
@@ -293,7 +293,7 @@
     <message>
         <location filename="../plotterwidget.cpp" line="74"/>
         <source>Bars</source>
-        <translation>Столбчатая диаграмма</translation>
+        <translation>Столбцы</translation>
     </message>
     <message>
         <location filename="../plotterwidget.cpp" line="75"/>
@@ -461,7 +461,7 @@
         <location filename="../plotterlayersdialog.cpp" line="126"/>
         <location filename="../plotterwidget.cpp" line="277"/>
         <location filename="../plotterwidget.cpp" line="312"/>
-        <location filename="../textviewer.cpp" line="251"/>
+        <location filename="../textviewer.cpp" line="252"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
@@ -497,28 +497,28 @@
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="143"/>
-        <location filename="../textviewer.cpp" line="242"/>
+        <location filename="../textviewer.cpp" line="144"/>
+        <location filename="../textviewer.cpp" line="243"/>
         <source>Cannot open file: &quot;</source>
         <translation>Невозможно открыть файл: &quot;</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="231"/>
+        <location filename="../textviewer.cpp" line="232"/>
         <source>Text files (*.txt)</source>
         <translation>Текстовые файлы (*.txt)</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="231"/>
+        <location filename="../textviewer.cpp" line="232"/>
         <source>All files (*)</source>
         <translation>Все файлы (*)</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="246"/>
+        <location filename="../textviewer.cpp" line="247"/>
         <source>Cannot save document</source>
         <translation>Невозможно сохранить документ</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="267"/>
+        <location filename="../textviewer.cpp" line="268"/>
         <source>Choose font...</source>
         <translation>Выбрать шрифт...</translation>
     </message>

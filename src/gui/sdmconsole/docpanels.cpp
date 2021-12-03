@@ -587,6 +587,7 @@ catch(std::exception &ex) {
 void SourcePanel::flushBuffer() try {
 	AppWideLock::lock_t lock(AppWideLock::guiLock());
 	source.discardPackets();
+	reader.flush();
 }
 catch(std::exception &ex) {
 	QMessageBox::critical(this,QObject::tr("Error"),ex.what(),QMessageBox::Ok);

@@ -26,7 +26,7 @@
 
 #include <QAbstractScrollArea>
 #include <QPointer>
-#include <QTime>
+#include <QElapsedTimer>
 
 #include <set>
 
@@ -74,30 +74,9 @@ private:
 		static Transform rectToRect(const QRectF &src,const QRectF &dest);
 	};
 
-	class ScrollHelper {
-		QRectF _sceneRect;
-		QRectF _viewRect;
-		Transform _transform;
-		
-		QPair<qreal,qreal> _dxRange;
-		QPair<qreal,qreal> _dyRange;
-	public:
-		ScrollHelper() {}
-		ScrollHelper(const QRectF &sceneRect,const QRectF &viewRect,const Transform &transform);
-		
-		int xScrollRange() const;
-		int yScrollRange() const;
-		
-		qreal scrollToDx(int scrollx) const;
-		qreal scrollToDy(int scrolly) const;
-		int dxToScroll(qreal dx) const;
-		int dyToScroll(qreal dy) const;
-	};
-
 private:
 	PlotterAbstractScene *_scene;
 	Transform _transform;
-	ScrollHelper _scrollHelper;
 	
 	QRubberBand *_rubberBand;
 	QPoint _mouseDragPos;
@@ -106,14 +85,14 @@ private:
 	DragMode _drag=DragToScroll;
 	bool _alwaysFit=true;
 	
-	int _fullSceneWidth=-1;
-	int _prevSceneWidth=-1;
+	qreal _maxSceneWidth=-1;
 	int _stableCounter=0;
+	QElapsedTimer _stableTimer;
 	
 	std::set<QPointer<PlotterCursorWidget> > _cursors;
 	int _nextCursorNumber=1;
 	
-	QTime _time;
+	QElapsedTimer _time;
 	int _frames=0;
 public:
 	PlotterScrollArea(QWidget *parent=nullptr);
@@ -139,7 +118,6 @@ signals:
 	void fpsCalculated(double d);
 
 protected:
-	virtual void scrollContentsBy(int dx, int dy) override;
 	virtual void resizeEvent(QResizeEvent *e) override;
 	virtual void paintEvent(QPaintEvent *e) override;
 	
@@ -148,9 +126,9 @@ protected:
 	virtual void mouseReleaseEvent(QMouseEvent *e) override;
 	virtual void mouseMoveEvent(QMouseEvent *e) override;
 	virtual void wheelEvent(QWheelEvent *e) override;
+	virtual void keyPressEvent(QKeyEvent *e) override;
 
 private:
-	void updateScrollBars();
 	void restoreCursor();
 	void updateStatus();
 	void updateCursors();

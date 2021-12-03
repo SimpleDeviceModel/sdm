@@ -29,6 +29,7 @@
 #include <vector>
 #include <thread>
 #include <chrono>
+#include <stdexcept>
 
 #define MAXBUFSIZE 65536
 #define DEFAULT_PACKET_SIZE 500
@@ -76,11 +77,17 @@ UartDevice::UartDevice() {
 	addListItem("Channels","Pin settings");
 	addListItem("Sources","Virtual oscilloscope");
 	
+// Try to auto detect serial port
 #ifdef _WIN32
-	addProperty("SerialPort","COM1");
+	std::string defaultPort("COM1");
 #else
-	addProperty("SerialPort","/dev/ttyACM0");
+	std::string defaultPort("/dev/ttyACM0");
 #endif
+	
+	auto portlist=Uart::listSerialPorts();
+	if(!portlist.empty()) defaultPort=portlist[0];
+	
+	addProperty("SerialPort",defaultPort);
 }
 
 int UartDevice::close() {
@@ -262,10 +269,6 @@ void UartSource::discardPackets() {
 	_port.readAll();
 	std::this_thread::sleep_for(std::chrono::milliseconds(50));
 	_port.readAll();
-}
-
-int UartSource::readStreamErrors() {
-	return 0;
 }
 
 std::size_t UartSource::loadFromQueue(sdm_sample_t *data,std::size_t n) {

@@ -16,21 +16,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with SDM framework.  If not, see <https://www.gnu.org/licenses/>.
  *
- * This header file provides a workaround for a libstdc++ timed
- * mutex bug.
+ * This header file defines a namespace that provides some helpful hints
+ * for the user.
  */
 
-// Note: Timed mutexes used to be buggy in GCC versions prior to 4.9.0.
+#ifndef HINTS_H_INCLUDED
+#define HINTS_H_INCLUDED
 
-#ifndef TIMED_MUTEX_WORKAROUND_H_INCLUDED
-#define TIMED_MUTEX_WORKAROUND_H_INCLUDED
+#include <QString>
 
-// The following line will include bits/c++config.h if we are using libstdc++
-#include <cstddef>
-
-#ifdef _GLIBCXX_USE_CLOCK_MONOTONIC
-// Workaround: don't use monotonic clock
-	#undef _GLIBCXX_USE_CLOCK_MONOTONIC
-#endif
+namespace Hints {
+	QString getHint();
+}
 
 #endif

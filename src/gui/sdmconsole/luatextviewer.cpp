@@ -22,8 +22,7 @@
 
 #include "luatextviewer.h"
 
-#include <QFontDatabase>
-#include <QFontInfo>
+#include "fontutils.h"
 
 using namespace std::placeholders;
 
@@ -88,12 +87,7 @@ int LuaTextViewer::LuaMethod_setfont(LuaServer &lua,const std::vector<LuaValue> 
 		f.setFamily(f.defaultFamily());
 	}
 	else if(str=="monospace") {
-		f=QFontDatabase::systemFont(QFontDatabase::FixedFont);
-		if(!QFontInfo(f).fixedPitch()) { // failed to get monospaced font, try alternative method
-			f.setStyleHint(QFont::TypeWriter);
-			f.setFixedPitch(true);
-			f.setFamily(f.defaultFamily());
-		}
+		f=FontUtils::defaultFixedFont();
 	}
 	else f=QFont(str);
 	

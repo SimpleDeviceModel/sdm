@@ -26,7 +26,6 @@
 #include "plotteraddcursordialog.h"
 
 #include <QPainter>
-#include <QScrollBar>
 #include <QMouseEvent>
 #include <QCursor>
 #include <QTextStream>
@@ -146,78 +145,17 @@ PlotterScrollArea::Transform PlotterScrollArea::Transform::rectToRect(const QRec
 }
 
 /*
- * ScrollHelper member
- */
-
-PlotterScrollArea::ScrollHelper::ScrollHelper(const QRectF &sceneRect,const QRectF &viewRect,const Transform &transform):
-		_sceneRect(sceneRect),_viewRect(viewRect),_transform(transform) {
-// Calculate scene rectangle in view coordinate system
-	QRectF fullRect=_transform.map(_sceneRect);
-// Calculate valid dx range
-	if(qAbs(fullRect.width())>qAbs(_viewRect.width())) {
-		if(_transform.scaleX()>0) {
-			_dxRange.first=_viewRect.left()-_sceneRect.left()*_transform.scaleX();
-			_dxRange.second=_viewRect.right()-_sceneRect.right()*_transform.scaleX();
-		}
-		else {
-			_dxRange.first=_viewRect.left()-_sceneRect.right()*_transform.scaleX();
-			_dxRange.second=_viewRect.right()-_sceneRect.left()*_transform.scaleX();
-		}
-	}
-	else _dxRange=qMakePair(_transform.dx(),_transform.dx());
-	
-	if(qAbs(fullRect.height())>qAbs(_viewRect.height())) {
-		if(_transform.scaleY()>0) {
-			_dyRange.first=_viewRect.top()-_sceneRect.top()*_transform.scaleY();
-			_dyRange.second=_viewRect.bottom()-_sceneRect.bottom()*_transform.scaleY();
-		}
-		else {
-			_dyRange.first=_viewRect.top()-_sceneRect.bottom()*_transform.scaleY();
-			_dyRange.second=_viewRect.bottom()-_sceneRect.top()*_transform.scaleY();
-		}
-	}
-	else _dyRange=qMakePair(_transform.dy(),_transform.dy());
-}
-
-int PlotterScrollArea::ScrollHelper::xScrollRange() const {
-	return static_cast<int>(qAbs(_dxRange.second-_dxRange.first));
-}
-
-int PlotterScrollArea::ScrollHelper::yScrollRange() const {
-	return static_cast<int>(qAbs(_dyRange.second-_dyRange.first));
-}
-
-qreal PlotterScrollArea::ScrollHelper::scrollToDx(int scrollx) const {
-	if(_dxRange.second>_dxRange.first) return _dxRange.first+scrollx;
-	else return _dxRange.first-scrollx;
-}
-
-qreal PlotterScrollArea::ScrollHelper::scrollToDy(int scrolly) const {
-	if(_dyRange.second>_dyRange.first) return _dyRange.first+scrolly;
-	else return _dyRange.first-scrolly;
-}
-
-int PlotterScrollArea::ScrollHelper::dxToScroll(qreal dx) const {
-	if(_dxRange.second>_dxRange.first) return static_cast<int>(dx-_dxRange.first);
-	else return static_cast<int>(_dxRange.first-dx);
-}
-
-int PlotterScrollArea::ScrollHelper::dyToScroll(qreal dy) const {
-	if(_dyRange.second>_dyRange.first) return static_cast<int>(dy-_dyRange.first);
-	else return static_cast<int>(_dyRange.first-dy);
-}
-
-/*
  * PlotterScrollArea members
  */
 
 static const int StableCounterMax=5;
+static const int StableTimerMaxMsec=1000;
 
 PlotterScrollArea::PlotterScrollArea(QWidget *parent):
 	QAbstractScrollArea(parent)
 {
-	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setupViewport(viewport());
 	
 	_rubberBand=new QRubberBand(QRubberBand::Rectangle,this);
@@ -235,16 +173,16 @@ void PlotterScrollArea::setupViewport(QWidget *viewport) {
 
 void PlotterScrollArea::setScene(PlotterAbstractScene *s) {
 	_scene=s;
-	QObject::disconnect(this,SLOT(sceneChanged()));
 	QObject::connect(_scene,&PlotterAbstractScene::changed,this,&PlotterScrollArea::sceneChanged);
+	QObject::connect(_scene,&PlotterAbstractScene::replaced,this,&PlotterScrollArea::zoomFit);
 	_transform=Transform();
 	for(auto &c: _cursors) if(!c.isNull()) c->setScene(s);
 	updateCursors();
 	viewport()->update();
 	_alwaysFit=true;
-	_fullSceneWidth=-1;
-	_prevSceneWidth=-1;
+	_maxSceneWidth=-1;
 	_stableCounter=0;
+	_stableTimer.start();
 }
 
 QSize PlotterScrollArea::sizeHint() const {
@@ -253,22 +191,8 @@ QSize PlotterScrollArea::sizeHint() const {
 	return QSize(geometry.width()/2,geometry.height()*2/5);
 }
 
-void PlotterScrollArea::scrollContentsBy(int dx,int dy) {
-	if(horizontalScrollBar()->maximum()>0) _transform.setDx(_scrollHelper.scrollToDx(horizontalScrollBar()->value()));
-	if(verticalScrollBar()->maximum()>0) _transform.setDy(_scrollHelper.scrollToDy(verticalScrollBar()->value()));
-	updateCursors();
-	viewport()->update();
-}
-
 void PlotterScrollArea::resizeEvent(QResizeEvent *) {
 	if(_alwaysFit) zoomFit();
-	else {
-		updateScrollBars();
-		horizontalScrollBar()->setPageStep(viewport()->rect().width());
-		horizontalScrollBar()->setSingleStep(std::max(viewport()->rect().width()/5,1));
-		verticalScrollBar()->setPageStep(viewport()->rect().height());
-		verticalScrollBar()->setSingleStep(std::max(viewport()->rect().height()/5,1));
-	}
 }
 
 void PlotterScrollArea::paintEvent(QPaintEvent *) {
@@ -307,7 +231,6 @@ void PlotterScrollArea::mouseReleaseEvent(QMouseEvent *e) {
 		if(selected.width()>0&&selected.height()>0) {
 			const QRectF selectedSrc=_transform.inverted().map(selected);
 			_transform=Transform::rectToRect(selectedSrc,viewport()->rect());
-			updateScrollBars();
 			updateCursors();
 			viewport()->update();
 			_alwaysFit=false;
@@ -350,8 +273,12 @@ void PlotterScrollArea::mouseMoveEvent(QMouseEvent *e) {
 			QPoint localPos=viewport()->mapFromGlobal(globalPos);
 			QPoint diff=localPos-_mouseDragPos;
 			_mouseDragPos=localPos;
-			horizontalScrollBar()->setValue(horizontalScrollBar()->value()-diff.x());
-			verticalScrollBar()->setValue(verticalScrollBar()->value()-diff.y());
+			
+			_transform.setDx(_transform.dx()+diff.x());
+			_transform.setDy(_transform.dy()+diff.y());
+			_alwaysFit=false;
+			updateCursors();
+			viewport()->update();
 		}
 		else {
 			_rubberBand->setGeometry(QRect(_mouseDragPos,e->pos()).normalized());
@@ -376,23 +303,23 @@ void PlotterScrollArea::wheelEvent(QWheelEvent *e) {
 	_wheelPos+=delta;
 	
 	if(!zoom) { // scroll
-		int hscroll=horizontalScrollBar()->singleStep();
-		int vscroll=verticalScrollBar()->singleStep();
+		int hscroll=std::max(viewport()->rect().width()/5,1);
+		int vscroll=std::max(viewport()->rect().height()/5,1);
 		
 		if(_wheelPos.x()>=120) {
-			horizontalScrollBar()->setValue(horizontalScrollBar()->value()-hscroll);
+			_transform.setDx(_transform.dx()+hscroll);
 			_wheelPos.setX(0);
 		}
 		else if(_wheelPos.x()<=-120) {
-			horizontalScrollBar()->setValue(horizontalScrollBar()->value()+hscroll);
+			_transform.setDx(_transform.dx()-hscroll);
 			_wheelPos.setX(0);
 		}
 		if(_wheelPos.y()>=120) {
-			verticalScrollBar()->setValue(verticalScrollBar()->value()-vscroll);
+			_transform.setDy(_transform.dy()+vscroll);
 			_wheelPos.setY(0);
 		}
 		else if(_wheelPos.y()<=-120) {
-			verticalScrollBar()->setValue(verticalScrollBar()->value()+vscroll);
+			_transform.setDy(_transform.dy()-vscroll);
 			_wheelPos.setY(0);
 		}
 	}
@@ -413,11 +340,42 @@ void PlotterScrollArea::wheelEvent(QWheelEvent *e) {
 			_transform=_transform.scaled(1,1/1.2,invariantSrc.x(),invariantSrc.y());
 			_wheelPos.setY(0);
 		}
-		updateScrollBars();
-		updateCursors();
-		_alwaysFit=false;
 	}
 	
+	_alwaysFit=false;
+	updateCursors();
+	viewport()->update();
+}
+
+void PlotterScrollArea::keyPressEvent(QKeyEvent *e) {
+	int hscroll=std::max(viewport()->rect().width()/5,1);
+	int vscroll=std::max(viewport()->rect().height()/5,1);
+	
+	switch(e->key()) {
+	case Qt::Key_PageUp:
+		_transform.setDy(_transform.dy()+vscroll*5);
+		break;
+	case Qt::Key_PageDown:
+		_transform.setDy(_transform.dy()-vscroll*5);
+		break;
+	case Qt::Key_Up:
+		_transform.setDy(_transform.dy()+vscroll);
+		break;
+	case Qt::Key_Down:
+		_transform.setDy(_transform.dy()-vscroll);
+		break;
+	case Qt::Key_Left:
+		_transform.setDx(_transform.dx()+hscroll);
+		break;
+	case Qt::Key_Right:
+		_transform.setDx(_transform.dx()-hscroll);
+		break;
+	default:
+		return QAbstractScrollArea::keyPressEvent(e);
+	}
+	
+	_alwaysFit=false;
+	updateCursors();
 	viewport()->update();
 }
 
@@ -431,7 +389,6 @@ void PlotterScrollArea::zoom(qreal x,qreal y) {
 	);
 	QPointF invariantSrc=_transform.inverted().map(invariantDest);
 	_transform=_transform.scaled(x,y,invariantSrc.x(),invariantSrc.y());
-	updateScrollBars();
 	updateCursors();
 	viewport()->update();
 	_alwaysFit=false;
@@ -444,11 +401,10 @@ void PlotterScrollArea::zoomFit() {
 	if(!_scene->zeroIsTop()) viewportRect=QRectF(0,maximumViewportSize().height(),maximumViewportSize().width(),-maximumViewportSize().height());
 	else viewportRect=QRectF(0,0,maximumViewportSize().width(),maximumViewportSize().height());
 	_transform=Transform::rectToRect(_scene->rect(),viewportRect);
-	updateScrollBars();
 	updateCursors();
 	viewport()->update();
 	_alwaysFit=true;
-	_fullSceneWidth=_scene->rect().width();
+	_maxSceneWidth=_scene->rect().width();
 }
 
 void PlotterScrollArea::setDragMode(DragMode m) {
@@ -457,17 +413,42 @@ void PlotterScrollArea::setDragMode(DragMode m) {
 }
 
 void PlotterScrollArea::sceneChanged() {
-	auto w=_scene->rect().width();
+/*
+ * This function implements an autofit algorithm. Its purpose is
+ * to establish a sensible initial scale and change it automatically
+ * when appropriate.
+ * 
+ * The idea is that when maximum scene width is increased, we perform autofit
+ * for the next few scene changes if certain conditions are met. The expectation
+ * is that maximum scene width will be reached rather quickly after initial
+ * setup (or when the packet lenght increases). Conversely, increase of maximum
+ * scene height alone does not trigger autofit. Lastly, if the user manually
+ * changes scale (other then by using the zoom fit command), we don't
+ * perform autofit.
+ * 
+ * _stableCounter shows how many times scene was changed since the last time
+ * maximum width was increased. _stableTimer shows how many milliseconds
+ * elapsed since the same time.
+ */
+	auto r=_scene->rect();
+	if(!r.isValid()) return;
 	
-	if(_scene->rect().isValid()&&_alwaysFit&&w>_fullSceneWidth&&_stableCounter<StableCounterMax) zoomFit();
-	
-	if(_scene->rect().isValid()&&w==_prevSceneWidth) {
+	if(r.width()<=_maxSceneWidth) {
 		if(_stableCounter<StableCounterMax) _stableCounter++;
 	}
-	else _stableCounter=0;
-	_prevSceneWidth=w;
+	else {
+		_stableCounter=0;
+		_stableTimer.start();
+		_maxSceneWidth=r.width();
+	}
 	
-	updateScrollBars();
+// We don't want to decrease the width using autofit, since most likely
+// it will increase again.
+	
+	if(_alwaysFit&&r.width()==_maxSceneWidth&&
+		(_stableCounter<StableCounterMax||_stableTimer.elapsed()<StableTimerMaxMsec))
+		zoomFit();
+	
 	viewport()->update();
 }
 
@@ -557,51 +538,6 @@ void PlotterScrollArea::dragCursor(const QPoint &pos) {
 	
 	cursorWidget->setPos(x);
 	updateCursors();
-}
-
-void PlotterScrollArea::updateScrollBars() {
-	if(_scene==nullptr) return;
-	
-	if(_scene->rect().isEmpty()) return;
-	
-// Save transform to avoid Transform::dx and Transform::dy being changed by scrollContentsBy()
-	Transform t=_transform;
-
-// Take a union of current view and new scene
-	const QRectF &extendedSceneRect=_scene->rect().united(_transform.inverted().map(viewport()->rect()));
-	_scrollHelper=ScrollHelper(extendedSceneRect,viewport()->rect(),_transform);
-	
-	const QRectF &mapped=t.map(extendedSceneRect).normalized();
-	if(mapped.width()<=maximumViewportSize().width()&&mapped.height()<=maximumViewportSize().height()) {
-		horizontalScrollBar()->setRange(0,0);
-		verticalScrollBar()->setRange(0,0);
-	}
-	else {
-/* To reduce scrollbar slider flicker when the scene is constantly changing,
- * we update scrollbar ranges when at least one of the following conditions
- * is true:
- * 	1. The range needs to be increased
- * 	2. The range needs to be significantly decreased
- */
-		if(_scrollHelper.xScrollRange()>horizontalScrollBar()->maximum()||
-				(horizontalScrollBar()->maximum()-_scrollHelper.xScrollRange()>
-				horizontalScrollBar()->maximum()/100)) {
-			horizontalScrollBar()->setRange(0,_scrollHelper.xScrollRange());
-			horizontalScrollBar()->setValue(_scrollHelper.dxToScroll(t.dx()));
-			horizontalScrollBar()->setPageStep(viewport()->rect().width());
-			horizontalScrollBar()->setSingleStep(std::max(viewport()->rect().width()/5,1));
-		}
-		if(_scrollHelper.yScrollRange()>verticalScrollBar()->maximum()||
-				(verticalScrollBar()->maximum()-_scrollHelper.yScrollRange()>
-				verticalScrollBar()->maximum()/100)) {
-			verticalScrollBar()->setRange(0,_scrollHelper.yScrollRange());
-			verticalScrollBar()->setValue(_scrollHelper.dyToScroll(t.dy()));
-			verticalScrollBar()->setPageStep(viewport()->rect().height());
-			verticalScrollBar()->setSingleStep(std::max(viewport()->rect().height()/5,1));
-		}
-	}
-
-	_transform=t; // restore transform
 }
 
 void PlotterScrollArea::restoreCursor() {

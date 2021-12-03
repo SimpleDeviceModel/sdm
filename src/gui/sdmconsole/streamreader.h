@@ -81,6 +81,7 @@ class StreamReader : public QThread,public Marshal {
 	
 	std::atomic<int> _maxPacketSize {262144};
 	std::atomic<int> _displayTimeout {500};
+	std::atomic<bool> _flush {false};
 	
 	mutex_t _streamMutex;
 	StreamSet _streams,_newStreams;
@@ -111,12 +112,13 @@ public:
 	void setMaxPacketSize(int i);
 	int displayTimeout() const;
 	void setDisplayTimeout(int i);
+	void flush();
 	
 protected:
 	virtual void run() override;
 private:
 	void prepareStreamSet();
-	void applyStreamSet(bool force=false);
+	bool applyStreamSet(bool force=false);
 	
 	ReadResult readFullPacket(int s,QVector<sdm_sample_t> &data);
 	void dispatch(const std::map<int,StreamPacket> &data);
