@@ -285,7 +285,7 @@ std::size_t UartSource::loadFromQueue(sdm_sample_t *data,std::size_t n) {
 		int sample=((_q[0]&0x1F)<<5)|(_q[1]&0x1F);
 		data[current]=static_cast<sdm_sample_t>(sample);
 		current++;
-		_q.erase(_q.begin(),_q.begin()+1);
+		_q.erase(_q.begin(),_q.begin()+2);
 	}
 	
 	return current; // number of samples loaded from the queue
