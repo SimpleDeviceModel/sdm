@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RegisterMap>
 	<Page name="Page 1">
+		<SectionHeader>Analog input</SectionHeader>
 		<Register>
 			<Name>ADC input channel</Name>
 			<Id></Id>
@@ -33,6 +34,41 @@
 				<Value>1</Value>
 			</Data>
 		</Register>
+		<SectionHeader>Synchronization</SectionHeader>
+		<Register>
+			<Name>Sync mode</Name>
+			<Id></Id>
+			<Address>0x20</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="Off" value="0"/>
+					<Option name="Rising edge" value="1"/>
+					<Option name="Falling edge" value="2"/>
+				</Widget>
+				<Value>0</Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Sync level</Name>
+			<Id></Id>
+			<Address>0x21</Address>
+			<Data>
+				<Widget type="LineEdit"/>
+				<Value>512</Value>
+			</Data>
+			<WriteAction>_ch.writereg(_reg.addr,_reg.data/4)</WriteAction>
+			<ReadAction>return _ch.readreg(_reg.addr)*4</ReadAction>
+		</Register>
+		<Register>
+			<Name>Sync offset</Name>
+			<Id></Id>
+			<Address>0x22</Address>
+			<Data>
+				<Widget type="LineEdit"/>
+				<Value>128</Value>
+			</Data>
+		</Register>
+		<SectionHeader>Pin settings</SectionHeader>
 		<Register>
 			<Name>Pin 2 mode</Name>
 			<Id></Id>
