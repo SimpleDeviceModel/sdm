@@ -19,11 +19,19 @@
 volatile unsigned int adcBuffer[256];
 volatile byte adcWriteIndex=0;
 byte adcReadIndex=0;
+volatile bool triggered=false;
 
 /* Digital pin states */
 
 byte pinState[14];
 byte pinPWM[14];
+
+/* Synchronization settings */
+
+byte syncMode=0; /* 0 - off, 1 - rising edge, 2 - falling edge */
+unsigned int syncLevel=512; /* signal level for the oscilloscope to trigger */
+byte syncOffset=128; /* how many samples before the trigger event will be displayed */
+unsigned int packetSize=512;
 
 void setup() {
 /* 
@@ -77,35 +85,50 @@ void loop() {
       cmdBytes=0;
     }
   }
-  else if(adcReadIndex!=adcWriteIndex) {
+  else if(adcWriteIndex!=adcReadIndex) {
 /* No incoming data, transmit data from the ADC circular buffer if present */
-    unsigned int data=adcBuffer[adcReadIndex++];
+    static unsigned int sampleCnt=0;
+    byte queue=adcWriteIndex-adcReadIndex;
+    if(sampleCnt==0&&syncMode!=0) { /* start of packet, wait for trigger */
+      if(queue<syncOffset) {
+        triggered=false;
+        return;
+      }
+      if(!triggered) {
+        if(queue>syncOffset) adcReadIndex++;
+        return;
+      }
+    }
+    unsigned int data=adcBuffer[++adcReadIndex];
     byte buf[2];
     buf[0]=0xC0|(data>>5); /* upper 5 bits */
+    if(sampleCnt==0) buf[0]|=0x20; /* start of packet mark */
     buf[1]=data&0x1F; /* lower 5 bits */
     Serial.write(buf,2);
+    if(++sampleCnt>=packetSize) sampleCnt=0;
+    triggered=false;
   }
 }
 
 void writeVirtualRegister(byte addr,byte data) {
-  if(addr==0) {
-/* ADC input channel */
-    ADMUX=(ADMUX&0xF0)|(data&0x0F);
-  }
-  else if(addr==1) {
-/* ADC reference voltage */
-    ADMUX=(ADMUX&0x3F)|(data<<6);
-  }
-  else if(addr>=2&&addr<=13) {
+  if(addr==0) ADMUX=(ADMUX&0xF0)|(data&0x0F); /* ADC input channel */
+  else if(addr==1) ADMUX=(ADMUX&0x3F)|(data<<6); /* ADC reference voltage */
 /* Pin mode registers */
+  else if(addr>=2&&addr<=13) {
     pinState[addr]=data;
     setPinState(addr);
   }
-  else if(addr>=18&&addr<=29) {
 /* PWM value registers */
+  else if(addr>=18&&addr<=29) {
     pinPWM[addr-16]=data;
     setPinState(addr-16);
   }
+/* Synchronization settings and packet size*/
+  else if(addr==32) syncMode=data;
+  else if(addr==33) syncLevel=static_cast<unsigned int>(data)<<2;
+  else if(addr==34) syncOffset=data;
+  else if(addr==35) reinterpret_cast<byte*>(&packetSize)[0]=data;
+  else if(addr==36) reinterpret_cast<byte*>(&packetSize)[1]=data;
 }
 
 byte readVirtualRegister(byte addr) {
@@ -113,6 +136,11 @@ byte readVirtualRegister(byte addr) {
   else if(addr==1) return ADMUX>>6;
   else if(addr>=2&&addr<=13) return pinState[addr];
   else if(addr>=18&&addr<=29) return pinPWM[addr-16];
+  else if(addr==32) return syncMode;
+  else if(addr==33) return static_cast<byte>(syncLevel>>2);
+  else if(addr==34) return syncOffset;
+  else if(addr==35) return reinterpret_cast<byte*>(&packetSize)[0];
+  else if(addr==36) return reinterpret_cast<byte*>(&packetSize)[1];
   return 0;
 }
 
@@ -142,7 +170,13 @@ void setPinState(byte pin) {
 
 ISR(ADC_vect) {
   static byte cnt=0;
-  cnt++;
-  if(cnt==DECIMATION_FACTOR) cnt=0;
-  if(cnt==0) adcBuffer[adcWriteIndex++]=ADCL|(ADCH<<8);
+  static unsigned int old_sample=0;
+  if(++cnt==DECIMATION_FACTOR) cnt=0;
+  if(cnt==0) {
+    unsigned int sample=ADCL|(ADCH<<8);
+    if(syncMode==1&&sample>=syncLevel&&old_sample<syncLevel) triggered=true;
+    else if(syncMode==2&&sample<=syncLevel&&old_sample>syncLevel) triggered=true;
+    adcBuffer[adcWriteIndex++]=sample;
+    old_sample=sample;
+  }
 }

@@ -101,6 +101,7 @@ public:
 	
 private:
 	std::size_t loadFromQueue(sdm_sample_t *data,std::size_t n);
+	bool endOfFrame() const;
 };
 
 #endif

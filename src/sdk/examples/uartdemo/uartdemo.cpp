@@ -32,7 +32,6 @@
 #include <stdexcept>
 
 #define MAXBUFSIZE 65536
-#define DEFAULT_PACKET_SIZE 500
 
 /*
  * UartPlugin instance
@@ -74,7 +73,7 @@ UartDevice::UartDevice() {
 	addConstProperty("AutoOpenSources","open");
 	
 	addListItem("ConnectionParameters","SerialPort");
-	addListItem("Channels","Pin settings");
+	addListItem("Channels","Settings");
 	addListItem("Sources","Virtual oscilloscope");
 	
 // Try to auto detect serial port
@@ -130,7 +129,7 @@ int UartDevice::getConnectionStatus() {
  */
 
 UartChannel::UartChannel(Uart &port,std::deque<char> &q): _port(port),_q(q) {
-	addConstProperty("Name","Pin settings");
+	addConstProperty("Name","Settings");
 	addConstProperty("RegisterMapFile","uartdemo/uartdemo.srm");
 }
 
@@ -192,7 +191,6 @@ UartSource::UartSource(Uart &port,std::deque<char> &q): _port(port),_q(q) {
 	addListItem("Streams","ADC");
 	addListItem("UserScripts","Signal Analyzer");
 	addListItem("UserScripts","signal_analyzer.lua");
-	addProperty("PacketSize",std::to_string(DEFAULT_PACKET_SIZE));
 }
 
 int UartSource::close() {
@@ -218,21 +216,6 @@ int UartSource::readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) {
 	if(!_selected) throw std::runtime_error("Stream not selected");
 // We have only one stream
 	if(stream!=0) throw std::runtime_error("Bad stream ID");
-// Note: for a faster interface, it would have been preferable to override
-// SDMPropertyManager::setProperty() to avoid string -> integer conversion
-// each time UartSource::readStream() is called
-	std::size_t packetSize;
-	try {
-		packetSize=std::stoul(getProperty("PacketSize"),nullptr,0);
-		if(packetSize==0) packetSize=DEFAULT_PACKET_SIZE;
-	}
-	catch(std::exception &) {
-		packetSize=DEFAULT_PACKET_SIZE;
-	}
-	if(_cnt>packetSize) _cnt=packetSize;
-// After delivering packetSize samples, return 0 until readNextPacket() is called
-	if(n>packetSize-_cnt) n=packetSize-_cnt;
-	if(n==0) return 0; // end of packet
 	
 // Process data from the queue
 	std::size_t loaded=loadFromQueue(data,n);
@@ -241,16 +224,16 @@ int UartSource::readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) {
 // Read new data from the serial port
 		if(_q.size()<MAXBUFSIZE) {
 			std::size_t toread=MAXBUFSIZE-_q.size();
-			bool nonBlocking=(nb!=0||loaded==n); // don't need to block if we already filled the user's buffer
+			bool nonBlocking=(nb!=0||loaded>0||endOfFrame()); // don't need to block if we already filled the user's buffer
 			std::vector<char> buf(toread);
 			auto r=_port.read(buf.data(),toread,nonBlocking?0:-1); // will read "toread" bytes or fewer
 			_q.insert(_q.end(),buf.begin(),buf.begin()+r);
 		}
 		
 		if(loaded<n) loaded+=loadFromQueue(data+loaded,n-loaded);
-	} while(loaded==0&&nb==0);
+	} while(loaded==0&&nb==0&&!endOfFrame());
 	
-	_cnt+=loaded;
+	if(loaded==0&&endOfFrame()&&_cnt>0) return 0; // end of frame
 // Note that "loaded" can't be zero in the blocking mode due to the preceding loop
 	if(loaded==0) return SDM_WOULDBLOCK;
 	return static_cast<int>(loaded);
@@ -262,13 +245,13 @@ int UartSource::readNextPacket() {
 }
 
 void UartSource::discardPackets() {
-	_cnt=0;
 	_q.clear();
 // Note: after the first readAll() there may still be some out-of-sequence
 // data in the serial port buffer. Wait a bit and repeat.
 	_port.readAll();
 	std::this_thread::sleep_for(std::chrono::milliseconds(50));
 	_port.readAll();
+	readNextPacket();
 }
 
 std::size_t UartSource::loadFromQueue(sdm_sample_t *data,std::size_t n) {
@@ -277,16 +260,27 @@ std::size_t UartSource::loadFromQueue(sdm_sample_t *data,std::size_t n) {
 	std::size_t current=0;
 
 	while(current<n&&!_q.empty()) {
-		if((_q.front()&0x80)==0) { // MSB not set, skip this byte
+		if((_q.front()&0xC0)!=0xC0) { // Not a stream data packet, skip
 			_q.pop_front();
 			continue;
 		}
 		if(_q.size()<2) break; // packet size is 2 bytes
 		int sample=((_q[0]&0x1F)<<5)|(_q[1]&0x1F);
-		data[current]=static_cast<sdm_sample_t>(sample);
-		current++;
-		_q.erase(_q.begin(),_q.begin()+2);
+		if(_cnt==0&&!endOfFrame()) _q.erase(_q.begin(),_q.begin()+2);
+		else if(!endOfFrame()||_cnt==0) {
+			data[current]=static_cast<sdm_sample_t>(sample);
+			current++;
+			_cnt++;
+			_q.erase(_q.begin(),_q.begin()+2);
+		}
+		else break;
 	}
 	
 	return current; // number of samples loaded from the queue
+}
+
+bool UartSource::endOfFrame() const {
+	if(_q.empty()) return false;
+	if((_q.front()&0xE0)==0xE0) return true;
+	return false;
 }
