@@ -34,6 +34,20 @@
 				<Value>1</Value>
 			</Data>
 		</Register>
+		<Register>
+			<Name>Packet size</Name>
+			<Id></Id>
+			<Address></Address>
+			<Data>
+				<Widget type="LineEdit"/>
+				<Value>512</Value>
+			</Data>
+			<WriteAction>_ch.writereg(0x24,_reg.data&amp;0xFF)
+_ch.writereg(0x25,_reg.data&gt;&gt;8)</WriteAction>
+			<ReadAction>local low=_ch.readreg(0x24)
+local high=_ch.readreg(0x25)
+return (high&lt;&lt;8)+low</ReadAction>
+		</Register>
 		<SectionHeader>Synchronization</SectionHeader>
 		<Register>
 			<Name>Sync mode</Name>
@@ -89,20 +103,6 @@
 				<Widget type="LineEdit"/>
 				<Value>128</Value>
 			</Data>
-		</Register>
-		<Register>
-			<Name>Packet size</Name>
-			<Id></Id>
-			<Address></Address>
-			<Data>
-				<Widget type="LineEdit"/>
-				<Value>512</Value>
-			</Data>
-			<WriteAction>_ch.writereg(0x24,_reg.data&amp;0xFF)
-_ch.writereg(0x25,_reg.data&gt;&gt;8)</WriteAction>
-			<ReadAction>local low=_ch.readreg(0x24)
-local high=_ch.readreg(0x25)
-return (high&lt;&lt;8)+low</ReadAction>
 		</Register>
 		<SectionHeader>Pin settings</SectionHeader>
 		<Register>

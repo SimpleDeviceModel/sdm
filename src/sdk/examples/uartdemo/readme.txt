@@ -27,8 +27,6 @@ pin is used as a sync source.
 Sync offset: the number of samples before the trigger event that will be
 displayed. Must not be greater than 254.
 
-Packet size: the number of samples in the packet. Affects all sync modes.
-
 OTHER FEATURES
 
 Pins 2-13 can be controlled from the register map. Each pin can be set

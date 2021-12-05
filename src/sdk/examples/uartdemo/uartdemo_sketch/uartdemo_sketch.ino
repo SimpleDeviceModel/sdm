@@ -32,6 +32,9 @@ volatile byte syncMode=0; /* 0 - off, 1 - rising edge, 2 - falling edge */
 volatile byte syncSource=0; /* 0 - analog input, >0 - digital pin */
 volatile unsigned int syncLevel=512; /* signal level for the oscilloscope to trigger */
 byte syncOffset=128; /* how many samples before the trigger event will be displayed */
+
+/* Packet size setting */
+
 unsigned int packetSize=512;
 
 void setup() {
