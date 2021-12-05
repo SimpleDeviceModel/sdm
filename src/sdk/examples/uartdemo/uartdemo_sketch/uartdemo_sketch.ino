@@ -28,8 +28,9 @@ byte pinPWM[14];
 
 /* Synchronization settings */
 
-byte syncMode=0; /* 0 - off, 1 - rising edge, 2 - falling edge */
-unsigned int syncLevel=512; /* signal level for the oscilloscope to trigger */
+volatile byte syncMode=0; /* 0 - off, 1 - rising edge, 2 - falling edge */
+volatile byte syncSource=0; /* 0 - analog input, >0 - digital pin */
+volatile unsigned int syncLevel=512; /* signal level for the oscilloscope to trigger */
 byte syncOffset=128; /* how many samples before the trigger event will be displayed */
 unsigned int packetSize=512;
 
@@ -125,10 +126,11 @@ void writeVirtualRegister(byte addr,byte data) {
   }
 /* Synchronization settings and packet size*/
   else if(addr==32) syncMode=data;
-  else if(addr==33) syncLevel=static_cast<unsigned int>(data)<<2;
-  else if(addr==34) syncOffset=data;
-  else if(addr==35) reinterpret_cast<byte*>(&packetSize)[0]=data;
-  else if(addr==36) reinterpret_cast<byte*>(&packetSize)[1]=data;
+  else if(addr==33) syncSource=data;
+  else if(addr==34) syncLevel=static_cast<unsigned int>(data)<<2;
+  else if(addr==35) syncOffset=data;
+  else if(addr==36) reinterpret_cast<byte*>(&packetSize)[0]=data;
+  else if(addr==37) reinterpret_cast<byte*>(&packetSize)[1]=data;
 }
 
 byte readVirtualRegister(byte addr) {
@@ -137,10 +139,11 @@ byte readVirtualRegister(byte addr) {
   else if(addr>=2&&addr<=13) return pinState[addr];
   else if(addr>=18&&addr<=29) return pinPWM[addr-16];
   else if(addr==32) return syncMode;
-  else if(addr==33) return static_cast<byte>(syncLevel>>2);
-  else if(addr==34) return syncOffset;
-  else if(addr==35) return reinterpret_cast<byte*>(&packetSize)[0];
-  else if(addr==36) return reinterpret_cast<byte*>(&packetSize)[1];
+  else if(addr==33) return syncSource;
+  else if(addr==34) return static_cast<byte>(syncLevel>>2);
+  else if(addr==35) return syncOffset;
+  else if(addr==36) return reinterpret_cast<byte*>(&packetSize)[0];
+  else if(addr==37) return reinterpret_cast<byte*>(&packetSize)[1];
   return 0;
 }
 
@@ -174,9 +177,18 @@ ISR(ADC_vect) {
   if(++cnt==DECIMATION_FACTOR) cnt=0;
   if(cnt==0) {
     unsigned int sample=ADCL|(ADCH<<8);
-    if(syncMode==1&&sample>=syncLevel&&old_sample<syncLevel) triggered=true;
-    else if(syncMode==2&&sample<=syncLevel&&old_sample>syncLevel) triggered=true;
+/* Check trigger conditions */
+    if(syncSource==0) { /* trigger by the analog input */
+      if(syncMode==1&&sample>=syncLevel&&old_sample<syncLevel) triggered=true;
+      else if(syncMode==2&&sample<=syncLevel&&old_sample>syncLevel) triggered=true;
+      old_sample=sample;
+    }
+    else { /* trigger by a digital input */
+      unsigned int s=digitalRead(syncSource);
+      if(syncMode==1&&s==HIGH&&old_sample==LOW) triggered=true;
+      else if(syncMode==2&&s==LOW&&old_sample==HIGH) triggered=true;
+      old_sample=s;
+    }
     adcBuffer[adcWriteIndex++]=sample;
-    old_sample=sample;
   }
 }

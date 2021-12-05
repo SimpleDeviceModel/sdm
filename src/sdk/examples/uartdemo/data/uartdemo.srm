@@ -49,9 +49,31 @@
 			</Data>
 		</Register>
 		<Register>
-			<Name>Sync level</Name>
+			<Name>Sync source</Name>
 			<Id></Id>
 			<Address>0x21</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="Analog input" value="0"/>
+					<Option name="Digital pin 3" value="3"/>
+					<Option name="Digital pin 4" value="4"/>
+					<Option name="Digital pin 5" value="5"/>
+					<Option name="Digital pin 6" value="6"/>
+					<Option name="Digital pin 7" value="7"/>
+					<Option name="Digital pin 8" value="8"/>
+					<Option name="Digital pin 9" value="9"/>
+					<Option name="Digital pin 10" value="10"/>
+					<Option name="Digital pin 11" value="11"/>
+					<Option name="Digital pin 12" value="12"/>
+					<Option name="Digital pin 13" value="13"/>
+				</Widget>
+				<Value>0</Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Sync level</Name>
+			<Id></Id>
+			<Address>0x22</Address>
 			<Data>
 				<Widget type="LineEdit"/>
 				<Value>512</Value>
@@ -62,7 +84,7 @@
 		<Register>
 			<Name>Sync offset</Name>
 			<Id></Id>
-			<Address>0x22</Address>
+			<Address>0x23</Address>
 			<Data>
 				<Widget type="LineEdit"/>
 				<Value>128</Value>
@@ -76,10 +98,10 @@
 				<Widget type="LineEdit"/>
 				<Value>512</Value>
 			</Data>
-			<WriteAction>_ch.writereg(0x23,_reg.data&amp;0xFF)
-_ch.writereg(0x24,_reg.data&gt;&gt;8)</WriteAction>
-			<ReadAction>local low=_ch.readreg(0x23)
-local high=_ch.readreg(0x24)
+			<WriteAction>_ch.writereg(0x24,_reg.data&amp;0xFF)
+_ch.writereg(0x25,_reg.data&gt;&gt;8)</WriteAction>
+			<ReadAction>local low=_ch.readreg(0x24)
+local high=_ch.readreg(0x25)
 return (high&lt;&lt;8)+low</ReadAction>
 		</Register>
 		<SectionHeader>Pin settings</SectionHeader>

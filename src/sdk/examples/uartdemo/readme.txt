@@ -16,10 +16,17 @@ and the 1.1V reference. Conversion formula:
 SYNCHRONIZATION
 
 Sync mode: Off, Rising edge, Falling edge.
+
+Sync source: either the current analog input, or a digital pin (which will
+be put into the Input mode).
+
 Sync level: the oscilloscope will be triggered when the signal goes above
-or below this value (depending on the sync edge).
+or below this value (depending on the sync edge). Ignored when a digital
+pin is used as a sync source.
+
 Sync offset: the number of samples before the trigger event that will be
 displayed. Must not be greater than 254.
+
 Packet size: the number of samples in the packet. Affects all sync modes.
 
 OTHER FEATURES
