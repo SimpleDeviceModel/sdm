@@ -103,7 +103,7 @@ void loop() {
         return;
       }
     }
-    unsigned int data=adcBuffer[++adcReadIndex];
+    unsigned int data=adcBuffer[adcReadIndex++];
     byte buf[2];
     buf[0]=0xC0|(data>>5); /* upper 5 bits */
     if(sampleCnt==0) buf[0]|=0x20; /* start of packet mark */
