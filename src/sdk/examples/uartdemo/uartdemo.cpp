@@ -32,7 +32,6 @@
 #include <stdexcept>
 
 #define MAXBUFSIZE 65536
-#define MAXPACKETSIZE 256
 
 /*
  * UartPlugin instance
@@ -261,7 +260,7 @@ std::size_t UartSource::loadFromQueue(sdm_sample_t *data,std::size_t n) {
 	std::size_t current=0;
 
 	while(current<n&&!_q.empty()) {
-		if((_q.front()&0x80)==0) { // Not a stream data packet, skip
+		if((_q.front()&0xC0)!=0xC0) { // Not a stream data packet, skip
 			_q.pop_front();
 			continue;
 		}
@@ -281,7 +280,6 @@ std::size_t UartSource::loadFromQueue(sdm_sample_t *data,std::size_t n) {
 }
 
 bool UartSource::endOfFrame() const {
-//	if(_cnt>=MAXPACKETSIZE) return true;
 	if(_q.empty()) return false;
 	if((_q.front()&0xE0)==0xE0) return true;
 	return false;

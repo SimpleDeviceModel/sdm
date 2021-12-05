@@ -68,6 +68,20 @@
 				<Value>128</Value>
 			</Data>
 		</Register>
+		<Register>
+			<Name>Packet size</Name>
+			<Id></Id>
+			<Address></Address>
+			<Data>
+				<Widget type="LineEdit"/>
+				<Value>256</Value>
+			</Data>
+			<WriteAction>_ch.writereg(0x23,_reg.data&amp;0xFF)
+_ch.writereg(0x24,_reg.data&gt;&gt;8)</WriteAction>
+			<ReadAction>local low=_ch.readreg(0x23)
+local high=_ch.readreg(0x24)
+return (high&lt;&lt;8)+low</ReadAction>
+		</Register>
 		<SectionHeader>Pin settings</SectionHeader>
 		<Register>
 			<Name>Pin 2 mode</Name>
