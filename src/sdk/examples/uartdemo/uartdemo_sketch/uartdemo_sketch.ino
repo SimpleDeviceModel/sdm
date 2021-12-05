@@ -29,8 +29,9 @@ byte pinPWM[14];
 /* Synchronization settings */
 
 byte syncMode=0; /* 0 - off, 1 - rising edge, 2 - falling edge */
-byte syncLevel=128;
+unsigned int syncLevel=512;
 byte syncOffset=128;
+unsigned int packetSize=256;
 
 void setup() {
 /* 
@@ -86,7 +87,7 @@ void loop() {
   }
   else if(adcWriteIndex!=adcReadIndex) {
 /* No incoming data, transmit data from the ADC circular buffer if present */
-    static byte n=0;
+    static unsigned int n=0;
     byte queue=adcWriteIndex-adcReadIndex;
     if(n==0&&syncMode!=0) { /* wait for trigger */
 /* clear the trigger flag if there are not enough data in the buffer */
@@ -108,7 +109,7 @@ void loop() {
     if(n==0) buf[0]|=0x20; /* start of packet mark */
     buf[1]=data&0x1F; /* lower 5 bits */
     Serial.write(buf,2);
-    n++;
+    if(++n>=packetSize) n=0;
     triggered=false;
   }
 }
@@ -130,8 +131,11 @@ void writeVirtualRegister(byte addr,byte data) {
   }
 /* Synchronization settings */
   else if(addr==32) syncMode=data;
-  else if(addr==33) syncLevel=data;
+  else if(addr==33) syncLevel=static_cast<unsigned int>(data)<<2;
   else if(addr==34) syncOffset=data;
+/* Packet size */
+  else if(addr==35) ((byte*)&packetSize)[0]=data;
+  else if(addr==36) ((byte*)&packetSize)[1]=data;
 }
 
 byte readVirtualRegister(byte addr) {
@@ -140,8 +144,10 @@ byte readVirtualRegister(byte addr) {
   else if(addr>=2&&addr<=13) return pinState[addr];
   else if(addr>=18&&addr<=29) return pinPWM[addr-16];
   else if(addr==32) return syncMode;
-  else if(addr==33) return syncLevel;
+  else if(addr==33) return static_cast<byte>(syncLevel>>2);
   else if(addr==34) return syncOffset;
+  else if(addr==35) return ((byte*)&packetSize)[0];
+  else if(addr==36) return ((byte*)&packetSize)[1];
   return 0;
 }
 
@@ -171,11 +177,13 @@ void setPinState(byte pin) {
 
 ISR(ADC_vect) {
   static byte cnt=0;
+  static unsigned int old_sample=0;
   if(++cnt==DECIMATION_FACTOR) cnt=0;
   if(cnt==0) {
-    int sample=ADCL|(ADCH<<8);
-    if(syncMode==1&&sample>=syncLevel*4&&adcBuffer[adcWriteIndex-1]<syncLevel*4) triggered=true;
-    else if(syncMode==2&&sample<=syncLevel*4&&adcBuffer[adcWriteIndex-1]>syncLevel*4) triggered=true;
+    unsigned int sample=ADCL|(ADCH<<8);
+    if(syncMode==1&&sample>=syncLevel&&old_sample<syncLevel) triggered=true;
+    else if(syncMode==2&&sample<=syncLevel&&old_sample>syncLevel) triggered=true;
     adcBuffer[adcWriteIndex++]=sample;
+    old_sample=sample;
   }
 }

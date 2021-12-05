@@ -281,7 +281,7 @@ std::size_t UartSource::loadFromQueue(sdm_sample_t *data,std::size_t n) {
 }
 
 bool UartSource::endOfFrame() const {
-	if(_cnt>=MAXPACKETSIZE) return true;
+//	if(_cnt>=MAXPACKETSIZE) return true;
 	if(_q.empty()) return false;
 	if((_q.front()&0xE0)==0xE0) return true;
 	return false;
