@@ -54,6 +54,23 @@ Stream data (slave -> master):    11 SOP DATA[9:5] 000 DATA[4:0]
 
 SOP = start of packet flag (1 bit).
 
+REGISTERS
+
+All registers are 8-bit.
+
+Address   Function
+0x00      Analog input selection (for MUX bits in the ADMUX AVR register)
+0x01      Reference voltage selection (for REFS bits in the ADMUX AVR register)
+0x02-0x0D Pin 2-13 states: 0 - input, 1 - input with pullup, 2 - force low,
+          3 - force high, 4 - PWM (for those pins that support it)
+0x12-0x1D Pin 2-13 PWM values (for those pins that support it)
+0x20      Sync mode: 0 - off, 1 - rising edge, 2 - falling edge
+0x21      Sync source: 0 - analog input, digital pin number otherwise
+0x22      Sync level (only 8 most significant bits)
+0x23      Sync offset
+0x24      Packet size (lower 8 bits)
+0x25      Packet size (higher 8 bits)
+
 TROUBLESHOOTING
 
 If you are having problems with communication reliability (lost commands
