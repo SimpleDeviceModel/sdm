@@ -142,6 +142,7 @@ void StreamReader::run() try {
 	std::map<int,StreamPacket> packets;
 	bool connectionVerified=false;
 	QTime t;
+	bool haveNewData=false;
 	
 	t.start();
 	
@@ -188,6 +189,7 @@ void StreamReader::run() try {
 				auto oldSize=packets[s].data.size();
 				auto r=readFullPacket(s,packets[s].data);
 				std::size_t newSamples=packets[s].data.size()-oldSize;
+				if(newSamples>0) haveNewData=true;
 				maxNewSamples=std::max(newSamples,maxNewSamples);
 				if(r==FullPacket) {
 					packets[s].finished=true;
@@ -226,6 +228,7 @@ void StreamReader::run() try {
 			_src.readStreamErrors();
 			glock.unlock();
 			marshalAsync(&StreamReader::dispatch,std::move(packets));
+			haveNewData=false;
 			packets.clear();
 			t.start();
 			QThread::yieldCurrentThread(); // give other threads a chance
@@ -234,9 +237,10 @@ void StreamReader::run() try {
 		
 		glock.unlock();
 		
-		if(maxNewSamples>0&&t.elapsed()>_displayTimeout) { // too much time since last result, try to produce partial result
+		if(haveNewData&&t.elapsed()>_displayTimeout) { // too much time since last result, try to produce partial result
 // Copy packets instead of moving since we aren't done yet
 			marshalAsync(&StreamReader::dispatch,packets);
+			haveNewData=false;
 			t.start();
 		}
 		
