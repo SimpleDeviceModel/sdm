@@ -216,6 +216,8 @@ int UartSource::readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) {
 	if(!_selected) throw std::runtime_error("Stream not selected");
 // We have only one stream
 	if(stream!=0) throw std::runtime_error("Bad stream ID");
+// Exit immediately if no data has been requested
+	if(n==0) return 0;
 	
 // Process data from the queue
 	std::size_t loaded=loadFromQueue(data,n);
@@ -224,18 +226,20 @@ int UartSource::readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) {
 // Read new data from the serial port
 		if(_q.size()<MAXBUFSIZE) {
 			std::size_t toread=MAXBUFSIZE-_q.size();
-			bool nonBlocking=(nb!=0||loaded>0||endOfFrame()); // don't need to block if we already filled the user's buffer
+			bool nonBlocking=(nb!=0||loaded>0||(_cnt>0&&endOfFrame()));
 			std::vector<char> buf(toread);
 			auto r=_port.read(buf.data(),toread,nonBlocking?0:-1); // will read "toread" bytes or fewer
 			_q.insert(_q.end(),buf.begin(),buf.begin()+r);
 		}
 		
 		if(loaded<n) loaded+=loadFromQueue(data+loaded,n-loaded);
-	} while(loaded==0&&nb==0&&!endOfFrame());
+	} while(loaded==0&&nb==0&&!(_cnt>0&&endOfFrame()));
 	
 	if(loaded==0&&endOfFrame()&&_cnt>0) return 0; // end of frame
-// Note that "loaded" can't be zero in the blocking mode due to the preceding loop
-	if(loaded==0) return SDM_WOULDBLOCK;
+	if(loaded==0) {
+		if(nb==0) throw std::runtime_error("Blocking read operation failed to return data");
+		return SDM_WOULDBLOCK;
+	}
 	return static_cast<int>(loaded);
 }
 
