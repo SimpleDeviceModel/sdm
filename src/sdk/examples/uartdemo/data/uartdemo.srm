@@ -74,7 +74,7 @@
 			<Address></Address>
 			<Data>
 				<Widget type="LineEdit"/>
-				<Value>256</Value>
+				<Value>512</Value>
 			</Data>
 			<WriteAction>_ch.writereg(0x23,_reg.data&amp;0xFF)
 _ch.writereg(0x24,_reg.data&gt;&gt;8)</WriteAction>

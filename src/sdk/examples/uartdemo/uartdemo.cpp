@@ -73,7 +73,7 @@ UartDevice::UartDevice() {
 	addConstProperty("AutoOpenSources","open");
 	
 	addListItem("ConnectionParameters","SerialPort");
-	addListItem("Channels","Pin settings");
+	addListItem("Channels","Settings");
 	addListItem("Sources","Virtual oscilloscope");
 	
 // Try to auto detect serial port
@@ -129,7 +129,7 @@ int UartDevice::getConnectionStatus() {
  */
 
 UartChannel::UartChannel(Uart &port,std::deque<char> &q): _port(port),_q(q) {
-	addConstProperty("Name","Pin settings");
+	addConstProperty("Name","Settings");
 	addConstProperty("RegisterMapFile","uartdemo/uartdemo.srm");
 }
 
