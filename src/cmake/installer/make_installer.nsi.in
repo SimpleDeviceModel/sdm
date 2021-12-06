@@ -105,20 +105,17 @@ LangString UninstallOldVersionFailed ${LANG_RUSSIAN} "Не удалось уда
 LangString VCRedistInstallationFailed ${LANG_ENGLISH} "Warning: Microsoft Visual C++ Redistributable installation failed (exit code $0)."
 LangString VCRedistInstallationFailed ${LANG_RUSSIAN} "Предупреждение: установка Microsoft Visual C++ Redistributable завершилась неудачей (код выхода $0)."
 
-LangString AddToPath ${LANG_ENGLISH} "Add ${PROGRAM_SHORT_NAME} to the PATH variable"
+LangString AddToPath ${LANG_ENGLISH} "Add ${PROGRAM_SHORT_NAME} to the PATH environment variable"
 LangString AddToPath ${LANG_RUSSIAN} "Добавить ${PROGRAM_SHORT_NAME} в переменную окружения PATH"
 
-LangString StartMenuShortcuts ${LANG_ENGLISH} "Create start menu shortcuts"
-LangString StartMenuShortcuts ${LANG_RUSSIAN} "Создать ярлыки в главном меню"
+LangString StartMenuShortcuts ${LANG_ENGLISH} "Create a start menu shortcut"
+LangString StartMenuShortcuts ${LANG_RUSSIAN} "Создать ярлык в главном меню"
 
-LangString DesktopShortcuts ${LANG_ENGLISH} "Create desktop shortcut"
+LangString DesktopShortcuts ${LANG_ENGLISH} "Create a desktop shortcut"
 LangString DesktopShortcuts ${LANG_RUSSIAN} "Создать ярлык на рабочем столе"
 
 LangString UninstallString ${LANG_ENGLISH} "Uninstall"
 LangString UninstallString ${LANG_RUSSIAN} "Удалить"
-
-LangString ManualString ${LANG_ENGLISH} "User Manual"
-LangString ManualString ${LANG_RUSSIAN} "Руководство пользователя"
 
 LangString UninstallProgramFiles ${LANG_ENGLISH} "Uninstall program files"
 LangString UninstallProgramFiles ${LANG_RUSSIAN} "Удалить файлы программы"
