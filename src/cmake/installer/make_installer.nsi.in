@@ -319,7 +319,7 @@ Section "un.$(UninstallProgramFiles)"
 	DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_FULL_NAME_WITH_ARCH}"
 
 # Remove shortcuts
-	RMDir /REBOOTOK "$SMPROGRAMS\${MAIN_EXECUTABLE} (${ARCH_STR}).lnk"
+	Delete /REBOOTOK "$SMPROGRAMS\${MAIN_EXECUTABLE} (${ARCH_STR}).lnk"
 	Delete /REBOOTOK "$DESKTOP\${MAIN_EXECUTABLE} (${ARCH_STR}).lnk"
 
 # Remove uninstaller
