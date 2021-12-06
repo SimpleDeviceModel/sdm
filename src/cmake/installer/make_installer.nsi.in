@@ -2,7 +2,6 @@
 
 !include "MUI2.nsh"
 !include "Sections.nsh"
-!include "EnvVarUpdate.nsh"
 !include "WordFunc.nsh"
 !include "FileFunc.nsh"
 !include "x64.nsh"
@@ -286,7 +285,8 @@ SectionEnd
 
 Section $(AddToPath)
 # Modify PATH environment variable
-	${EnvVarUpdate} $0 "PATH" "A" "HKLM" "$INSTDIR"
+	EnVar::SetHKLM
+	EnVar::AddValue "PATH" "$INSTDIR"
 SectionEnd
 
 Section $(StartMenuShortcuts)
@@ -310,7 +310,8 @@ FunctionEnd
 Section "un.$(UninstallProgramFiles)"
 	SectionIn RO
 # Remove program from PATH
-	${un.EnvVarUpdate} $0 "PATH" "R" "HKLM" "$INSTDIR"
+	EnVar::SetHKLM
+	EnVar::DeleteValue "PATH" "$INSTDIR"
 
 # Remove unistaller entry
 	DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_FULL_NAME_WITH_ARCH}"
