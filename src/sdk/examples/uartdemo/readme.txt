@@ -48,7 +48,7 @@ Serial port configuration: 115200 baud, 8 data bits, 1 stop bit, no parity,
 no flow control.
 
 Write register (master -> slave): 01010000 ADDR[7:0] DATA[7:0]
-Read register (master-> slave):   01010001 ADDR[7:0]
+Read register (master -> slave):  01010001 ADDR[7:0]
 Register data (slave -> master):  1000 DATA[7:4] 0000 DATA[3:0]
 Stream data (slave -> master):    11 SOP DATA[9:5] 000 DATA[4:0]
 

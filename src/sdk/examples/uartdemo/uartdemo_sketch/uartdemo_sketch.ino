@@ -129,7 +129,7 @@ void writeVirtualRegister(byte addr,byte data) {
     pinPWM[addr-16]=data;
     setPinState(addr-16);
   }
-/* Synchronization settings and packet size*/
+/* Synchronization settings and packet size */
   else if(addr==32) syncMode=data;
   else if(addr==33) syncSource=data;
   else if(addr==34) syncLevel=static_cast<unsigned int>(data)<<2;
