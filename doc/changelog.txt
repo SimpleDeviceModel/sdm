@@ -1,7 +1,7 @@
 ========================
 SDM 1.0.2
 ------------------------
-Released on 2021-12-03
+Released on 2021-12-07
 ========================
 
 * sdmconsole: fixed a bug in stream reader with last packet not being displayed under certain circumstances
