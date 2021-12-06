@@ -1,4 +1,15 @@
 ========================
+SDM 1.0.2
+------------------------
+Released on 2021-12-03
+========================
+
+* sdmconsole: fixed a bug in stream reader with last packet not being displayed under certain circumstances
+* installer: fixed a regression with start menu shortcut not being deleted
+* installer: use EnVar plugin instead of EnvVarUpdate module to modify PATH variable
+* uartdemo: implement synchronization (trigger modes)
+
+========================
 SDM 1.0.1
 ------------------------
 Released on 2021-12-03

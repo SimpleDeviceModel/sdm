@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RegisterMap>
 	<Page name="Page 1">
+		<SectionHeader>Analog input</SectionHeader>
 		<Register>
 			<Name>ADC input channel</Name>
 			<Id></Id>
@@ -33,6 +34,77 @@
 				<Value>1</Value>
 			</Data>
 		</Register>
+		<Register>
+			<Name>Packet size</Name>
+			<Id></Id>
+			<Address></Address>
+			<Data>
+				<Widget type="LineEdit"/>
+				<Value>512</Value>
+			</Data>
+			<WriteAction>_ch.writereg(0x24,_reg.data&amp;0xFF)
+_ch.writereg(0x25,_reg.data&gt;&gt;8)</WriteAction>
+			<ReadAction>local low=_ch.readreg(0x24)
+local high=_ch.readreg(0x25)
+return (high&lt;&lt;8)+low</ReadAction>
+		</Register>
+		<SectionHeader>Synchronization</SectionHeader>
+		<Register>
+			<Name>Sync mode</Name>
+			<Id></Id>
+			<Address>0x20</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="Off" value="0"/>
+					<Option name="Rising edge" value="1"/>
+					<Option name="Falling edge" value="2"/>
+				</Widget>
+				<Value>0</Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Sync source</Name>
+			<Id></Id>
+			<Address>0x21</Address>
+			<Data>
+				<Widget type="DropDown">
+					<Option name="Analog input" value="0"/>
+					<Option name="Digital pin 3" value="3"/>
+					<Option name="Digital pin 4" value="4"/>
+					<Option name="Digital pin 5" value="5"/>
+					<Option name="Digital pin 6" value="6"/>
+					<Option name="Digital pin 7" value="7"/>
+					<Option name="Digital pin 8" value="8"/>
+					<Option name="Digital pin 9" value="9"/>
+					<Option name="Digital pin 10" value="10"/>
+					<Option name="Digital pin 11" value="11"/>
+					<Option name="Digital pin 12" value="12"/>
+					<Option name="Digital pin 13" value="13"/>
+				</Widget>
+				<Value>0</Value>
+			</Data>
+		</Register>
+		<Register>
+			<Name>Sync level</Name>
+			<Id></Id>
+			<Address>0x22</Address>
+			<Data>
+				<Widget type="LineEdit"/>
+				<Value>512</Value>
+			</Data>
+			<WriteAction>_ch.writereg(_reg.addr,_reg.data/4)</WriteAction>
+			<ReadAction>return _ch.readreg(_reg.addr)*4</ReadAction>
+		</Register>
+		<Register>
+			<Name>Sync offset</Name>
+			<Id></Id>
+			<Address>0x23</Address>
+			<Data>
+				<Widget type="LineEdit"/>
+				<Value>128</Value>
+			</Data>
+		</Register>
+		<SectionHeader>Pin settings</SectionHeader>
 		<Register>
 			<Name>Pin 2 mode</Name>
 			<Id></Id>

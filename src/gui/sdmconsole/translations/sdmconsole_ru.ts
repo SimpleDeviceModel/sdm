@@ -694,7 +694,7 @@
         <location filename="../registermapwidget.cpp" line="489"/>
         <location filename="../registermapworker.cpp" line="86"/>
         <location filename="../sidebar.cpp" line="143"/>
-        <location filename="../streamreader.cpp" line="429"/>
+        <location filename="../streamreader.cpp" line="433"/>
         <location filename="../streamselector.cpp" line="319"/>
         <location filename="../streamselector.cpp" line="323"/>
         <location filename="../streamselector.cpp" line="327"/>
@@ -1537,27 +1537,27 @@
         <translation>Запись потоков данных:</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="247"/>
+        <location filename="../streamreader.cpp" line="251"/>
         <source>Stream reader error: </source>
         <translation>Ошибка чтения потока: </translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="360"/>
+        <location filename="../streamreader.cpp" line="364"/>
         <source>Error: </source>
         <translation>Ошибка: </translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="374"/>
+        <location filename="../streamreader.cpp" line="378"/>
         <source>Data streams were successfully saved</source>
         <translation>Потоки данных были успешно сохранены</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="379"/>
+        <location filename="../streamreader.cpp" line="383"/>
         <source>Operation has been aborted by the user</source>
         <translation>Операция была прервана пользователем</translation>
     </message>
     <message>
-        <location filename="../streamreader.cpp" line="430"/>
+        <location filename="../streamreader.cpp" line="434"/>
         <source>Cannot apply data stream set</source>
         <translation>Невозможно применить набор потоков данных</translation>
     </message>

@@ -2,7 +2,6 @@
 
 !include "MUI2.nsh"
 !include "Sections.nsh"
-!include "EnvVarUpdate.nsh"
 !include "WordFunc.nsh"
 !include "FileFunc.nsh"
 !include "x64.nsh"
@@ -105,20 +104,17 @@ LangString UninstallOldVersionFailed ${LANG_RUSSIAN} "Не удалось уда
 LangString VCRedistInstallationFailed ${LANG_ENGLISH} "Warning: Microsoft Visual C++ Redistributable installation failed (exit code $0)."
 LangString VCRedistInstallationFailed ${LANG_RUSSIAN} "Предупреждение: установка Microsoft Visual C++ Redistributable завершилась неудачей (код выхода $0)."
 
-LangString AddToPath ${LANG_ENGLISH} "Add ${PROGRAM_SHORT_NAME} to the PATH variable"
+LangString AddToPath ${LANG_ENGLISH} "Add ${PROGRAM_SHORT_NAME} to the PATH environment variable"
 LangString AddToPath ${LANG_RUSSIAN} "Добавить ${PROGRAM_SHORT_NAME} в переменную окружения PATH"
 
-LangString StartMenuShortcuts ${LANG_ENGLISH} "Create start menu shortcuts"
-LangString StartMenuShortcuts ${LANG_RUSSIAN} "Создать ярлыки в главном меню"
+LangString StartMenuShortcuts ${LANG_ENGLISH} "Create a start menu shortcut"
+LangString StartMenuShortcuts ${LANG_RUSSIAN} "Создать ярлык в главном меню"
 
-LangString DesktopShortcuts ${LANG_ENGLISH} "Create desktop shortcut"
+LangString DesktopShortcuts ${LANG_ENGLISH} "Create a desktop shortcut"
 LangString DesktopShortcuts ${LANG_RUSSIAN} "Создать ярлык на рабочем столе"
 
 LangString UninstallString ${LANG_ENGLISH} "Uninstall"
 LangString UninstallString ${LANG_RUSSIAN} "Удалить"
-
-LangString ManualString ${LANG_ENGLISH} "User Manual"
-LangString ManualString ${LANG_RUSSIAN} "Руководство пользователя"
 
 LangString UninstallProgramFiles ${LANG_ENGLISH} "Uninstall program files"
 LangString UninstallProgramFiles ${LANG_RUSSIAN} "Удалить файлы программы"
@@ -289,7 +285,8 @@ SectionEnd
 
 Section $(AddToPath)
 # Modify PATH environment variable
-	${EnvVarUpdate} $0 "PATH" "A" "HKLM" "$INSTDIR"
+	EnVar::SetHKLM
+	EnVar::AddValue "PATH" "$INSTDIR"
 SectionEnd
 
 Section $(StartMenuShortcuts)
@@ -313,13 +310,14 @@ FunctionEnd
 Section "un.$(UninstallProgramFiles)"
 	SectionIn RO
 # Remove program from PATH
-	${un.EnvVarUpdate} $0 "PATH" "R" "HKLM" "$INSTDIR"
+	EnVar::SetHKLM
+	EnVar::DeleteValue "PATH" "$INSTDIR"
 
 # Remove unistaller entry
 	DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_FULL_NAME_WITH_ARCH}"
 
 # Remove shortcuts
-	RMDir /REBOOTOK "$SMPROGRAMS\${MAIN_EXECUTABLE} (${ARCH_STR}).lnk"
+	Delete /REBOOTOK "$SMPROGRAMS\${MAIN_EXECUTABLE} (${ARCH_STR}).lnk"
 	Delete /REBOOTOK "$DESKTOP\${MAIN_EXECUTABLE} (${ARCH_STR}).lnk"
 
 # Remove uninstaller

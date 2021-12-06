@@ -288,11 +288,11 @@ make install
 \subsection{Generating installer for Windows}
 \label{subsec:wininstaller}
 
-Under Microsoft Windows, SDM provides a script, \shellcmd{make\_installer.nsi}, which can be used to generate an installer with NSIS (Nullsoft Scriptable Install System)\footnote{\url{http://nsis.sourceforge.net}}. Using the \emph{Large Strings} special build of NSIS is recommended, otherwise the installer can fail to properly update the PATH environment variable.
+Under Microsoft Windows, SDM provides a script, \shellcmd{make\_installer.nsi}, which can be used to generate an installer with NSIS (Nullsoft Scriptable Install System)\footnote{\url{http://nsis.sourceforge.io}}.
 
 To generate the installer package, SDM must be first built and installed using CMake (possibly to a temporary directory). The NSIS script is configured by the build system and installed alongside program executables. Then, \shellcmd{makensis} program is used to create an installer.
 
-The installer generation script uses the \shellcmd{EnvVarUpdate.nsh} module to modify the \shellcmd{PATH} environment variable in the Windows Registry. This module is not included in the NSIS distribution and must be installed separately\footnote{\url{http://nsis.sourceforge.net/Path_Manipulation}}.
+The installer generation script uses the \shellcmd{EnVar} NSIS plugin to modify the \shellcmd{PATH} environment variable in the Windows Registry. This plugin is not included in the NSIS distribution and must be installed separately\footnote{\url{https://nsis.sourceforge.io/EnVar_plug-in}}.
 
 When using a MinGW-based toolchain, it is recommended to use \shellcmd{make install/strip} instead of just \shellcmd{make install} to strip unneeded symbols from the executables:
 
