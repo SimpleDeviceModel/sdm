@@ -7,3 +7,6 @@ A device is represented by SDM as a set of control channels and data sources, he
 SDM is most useful for prototyping, allowing the developer to quickly create virtual control panels and dashboards. Scriptability makes it also well suited for test and measurement automation.
 
 [Project Website](https://simpledevicemodel.github.io)
+
+![Screenshot](https://simpledevicemodel.github.io/assets/mainwindow.png)
+
