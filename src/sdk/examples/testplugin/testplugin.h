@@ -39,28 +39,28 @@
 	 #pragma warning(disable: 4351)
 #endif
 
-class TestPlugin : public SDMAbstractPluginProvider {
+class TestPlugin : public SDMAbstractPlugin {
 public:
 	TestPlugin();
-	virtual SDMAbstractDeviceProvider *openDevice(int id) override;
+	virtual SDMAbstractDevice *openDevice(int id) override;
 };
 
-class TestDevice : public SDMAbstractDeviceProvider {
+class TestDevice : public SDMAbstractDevice {
 	bool _connected=false;
 public:
 	TestDevice(int id);
 	
 	virtual int close() override;
 	
-	virtual SDMAbstractChannelProvider *openChannel(int id) override;
-	virtual SDMAbstractSourceProvider *openSource(int id) override;
+	virtual SDMAbstractChannel *openChannel(int id) override;
+	virtual SDMAbstractSource *openSource(int id) override;
 	
 	virtual int connect() override;
 	virtual int disconnect() override;
 	virtual int getConnectionStatus() override;
 };
 
-class TestChannel : public SDMAbstractChannelProvider {
+class TestChannel : public SDMAbstractChannel {
 	struct FifoItem {
 		sdm_reg_t word;
 		bool sop;
@@ -86,7 +86,7 @@ public:
 	virtual int readMem(sdm_addr_t addr,sdm_reg_t *data,std::size_t n) override;
 };
 
-class TestSource : public SDMAbstractSourceProvider {
+class TestSource : public SDMAbstractSource {
 	struct Streams {
 		int npacket[2] {};
 		int pos[2] {};
@@ -115,7 +115,7 @@ public:
 	virtual void setProperty(const std::string &name,const std::string &value) override;
 };
 
-class VideoSource : public SDMAbstractSourceProvider {
+class VideoSource : public SDMAbstractSource {
 	const bool &_connected;
 	
 	bool _selected=false;

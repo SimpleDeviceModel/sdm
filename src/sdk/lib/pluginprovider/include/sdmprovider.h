@@ -31,36 +31,34 @@
 #include "sdmproperty.h"
 #include "sdmtypes.h"
 
-class SDMAbstractDeviceProvider;
-class SDMAbstractChannelProvider;
-class SDMAbstractSourceProvider;
+class SDMAbstractDevice;
+class SDMAbstractChannel;
+class SDMAbstractSource;
 
-class SDMAbstractPluginProvider : public SDMPropertyManager {
+class SDMAbstractPlugin : public SDMPropertyManager {
 public:
-	SDMAbstractPluginProvider();
-	virtual ~SDMAbstractPluginProvider();
+	virtual ~SDMAbstractPlugin() {}
 	
-	virtual SDMAbstractDeviceProvider *openDevice(int id)=0;
+	virtual SDMAbstractDevice *openDevice(int id)=0;
 	
 // Note: instance() function must be defined by the user
-	static SDMAbstractPluginProvider *instance();
+	static SDMAbstractPlugin *instance();
 };
 
 /*
- * Note: default implementations of SDMAbstractDeviceProvider::openChannel()
- * and SDMAbstractDeviceProvider::openSource() return NULL, indicating that
+ * Note: default implementations of SDMAbstractDevice::openChannel()
+ * and SDMAbstractDevice::openSource() return NULL, indicating that
  * the device doesn't support channels/sources.
  */
 
-class SDMAbstractDeviceProvider : public SDMPropertyManager {
+class SDMAbstractDevice : public SDMPropertyManager {
 public:
-	SDMAbstractDeviceProvider();
-	virtual ~SDMAbstractDeviceProvider();
+	virtual ~SDMAbstractDevice() {}
 	
 	virtual int close()=0;
 	
-	virtual SDMAbstractChannelProvider *openChannel(int id);
-	virtual SDMAbstractSourceProvider *openSource(int id);
+	virtual SDMAbstractChannel *openChannel(int id);
+	virtual SDMAbstractSource *openSource(int id);
 	
 	virtual int connect()=0;
 	virtual int disconnect()=0;
@@ -85,10 +83,9 @@ public:
  * incrementing address each time.
  */
 
-class SDMAbstractChannelProvider : public SDMPropertyManager {
+class SDMAbstractChannel : public SDMPropertyManager {
 public:
-	SDMAbstractChannelProvider();
-	virtual ~SDMAbstractChannelProvider();
+	virtual ~SDMAbstractChannel() {}
 	
 	virtual int close()=0;
 	
@@ -101,14 +98,13 @@ public:
 };
 
 /*
- * Note: default implementation of SDMAbstractSourceProvider::readStreamErrors()
+ * Note: default implementation of SDMAbstractSource::readStreamErrors()
  * returns 0.
  */
 
-class SDMAbstractSourceProvider : public SDMPropertyManager {
+class SDMAbstractSource : public SDMPropertyManager {
 public:
-	SDMAbstractSourceProvider();
-	virtual ~SDMAbstractSourceProvider();
+	virtual ~SDMAbstractSource() {}
 	
 	virtual int close()=0;
 	
@@ -118,5 +114,68 @@ public:
 	virtual void discardPackets()=0;
 	virtual int readStreamErrors();
 };
+
+/*
+ * When deriving source classes from SDMAbstractSource, implementing
+ * readStream() can be tricky since it is necessary to account for many
+ * conditions (start/continuation of packet, blocking/non-blocking etc.)
+ * which leads to mistakes. The SDMAbstractQueuedSource class is designed
+ * to make implementing source classes easier. Its interface is not
+ * considered stable yet.
+ * 
+ * Derivatives of this class should implement some kind of queue to store
+ * unprocessed data from the device.
+ * 
+ * addDataToQueue() reads some data from the device and adds them to the
+ * queue. "samples" can be used as a hint on how much data to request, but
+ * can be ignored. If "nonBlocking" is false, the function must not return
+ * until it read at least 1 byte from the device.
+ * 
+ * getSamplesFromQueue() fills the provided buffer with up to "n" samples
+ * from the queue. It is not supposed to read data from the device directly.
+ * If "sop" is true, the first sample must be from the beginning of the packet,
+ * samples should be skipped if necessary. It should stop producing samples
+ * when end of packet has been reached. Returns the number of samples added
+ * to the buffer.
+ * 
+ * isStartOfPacket() returns true if the next sample in the queue will start
+ * a new packet. It should return false if the next sample will continue the
+ * current packet, or if it is not yet known whether the next sample will be
+ * from the current or next packet.
+ * 
+ * isError() returns true when the last call to getSamplesFromQueue() resulted
+ * in broken stream continuity.
+ * 
+ * clear() clears the queue. It should also try to clear data stored in
+ * hardware buffers if possible.
+ */
+
+class SDMAbstractQueuedSource : public SDMAbstractSource {
+	bool _requestStartOfPacket=true;
+	int _errors=0;
+public:
+	virtual int selectReadStreams(const int *streams,std::size_t n,std::size_t packets,int df) override;
+	virtual int readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) override;
+	virtual int readNextPacket() override;
+	virtual void discardPackets() override;
+	virtual int readStreamErrors() override;
+protected:
+	virtual void addDataToQueue(std::size_t samples,bool nonBlocking)=0;
+	virtual std::size_t getSamplesFromQueue(int stream,sdm_sample_t *data,std::size_t n,bool sop)=0;
+	virtual bool isStartOfPacket() const=0;
+	virtual bool isError() const {return false;}
+	virtual void clear()=0;
+private:
+	bool packetFinished() const;
+};
+
+/*
+ * The following typedefs are deprecated and provided to support old code.
+ */
+
+typedef SDMAbstractPlugin SDMAbstractPluginProvider;
+typedef SDMAbstractDevice SDMAbstractDeviceProvider;
+typedef SDMAbstractChannel SDMAbstractChannelProvider;
+typedef SDMAbstractSource SDMAbstractSourceProvider;
 
 #endif
