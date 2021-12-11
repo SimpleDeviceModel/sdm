@@ -133,20 +133,21 @@ public:
  * 
  * getSamplesFromQueue() fills the provided buffer with up to "n" samples
  * from the queue. It is not supposed to read data from the device directly.
- * If "sop" is true, it should produce samples from the beginning of the packet,
- * skipping samples if necessary. If "sop" is false, it should stop producing
- * samples when end of packet has been reached. Returns the number of samples
- * added to the buffer.
+ * If "sop" is true, the first sample must be from the beginning of the packet,
+ * samples should be skipped if necessary. It should stop producing samples
+ * when end of packet has been reached. Returns the number of samples added
+ * to the buffer.
  * 
  * isStartOfPacket() returns true if the next sample in the queue will start
  * a new packet. It should return false if the next sample will continue the
- * current packet, or if it is not known yet whether the next sample will be
+ * current packet, or if it is not yet known whether the next sample will be
  * from the current or next packet.
  * 
  * isError() returns true when the last call to getSamplesFromQueue() resulted
  * in broken stream continuity.
  * 
- * clear() clears the queue.
+ * clear() clears the queue. It should also try to clear data stored in
+ * hardware buffers if possible.
  */
 
 class SDMAbstractQueuedSource : public SDMAbstractSource {
