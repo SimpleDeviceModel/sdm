@@ -84,24 +84,19 @@ private:
 
 // Source class
 
-class UartSource : public SDMAbstractSource {
+class UartSource : public SDMAbstractQueuedSource {
 	Uart &_port;
 	std::deque<char> &_q;
-	std::size_t _cnt=0; // number of samples delivered for the current packet
-	bool _selected=false;
+
 public:
 	UartSource(Uart &port,std::deque<char> &q);
-	
 	virtual int close() override;
-	
-	virtual int selectReadStreams(const int *streams,std::size_t n,std::size_t packets,int df) override;
-	virtual int readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) override;
-	virtual int readNextPacket() override;
-	virtual void discardPackets() override;
-	
-private:
-	std::size_t loadFromQueue(sdm_sample_t *data,std::size_t n);
-	bool endOfFrame() const;
+
+protected:
+	virtual void addDataToQueue(std::size_t samples,bool nonBlocking) override;
+	virtual std::size_t getSamplesFromQueue(int stream,sdm_sample_t *data,std::size_t n,bool sop) override;
+	virtual bool isStartOfPacket() const override;
+	virtual void clear() override;
 };
 
 #endif

@@ -198,69 +198,16 @@ int UartSource::close() {
 	return 0;
 }
 
-int UartSource::selectReadStreams(const int *streams,std::size_t n,std::size_t packets,int df) {
-// In this example we don't need to do anything specific when streams
-// are selected since the device is always transmitting data.
-// Nevertheless, reading stream data before selecting the stream is an error
-// per SDM API spec, so we check for that.
-// Here we have only one stream, so the user can select either it or nothing.
-	if(n==0) _selected=false;
-	else if(n==1&&streams[0]==0) _selected=true;
-	else throw std::runtime_error("Bad stream set");
-	UartSource::discardPackets();
-	return 0;
-}
-
-int UartSource::readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) {
-// Reading stream data before selecting the stream is an error
-	if(!_selected) throw std::runtime_error("Stream not selected");
-// We have only one stream
-	if(stream!=0) throw std::runtime_error("Bad stream ID");
-// Exit immediately if no data has been requested
-	if(n==0) return 0;
-	
-// Process data from the queue
-	std::size_t loaded=loadFromQueue(data,n);
-	
-	do {
-// Read new data from the serial port
-		if(_q.size()<MAXBUFSIZE) {
-			std::size_t toread=MAXBUFSIZE-_q.size();
-			bool nonBlocking=(nb!=0||loaded>0||(_cnt>0&&endOfFrame()));
-			std::vector<char> buf(toread);
-			auto r=_port.read(buf.data(),toread,nonBlocking?0:-1); // will read "toread" bytes or fewer
-			_q.insert(_q.end(),buf.begin(),buf.begin()+r);
-		}
-		
-		if(loaded<n) loaded+=loadFromQueue(data+loaded,n-loaded);
-	} while(loaded==0&&nb==0&&!(_cnt>0&&endOfFrame()));
-	
-	if(loaded==0&&endOfFrame()&&_cnt>0) return 0; // end of frame
-	if(loaded==0) {
-		if(nb==0) throw std::runtime_error("Blocking read operation failed to return data");
-		return SDM_WOULDBLOCK;
+void UartSource::addDataToQueue(std::size_t samples,bool nonBlocking) {
+	if(_q.size()<MAXBUFSIZE) {
+		std::size_t toread=MAXBUFSIZE-_q.size();
+		std::vector<char> buf(toread);
+		auto r=_port.read(buf.data(),toread,nonBlocking?0:-1);
+		_q.insert(_q.end(),buf.begin(),buf.begin()+r);
 	}
-	return static_cast<int>(loaded);
 }
 
-int UartSource::readNextPacket() {
-	_cnt=0;
-	return 0;
-}
-
-void UartSource::discardPackets() {
-	_q.clear();
-// Note: after the first readAll() there may still be some out-of-sequence
-// data in the serial port buffer. Wait a bit and repeat.
-	_port.readAll();
-	std::this_thread::sleep_for(std::chrono::milliseconds(50));
-	_port.readAll();
-	readNextPacket();
-}
-
-std::size_t UartSource::loadFromQueue(sdm_sample_t *data,std::size_t n) {
-	if(n==0) return 0;
-
+std::size_t UartSource::getSamplesFromQueue(int stream,sdm_sample_t *data,std::size_t n,bool sop) {
 	std::size_t current=0;
 
 	while(current<n&&!_q.empty()) {
@@ -269,22 +216,31 @@ std::size_t UartSource::loadFromQueue(sdm_sample_t *data,std::size_t n) {
 			continue;
 		}
 		if(_q.size()<2) break; // packet size is 2 bytes
-		int sample=((_q[0]&0x1F)<<5)|(_q[1]&0x1F);
-		if(_cnt==0&&!endOfFrame()) _q.erase(_q.begin(),_q.begin()+2);
-		else if(!endOfFrame()||_cnt==0) {
+		if(sop&&!isStartOfPacket()) _q.erase(_q.begin(),_q.begin()+2); // wait for the start of the packet
+		else if(!sop&&isStartOfPacket()) break; // packet finished
+		else {
+			int sample=((_q[0]&0x1F)<<5)|(_q[1]&0x1F);
 			data[current]=static_cast<sdm_sample_t>(sample);
 			current++;
-			_cnt++;
+			sop=false;
 			_q.erase(_q.begin(),_q.begin()+2);
 		}
-		else break;
 	}
 	
 	return current; // number of samples loaded from the queue
 }
 
-bool UartSource::endOfFrame() const {
+bool UartSource::isStartOfPacket() const {
 	if(_q.empty()) return false;
 	if((_q.front()&0xE0)==0xE0) return true;
 	return false;
+}
+
+void UartSource::clear() {
+	_q.clear();
+// Note: after the first readAll() there may still be some out-of-sequence
+// data in the serial port buffer. Wait a bit and repeat.
+	_port.readAll();
+	std::this_thread::sleep_for(std::chrono::milliseconds(50));
+	_port.readAll();
 }

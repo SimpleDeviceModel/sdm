@@ -116,6 +116,55 @@ public:
 };
 
 /*
+ * This class is designed to make implementing source classes easier.
+ * Its interface is not considered stable yet.
+ * 
+ * Derivatives of this class should implement some kind of queue to store
+ * unprocessed data from the device.
+ * 
+ * addDataToQueue() reads some data from the device and adds them to the
+ * queue. "samples" can be used as a hint on how much data to request, but
+ * can be ignored. If "nonBlocking" is false, the function must not return
+ * until it read at least 1 byte from the device.
+ * 
+ * getSamplesFromQueue() fills the provided buffer with up to "n" samples
+ * from the queue. It is not supposed to read data from the device directly.
+ * If "sop" is true, it should produce samples from the beginning of the packet,
+ * skipping samples if necessary. If "sop" is false, it should stop producing
+ * samples when end of packet has been reached. Returns the number of samples
+ * added to the buffer.
+ * 
+ * isStartOfPacket() returns true if the next sample in the queue will start
+ * a new packet. It should return false if the next sample will continue the
+ * current packet, or if it is not known yet whether the next sample will be
+ * from the current or next packet.
+ * 
+ * isError() returns true when the last call to getSamplesFromQueue() resulted
+ * in broken stream continuity.
+ * 
+ * clear() clears the queue.
+ */
+
+class SDMAbstractQueuedSource : public SDMAbstractSource {
+	bool _requestStartOfPacket=true;
+	int _errors=0;
+public:
+	virtual int selectReadStreams(const int *streams,std::size_t n,std::size_t packets,int df) override;
+	virtual int readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) override;
+	virtual int readNextPacket() override;
+	virtual void discardPackets() override;
+	virtual int readStreamErrors() override;
+protected:
+	virtual void addDataToQueue(std::size_t samples,bool nonBlocking)=0;
+	virtual std::size_t getSamplesFromQueue(int stream,sdm_sample_t *data,std::size_t n,bool sop)=0;
+	virtual bool isStartOfPacket() const=0;
+	virtual bool isError() const {return false;}
+	virtual void clear()=0;
+private:
+	bool packetFinished() const;
+};
+
+/*
  * The following typedefs are deprecated and provided to support old code.
  */
 
