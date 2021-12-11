@@ -108,6 +108,7 @@ int SDMAbstractQueuedSource::readStream(int stream,sdm_sample_t *data,std::size_
 	
 // Process data from the queue
 	auto loaded=getSamplesFromQueue(stream,data,n,_requestStartOfPacket);
+	if(isError()) _errors++;
 	if(loaded>0) _requestStartOfPacket=false;
 	
 	for(;;) {
@@ -120,6 +121,7 @@ int SDMAbstractQueuedSource::readStream(int stream,sdm_sample_t *data,std::size_
 		addDataToQueue(suggestToRead,nonBlocking);
 // Put new samples to the buffer
 		if(loaded<n) loaded+=getSamplesFromQueue(stream,data+loaded,n-loaded,_requestStartOfPacket);
+		if(isError()) _errors++;
 		if(loaded>0) _requestStartOfPacket=false;
 // Break loop if there's no reason to block
 		if(nb!=0) break;

@@ -116,8 +116,12 @@ public:
 };
 
 /*
- * This class is designed to make implementing source classes easier.
- * Its interface is not considered stable yet.
+ * When deriving source classes from SDMAbstractSource, implementing
+ * readStream() can be tricky since it is necessary to account for many
+ * conditions (start/continuation of packet, blocking/non-blocking etc.)
+ * which leads to mistakes. The SDMAbstractQueuedSource class is designed
+ * to make implementing source classes easier. Its interface is not
+ * considered stable yet.
  * 
  * Derivatives of this class should implement some kind of queue to store
  * unprocessed data from the device.
