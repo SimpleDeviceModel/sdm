@@ -35,15 +35,15 @@
 
 // Plugin class
 
-class UartPlugin : public SDMAbstractPluginProvider {
+class UartPlugin : public SDMAbstractPlugin {
 public:
 	UartPlugin();
-	virtual SDMAbstractDeviceProvider *openDevice(int id) override;
+	virtual SDMAbstractDevice *openDevice(int id) override;
 };
 
 // Device class
 
-class UartDevice : public SDMAbstractDeviceProvider {
+class UartDevice : public SDMAbstractDevice {
 	Uart _port; // serial port used to communicate
 	std::deque<char> _q; // stream data buffer
 public:
@@ -51,8 +51,8 @@ public:
 	
 	virtual int close() override;
 	
-	virtual SDMAbstractChannelProvider *openChannel(int id) override;
-	virtual SDMAbstractSourceProvider *openSource(int id) override;
+	virtual SDMAbstractChannel *openChannel(int id) override;
+	virtual SDMAbstractSource *openSource(int id) override;
 	
 	virtual int connect() override;
 	virtual int disconnect() override;
@@ -61,7 +61,7 @@ public:
 
 // Channel class
 
-class UartChannel : public SDMAbstractChannelProvider {
+class UartChannel : public SDMAbstractChannel {
 	Uart &_port;
 	std::deque<char> &_q;
 public:
@@ -73,7 +73,7 @@ public:
 	virtual sdm_reg_t readReg(sdm_addr_t addr,int *status) override;
 /*
  * Note: Default implementations of writeFIFO(), readFIFO(), writeMem()
- * and readMem() provided by SDMAbstractChannelProvider work by repeatedly
+ * and readMem() provided by SDMAbstractChannel work by repeatedly
  * calling writeReg and readReg. If the communication protocol supported
  * block transactions, these methods should have been overriden for better
  * performance.
@@ -84,7 +84,7 @@ private:
 
 // Source class
 
-class UartSource : public SDMAbstractSourceProvider {
+class UartSource : public SDMAbstractSource {
 	Uart &_port;
 	std::deque<char> &_q;
 	std::size_t _cnt=0; // number of samples delivered for the current packet

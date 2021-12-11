@@ -42,7 +42,7 @@
  * initialization order fiasco".
  */
 
-SDMAbstractPluginProvider *SDMAbstractPluginProvider::instance() {
+SDMAbstractPlugin *SDMAbstractPlugin::instance() {
 	static UartPlugin plugin;
 	return &plugin;
 }
@@ -57,7 +57,7 @@ UartPlugin::UartPlugin() {
 	addListItem("Devices","Arduino Uno");
 }
 
-SDMAbstractDeviceProvider *UartPlugin::openDevice(int id) {
+SDMAbstractDevice *UartPlugin::openDevice(int id) {
 	if(id!=0) throw std::runtime_error("No device with such ID");
 	return new UartDevice();
 }
@@ -94,12 +94,12 @@ int UartDevice::close() {
 	return 0;
 }
 
-SDMAbstractChannelProvider *UartDevice::openChannel(int id) {
+SDMAbstractChannel *UartDevice::openChannel(int id) {
 	if(id!=0) throw std::runtime_error("No channel with such ID");
 	return new UartChannel(_port,_q);
 }
 
-SDMAbstractSourceProvider *UartDevice::openSource(int id) {
+SDMAbstractSource *UartDevice::openSource(int id) {
 	if(id!=0) throw std::runtime_error("No source with such ID");
 	return new UartSource(_port,_q);
 }

@@ -31,36 +31,34 @@
 #include "sdmproperty.h"
 #include "sdmtypes.h"
 
-class SDMAbstractDeviceProvider;
-class SDMAbstractChannelProvider;
-class SDMAbstractSourceProvider;
+class SDMAbstractDevice;
+class SDMAbstractChannel;
+class SDMAbstractSource;
 
-class SDMAbstractPluginProvider : public SDMPropertyManager {
+class SDMAbstractPlugin : public SDMPropertyManager {
 public:
-	SDMAbstractPluginProvider();
-	virtual ~SDMAbstractPluginProvider();
+	virtual ~SDMAbstractPlugin() {}
 	
-	virtual SDMAbstractDeviceProvider *openDevice(int id)=0;
+	virtual SDMAbstractDevice *openDevice(int id)=0;
 	
 // Note: instance() function must be defined by the user
-	static SDMAbstractPluginProvider *instance();
+	static SDMAbstractPlugin *instance();
 };
 
 /*
- * Note: default implementations of SDMAbstractDeviceProvider::openChannel()
- * and SDMAbstractDeviceProvider::openSource() return NULL, indicating that
+ * Note: default implementations of SDMAbstractDevice::openChannel()
+ * and SDMAbstractDevice::openSource() return NULL, indicating that
  * the device doesn't support channels/sources.
  */
 
-class SDMAbstractDeviceProvider : public SDMPropertyManager {
+class SDMAbstractDevice : public SDMPropertyManager {
 public:
-	SDMAbstractDeviceProvider();
-	virtual ~SDMAbstractDeviceProvider();
+	virtual ~SDMAbstractDevice() {}
 	
 	virtual int close()=0;
 	
-	virtual SDMAbstractChannelProvider *openChannel(int id);
-	virtual SDMAbstractSourceProvider *openSource(int id);
+	virtual SDMAbstractChannel *openChannel(int id);
+	virtual SDMAbstractSource *openSource(int id);
 	
 	virtual int connect()=0;
 	virtual int disconnect()=0;
@@ -85,10 +83,9 @@ public:
  * incrementing address each time.
  */
 
-class SDMAbstractChannelProvider : public SDMPropertyManager {
+class SDMAbstractChannel : public SDMPropertyManager {
 public:
-	SDMAbstractChannelProvider();
-	virtual ~SDMAbstractChannelProvider();
+	virtual ~SDMAbstractChannel() {}
 	
 	virtual int close()=0;
 	
@@ -101,14 +98,13 @@ public:
 };
 
 /*
- * Note: default implementation of SDMAbstractSourceProvider::readStreamErrors()
+ * Note: default implementation of SDMAbstractSource::readStreamErrors()
  * returns 0.
  */
 
-class SDMAbstractSourceProvider : public SDMPropertyManager {
+class SDMAbstractSource : public SDMPropertyManager {
 public:
-	SDMAbstractSourceProvider();
-	virtual ~SDMAbstractSourceProvider();
+	virtual ~SDMAbstractSource() {}
 	
 	virtual int close()=0;
 	
@@ -118,5 +114,14 @@ public:
 	virtual void discardPackets()=0;
 	virtual int readStreamErrors();
 };
+
+/*
+ * The following typedefs are deprecated and provided to support old code.
+ */
+
+typedef SDMAbstractPlugin SDMAbstractPluginProvider;
+typedef SDMAbstractDevice SDMAbstractDeviceProvider;
+typedef SDMAbstractChannel SDMAbstractChannelProvider;
+typedef SDMAbstractSource SDMAbstractSourceProvider;
 
 #endif

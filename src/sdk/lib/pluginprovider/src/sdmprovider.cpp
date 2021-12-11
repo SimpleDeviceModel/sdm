@@ -30,38 +30,26 @@
 #include <climits>
 
 /*
- * SDMAbstractPluginProvider members
+ * SDMAbstractPlugin members
  */ 
 
-SDMAbstractPluginProvider::SDMAbstractPluginProvider() {}
-
-SDMAbstractPluginProvider::~SDMAbstractPluginProvider() {}
-
 /*
- * SDMAbstractDeviceProvider members
+ * SDMAbstractDevice members
  */
 
-SDMAbstractDeviceProvider::SDMAbstractDeviceProvider() {}
-
-SDMAbstractDeviceProvider::~SDMAbstractDeviceProvider() {}
-
-SDMAbstractChannelProvider *SDMAbstractDeviceProvider::openChannel(int) {
+SDMAbstractChannel *SDMAbstractDevice::openChannel(int) {
 	return NULL;
 }
 
-SDMAbstractSourceProvider *SDMAbstractDeviceProvider::openSource(int) {
+SDMAbstractSource *SDMAbstractDevice::openSource(int) {
 	return NULL;
 }
 
 /*
- * SDMAbstractChannelProvider members
+ * SDMAbstractChannel members
  */
 
-SDMAbstractChannelProvider::SDMAbstractChannelProvider() {}
-
-SDMAbstractChannelProvider::~SDMAbstractChannelProvider() {}
-
-int SDMAbstractChannelProvider::writeFIFO(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n,int) {
+int SDMAbstractChannel::writeFIFO(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n,int) {
 	if(n>INT_MAX) n=INT_MAX;
 	for(std::size_t i=0;i<n;i++) {
 		int r=writeReg(addr,data[i]);
@@ -70,7 +58,7 @@ int SDMAbstractChannelProvider::writeFIFO(sdm_addr_t addr,const sdm_reg_t *data,
 	return static_cast<int>(n);
 }
 
-int SDMAbstractChannelProvider::readFIFO(sdm_addr_t addr,sdm_reg_t *data,std::size_t n,int) {
+int SDMAbstractChannel::readFIFO(sdm_addr_t addr,sdm_reg_t *data,std::size_t n,int) {
 	if(n>INT_MAX) n=INT_MAX;
 	for(std::size_t i=0;i<n;i++) {
 		int status;
@@ -80,7 +68,7 @@ int SDMAbstractChannelProvider::readFIFO(sdm_addr_t addr,sdm_reg_t *data,std::si
 	return static_cast<int>(n);
 }
 
-int SDMAbstractChannelProvider::writeMem(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n) {
+int SDMAbstractChannel::writeMem(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n) {
 	for(std::size_t i=0;i<n;i++) {
 		int r=writeReg(addr++,data[i]);
 		if(r) return SDM_ERROR;
@@ -88,7 +76,7 @@ int SDMAbstractChannelProvider::writeMem(sdm_addr_t addr,const sdm_reg_t *data,s
 	return 0;
 }
 
-int SDMAbstractChannelProvider::readMem(sdm_addr_t addr,sdm_reg_t *data,std::size_t n) {
+int SDMAbstractChannel::readMem(sdm_addr_t addr,sdm_reg_t *data,std::size_t n) {
 	int status;
 	for(std::size_t i=0;i<n;i++) {
 		data[i]=readReg(addr++,&status);
@@ -98,13 +86,9 @@ int SDMAbstractChannelProvider::readMem(sdm_addr_t addr,sdm_reg_t *data,std::siz
 }
 
 /*
- * SDMAbstractSourceProvider members
+ * SDMAbstractSource members
  */
 
-SDMAbstractSourceProvider::SDMAbstractSourceProvider() {}
-
-SDMAbstractSourceProvider::~SDMAbstractSourceProvider() {}
-
-int SDMAbstractSourceProvider::readStreamErrors() {
+int SDMAbstractSource::readStreamErrors() {
 	return 0;
 }
