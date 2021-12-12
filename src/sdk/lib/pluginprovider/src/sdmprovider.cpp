@@ -97,6 +97,9 @@ int SDMAbstractSource::readStreamErrors() {
  * SDMAbstractQueuedSource
  */
 
+SDMAbstractQueuedSource::SDMAbstractQueuedSource():
+	_requestStartOfPacket(true),_errors(0) {}
+
 int SDMAbstractQueuedSource::selectReadStreams(const int *streams,std::size_t n,std::size_t packets,int df) {
 	discardPackets();
 	return 0;
@@ -107,13 +110,13 @@ int SDMAbstractQueuedSource::readStream(int stream,sdm_sample_t *data,std::size_
 	if(n==0) return 0;
 	
 // Process data from the queue
-	auto loaded=getSamplesFromQueue(stream,data,n,_requestStartOfPacket);
+	std::size_t loaded=getSamplesFromQueue(stream,data,n,_requestStartOfPacket);
 	if(isError()) _errors++;
 	if(loaded>0) _requestStartOfPacket=false;
 	
 	for(;;) {
 // Read new data from the device
-		auto suggestToRead=n-loaded;
+		std::size_t suggestToRead=n-loaded;
 		bool nonBlocking=false;
 		if(nb!=0) nonBlocking=true; // don't block if non-blocking read is requested
 		if(loaded>0) nonBlocking=true; // don't block if we have already produced some data

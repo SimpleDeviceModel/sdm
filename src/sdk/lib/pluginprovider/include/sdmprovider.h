@@ -151,14 +151,15 @@ public:
  */
 
 class SDMAbstractQueuedSource : public SDMAbstractSource {
-	bool _requestStartOfPacket=true;
-	int _errors=0;
+	bool _requestStartOfPacket;
+	int _errors;
 public:
-	virtual int selectReadStreams(const int *streams,std::size_t n,std::size_t packets,int df) override;
-	virtual int readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) override;
-	virtual int readNextPacket() override;
-	virtual void discardPackets() override;
-	virtual int readStreamErrors() override;
+	SDMAbstractQueuedSource();
+	virtual int selectReadStreams(const int *streams,std::size_t n,std::size_t packets,int df);
+	virtual int readStream(int stream,sdm_sample_t *data,std::size_t n,int nb);
+	virtual int readNextPacket();
+	virtual void discardPackets();
+	virtual int readStreamErrors();
 protected:
 	virtual void addDataToQueue(std::size_t samples,bool nonBlocking)=0;
 	virtual std::size_t getSamplesFromQueue(int stream,sdm_sample_t *data,std::size_t n,bool sop)=0;
