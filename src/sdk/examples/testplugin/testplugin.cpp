@@ -432,12 +432,6 @@ int TestSource::selectReadStreams(const int *streams,std::size_t n,std::size_t p
 }
 
 int TestSource::readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) {
-	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")=="Verbose") {
-		std::cout<<"testplugin: entered sdmReadStream()"<<std::endl;
-		std::cout<<"testplugin: "<<n<<" data words requested for stream "<<stream<<std::endl;
-		std::cout<<"testplugin: "<<(nb?"non-blocking mode":"blocking mode")<<std::endl;
-	}
-	
 	if(n==0) return 0;
 	if(n>INT_MAX) n=INT_MAX;
 	
