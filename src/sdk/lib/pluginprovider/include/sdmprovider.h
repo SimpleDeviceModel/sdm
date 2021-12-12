@@ -109,7 +109,8 @@ public:
  * readStream() can be tricky since it is necessary to account for many
  * conditions (start/continuation of packet, blocking/non-blocking etc.)
  * which leads to mistakes. The SDMAbstractQueuedSource class is designed
- * to make implementing source classes easier. Its interface is not
+ * to make implementing source classes easier by separating communication
+ * with the device and packet queue management. Its interface is not
  * considered stable yet.
  * 
  * Derivatives of this class should implement some kind of queue to store

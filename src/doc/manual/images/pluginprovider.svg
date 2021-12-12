@@ -13,7 +13,7 @@
    height="619.0625"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    sodipodi:docname="pluginprovider.svg">
   <defs
      id="defs4">
@@ -40,8 +40,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.0000001"
-     inkscape:cx="655.04725"
-     inkscape:cy="303.54382"
+     inkscape:cx="501.06191"
+     inkscape:cy="270.4397"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -50,9 +50,9 @@
      fit-margin-right="15"
      fit-margin-bottom="15"
      inkscape:window-width="1920"
-     inkscape:window-height="1003"
-     inkscape:window-x="-9"
-     inkscape:window-y="-9"
+     inkscape:window-height="991"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
      inkscape:window-maximized="1">
     <inkscape:grid
        type="xygrid"
@@ -72,7 +72,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -84,7 +84,7 @@
     <flowRoot
        xml:space="preserve"
        id="flowRoot3757"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"><flowRegion
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.01%;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"><flowRegion
          id="flowRegion3759"><rect
            id="rect3761"
            width="129.04698"
@@ -92,7 +92,8 @@
            x="175.36249"
            y="37.310398"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono'" /></flowRegion><flowPara
-         id="flowPara3763" /></flowRoot>    <g
+         id="flowPara3763"
+         style="font-size:40px;line-height:1.25"> </flowPara></flowRoot>    <g
        id="g4456"
        transform="translate(147.05856,-26)">
       <rect
@@ -103,13 +104,12 @@
          id="rect2987"
          style="fill:none;stroke:#000000;stroke-width:1;stroke-opacity:1" />
       <text
-         sodipodi:linespacing="125%"
          id="text3765"
          y="57.362183"
          x="222.94144"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'EB Garamond';-inkscape-font-specification:'EB Garamond';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'EB Garamond';-inkscape-font-specification:'EB Garamond';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
          xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono'"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;line-height:1.25;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono'"
            y="57.362183"
            x="222.94144"
            id="tspan3767"
@@ -121,7 +121,7 @@
          d="m 175,67.362183 270,0"
          style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
       <flowRoot
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:125%;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.01%;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
          id="flowRoot3771"
          xml:space="preserve"><flowRegion
            id="flowRegion3773"><rect
@@ -131,19 +131,20 @@
              height="139.69644"
              width="550.3949"
              id="rect3775" /></flowRegion><flowPara
-           id="flowPara3777">SDMPropertyManager()</flowPara><flowPara
-           style="font-size:12px"
-           id="flowPara4342">~SDMPropertyManager() [<flowSpan
-   id="flowSpan4015"
-   style="font-weight:bold;font-size:12px">virtual</flowSpan>]</flowPara><flowPara
-           id="flowPara3803">clear()</flowPara><flowPara
-           id="flowPara3779">addProperty()</flowPara><flowPara
-           id="flowPara3781">addConstProperty()</flowPara><flowPara
-           id="flowPara3783">addListItem()</flowPara><flowPara
-           id="flowPara3791">getProperty() [<flowSpan
+           id="flowPara3803"
+           style="font-size:12px;line-height:1.25">clear()</flowPara><flowPara
+           id="flowPara3779"
+           style="font-size:12px;line-height:1.25">addProperty()</flowPara><flowPara
+           id="flowPara3781"
+           style="font-size:12px;line-height:1.25">addConstProperty()</flowPara><flowPara
+           id="flowPara3783"
+           style="font-size:12px;line-height:1.25">addListItem()</flowPara><flowPara
+           id="flowPara3791"
+           style="font-size:12px;line-height:1.25">getProperty() [<flowSpan
    id="flowSpan4017"
    style="font-weight:bold;font-size:12px">virtual</flowSpan>, 2 overloads]</flowPara><flowPara
-           id="flowPara3795">setProperty() [<flowSpan
+           id="flowPara3795"
+           style="font-size:12px;line-height:1.25">setProperty() [<flowSpan
    id="flowSpan4019"
    style="font-weight:bold;font-size:12px">virtual</flowSpan>]</flowPara></flowRoot>    </g>
     <g
@@ -157,17 +158,16 @@
          id="rect2987-19"
          style="fill:none;stroke:#000000;stroke-width:0.99999994;stroke-opacity:1" />
       <text
-         sodipodi:linespacing="125%"
          id="text3765-5"
          y="462.36218"
-         x="234.44447"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'EB Garamond';-inkscape-font-specification:'EB Garamond';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+         x="268.44446"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'EB Garamond';-inkscape-font-specification:'EB Garamond';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
          xml:space="preserve"><tspan
-           style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono'"
+           style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;line-height:1.25;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono'"
            y="462.36218"
-           x="234.44447"
+           x="268.44446"
            id="tspan3767-2"
-           sodipodi:role="line">SDMAbstractDeviceProvider</tspan></text>
+           sodipodi:role="line">SDMAbstractDevice</tspan></text>
       <path
          sodipodi:nodetypes="cc"
          inkscape:connector-curvature="0"
@@ -175,7 +175,7 @@
          d="m 209.74606,472.36218 289.94144,0"
          style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
       <flowRoot
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:125%;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.01%;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
          id="flowRoot3771-1"
          xml:space="preserve"
          transform="translate(34.74606,405)"><flowRegion
@@ -186,33 +186,34 @@
              height="139.69644"
              width="550.3949"
              id="rect3775-4" /></flowRegion><flowPara
-           style="font-weight:normal"
-           id="flowPara3777-5">SDMAbstractDeviceProvider()</flowPara><flowPara
-           id="flowPara4003">~SDMAbstractDeviceProvider() [<flowSpan
-   id="flowSpan4029"
-   style="font-weight:bold">virtual</flowSpan>]</flowPara><flowPara
-           id="flowPara3803-1"><flowSpan
+           id="flowPara3803-1"
+           style="font-size:12px;line-height:1.25"><flowSpan
    id="flowSpan4092"
    style="font-style:italic">close</flowSpan>() [<flowSpan
    id="flowSpan4059"
    style="font-style:normal;font-weight:bold">virtual</flowSpan>]</flowPara><flowPara
-           id="flowPara4031">openChannel() [<flowSpan
+           id="flowPara4031"
+           style="font-size:12px;line-height:1.25">openChannel() [<flowSpan
    id="flowSpan4061"
    style="font-style:normal;font-weight:bold">virtual</flowSpan>]</flowPara><flowPara
-           id="flowPara4033">openSource() [<flowSpan
+           id="flowPara4033"
+           style="font-size:12px;line-height:1.25">openSource() [<flowSpan
    id="flowSpan4063"
    style="font-style:normal;font-weight:bold">virtual</flowSpan>]</flowPara><flowPara
-           id="flowPara4035"><flowSpan
+           id="flowPara4035"
+           style="font-size:12px;line-height:1.25"><flowSpan
    id="flowSpan4098"
    style="font-style:italic">connect</flowSpan>() [<flowSpan
    id="flowSpan4071"
    style="font-style:normal;font-weight:bold">virtual</flowSpan>]</flowPara><flowPara
-           id="flowPara4037"><flowSpan
+           id="flowPara4037"
+           style="font-size:12px;line-height:1.25"><flowSpan
    id="flowSpan4100"
    style="font-style:italic">disconnect</flowSpan>() [<flowSpan
    id="flowSpan4075"
    style="font-style:normal;font-weight:bold">virtual</flowSpan>]</flowPara><flowPara
-           id="flowPara3795-9"><flowSpan
+           id="flowPara3795-9"
+           style="font-size:12px;line-height:1.25"><flowSpan
    id="flowSpan4102"
    style="font-style:italic">getConnectionStatus</flowSpan>() [<flowSpan
    id="flowSpan4079"
@@ -226,16 +227,15 @@
        y="232.36215" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'EB Garamond';-inkscape-font-specification:'EB Garamond';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-       x="54.913242"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'EB Garamond';-inkscape-font-specification:'EB Garamond';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="90.913239"
        y="252.36214"
-       id="text3765-6"
-       sodipodi:linespacing="125%"><tspan
+       id="text3765-6"><tspan
          sodipodi:role="line"
          id="tspan3767-3"
-         x="54.913242"
+         x="90.913239"
          y="252.36214"
-         style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono'">SDMAbstractPluginProvider</tspan></text>
+         style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;line-height:1.25;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono'">SDMAbstractPlugin</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 30.406253,262.36214 289.593747,0"
@@ -246,7 +246,7 @@
        transform="translate(-144.59375,194.99996)"
        xml:space="preserve"
        id="flowRoot3771-3"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:125%;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"><flowRegion
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.01%;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"><flowRegion
          id="flowRegion3773-0"><rect
            id="rect3775-8"
            width="550.3949"
@@ -254,22 +254,18 @@
            x="179.60512"
            y="72.665733"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono'" /></flowRegion><flowPara
-         id="flowPara3777-1"
-         style="font-weight:normal">SDMAbstractPluginProvider()</flowPara><flowPara
-         id="flowPara3878">~SDMAbstractPluginProvider() [<flowSpan
-   style="font-weight:bold"
-   id="flowSpan4021">virtual</flowSpan>]</flowPara><flowPara
          id="flowPara3803-8"
-         style="font-style:italic">openDevice<flowSpan
+         style="font-style:italic;font-size:12px;line-height:1.25">openDevice<flowSpan
    style="font-style:normal"
    id="flowSpan4083">() [<flowSpan
    style="font-style:normal;font-weight:bold"
    id="flowSpan4025">virtual</flowSpan>]</flowSpan></flowPara><flowPara
          id="flowPara3779-4"
-         style="font-style:normal;font-weight:normal">instance() [defined by the user]</flowPara><flowPara
-         id="flowPara3795-5" /></flowRoot>    <path
+         style="font-style:normal;font-weight:normal;font-size:12px;line-height:1.25">instance() [defined by the user]</flowPara><flowPara
+         id="flowPara3795-5"
+         style="font-size:12px;line-height:1.25"> </flowPara></flowRoot>    <path
        style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 35,328.14754 70,0"
+       d="m 35,300.14754 h 70"
        id="path4011"
        inkscape:connector-curvature="0" />
     <g
@@ -285,16 +281,15 @@
            y="232.36215" />
         <text
            xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'EB Garamond';-inkscape-font-specification:'EB Garamond';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-           x="410"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'EB Garamond';-inkscape-font-specification:'EB Garamond';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+           x="448"
            y="252.36218"
-           id="text3765-5-2"
-           sodipodi:linespacing="125%"><tspan
+           id="text3765-5-2"><tspan
              sodipodi:role="line"
              id="tspan3767-2-8"
-             x="410"
+             x="448"
              y="252.36218"
-             style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono'">SDMAbstractChannelProvider</tspan></text>
+             style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;line-height:1.25;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono'">SDMAbstractChannel</tspan></text>
         <path
            style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
            d="m 390.11404,262.36218 289.94144,0"
@@ -305,7 +300,7 @@
            transform="translate(215.11404,195)"
            xml:space="preserve"
            id="flowRoot3771-1-1"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:125%;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"><flowRegion
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.01%;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"><flowRegion
              id="flowRegion3773-3-5"><rect
                id="rect3775-4-1"
                width="550.3949"
@@ -313,36 +308,38 @@
                x="179.60512"
                y="72.665733"
                style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono'" /></flowRegion><flowPara
-             id="flowPara3777-5-2"
-             style="font-weight:normal">SDMAbstractChannelProvider()</flowPara><flowPara
-             id="flowPara4003-6">~SDMAbstractChannelProvider() [<flowSpan
-   style="font-weight:bold"
-   id="flowSpan4029-0">virtual</flowSpan>]</flowPara><flowPara
-             id="flowPara3803-1-1"><flowSpan
+             id="flowPara3803-1-1"
+             style="font-size:12px;line-height:1.25"><flowSpan
    style="font-style:italic"
    id="flowSpan4092-2">close</flowSpan>() [<flowSpan
    style="font-style:normal;font-weight:bold"
    id="flowSpan4059-3">virtual</flowSpan>]</flowPara><flowPara
-             id="flowPara4031-2"><flowSpan
+             id="flowPara4031-2"
+             style="font-size:12px;line-height:1.25"><flowSpan
    style="font-style:italic"
    id="flowSpan4219">writeReg</flowSpan>() [<flowSpan
    style="font-style:normal;font-weight:bold"
    id="flowSpan4061-5">virtual</flowSpan>]</flowPara><flowPara
-             id="flowPara4033-1"><flowSpan
+             id="flowPara4033-1"
+             style="font-size:12px;line-height:1.25"><flowSpan
    style="font-style:italic"
    id="flowSpan4221">readReg</flowSpan>() [<flowSpan
    style="font-style:normal;font-weight:bold"
    id="flowSpan4063-9">virtual</flowSpan>]</flowPara><flowPara
-             id="flowPara4035-7">writeFIFO() [<flowSpan
+             id="flowPara4035-7"
+             style="font-size:12px;line-height:1.25">writeFIFO() [<flowSpan
    style="font-style:normal;font-weight:bold"
    id="flowSpan4071-5">virtual</flowSpan>]</flowPara><flowPara
-             id="flowPara4037-9">readFIFO() [<flowSpan
+             id="flowPara4037-9"
+             style="font-size:12px;line-height:1.25">readFIFO() [<flowSpan
    style="font-style:normal;font-weight:bold"
    id="flowSpan4075-9">virtual</flowSpan>]</flowPara><flowPara
-             id="flowPara3795-9-6">writeMem() [<flowSpan
+             id="flowPara3795-9-6"
+             style="font-size:12px;line-height:1.25">writeMem() [<flowSpan
    style="font-style:normal;font-weight:bold"
    id="flowSpan4079-6">virtual</flowSpan>]</flowPara><flowPara
-             id="flowPara4217">readMem() [<flowSpan
+             id="flowPara4217"
+             style="font-size:12px;line-height:1.25">readMem() [<flowSpan
    style="font-weight:bold"
    id="flowSpan4330">virtual</flowSpan>]</flowPara></flowRoot>      </g>
     </g>
@@ -357,17 +354,16 @@
          id="rect2987-19-8-8"
          style="fill:none;stroke:#000000;stroke-width:0.99999994;stroke-opacity:1" />
       <text
-         sodipodi:linespacing="125%"
          id="text3765-5-2-2"
          y="487.36218"
-         x="604.8125"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:125%;font-family:'EB Garamond';-inkscape-font-specification:'EB Garamond';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+         x="644.8125"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'EB Garamond';-inkscape-font-specification:'EB Garamond';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
          xml:space="preserve"><tspan
-           style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono'"
+           style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16px;line-height:1.25;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono'"
            y="487.36218"
-           x="604.8125"
+           x="644.8125"
            id="tspan3767-2-8-4"
-           sodipodi:role="line">SDMAbstractSourceProvider</tspan></text>
+           sodipodi:role="line">SDMAbstractSource</tspan></text>
       <path
          sodipodi:nodetypes="cc"
          inkscape:connector-curvature="0"
@@ -375,7 +371,7 @@
          d="m 580.11404,497.36218 289.94144,0"
          style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
       <flowRoot
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:125%;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0.01%;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
          id="flowRoot3771-1-1-4"
          xml:space="preserve"
          transform="translate(405.11404,430)"><flowRegion
@@ -386,37 +382,38 @@
              height="139.69644"
              width="550.3949"
              id="rect3775-4-1-1" /></flowRegion><flowPara
-           style="font-weight:normal"
-           id="flowPara3777-5-2-5">SDMAbstractSourceProvider()</flowPara><flowPara
-           id="flowPara4003-6-8">~SDMAbstractSourceProvider() [<flowSpan
-   id="flowSpan4029-0-2"
-   style="font-weight:bold">virtual</flowSpan>]</flowPara><flowPara
-           id="flowPara3803-1-1-9"><flowSpan
+           id="flowPara3803-1-1-9"
+           style="font-size:12px;line-height:1.25"><flowSpan
    id="flowSpan4092-2-6"
    style="font-style:italic">close</flowSpan>() [<flowSpan
    id="flowSpan4059-3-4"
    style="font-style:normal;font-weight:bold">virtual</flowSpan>]</flowPara><flowPara
-           id="flowPara4031-2-0"><flowSpan
+           id="flowPara4031-2-0"
+           style="font-size:12px;line-height:1.25"><flowSpan
    id="flowSpan4332"
    style="font-style:italic">selectReadStreams</flowSpan>() [<flowSpan
    id="flowSpan4061-5-7"
    style="font-style:normal;font-weight:bold">virtual</flowSpan>]</flowPara><flowPara
-           id="flowPara4033-1-4"><flowSpan
+           id="flowPara4033-1-4"
+           style="font-size:12px;line-height:1.25"><flowSpan
    id="flowSpan4334"
    style="font-style:italic">readStream</flowSpan>() [<flowSpan
    id="flowSpan4063-9-3"
    style="font-style:normal;font-weight:bold">virtual</flowSpan>]</flowPara><flowPara
-           id="flowPara4035-7-5"><flowSpan
+           id="flowPara4035-7-5"
+           style="font-size:12px;line-height:1.25"><flowSpan
    id="flowSpan4336"
    style="font-style:italic">readNextPacket</flowSpan>() [<flowSpan
    id="flowSpan4071-5-0"
    style="font-style:normal;font-weight:bold">virtual</flowSpan>]</flowPara><flowPara
-           id="flowPara4037-9-4"><flowSpan
+           id="flowPara4037-9-4"
+           style="font-size:12px;line-height:1.25"><flowSpan
    id="flowSpan4338"
    style="font-style:italic">discardPackets</flowSpan>() [<flowSpan
    id="flowSpan4075-9-3"
    style="font-style:normal;font-weight:bold">virtual</flowSpan>]</flowPara><flowPara
-           id="flowPara4217-7">readStreamErrors() [<flowSpan
+           id="flowPara4217-7"
+           style="font-size:12px;line-height:1.25">readStreamErrors() [<flowSpan
    id="flowSpan4079-6-2"
    style="font-style:normal;font-weight:bold">virtual</flowSpan>]</flowPara></flowRoot>    </g>
     <path

@@ -4884,7 +4884,9 @@ Plugins can be developed in \cplusplus{} as they would in C, with a few caveats:
 	\item exported SDM functions must not propagate uncaught exceptions.
 \end{itemize}
 
-Alternatively, one can use the \shellcmd{pluginprovider} library which is also a part of the SDM SDK. It defines abstract classes that can be used as bases for plugin, device, channel and source classes (Figure \ref{fig:pluginprovider}). Their member functions are object-oriented adapters for the respective SDM API functions. All these classes inherit from \cexpr{SDMPropertyManager} which implements the common property interface (Section \ref{sec:properties}).
+Alternatively, one can use the \shellcmd{pluginprovider} library which is also a part of the SDM SDK. It defines abstract classes that can be used as bases for plugin, device, channel and source classes (Figure \ref{fig:pluginprovider}). Their member functions are trivial adapters for SDM API functions and as such are not documented in detail; refer to the Chapter \ref{ch:sdmapireference}. If any of these member functions throws an exception of \cexpr{std::exception} type, it is caught by the library, the error message is printed to \cexpr{stdout} and the respective SDM API function returns an error (\cexpr{SDM\_ERROR} or \cexpr{NULL} as appropriate).
+
+All these classes inherit from \cexpr{SDMPropertyManager} which implements the common property interface (Section \ref{sec:properties}).
 
 \begin{figure}[htbp]
 \centering
@@ -4898,16 +4900,16 @@ The \shellcmd{pluginprovider} library is not precompiled, but is provided as a s
 To create a plugin, include \shellcmd{sdmprovider.h} and perform the following steps:
 
 \begin{enumerate}
-	\item Create a plugin class derived from \cexpr{SDMAbstractPluginProvider}. Override the \cexpr{openDevice()} pure virtual function. Define all the necessary properties using \cexpr{addConstProperty()} for immutable properties and \cexpr{addProperty()} for editable properties; use \cexpr{addListItem()} to create lists.
-	\item Provide a definition for the \cexpr{instance()} static member function of the \cexpr{SDMAbstractPluginProvider} class that returns a pointer to the plugin object instance. It can be done as follows:
+	\item Create a plugin class derived from \cexpr{SDMAbstractPlugin}. Override the \cexpr{openDevice()} pure virtual function. Define all the necessary properties using \cexpr{addConstProperty()} for immutable properties and \cexpr{addProperty()} for editable properties; use \cexpr{addListItem()} to create lists.
+	\item Provide a definition for the \cexpr{instance()} static member function of the \cexpr{SDMAbstractPlugin} class that returns a pointer to the plugin object instance. It can be done as follows:
 \end{enumerate}
 	
 \begin{breakshellcmds}\begin{ccode}
-class TestPlugin : public SDMAbstractPluginProvider {
+class TestPlugin : public SDMAbstractPlugin {
 // declare TestPlugin members here...
 };
 
-SDMAbstractPluginProvider *SDMAbstractPluginProvider::instance() {
+SDMAbstractPlugin *SDMAbstractPlugin::instance() {
     static TestPlugin pluginInstance;
     return &pluginInstance;
 }
