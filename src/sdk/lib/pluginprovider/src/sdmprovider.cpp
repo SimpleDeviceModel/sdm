@@ -30,22 +30,6 @@
 #include <climits>
 
 /*
- * SDMAbstractPlugin members
- */ 
-
-/*
- * SDMAbstractDevice members
- */
-
-SDMAbstractChannel *SDMAbstractDevice::openChannel(int) {
-	return NULL;
-}
-
-SDMAbstractSource *SDMAbstractDevice::openSource(int) {
-	return NULL;
-}
-
-/*
  * SDMAbstractChannel members
  */
 
@@ -86,15 +70,7 @@ int SDMAbstractChannel::readMem(sdm_addr_t addr,sdm_reg_t *data,std::size_t n) {
 }
 
 /*
- * SDMAbstractSource members
- */
-
-int SDMAbstractSource::readStreamErrors() {
-	return 0;
-}
-
-/*
- * SDMAbstractQueuedSource
+ * SDMAbstractQueuedSource members
  */
 
 SDMAbstractQueuedSource::SDMAbstractQueuedSource():

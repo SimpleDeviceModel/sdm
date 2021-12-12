@@ -45,20 +45,14 @@ public:
 	static SDMAbstractPlugin *instance();
 };
 
-/*
- * Note: default implementations of SDMAbstractDevice::openChannel()
- * and SDMAbstractDevice::openSource() return NULL, indicating that
- * the device doesn't support channels/sources.
- */
-
 class SDMAbstractDevice : public SDMPropertyManager {
 public:
 	virtual ~SDMAbstractDevice() {}
 	
 	virtual int close()=0;
 	
-	virtual SDMAbstractChannel *openChannel(int id);
-	virtual SDMAbstractSource *openSource(int id);
+	virtual SDMAbstractChannel *openChannel(int id) {return NULL;}
+	virtual SDMAbstractSource *openSource(int id) {return NULL;}
 	
 	virtual int connect()=0;
 	virtual int disconnect()=0;
@@ -97,11 +91,6 @@ public:
 	virtual int readMem(sdm_addr_t addr,sdm_reg_t *data,std::size_t n);
 };
 
-/*
- * Note: default implementation of SDMAbstractSource::readStreamErrors()
- * returns 0.
- */
-
 class SDMAbstractSource : public SDMPropertyManager {
 public:
 	virtual ~SDMAbstractSource() {}
@@ -112,7 +101,7 @@ public:
 	virtual int readStream(int stream,sdm_sample_t *data,std::size_t n,int nb)=0;
 	virtual int readNextPacket()=0;
 	virtual void discardPackets()=0;
-	virtual int readStreamErrors();
+	virtual int readStreamErrors() {return 0;}
 };
 
 /*
