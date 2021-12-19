@@ -226,7 +226,7 @@ SDMAPI sdm_reg_t SDMCALL sdmReadReg(void *h,sdm_addr_t addr,int *status) {
 	}
 	catch(std::exception &ex) {
 		displayErrorMessage(ex.what());
-		if(status) *status=-1;
+		if(status&&*status==0) *status=-1;
 		return 0;
 	}
 }
