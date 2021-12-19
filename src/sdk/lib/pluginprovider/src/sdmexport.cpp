@@ -221,6 +221,7 @@ SDMAPI int SDMCALL sdmWriteReg(void *h,sdm_addr_t addr,sdm_reg_t data) {
 
 SDMAPI sdm_reg_t SDMCALL sdmReadReg(void *h,sdm_addr_t addr,int *status) {
 	try {
+		if(status) *status=0;
 		return static_cast<SDMAbstractChannel*>(h)->readReg(addr,status);
 	}
 	catch(std::exception &ex) {
