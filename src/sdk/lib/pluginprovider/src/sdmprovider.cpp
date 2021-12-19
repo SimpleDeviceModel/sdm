@@ -88,13 +88,15 @@ int SDMAbstractQueuedSource::readStream(int stream,sdm_sample_t *data,std::size_
 	if(n==0) return 0;
 	
 // Return an error if the stream id has not been selected
+	std::map<int,std::size_t>::iterator it=_pos.find(stream);
 	if(_pos.find(stream)==_pos.end()) return SDM_ERROR;
+	std::size_t &currentPos=it->second;
 	
 // Process data from the queue
 	bool eop=false;
-	std::size_t loaded=getSamplesFromQueue(stream,_pos[stream],data,n,eop);
+	std::size_t loaded=getSamplesFromQueue(stream,currentPos,data,n,eop);
 	if(isError()) _errors++;
-	_pos[stream]+=loaded;
+	currentPos+=loaded;
 	
 	for(;;) {
 // Read new data from the device
@@ -106,9 +108,9 @@ int SDMAbstractQueuedSource::readStream(int stream,sdm_sample_t *data,std::size_
 		addDataToQueue(suggestToRead,nonBlocking);
 // Put new samples to the buffer
 		if(loaded<n&&!eop) {
-			std::size_t r=getSamplesFromQueue(stream,_pos[stream],data+loaded,n-loaded,eop);
+			std::size_t r=getSamplesFromQueue(stream,currentPos,data+loaded,n-loaded,eop);
 			if(isError()) _errors++;
-			_pos[stream]+=r;
+			currentPos+=r;
 			loaded+=r;
 		}
 // Break loop if there's no reason to block
