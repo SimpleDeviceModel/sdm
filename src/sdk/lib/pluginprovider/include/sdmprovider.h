@@ -31,6 +31,8 @@
 #include "sdmproperty.h"
 #include "sdmtypes.h"
 
+#include <map>
+
 class SDMAbstractDevice;
 class SDMAbstractChannel;
 class SDMAbstractSource;
@@ -119,29 +121,28 @@ public:
  * addDataToQueue() reads some data from the device and adds them to the
  * queue. "samples" can be used as a hint on how much data to request, but
  * can be ignored. If "nonBlocking" is false, the function must not return
- * until it read at least 1 byte from the device.
+ * until it read at least 1 byte from the device. If the queue is currently
+ * empty, addDataToQueue() should start adding data from the start of the
+ * packet.
  * 
- * getSamplesFromQueue() fills the provided buffer with up to "n" samples
- * from the queue. It is not supposed to read data from the device directly.
- * If "sop" is true, the first sample must be from the beginning of the packet,
- * samples should be skipped if necessary. It should stop producing samples
- * when end of packet has been reached. Returns the number of samples added
- * to the buffer.
+ * getSamplesFromQueue() fills the provided buffer ("data") with up to "n"
+ * samples from the current packet in the queue, starting with "pos".
+ * Returns the number of samples added to the buffer. If no samples have been
+ * returned because of the end of the current packet (pos >= size of
+ * the current packet), "eop" must be set to true.
  * 
- * isStartOfPacket() returns true if the next sample in the queue will start
- * a new packet. It should return false if the next sample will continue the
- * current packet, or if it is not yet known whether the next sample will be
- * from the current or next packet.
+ * next() removes the current packet from queue. This affects all streams.
+ * 
+ * clear() clears the queue. It should also try to clear data stored in
+ * OS and hardware buffers if possible. This affects all streams.
  * 
  * isError() returns true when the last call to getSamplesFromQueue() resulted
  * in broken stream continuity.
  * 
- * clear() clears the queue. It should also try to clear data stored in
- * hardware buffers if possible.
  */
 
 class SDMAbstractQueuedSource : public SDMAbstractSource {
-	bool _requestStartOfPacket;
+	std::map<int,std::size_t> _pos;
 	int _errors;
 public:
 	SDMAbstractQueuedSource();
@@ -152,12 +153,10 @@ public:
 	virtual int readStreamErrors();
 protected:
 	virtual void addDataToQueue(std::size_t samples,bool nonBlocking)=0;
-	virtual std::size_t getSamplesFromQueue(int stream,sdm_sample_t *data,std::size_t n,bool sop)=0;
-	virtual bool isStartOfPacket() const=0;
-	virtual bool isError() const {return false;}
+	virtual std::size_t getSamplesFromQueue(int stream,std::size_t pos,sdm_sample_t *data,std::size_t n,bool &eop)=0;
+	virtual void next()=0;
 	virtual void clear()=0;
-private:
-	bool packetFinished() const;
+	virtual bool isError() const {return false;}
 };
 
 /*

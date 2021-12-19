@@ -30,6 +30,7 @@
 #include <thread>
 #include <chrono>
 #include <stdexcept>
+#include <algorithm>
 
 #define MAXBUFSIZE 65536
 
@@ -199,44 +200,49 @@ int UartSource::close() {
 }
 
 void UartSource::addDataToQueue(std::size_t samples,bool nonBlocking) {
+// Add data to the raw queue
 	if(_q.size()<MAXBUFSIZE) {
 		std::size_t toread=MAXBUFSIZE-_q.size();
 		std::vector<char> buf(toread);
 		auto r=_port.read(buf.data(),toread,nonBlocking?0:-1);
 		_q.insert(_q.end(),buf.begin(),buf.begin()+r);
 	}
-}
-
-std::size_t UartSource::getSamplesFromQueue(int stream,sdm_sample_t *data,std::size_t n,bool sop) {
-	std::size_t current=0;
-
-	while(current<n&&!_q.empty()) {
+// Update processed packets queue
+	while(!_q.empty()) {
 		if((_q.front()&0xC0)!=0xC0) { // Not a stream data packet, skip
 			_q.pop_front();
 			continue;
 		}
 		if(_q.size()<2) break; // packet size is 2 bytes
-		if(sop&&!isStartOfPacket()) _q.erase(_q.begin(),_q.begin()+2); // wait for the start of the packet
-		else if(!sop&&isStartOfPacket()) break; // packet finished
-		else {
-			int sample=((_q[0]&0x1F)<<5)|(_q[1]&0x1F);
-			data[current]=static_cast<sdm_sample_t>(sample);
-			current++;
-			sop=false;
+		int sample=((_q[0]&0x1F)<<5)|(_q[1]&0x1F);
+		if((_q.front()&0xE0)==0xE0) { // new packet
+			_packets.push_back(std::vector<sdm_sample_t>());
+			_packets.back().push_back(sample);
+			_q.erase(_q.begin(),_q.begin()+2);
+		}
+		else if(!_packets.empty()) {
+			_packets.back().push_back(sample);
 			_q.erase(_q.begin(),_q.begin()+2);
 		}
 	}
-	
-	return current; // number of samples loaded from the queue
 }
 
-bool UartSource::isStartOfPacket() const {
-	if(_q.empty()) return false;
-	if((_q.front()&0xE0)==0xE0) return true;
-	return false;
+std::size_t UartSource::getSamplesFromQueue(int stream,std::size_t pos,sdm_sample_t *data,std::size_t n,bool &eop) {
+	if(_packets.empty()) return 0;
+	auto const &p=_packets.front();
+	if(pos>=p.size()) pos=p.size();
+	auto toread=std::min<std::size_t>(n,p.size()-pos);
+	if(toread>0) std::copy(p.begin()+pos,p.begin()+pos+toread,data);
+	else if(_packets.size()>1) eop=true;
+	return toread;
+}
+
+void UartSource::next() {
+	if(!_packets.empty()) _packets.pop_front();
 }
 
 void UartSource::clear() {
+	_packets.clear();
 	_q.clear();
 // Note: after the first readAll() there may still be some out-of-sequence
 // data in the serial port buffer. Wait a bit and repeat.

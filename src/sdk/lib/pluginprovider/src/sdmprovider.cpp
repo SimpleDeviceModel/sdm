@@ -74,10 +74,12 @@ int SDMAbstractChannel::readMem(sdm_addr_t addr,sdm_reg_t *data,std::size_t n) {
  */
 
 SDMAbstractQueuedSource::SDMAbstractQueuedSource():
-	_requestStartOfPacket(true),_errors(0) {}
+	_errors(0) {}
 
 int SDMAbstractQueuedSource::selectReadStreams(const int *streams,std::size_t n,std::size_t packets,int df) {
 	discardPackets();
+	_pos.clear();
+	for(std::size_t i=0;i<n;i++) _pos.emplace(streams[i],0);
 	return 0;
 }
 
@@ -85,10 +87,14 @@ int SDMAbstractQueuedSource::readStream(int stream,sdm_sample_t *data,std::size_
 // Exit immediately if no data has been requested
 	if(n==0) return 0;
 	
+// Return an error if the stream id has not been selected
+	if(_pos.find(stream)==_pos.end()) return SDM_ERROR;
+	
 // Process data from the queue
-	std::size_t loaded=getSamplesFromQueue(stream,data,n,_requestStartOfPacket);
+	bool eop=false;
+	std::size_t loaded=getSamplesFromQueue(stream,_pos[stream],data,n,eop);
 	if(isError()) _errors++;
-	if(loaded>0) _requestStartOfPacket=false;
+	_pos[stream]+=loaded;
 	
 	for(;;) {
 // Read new data from the device
@@ -96,37 +102,37 @@ int SDMAbstractQueuedSource::readStream(int stream,sdm_sample_t *data,std::size_
 		bool nonBlocking=false;
 		if(nb!=0) nonBlocking=true; // don't block if non-blocking read is requested
 		if(loaded>0) nonBlocking=true; // don't block if we have already produced some data
-		if(packetFinished()) nonBlocking=true; // don't block if the packet has been already finished
+		if(eop) nonBlocking=true; // don't block if the packet has been already finished
 		addDataToQueue(suggestToRead,nonBlocking);
 // Put new samples to the buffer
-		if(loaded<n) loaded+=getSamplesFromQueue(stream,data+loaded,n-loaded,_requestStartOfPacket);
-		if(isError()) _errors++;
-		if(loaded>0) _requestStartOfPacket=false;
+		if(loaded<n&&!eop) {
+			std::size_t r=getSamplesFromQueue(stream,_pos[stream],data+loaded,n-loaded,eop);
+			if(isError()) _errors++;
+			_pos[stream]+=r;
+			loaded+=r;
+		}
 // Break loop if there's no reason to block
 		if(nb!=0) break;
 		if(loaded>0) break;
-		if(packetFinished()) break;
+		if(eop) break;
 	}
 	
-	if(nb!=0&&loaded==0&&!packetFinished()) return SDM_WOULDBLOCK;
+	if(nb!=0&&loaded==0&&!eop) return SDM_WOULDBLOCK;
 	return static_cast<int>(loaded);
 }
 
 int SDMAbstractQueuedSource::readNextPacket() {
-	_requestStartOfPacket=true;
+	next();
+	for(std::map<int,std::size_t>::iterator it=_pos.begin();it!=_pos.end();++it) it->second=0;
 	return 0;
 }
 
 void SDMAbstractQueuedSource::discardPackets() {
 	clear();
-	_requestStartOfPacket=true;
+	for(std::map<int,std::size_t>::iterator it=_pos.begin();it!=_pos.end();++it) it->second=0;
 	_errors=0;
 }
 
 int SDMAbstractQueuedSource::readStreamErrors() {
 	return _errors;
-}
-
-bool SDMAbstractQueuedSource::packetFinished() const {
-	return isStartOfPacket()&&!_requestStartOfPacket;
 }

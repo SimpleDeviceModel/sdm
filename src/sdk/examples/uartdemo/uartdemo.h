@@ -87,16 +87,17 @@ private:
 class UartSource : public SDMAbstractQueuedSource {
 	Uart &_port;
 	std::deque<char> &_q;
+	std::deque<std::vector<sdm_sample_t> > _packets;
 
 public:
 	UartSource(Uart &port,std::deque<char> &q);
 	virtual int close() override;
 
 protected:
-	virtual void addDataToQueue(std::size_t samples,bool nonBlocking) override;
-	virtual std::size_t getSamplesFromQueue(int stream,sdm_sample_t *data,std::size_t n,bool sop) override;
-	virtual bool isStartOfPacket() const override;
-	virtual void clear() override;
+	virtual void addDataToQueue(std::size_t samples,bool nonBlocking);
+	virtual std::size_t getSamplesFromQueue(int stream,std::size_t pos,sdm_sample_t *data,std::size_t n,bool &eop);
+	virtual void next();
+	virtual void clear();
 };
 
 #endif
