@@ -89,7 +89,7 @@ int SDMAbstractQueuedSource::readStream(int stream,sdm_sample_t *data,std::size_
 	
 // Return an error if the stream id has not been selected
 	std::map<int,std::size_t>::iterator it=_pos.find(stream);
-	if(_pos.find(stream)==_pos.end()) return SDM_ERROR;
+	if(it==_pos.end()) return SDM_ERROR;
 	std::size_t &currentPos=it->second;
 	
 // Process data from the queue
