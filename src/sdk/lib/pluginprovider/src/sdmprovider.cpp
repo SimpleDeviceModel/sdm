@@ -79,7 +79,7 @@ SDMAbstractQueuedSource::SDMAbstractQueuedSource():
 int SDMAbstractQueuedSource::selectReadStreams(const int *streams,std::size_t n,std::size_t packets,int df) {
 	discardPackets();
 	_pos.clear();
-	for(std::size_t i=0;i<n;i++) _pos.emplace(streams[i],0);
+	for(std::size_t i=0;i<n;i++) _pos[streams[i]]=0;
 	return 0;
 }
 
