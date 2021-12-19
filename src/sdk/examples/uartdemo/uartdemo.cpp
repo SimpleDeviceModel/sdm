@@ -207,6 +207,7 @@ void UartSource::addDataToQueue(std::size_t samples,bool nonBlocking) {
 		auto r=_port.read(buf.data(),toread,nonBlocking?0:-1);
 		_q.insert(_q.end(),buf.begin(),buf.begin()+r);
 	}
+	
 // Update processed packets queue
 	while(!_q.empty()) {
 		if((_q.front()&0xC0)!=0xC0) { // Not a stream data packet, skip
@@ -218,12 +219,11 @@ void UartSource::addDataToQueue(std::size_t samples,bool nonBlocking) {
 		if((_q.front()&0xE0)==0xE0) { // new packet
 			_packets.push_back(std::vector<sdm_sample_t>());
 			_packets.back().push_back(sample);
-			_q.erase(_q.begin(),_q.begin()+2);
 		}
 		else if(!_packets.empty()) {
 			_packets.back().push_back(sample);
-			_q.erase(_q.begin(),_q.begin()+2);
 		}
+		_q.erase(_q.begin(),_q.begin()+2);
 	}
 }
 
