@@ -199,8 +199,8 @@ public:
 	
 	virtual void writeReg(sdm_addr_t addr,sdm_reg_t data);
 	virtual sdm_reg_t readReg(sdm_addr_t addr);
-	virtual int writeFIFO(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n,Flags flags);
-	virtual int readFIFO(sdm_addr_t addr,sdm_reg_t *data,std::size_t n,Flags flags);
+	virtual int writeFIFO(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n,Flags flags=Normal);
+	virtual int readFIFO(sdm_addr_t addr,sdm_reg_t *data,std::size_t n,Flags flags=Normal);
 	virtual void writeMem(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n);
 	virtual void readMem(sdm_addr_t addr,sdm_reg_t *data,std::size_t n);
 	
@@ -242,7 +242,7 @@ public:
 	virtual void close();
 	
 	virtual void selectReadStreams(const std::vector<int> &streams,std::size_t packets,int df);
-	virtual int readStream(int stream,sdm_sample_t *data,std::size_t n,Flags flags);
+	virtual int readStream(int stream,sdm_sample_t *data,std::size_t n,Flags flags=Normal);
 	virtual void readNextPacket();
 	virtual void discardPackets();
 	virtual int readStreamErrors();
