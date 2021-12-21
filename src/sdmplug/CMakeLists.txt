@@ -4,7 +4,7 @@ add_library(sdmplug STATIC src/sdmplugbase.cpp src/sdmplugin.cpp src/sdmdevice.c
 
 target_include_directories(sdmplug PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-target_link_libraries(sdmplug config utils u8e api)
+target_link_libraries(sdmplug utils api)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 	target_link_libraries(sdmplug dl)
