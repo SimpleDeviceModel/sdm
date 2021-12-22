@@ -4980,9 +4980,9 @@ More information is available in the CMake documentation, in particular, the \sh
 
 \section{Overview}
 
-In order to use code from the SDM plugin, loading it dynamically is not really necessary -- you can just link the plugin code as a static or shared library. If the plugin was created with the \shellcmd{pluginprovider} library, you can even skip the C-style SDM API altogether and access the plugin classes directly.
+In order to use code from an SDM plugin, loading it dynamically is not really necessary -- you can just link the plugin code as a static or shared library. If the plugin was created with the \shellcmd{pluginprovider} library, you can even skip the C-style SDM API altogether and access plugin classes directly.
 
-Still, if you want to load the plugin dynamically, like SDM itself does, SDM sources include reusable code for that purpose. This code is not a part of the SDK. To use it, copy or reference the following libraries to your project and link them to your application:
+Still, if you want to load a plugin dynamically, SDM sources include reusable code for that purpose. This code is not a part of the SDK. To use it, copy or reference the following libraries to your project and link them to your application:
 
 \begin{alltt}
     sdk/api
@@ -5052,6 +5052,7 @@ Objects owning SDM API handles are reference-counted, so that these handles are 
 \begin{breakshellcmds}\begin{ccode}
 SDMDevice dev(plugin,0);
 SDMChannel ch(dev,0);
+dev.connect();
 dev.close();
 ch.writereg(10,0x1234);
 ch.close();
