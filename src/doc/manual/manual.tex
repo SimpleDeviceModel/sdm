@@ -4703,6 +4703,7 @@ Alternatively, when using CMake to build the extension, one can import \shellcmd
 
 \begin{shellcmds}
 cmake\_minimum\_required(VERSION 3.3.0)
+project(hello)
 find\_package(sdm REQUIRED)
 add\_library(hello MODULE hello.c)
 target\_link\_libraries(hello sdm::lua)
@@ -5031,6 +5032,7 @@ This example application can be built with the following CMake script:
 
 \begin{shellcmds}
 cmake\_minimum\_required(VERSION 3.3.0)
+project(sdmtest)
 add\_subdirectory(u8e)
 add\_subdirectory(api)
 add\_subdirectory(utils)
