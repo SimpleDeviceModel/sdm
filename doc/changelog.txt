@@ -1,4 +1,13 @@
 ========================
+SDM 1.0.3
+------------------------
+Released on 2022-02-02
+========================
+
+* bundled Lua interpreter updated to 5.4.4
+* pluginprovider: SDMAbstractQueuedSource class redesigned
+
+========================
 SDM 1.0.2
 ------------------------
 Released on 2021-12-07
