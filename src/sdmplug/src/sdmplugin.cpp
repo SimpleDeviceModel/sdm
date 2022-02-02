@@ -20,8 +20,7 @@
  */
 
 #include "sdmplug.h"
-#include "sdmconfig.h"
-#include "stringutils.h"
+#include "dirutil.h"
 #include "loadablemodule.h"
 
 #include <stdexcept>
@@ -158,10 +157,6 @@ void SDMPlugin::open(const std::string &strFileName) {
 	else {
 		_impl=std::make_shared<SDMPluginImpl>(strFileName);
 	}
-	
-	auto requiredVersion=getProperty("MinimumSDMVersion","");
-	if(StringUtils::compareVersions(Config::version(),requiredVersion)<0)
-		throw std::runtime_error("The plugin requires SDM "+requiredVersion+" or later");
 }
 
 void SDMPlugin::close() {

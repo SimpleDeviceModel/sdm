@@ -4703,6 +4703,7 @@ Alternatively, when using CMake to build the extension, one can import \shellcmd
 
 \begin{shellcmds}
 cmake\_minimum\_required(VERSION 3.3.0)
+project(hello)
 find\_package(sdm REQUIRED)
 add\_library(hello MODULE hello.c)
 target\_link\_libraries(hello sdm::lua)
@@ -4826,7 +4827,6 @@ SDM objects (plugins, devices, channels and sources) support a common property i
 	\tabcutin{2}{Plugin properties}\\
 	\midrule
 	\expr{Vendor} & Plugin vendor \\
-	\expr{MinimumSDMVersion} & Minimum required version of the SDM framework (e.g. \expr{\productversion}) \\
 	\expr{Devices} & Lists names of devices supported by the plugin, ordered by device id \\
 
 	\midrule
@@ -4884,7 +4884,9 @@ Plugins can be developed in \cplusplus{} as they would in C, with a few caveats:
 	\item exported SDM functions must not propagate uncaught exceptions.
 \end{itemize}
 
-Alternatively, one can use the \shellcmd{pluginprovider} library which is also a part of the SDM SDK. It defines abstract classes that can be used as bases for plugin, device, channel and source classes (Figure \ref{fig:pluginprovider}). Their member functions are object-oriented adapters for the respective SDM API functions. All these classes inherit from \cexpr{SDMPropertyManager} which implements the common property interface (Section \ref{sec:properties}).
+Alternatively, one can use the \shellcmd{pluginprovider} library which is also a part of the SDM SDK. It defines abstract classes that can be used as bases for plugin, device, channel and source classes (Figure \ref{fig:pluginprovider}). Their member functions are trivial adapters for SDM API functions and as such are not documented in detail; refer to the Chapter \ref{ch:sdmapireference}. If any of these member functions throws an exception of \cexpr{std::exception} type, it is caught by the library, the error message is printed to \cexpr{stdout} and the respective SDM API function returns an error (\cexpr{SDM\_ERROR} or \cexpr{NULL} as appropriate).
+
+All these classes inherit from \cexpr{SDMPropertyManager} which implements the common property interface (Section \ref{sec:properties}).
 
 \begin{figure}[htbp]
 \centering
@@ -4898,16 +4900,16 @@ The \shellcmd{pluginprovider} library is not precompiled, but is provided as a s
 To create a plugin, include \shellcmd{sdmprovider.h} and perform the following steps:
 
 \begin{enumerate}
-	\item Create a plugin class derived from \cexpr{SDMAbstractPluginProvider}. Override the \cexpr{openDevice()} pure virtual function. Define all the necessary properties using \cexpr{addConstProperty()} for immutable properties and \cexpr{addProperty()} for editable properties; use \cexpr{addListItem()} to create lists.
-	\item Provide a definition for the \cexpr{instance()} static member function of the \cexpr{SDMAbstractPluginProvider} class that returns a pointer to the plugin object instance. It can be done as follows:
+	\item Create a plugin class derived from \cexpr{SDMAbstractPlugin}. Override the \cexpr{openDevice()} pure virtual function. Define all the necessary properties using \cexpr{addConstProperty()} for immutable properties and \cexpr{addProperty()} for editable properties; use \cexpr{addListItem()} to create lists.
+	\item Provide a definition for the \cexpr{instance()} static member function of the \cexpr{SDMAbstractPlugin} class that returns a pointer to the plugin object instance. It can be done as follows:
 \end{enumerate}
 	
 \begin{breakshellcmds}\begin{ccode}
-class TestPlugin : public SDMAbstractPluginProvider {
+class TestPlugin : public SDMAbstractPlugin {
 // declare TestPlugin members here...
 };
 
-SDMAbstractPluginProvider *SDMAbstractPluginProvider::instance() {
+SDMAbstractPlugin *SDMAbstractPlugin::instance() {
     static TestPlugin pluginInstance;
     return &pluginInstance;
 }
@@ -4973,6 +4975,90 @@ For the \shellcmd{find\_package} command to work, CMake must know the location o
 \end{itemize}
 
 More information is available in the CMake documentation, in particular, the \shellcmd{find\_package} command description.
+
+\chapter{Creating applications that use SDM plugins}
+
+\section{Overview}
+
+In order to use code from an SDM plugin, loading it dynamically is not really necessary -- you can just link the plugin code as a static or shared library. If the plugin was created with the \shellcmd{pluginprovider} library, you can even skip the C-style SDM API altogether and access plugin classes directly.
+
+Still, if you want to load a plugin dynamically, SDM sources include reusable code for that purpose. This code is not a part of the SDK. To use it, copy or reference the following libraries to your project and link them to your application:
+
+\begin{alltt}
+    sdk/api
+    u8e
+    utils
+    sdmplug
+\end{alltt}
+
+In the application itself, include \shellcmd{sdmplug.h} and use the library classes to access the API functions, as in the following example:
+
+\begin{breakshellcmdsnamed}{main.cpp}\begin{ccode}
+#include "sdmplug.h"
+
+#include <iostream>
+
+int main() {
+// Open plugin objects
+	SDMPlugin plugin("./testplugin");
+	SDMDevice dev(plugin,0);
+	SDMChannel ch(dev,0);
+	SDMSource src(dev,0);
+	
+// Connect the device
+	dev.setProperty("Setting1","10.0.0.1");
+	dev.setProperty("Setting2","9999");
+	dev.connect();
+	
+// Write/read a register
+	std::cout<<"Writing register..."<<std::endl;
+	ch.writeReg(10,0x1234);
+	std::cout<<"Reading back... "<<ch.readReg(10)<<std::endl;
+	
+// Read some stream data
+	std::vector<int> streams {0};
+	src.selectReadStreams(streams,0,1);
+	sdm_sample_t buf[10000];
+	for(int i=0;i<5;i++) {
+		auto samples=src.readStream(0,buf,10000);
+		std::cout<<"Reading stream 0 data: ";
+		std::cout<<samples<<" samples"<<std::endl;
+		src.readNextPacket();
+	}
+}
+\end{ccode}\end{breakshellcmdsnamed}
+
+This example application can be built with the following CMake script:
+
+\begin{shellcmds}
+cmake\_minimum\_required(VERSION 3.3.0)
+project(sdmtest)
+add\_subdirectory(u8e)
+add\_subdirectory(api)
+add\_subdirectory(utils)
+add\_subdirectory(sdmplug)
+add\_executable(sdmtest main.cpp)
+target\_link\_libraries(sdmtest sdmplug)
+\end{shellcmds}
+
+\section{Notes on the SDMPlug library}
+
+SDMPlug class member functions are thin wrappers over the respective SDM API functions and as such are not covered here in detail; refer to Chapter \ref{ch:sdmapireference}.
+
+Plugin paths are assumed to be in UTF-8. If the specified file name does not include an extension, a customary extension for the platform will be appended (\shellcmd{.dll} or \shellcmd{.so}).
+
+Objects owning SDM API handles are reference-counted, so that these handles are not closed until all objects that use them are closed or destroyed. Consider the following example:
+
+\begin{breakshellcmds}\begin{ccode}
+SDMDevice dev(plugin,0);
+SDMChannel ch(dev,0);
+dev.connect();
+dev.close();
+ch.writereg(10,0x1234);
+ch.close();
+\end{ccode}\end{breakshellcmds}
+
+Here the \cexpr{dev.close()} statement doesn't result in \cexpr{sdmCloseDevice()} being called since the device is still used by the \cexpr{ch} object. Closing the latter, however, causes the device handle to be closed as well.
 
 \chapter{SDM API reference}
 \label{ch:sdmapireference}

@@ -38,7 +38,7 @@
  * TestPlugin instance
  */
 
-SDMAbstractPluginProvider *SDMAbstractPluginProvider::instance() {
+SDMAbstractPlugin *SDMAbstractPlugin::instance() {
 	static TestPlugin plugin;
 	return &plugin;
 }
@@ -59,7 +59,7 @@ TestPlugin::TestPlugin() {
 	addProperty("DisableChildProperties","false");
 }
 
-SDMAbstractDeviceProvider *TestPlugin::openDevice(int id) {
+SDMAbstractDevice *TestPlugin::openDevice(int id) {
 	if(getProperty("Verbosity")!="Quiet")
 		std::cout<<"testplugin: entered sdmOpenDevice()"<<std::endl;
 
@@ -77,10 +77,10 @@ SDMAbstractDeviceProvider *TestPlugin::openDevice(int id) {
  */
 
 TestDevice::TestDevice(int id) {
-	if(SDMAbstractPluginProvider::instance()->getProperty("DisableChildProperties")=="true") return;
+	if(SDMAbstractPlugin::instance()->getProperty("DisableChildProperties")=="true") return;
 	addConstProperty("Name","Test device "+std::to_string(id+1));
 	
-	auto const &aom=SDMAbstractPluginProvider::instance()->getProperty("AutoOpenMode");
+	auto const &aom=SDMAbstractPlugin::instance()->getProperty("AutoOpenMode");
 	addConstProperty("AutoOpenChannels",aom);
 	addConstProperty("AutoOpenSources",aom);
 	
@@ -97,14 +97,14 @@ TestDevice::TestDevice(int id) {
 }
 
 int TestDevice::close() {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")!="Quiet")
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")!="Quiet")
 		std::cout<<"testplugin: entered sdmCloseDevice()"<<std::endl;
 	delete this;
 	return 0;
 }
 
-SDMAbstractChannelProvider *TestDevice::openChannel(int id) {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")!="Quiet")
+SDMAbstractChannel *TestDevice::openChannel(int id) {
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")!="Quiet")
 		std::cout<<"testplugin: entered sdmOpenChannel()"<<std::endl;
 	
 	if(id!=0&&id!=1) return nullptr;
@@ -116,8 +116,8 @@ SDMAbstractChannelProvider *TestDevice::openChannel(int id) {
 	}
 }
 
-SDMAbstractSourceProvider *TestDevice::openSource(int id) {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")!="Quiet")
+SDMAbstractSource *TestDevice::openSource(int id) {
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")!="Quiet")
 		std::cout<<"testplugin: entered sdmOpenSource()"<<std::endl;
 	
 	try {
@@ -135,9 +135,9 @@ SDMAbstractSourceProvider *TestDevice::openSource(int id) {
 }
 
 int TestDevice::connect() {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")!="Quiet") {
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")!="Quiet") {
 		std::cout<<"testplugin: entered sdmConnect()"<<std::endl;
-		if(SDMAbstractPluginProvider::instance()->getProperty("DisableChildProperties")!="true") {
+		if(SDMAbstractPlugin::instance()->getProperty("DisableChildProperties")!="true") {
 			std::cout<<"testplugin: connection parameters are: "<<
 				"Setting1=\""<<getProperty("Setting1")<<"\", "<<
 				"Setting2=\""<<getProperty("Setting2")<<"\""<<std::endl;
@@ -149,7 +149,7 @@ int TestDevice::connect() {
 }
 
 int TestDevice::disconnect() {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")!="Quiet")
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")!="Quiet")
 		std::cout<<"testplugin: entered sdmDisconnect()"<<std::endl;
 
 	_connected=false;
@@ -157,7 +157,7 @@ int TestDevice::disconnect() {
 }
 
 int TestDevice::getConnectionStatus() {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")=="Verbose")
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")=="Verbose")
 		std::cout<<"testplugin: entered sdmGetConnectionStatus()"<<std::endl;
 
 	if(_connected) return 1;
@@ -172,7 +172,7 @@ TestChannel::TestChannel(int id,const bool &connected):
 	_id(id),
 	_connected(connected)
 {
-	if(SDMAbstractPluginProvider::instance()->getProperty("DisableChildProperties")=="true") return;
+	if(SDMAbstractPlugin::instance()->getProperty("DisableChildProperties")=="true") return;
 	if(_id==0) {
 		addConstProperty("Name","Measurement equipment");
 		addConstProperty("RegisterMapFile","testplugin/map.srm");
@@ -184,7 +184,7 @@ TestChannel::TestChannel(int id,const bool &connected):
 }
 
 int TestChannel::close() {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")!="Quiet")
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")!="Quiet")
 		std::cout<<"testplugin: entered sdmCloseChannel()"<<std::endl;
 
 	delete this;
@@ -192,7 +192,7 @@ int TestChannel::close() {
 }
 
 int TestChannel::writeReg(sdm_addr_t addr,sdm_reg_t data) {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")=="Verbose") {
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")=="Verbose") {
 		std::cout<<"testplugin: entered sdmWriteReg()"<<std::endl;
 		std::cout<<"testplugin: writing "<<data<<" to address "<<addr<<std::endl;
 	}
@@ -212,7 +212,7 @@ int TestChannel::writeReg(sdm_addr_t addr,sdm_reg_t data) {
 }
 
 sdm_reg_t TestChannel::readReg(sdm_addr_t addr,int *status) {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")=="Verbose") {
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")=="Verbose") {
 		std::cout<<"testplugin: entered sdmReadReg()"<<std::endl;
 		std::cout<<"testplugin: requested read from address "<<addr<<std::endl;
 	}
@@ -247,7 +247,7 @@ sdm_reg_t TestChannel::readReg(sdm_addr_t addr,int *status) {
 }
 
 int TestChannel::writeFIFO(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n,int flags) {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")=="Verbose") {
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")=="Verbose") {
 		std::cout<<"testplugin: entered sdmWriteFIFO()"<<std::endl;
 		if(flags&SDM_FLAG_NONBLOCKING) std::cout<<"testplugin: a non-blocking operation requested"<<std::endl;
 		if(flags&SDM_FLAG_START) std::cout<<"testplugin: start of packet"<<std::endl;
@@ -275,7 +275,7 @@ int TestChannel::writeFIFO(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n,i
 }
 
 int TestChannel::readFIFO(sdm_addr_t addr,sdm_reg_t *data,std::size_t n,int flags) {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")=="Verbose") {
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")=="Verbose") {
 		std::cout<<"testplugin: entered sdmReadFIFO()"<<std::endl;
 		if(flags&SDM_FLAG_NONBLOCKING) std::cout<<"testplugin: a non-blocking operation requested"<<std::endl;
 		if(flags&SDM_FLAG_NEXT) std::cout<<"testplugin: next packet requested"<<std::endl;
@@ -333,7 +333,7 @@ int TestChannel::readFIFO(sdm_addr_t addr,sdm_reg_t *data,std::size_t n,int flag
 }
 
 int TestChannel::writeMem(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n) {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")=="Verbose") {
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")=="Verbose") {
 		std::cout<<"testplugin: entered sdmWriteMem()"<<std::endl;
 		std::cout<<"testplugin: writing "<<n<<" words to address "<<addr<<std::endl;
 		std::cout<<"testplugin: content: [";
@@ -354,7 +354,7 @@ int TestChannel::writeMem(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n) {
 }
 
 int TestChannel::readMem(sdm_addr_t addr,sdm_reg_t *data,std::size_t n) {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")=="Verbose") {
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")=="Verbose") {
 		std::cout<<"testplugin: entered sdmReadMem()"<<std::endl;
 		std::cout<<"testplugin: requested "<<n<<" words from address "<<addr<<std::endl;
 	}
@@ -383,7 +383,7 @@ TestSource::TestSource(int id,const bool &connected):
 	_id(id),
 	_connected(connected)
 {
-	if(SDMAbstractPluginProvider::instance()->getProperty("DisableChildProperties")=="true") return;
+	if(SDMAbstractPlugin::instance()->getProperty("DisableChildProperties")=="true") return;
 	if(_id==0) addConstProperty("Name","Source 1");
 	else if(_id==1) addConstProperty("Name","Source 2");
 	if(_id==0) addConstProperty("ShowStreams","0,1");
@@ -396,7 +396,7 @@ TestSource::TestSource(int id,const bool &connected):
 }
 
 int TestSource::close() {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")!="Quiet")
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")!="Quiet")
 		std::cout<<"testplugin: entered sdmCloseSource()"<<std::endl;
 
 	delete this;
@@ -404,7 +404,7 @@ int TestSource::close() {
 }
 
 int TestSource::selectReadStreams(const int *streams,std::size_t n,std::size_t packets,int df) {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")!="Quiet") {
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")!="Quiet") {
 		std::cout<<"testplugin: entered sdmSelectReadStreams()"<<std::endl;
 		std::cout<<"testplugin: selected streams: ";
 		for(std::size_t i=0;i<n;i++) std::cout<<streams[i]<<", ";
@@ -432,12 +432,6 @@ int TestSource::selectReadStreams(const int *streams,std::size_t n,std::size_t p
 }
 
 int TestSource::readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")=="Verbose") {
-		std::cout<<"testplugin: entered sdmReadStream()"<<std::endl;
-		std::cout<<"testplugin: "<<n<<" data words requested for stream "<<stream<<std::endl;
-		std::cout<<"testplugin: "<<(nb?"non-blocking mode":"blocking mode")<<std::endl;
-	}
-	
 	if(n==0) return 0;
 	if(n>INT_MAX) n=INT_MAX;
 	
@@ -485,7 +479,7 @@ int TestSource::readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) {
 }
 
 int TestSource::readNextPacket() {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")=="Verbose")
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")=="Verbose")
 		std::cout<<"testplugin: entered sdmReadNextPacket()"<<std::endl;
 	
 	if(!_connected) return SDM_ERROR;
@@ -498,7 +492,7 @@ int TestSource::readNextPacket() {
 }
 
 void TestSource::discardPackets() {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")=="Verbose")
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")=="Verbose")
 		std::cout<<"testplugin: entered sdmDiscardPackets()"<<std::endl;
 	
 	_s.begin=std::chrono::steady_clock::now();
@@ -509,14 +503,14 @@ void TestSource::discardPackets() {
 }
 
 int TestSource::readStreamErrors() {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")=="Verbose")
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")=="Verbose")
 		std::cout<<"testplugin: entered sdmSelectReadStreams()"<<std::endl;	
 	
 	return 0;
 }
 
 void TestSource::setProperty(const std::string &name,const std::string &value) {
-	SDMAbstractSourceProvider::setProperty(name,value);
+	SDMAbstractSource::setProperty(name,value);
 	
 	try {
 		_msPerPacket=std::max(std::stoi(getProperty("MsPerPacket")),1);
@@ -558,7 +552,7 @@ VideoSource::VideoSource(const bool &connected):
 }
 
 int VideoSource::close() {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")!="Quiet")
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")!="Quiet")
 		std::cout<<"testplugin: entered sdmCloseSource()"<<std::endl;
 
 	delete this;
@@ -566,7 +560,7 @@ int VideoSource::close() {
 }
 
 int VideoSource::selectReadStreams(const int *streams,std::size_t n,std::size_t packets,int df) {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")!="Quiet") {
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")!="Quiet") {
 		std::cout<<"testplugin: entered sdmSelectReadStreams()"<<std::endl;
 		std::cout<<"testplugin: selected streams: ";
 		for(std::size_t i=0;i<n;i++) std::cout<<streams[i]<<", ";
@@ -591,7 +585,7 @@ int VideoSource::selectReadStreams(const int *streams,std::size_t n,std::size_t 
 }
 
 int VideoSource::readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")=="Verbose") {
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")=="Verbose") {
 		std::cout<<"testplugin: entered sdmReadStream()"<<std::endl;
 		std::cout<<"testplugin: "<<n<<" data words requested for stream "<<stream<<std::endl;
 		std::cout<<"testplugin: "<<(nb?"non-blocking mode":"blocking mode")<<std::endl;
@@ -670,7 +664,7 @@ int VideoSource::readStream(int stream,sdm_sample_t *data,std::size_t n,int nb) 
 }
 
 int VideoSource::readNextPacket() {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")=="Verbose")
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")=="Verbose")
 		std::cout<<"testplugin: entered sdmReadNextPacket()"<<std::endl;
 	
 	if(!_connected) return SDM_ERROR;
@@ -684,7 +678,7 @@ int VideoSource::readNextPacket() {
 }
 
 void VideoSource::discardPackets() {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")=="Verbose")
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")=="Verbose")
 		std::cout<<"testplugin: entered sdmDiscardPackets()"<<std::endl;
 	
 	_begin=std::chrono::steady_clock::now();
@@ -693,14 +687,14 @@ void VideoSource::discardPackets() {
 }
 
 int VideoSource::readStreamErrors() {
-	if(SDMAbstractPluginProvider::instance()->getProperty("Verbosity")=="Verbose")
+	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")=="Verbose")
 		std::cout<<"testplugin: entered sdmSelectReadStreams()"<<std::endl;	
 	
 	return 0;
 }
 
 void VideoSource::setProperty(const std::string &name,const std::string &value) {
-	SDMAbstractSourceProvider::setProperty(name,value);
+	SDMAbstractSource::setProperty(name,value);
 	
 	try {
 		_msPerPacket=std::max(std::stoi(getProperty("MsPerPacket")),1);
