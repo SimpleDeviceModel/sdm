@@ -94,10 +94,10 @@ public:
 	virtual int close() override;
 
 protected:
-	virtual void addDataToQueue(std::size_t samples,bool nonBlocking);
-	virtual std::size_t getSamplesFromQueue(int stream,std::size_t pos,sdm_sample_t *data,std::size_t n,bool &eop);
-	virtual void next();
-	virtual void clear();
+	virtual void addDataToQueue(std::size_t samples,bool nonBlocking) override;
+	virtual std::size_t getSamplesFromQueue(int stream,std::size_t pos,sdm_sample_t *data,std::size_t n,bool &eop) override;
+	virtual void next() override;
+	virtual void clear() override;
 };
 
 #endif
