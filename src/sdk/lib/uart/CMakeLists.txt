@@ -1,31 +1,33 @@
 cmake_minimum_required(VERSION 3.3.0)
 
-set(UART_SRC src/uart.cpp)
+add_library(uart INTERFACE)
+
+target_sources(uart INTERFACE
+	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/uart.cpp>
+	$<INSTALL_INTERFACE:${LIB_INSTALL_DIR}/sdk/uart/uart.cpp>)
 
 if(WIN32)
-	list(APPEND UART_SRC src/win32/uartimpl.cpp)
+	target_sources(uart INTERFACE
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/win32/uartimpl.cpp>
+		$<INSTALL_INTERFACE:${LIB_INSTALL_DIR}/sdk/uart/win32/uartimpl.cpp>)
 else()
-	list(APPEND UART_SRC src/posix/uartimpl.cpp)
+	target_sources(uart INTERFACE
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/posix/uartimpl.cpp>
+		$<INSTALL_INTERFACE:${LIB_INSTALL_DIR}/sdk/uart/posix/uartimpl.cpp>)
 endif()
 
-add_library(uart ${UART_SRC})
-
-target_include_directories(uart PUBLIC
+target_include_directories(uart INTERFACE
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 	$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}/sdk/uart>)
-
-target_include_directories(uart PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-
-set_target_properties(uart PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 
 ###########################
 # INSTALL
 ###########################
 
-install(TARGETS uart
-	EXPORT sdm
-	LIBRARY DESTINATION "${LIB_INSTALL_DIR}/sdk"
-	ARCHIVE DESTINATION "${LIB_INSTALL_DIR}/sdk")
+install(TARGETS uart EXPORT sdm)
 
 install(DIRECTORY include/
 	DESTINATION "${INCLUDE_INSTALL_DIR}/sdk/uart")
+
+install(DIRECTORY src/
+	DESTINATION "${LIB_INSTALL_DIR}/sdk/uart")
