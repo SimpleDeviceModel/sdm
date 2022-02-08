@@ -1,4 +1,12 @@
 ========================
+SDM 1.0.4
+------------------------
+Released on 2022-02-08
+========================
+
+* sdk: ipsockets and uart libraries are now source-level (like pluginprovider) to make creating plugins using different compilers easier
+
+========================
 SDM 1.0.3
 ------------------------
 Released on 2022-02-02
