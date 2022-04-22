@@ -52,7 +52,6 @@ public:
 // Counts number of downward components in the path
 // root directory is counted as a distinct component, ".." - as (-1)
 	int count() const;
-	std::string operator[](std::size_t index) {return path[index];}
 	
 	static char sep();
 	static Path exePath();
