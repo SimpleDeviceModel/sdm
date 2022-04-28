@@ -28,8 +28,6 @@
 #include "grmon.h"
 
 #include <vector>
-#include <thread>
-#include <chrono>
 #include <stdexcept>
 #include <algorithm>
 
@@ -166,6 +164,55 @@ sdm_reg_t GrmonChannel::readReg(sdm_addr_t addr,int *status) {
 		data|=r[i];
 	}
 	return data;
+}
+
+int GrmonChannel::writeMem(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n) {
+	while(n>0) {
+		auto towrite=std::min<std::size_t>(n,64);
+		std::vector<Byte> packet(5+towrite*4);
+		packet[0]=0xC0|(towrite-1);
+		packet[1]=(addr>>24)&0xFF;
+		packet[2]=(addr>>16)&0xFF;
+		packet[3]=(addr>>8)&0xFF;
+		packet[4]=(addr)&0xFF;
+		for(std::size_t i=0;i<towrite;i++) {
+			auto word=*data;
+			packet[i*4+5]=(word>>24)&0xFF;
+			packet[i*4+6]=(word>>16)&0xFF;
+			packet[i*4+7]=(word>>8)&0xFF;
+			packet[i*4+8]=(word)&0xFF;
+			data++;
+		}
+		sendBytes(packet);
+		addr+=(4*towrite);
+		n-=towrite;
+	}
+	return 0;
+}
+
+int GrmonChannel::readMem(sdm_addr_t addr,sdm_reg_t *data,std::size_t n) {
+	while(n>0) {
+		auto toread=std::min<std::size_t>(n,64);
+		std::vector<Byte> packet(5);
+		packet[0]=0x80|(toread-1);
+		packet[1]=(addr>>24)&0xFF;
+		packet[2]=(addr>>16)&0xFF;
+		packet[3]=(addr>>8)&0xFF;
+		packet[4]=(addr)&0xFF;
+		sendBytes(packet);
+		auto const &r=recvBytes(toread*4);
+		for(std::size_t i=0;i<toread;i++) {
+			*data=0;
+			*data|=(r[i*4]<<24);
+			*data|=(r[i*4+1]<<16);
+			*data|=(r[i*4+2]<<8);
+			*data|=(r[i*4+3]);
+			data++;
+		}
+		addr+=(4*toread);
+		n-=toread;
+	}
+	return 0;
 }
 
 void GrmonChannel::sendBytes(const std::vector<Byte> &s) {

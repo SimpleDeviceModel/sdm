@@ -69,6 +69,8 @@ public:
 	virtual int close() override;
 	virtual int writeReg(sdm_addr_t addr,sdm_reg_t data) override;
 	virtual sdm_reg_t readReg(sdm_addr_t addr,int *status) override;
+	virtual int writeMem(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n) override;
+	virtual int readMem(sdm_addr_t addr,sdm_reg_t *data,std::size_t n) override;
 private:
 	void sendBytes(const std::vector<Byte> &s);
 	std::vector<Byte> recvBytes(std::size_t n);
