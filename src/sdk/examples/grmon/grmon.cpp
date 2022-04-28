@@ -135,28 +135,28 @@ int GrmonChannel::close() {
 
 int GrmonChannel::writeReg(sdm_addr_t addr,sdm_reg_t data) {
 // Send "Write register" command packet: 11 (LENGTH-1)[5:0] ADDR[31:0] DATA[31:0]
-	std::vector<Byte> packet;
-	packet.push_back(0xC0);
-	packet.push_back((addr>>24)&0xFF);
-	packet.push_back((addr>>16)&0xFF);
-	packet.push_back((addr>>8)&0xFF);
-	packet.push_back((addr)&0xFF);
-	packet.push_back((data>>24)&0xFF);
-	packet.push_back((data>>16)&0xFF);
-	packet.push_back((data>>8)&0xFF);
-	packet.push_back((data)&0xFF);
+	std::vector<Byte> packet(9);
+	packet[0]=0xC0;
+	packet[1]=(addr>>24)&0xFF;
+	packet[2]=(addr>>16)&0xFF;
+	packet[3]=(addr>>8)&0xFF;
+	packet[4]=(addr)&0xFF;
+	packet[5]=(data>>24)&0xFF;
+	packet[6]=(data>>16)&0xFF;
+	packet[7]=(data>>8)&0xFF;
+	packet[8]=(data)&0xFF;
 	sendBytes(packet);
 	return 0;
 }
 
 sdm_reg_t GrmonChannel::readReg(sdm_addr_t addr,int *status) {
 // Send "Read register" command packet: 10 (LENGTH-1)[5:0] ADDR[31:0]
-	std::vector<Byte> packet;
-	packet.push_back(0xC0);
-	packet.push_back((addr>>24)&0xFF);
-	packet.push_back((addr>>16)&0xFF);
-	packet.push_back((addr>>8)&0xFF);
-	packet.push_back((addr)&0xFF);
+	std::vector<Byte> packet(5);
+	packet[0]=0x80;
+	packet[1]=(addr>>24)&0xFF;
+	packet[2]=(addr>>16)&0xFF;
+	packet[3]=(addr>>8)&0xFF;
+	packet[4]=(addr)&0xFF;
 	sendBytes(packet);
 // Receive data
 	auto const &r=recvBytes(4);
