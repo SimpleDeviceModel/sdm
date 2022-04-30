@@ -225,7 +225,7 @@ void GrmonChannel::sendBytes(const std::vector<Byte> &s) {
 	}
 }
 
-std::vector<GrmonChannel::Byte> GrmonChannel::recvBytes(std::size_t n) {
+std::vector<Byte> GrmonChannel::recvBytes(std::size_t n) {
 	std::vector<Byte> data(n);
 	auto p=reinterpret_cast<char *>(data.data());
 	while(n>0) {

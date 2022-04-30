@@ -26,13 +26,15 @@
  * for the Grmon plugin.
  */
 
-#ifndef GRMONDEMO_H_INCLUDED
-#define GRMONDEMO_H_INCLUDED
+#ifndef GRMON_H_INCLUDED
+#define GRMON_H_INCLUDED
 
 #include "sdmprovider.h"
 #include "uart.h"
 
 #include <cstdint>
+
+typedef std::uint8_t Byte;
 
 // Plugin class
 
@@ -61,7 +63,6 @@ public:
 // Channel class
 
 class GrmonChannel : public SDMAbstractChannel {
-	typedef std::uint8_t Byte;
 	Uart &_port;
 public:
 	GrmonChannel(Uart &port);
