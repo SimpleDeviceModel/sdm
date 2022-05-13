@@ -27,6 +27,8 @@
 
 #include "grmon.h"
 
+#define UART_TIMEOUT_MSEC 5000
+
 #include <vector>
 #include <stdexcept>
 #include <algorithm>
@@ -205,7 +207,8 @@ std::vector<Byte> GrmonChannel::recvBytes(std::size_t n) {
 	std::vector<Byte> data(n);
 	auto p=reinterpret_cast<char *>(data.data());
 	while(n>0) {
-		std::size_t r=_port.read(p,n);
+		std::size_t r=_port.read(p,n,UART_TIMEOUT_MSEC);
+		if(r==0) throw std::runtime_error("Device is not responding");
 		p+=r;
 		n-=r;
 	}
