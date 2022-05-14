@@ -4923,22 +4923,7 @@ SDMAbstractPlugin *SDMAbstractPlugin::instance() {
 	\item Add the \shellcmd{pluginprovider} sources to the build process.
 \end{enumerate}
 
-Example plugins included in the SDM SDK are listed below in Table \ref{tab:exampleplugins}.
-
-\begin{table}[htbp]
-	\caption{Example plugins shipped with the SDM SDK}
-	\label{tab:exampleplugins}
-	\begin{tabularx}{\textwidth}{lL}
-		\toprule
-		Plugin & Description \\
-		\midrule
-		
-		\shellcmd{uartdemo} & Communicates with an Arduino Uno board. Showcases address space access, advanced register map features and stream data acquisition. \\
-		\shellcmd{dcl} & Communicates with a GRLIB AHB UART core. Address space access only. \\
-		\shellcmd{testplugin} & Software simulated test that does not need special hardware. \\
-		\bottomrule
-	\end{tabularx}
-\end{table}
+SDM SDK includes a few example plugins, refer to the \shellcmd{readme.txt} for details.
 
 \section{Using SDM with CMake package system}
 \label{sec:cmakeconfig}
