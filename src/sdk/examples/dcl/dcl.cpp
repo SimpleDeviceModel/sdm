@@ -22,10 +22,10 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  *
- * This module implements the Grmon plugin classes.
+ * This module implements the Dcl plugin classes.
  */
 
-#include "grmon.h"
+#include "dcl.h"
 
 #define UART_TIMEOUT_MSEC 5000
 
@@ -34,39 +34,39 @@
 #include <algorithm>
 
 /*
- * GrmonPlugin instance
+ * DclPlugin instance
  * 
- * This static member function returns a pointer to the GrmonPlugin instance.
+ * This static member function returns a pointer to the DclPlugin instance.
  * The object itself is defined as a static local variable to ensure
  * that it is initialized before use, thus avoiding the so-called "static
  * initialization order fiasco".
  */
 
 SDMAbstractPlugin *SDMAbstractPlugin::instance() {
-	static GrmonPlugin plugin;
+	static DclPlugin plugin;
 	return &plugin;
 }
 
 /*
- * GrmonPlugin members
+ * DclPlugin members
  */
 
-GrmonPlugin::GrmonPlugin() {
-	addConstProperty("Name","GRMON protocol");
+DclPlugin::DclPlugin() {
+	addConstProperty("Name","Debug Communication Link");
 	addConstProperty("Vendor","Alex I. Kuznetsov");
 	addListItem("Devices","AHB UART");
 }
 
-SDMAbstractDevice *GrmonPlugin::openDevice(int id) {
+SDMAbstractDevice *DclPlugin::openDevice(int id) {
 	if(id!=0) throw std::runtime_error("No device with such ID");
-	return new GrmonDevice();
+	return new DclDevice();
 }
 
 /*
- * GrmonDevice members
+ * DclDevice members
  */
 
-GrmonDevice::GrmonDevice() {
+DclDevice::DclDevice() {
 	addConstProperty("Name","AHB UART");
 // Make sdmconsole open channels and sources automatically
 	addConstProperty("AutoOpenChannels","open");
@@ -90,17 +90,17 @@ GrmonDevice::GrmonDevice() {
 	addProperty("BaudRate","115200");
 }
 
-int GrmonDevice::close() {
+int DclDevice::close() {
 	delete this;
 	return 0;
 }
 
-SDMAbstractChannel *GrmonDevice::openChannel(int id) {
+SDMAbstractChannel *DclDevice::openChannel(int id) {
 	if(id!=0) throw std::runtime_error("No channel with such ID");
-	return new GrmonChannel(_port);
+	return new DclChannel(_port);
 }
 
-int GrmonDevice::connect() {
+int DclDevice::connect() {
 	_port.open(getProperty("SerialPort"));
 	_port.setBaudRate(std::stoi(getProperty("BaudRate")));
 	_port.setDataBits(8);
@@ -110,41 +110,41 @@ int GrmonDevice::connect() {
 	return 0;
 }
 
-int GrmonDevice::disconnect() {
+int DclDevice::disconnect() {
 	_port.close();
 	return 0;
 }
 
-int GrmonDevice::getConnectionStatus() {
+int DclDevice::getConnectionStatus() {
 	if(_port) return 1;
 	return 0;
 }
 
 /*
- * GrmonChannel members
+ * DclChannel members
  */
 
-GrmonChannel::GrmonChannel(Uart &port): _port(port) {
+DclChannel::DclChannel(Uart &port): _port(port) {
 	addConstProperty("Name","Bus");
 }
 
-int GrmonChannel::close() {
+int DclChannel::close() {
 	delete this;
 	return 0;
 }
 
-int GrmonChannel::writeReg(sdm_addr_t addr,sdm_reg_t data) {
+int DclChannel::writeReg(sdm_addr_t addr,sdm_reg_t data) {
 	writeMem(addr,&data,1);
 	return 0;
 }
 
-sdm_reg_t GrmonChannel::readReg(sdm_addr_t addr,int *status) {
+sdm_reg_t DclChannel::readReg(sdm_addr_t addr,int *status) {
 	sdm_reg_t data;
 	readMem(addr,&data,1);
 	return data;
 }
 
-int GrmonChannel::writeMem(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n) {
+int DclChannel::writeMem(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n) {
 	while(n>0) {
 		auto towrite=std::min<std::size_t>(n,64);
 		std::vector<Byte> packet(5+towrite*4);
@@ -168,7 +168,7 @@ int GrmonChannel::writeMem(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n) 
 	return 0;
 }
 
-int GrmonChannel::readMem(sdm_addr_t addr,sdm_reg_t *data,std::size_t n) {
+int DclChannel::readMem(sdm_addr_t addr,sdm_reg_t *data,std::size_t n) {
 	while(n>0) {
 		auto toread=std::min<std::size_t>(n,64);
 		std::vector<Byte> packet(5);
@@ -193,7 +193,7 @@ int GrmonChannel::readMem(sdm_addr_t addr,sdm_reg_t *data,std::size_t n) {
 	return 0;
 }
 
-void GrmonChannel::sendBytes(const std::vector<Byte> &s) {
+void DclChannel::sendBytes(const std::vector<Byte> &s) {
 	auto p=reinterpret_cast<const char*>(s.data());
 	std::size_t towrite=s.size();
 	while(towrite>0) {
@@ -203,7 +203,7 @@ void GrmonChannel::sendBytes(const std::vector<Byte> &s) {
 	}
 }
 
-std::vector<Byte> GrmonChannel::recvBytes(std::size_t n) {
+std::vector<Byte> DclChannel::recvBytes(std::size_t n) {
 	std::vector<Byte> data(n);
 	auto p=reinterpret_cast<char *>(data.data());
 	while(n>0) {

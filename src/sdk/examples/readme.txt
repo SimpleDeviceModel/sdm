@@ -7,5 +7,7 @@ Register and data streams are simulated in software.
 acts like a virtual oscilloscope. It is written in C++. See the corresponding
 readme for details.
 
+"dcl" implements the GRLIB Debug Communication Link protocol over UART.
+
 "testplugin" is a software simulated test plugin used by the SDM test suite.
 It is also written in C++.

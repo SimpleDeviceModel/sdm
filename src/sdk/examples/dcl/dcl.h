@@ -23,11 +23,11 @@
  * IN THE SOFTWARE.
  *
  * This header files defines plugin, device, channel and stream classes
- * for the Grmon plugin.
+ * for the Dcl plugin.
  */
 
-#ifndef GRMON_H_INCLUDED
-#define GRMON_H_INCLUDED
+#ifndef DCL_H_INCLUDED
+#define DCL_H_INCLUDED
 
 #include "sdmprovider.h"
 #include "uart.h"
@@ -38,18 +38,18 @@ typedef std::uint8_t Byte;
 
 // Plugin class
 
-class GrmonPlugin : public SDMAbstractPlugin {
+class DclPlugin : public SDMAbstractPlugin {
 public:
-	GrmonPlugin();
+	DclPlugin();
 	virtual SDMAbstractDevice *openDevice(int id) override;
 };
 
 // Device class
 
-class GrmonDevice : public SDMAbstractDevice {
+class DclDevice : public SDMAbstractDevice {
 	Uart _port; // serial port used to communicate
 public:
-	GrmonDevice();
+	DclDevice();
 	
 	virtual int close() override;
 	
@@ -62,10 +62,10 @@ public:
 
 // Channel class
 
-class GrmonChannel : public SDMAbstractChannel {
+class DclChannel : public SDMAbstractChannel {
 	Uart &_port;
 public:
-	GrmonChannel(Uart &port);
+	DclChannel(Uart &port);
 	
 	virtual int close() override;
 	virtual int writeReg(sdm_addr_t addr,sdm_reg_t data) override;
