@@ -75,8 +75,11 @@ namespace RegisterMap {
 			QTextStream ts(&res);
 			
 			if(_mode==Mode::Hex) {
+				ts<<"0x";
 				ts.setIntegerBase(16);
-				ts.setNumberFlags(QTextStream::ShowBase|QTextStream::UppercaseDigits);
+				ts.setNumberFlags(QTextStream::UppercaseDigits);
+				ts.setFieldWidth(2*sizeof(T));
+				ts.setPadChar('0');
 				ts<<_value;
 			}
 			else if(_mode==Mode::Unsigned) ts<<static_cast<unsigned_type>(_value);
