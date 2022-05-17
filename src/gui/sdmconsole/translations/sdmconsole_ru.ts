@@ -916,12 +916,12 @@
         <translation>Значение</translation>
     </message>
     <message>
-        <location filename="../registermaptable.cpp" line="70"/>
+        <location filename="../registermaptable.cpp" line="73"/>
         <source>RegisterMapTable: bad row index</source>
         <translation>RegisterMapTable: неправильный номер строки</translation>
     </message>
     <message>
-        <location filename="../registermaptable.cpp" line="99"/>
+        <location filename="../registermaptable.cpp" line="102"/>
         <source>Item doesn&apos;t exist</source>
         <translation>Элемент не существует</translation>
     </message>

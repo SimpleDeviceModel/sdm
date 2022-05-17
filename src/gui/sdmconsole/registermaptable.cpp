@@ -53,7 +53,10 @@ void RegisterMapTable::insertRow(int i,const RegisterMap::RowData &data) {
 	QTableWidget::insertRow(i);
 	populateRow(i);
 	
-	setRowData(i,data);
+	auto d(data);
+	d.addr.setMode(numMode);
+	d.data.setMode(numMode);
+	setRowData(i,d);
 	RegisterMapItem *it=checkItem(i,currentColumn());
 	if(it) setCurrentItem(it);
 	checkLastRow();
