@@ -38,7 +38,7 @@
 
 CodeEditor::CodeEditor(QWidget *parent):
 	QPlainTextEdit(parent),
-	_tabWidth(8)
+	_tabWidth(4)
 {
 	Q_INIT_RESOURCE(commonwidgets);
 	

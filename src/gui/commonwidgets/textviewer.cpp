@@ -130,7 +130,7 @@ void TextViewer::chooseFont() {
 
 void TextViewer::applyFont(const QFont &f) {
 	QFont newFont=f;
-	_edit->setTabStopWidth(FontUtils::tweakForTabStops(newFont,8));
+	_edit->setTabStopWidth(FontUtils::tweakForTabStops(newFont,4));
 	_edit->setFont(newFont);
 }
 
