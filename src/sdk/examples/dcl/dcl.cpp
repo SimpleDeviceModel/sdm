@@ -146,7 +146,7 @@ sdm_reg_t DclChannel::readReg(sdm_addr_t addr,int *status) {
 
 int DclChannel::writeMem(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n) {
 	while(n>0) {
-		auto towrite=std::min<std::size_t>(n,64);
+		Byte towrite=static_cast<Byte>(std::min<std::size_t>(n,64));
 		std::vector<Byte> packet(5+towrite*4);
 		packet[0]=0xC0|(towrite-1);
 		packet[1]=(addr>>24)&0xFF;
@@ -170,7 +170,7 @@ int DclChannel::writeMem(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n) {
 
 int DclChannel::readMem(sdm_addr_t addr,sdm_reg_t *data,std::size_t n) {
 	while(n>0) {
-		auto toread=std::min<std::size_t>(n,64);
+		Byte toread=static_cast<Byte>(std::min<std::size_t>(n,64));
 		std::vector<Byte> packet(5);
 		packet[0]=0x80|(toread-1);
 		packet[1]=(addr>>24)&0xFF;
