@@ -4723,6 +4723,8 @@ SDM plugin interface provides an abstraction layer allowing the SDM framework to
 
 SDM plugins are not required to provide reentrancy or thread safety guarantees. Multi-threaded client applications must ensure that plugin functions are not accessed simultaneously from multiple threads.
 
+SDM SDK includes a few example plugins to help you get started. Refer to the \shellcmd{examples/readme.txt} for details.
+
 \section{Application binary interface}
 \label{sec:abi}
 
@@ -4873,8 +4875,6 @@ SDM plugin should define an \cexpr{EXPORT_SDM_SYMBOLS} macro and include \shellc
 
 Functions that should be implemented by the plugin are listed in Section \ref{sec:sdmexport}. Their prototypes and semantics are provided in Chapter \ref{ch:sdmapireference}.
 
-SDM SDK includes a simple example, \shellcmd{simpleplugin.c}, which can be used as a reference.
-
 \section[Developing SDM plugins in C++]{Developing SDM plugins in \cplusplus}
 
 Plugins can be developed in \cplusplus{} as they would in C, with a few caveats:
@@ -4922,8 +4922,6 @@ SDMAbstractPlugin *SDMAbstractPlugin::instance() {
 	\item Derive device, channel and source classes from the respective abstract classes. Override virtual functions and define the necessary properties as above.
 	\item Add the \shellcmd{pluginprovider} sources to the build process.
 \end{enumerate}
-
-SDM SDK includes a few example plugins, refer to the \shellcmd{readme.txt} for details.
 
 \section{Using SDM with CMake package system}
 \label{sec:cmakeconfig}

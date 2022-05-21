@@ -1,6 +1,6 @@
 This directory contains example SDM plugins.
 
-"simpleplugin" (C) demonstrates basic SDM features. Register and data streams
+"simpleplugin" (C) demonstrates basic SDM features. Registers and data streams
 are simulated in software.
 
 "uartdemo" (C++) communicates with an Arduino Uno board over the serial port and
