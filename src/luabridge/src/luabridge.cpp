@@ -186,9 +186,13 @@ SDMPluginLua &LuaBridge::addPluginItem(const std::string &path) {
 // Check whether the plugin is already opened
 	for(std::size_t i=0;i<children();i++) {
 		auto p=dynamic_cast<SDMPluginLua*>(&child(i));
-		if(p&&*p&&plugin->path()==p->path()) {
-			delete plugin;
-			return *p;
+		if(p&&*p) {
+			auto oldPath=Path(p->path()).toAbsolute();
+			auto newPath=Path(plugin->path()).toAbsolute();
+			if(oldPath==newPath) {
+				delete plugin;
+				return *p;
+			}
 		}
 	}
 	
