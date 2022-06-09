@@ -169,21 +169,30 @@ const LuaValue &LuaBridge::luaHandle() {
 }
 
 SDMPluginLua &LuaBridge::addPluginItem(const std::string &path) {
-	SDMPluginLua &plugin=insertChild(factory().makePlugin(_lua));
+	auto plugin=factory().makePlugin(_lua);
 	
 	for(auto it=_pluginSearchPath.cbegin();it!=_pluginSearchPath.cend();it++) {
-		plugin.addSearchPath(*it);
+		plugin->addSearchPath(*it);
 	}
 	
 	try {
-		plugin.open(path);
+		plugin->open(path);
 	}
-	catch(std::exception &) {
-		removeChild(plugin.pos());
+	catch(...) {
+		delete plugin;
 		throw;
 	}
 	
-	return plugin;
+// Check whether the plugin is already opened
+	for(std::size_t i=0;i<children();i++) {
+		auto p=dynamic_cast<SDMPluginLua*>(&child(i));
+		if(p&&*p&&plugin->path()==p->path()) {
+			delete plugin;
+			return *p;
+		}
+	}
+	
+	return insertChild(plugin);
 }
 
 LuaValue LuaBridge::infoTag(const std::string &name) const {
@@ -383,7 +392,7 @@ SDMDeviceLua &SDMPluginLua::addDeviceItem(int iDev) {
 	try {
 		device->open(*this,iDev);
 	}
-	catch(std::exception &) {
+	catch(...) {
 		delete device;
 		throw;
 	}
@@ -544,7 +553,7 @@ SDMChannelLua &SDMDeviceLua::addChannelItem(int iChannel) {
 	try {
 		channel->open(*this,iChannel);
 	}
-	catch(std::exception &) {
+	catch(...) {
 		delete channel;
 		throw;
 	}
@@ -578,7 +587,7 @@ SDMSourceLua &SDMDeviceLua::addSourceItem(int iSource) {
 	try {
 		source->open(*this,iSource);
 	}
-	catch(std::exception &) {
+	catch(...) {
 		delete source;
 		throw;
 	}
