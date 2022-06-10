@@ -120,8 +120,10 @@ int LuaDialogServer::LuaMethod_messagebox(LuaServer &lua,const std::vector<LuaVa
 		if(i!=std::string::npos) buttons|=QMessageBox::No;
 		if(i==0) defButton=QMessageBox::No;
 		
-		d.setStandardButtons(buttons);
-		d.setDefaultButton(defButton);
+		if(buttons!=QMessageBox::StandardButtons()) {
+			d.setStandardButtons(buttons);
+			d.setDefaultButton(defButton);
+		}
 	}
 	
 	QMessageBox::StandardButton r=static_cast<QMessageBox::StandardButton>(d.exec());
