@@ -54,7 +54,7 @@ SDMAbstractPlugin *SDMAbstractPlugin::instance() {
 DclPlugin::DclPlugin() {
 	addConstProperty("Name","Debug Communication Link");
 	addConstProperty("Vendor","Alex I. Kuznetsov");
-	addListItem("Devices","AHB UART");
+	addListItem("Devices","UART");
 }
 
 SDMAbstractDevice *DclPlugin::openDevice(int id) {
@@ -67,7 +67,7 @@ SDMAbstractDevice *DclPlugin::openDevice(int id) {
  */
 
 DclDevice::DclDevice() {
-	addConstProperty("Name","AHB UART");
+	addConstProperty("Name","UART");
 // Make sdmconsole open channels and sources automatically
 	addConstProperty("AutoOpenChannels","open");
 	addConstProperty("AutoOpenSources","open");
