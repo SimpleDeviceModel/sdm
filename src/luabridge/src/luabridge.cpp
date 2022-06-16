@@ -202,7 +202,7 @@ SDMPluginLua &LuaBridge::addPluginItem(const std::string &path) {
 LuaValue LuaBridge::infoTag(const std::string &name) const {
 	auto it=_infoTags.find(name);
 	if(it!=_infoTags.end()) return it->second;
-	return LuaValue();
+	throw std::runtime_error("Unrecognized argument: \""+name+"\"");
 }
 
 void LuaBridge::setInfoTag(const std::string &name,const LuaValue &value) {
