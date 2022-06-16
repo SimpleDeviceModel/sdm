@@ -207,7 +207,7 @@
 <context>
     <name>LuaProgressDialog</name>
     <message>
-        <location filename="../luadialogserver.cpp" line="251"/>
+        <location filename="../luadialogserver.cpp" line="253"/>
         <source>Operation in progress...</source>
         <translation>Операция в процессе выполнения...</translation>
     </message>
