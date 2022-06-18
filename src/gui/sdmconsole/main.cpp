@@ -117,7 +117,7 @@ try
 	QLoggingCategory::setFilterRules("*=false\n");
 	
 // Set application names
-	QCoreApplication::setOrganizationName("SimpleDeviceModel");
+	QCoreApplication::setOrganizationName("Simple Device Model");
 	QCoreApplication::setApplicationName("sdmconsole");
 	
 // Initialize settings

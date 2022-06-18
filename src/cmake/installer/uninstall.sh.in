@@ -17,9 +17,9 @@
 
 # Remove user configuration
 
-@EMPTY@rm -f "$ENV{HOME}/.config/SimpleDeviceModel/sdmconsole.ini"
-@EMPTY@rm -rf "$ENV{HOME}/.config/SimpleDeviceModel/sdmconsole"
-@EMPTY@rm -df "$ENV{HOME}/.config/SimpleDeviceModel"
+@EMPTY@rm -f "$ENV{HOME}/.config/Simple Device Model/sdmconsole.ini"
+@EMPTY@rm -rf "$ENV{HOME}/.config/Simple Device Model/sdmconsole"
+@EMPTY@rm -df "$ENV{HOME}/.config/Simple Device Model"
 
 # Remove these directories only if empty
 
