@@ -287,7 +287,7 @@ make install
 \subsection{Generating installer for Windows}
 \label{subsec:wininstaller}
 
-Under Microsoft Windows, SDM provides a script, \shellcmd{make\_installer.nsi}, which can be used to generate an installer with NSIS (Nullsoft Scriptable Install System)\footnote{\url{http://nsis.sourceforge.io}}.
+Under Microsoft Windows, SDM provides a script, \shellcmd{make\_installer.nsi}, which can be used to generate an installer with NSIS (Nullsoft Scriptable Install System)\footnote{\url{https://nsis.sourceforge.io}}.
 
 To generate the installer package, SDM must be first built and installed using CMake (possibly to a temporary directory). The NSIS script is configured by the build system and installed alongside program executables. Then, \shellcmd{makensis} program is used to create an installer.
 
@@ -709,7 +709,7 @@ The \uielement{Freeze} button prevents plot data from updating while allowing th
 \chapter{Scripting engine}
 \label{ch:scripting}
 
-SDM integrates a scripting engine based on Lua programming language\footnote{\url{http://www.lua.org/}}. The scripting engine uses Lua extension mechanism to provide bindings for the SDM plugin interface as well as (with \shellcmd{sdmconsole}) means to create dialog windows to interact with the user.
+SDM integrates a scripting engine based on Lua programming language\footnote{\url{https://www.lua.org/}}. The scripting engine uses Lua extension mechanism to provide bindings for the SDM plugin interface as well as (with \shellcmd{sdmconsole}) means to create dialog windows to interact with the user.
 
 The Lua project provides a comprehensive set of documentation which is also shipped with the SDM distribution. The language itself will not be covered in this manual.
 
@@ -2195,10 +2195,10 @@ gui.createdialog("progress", text, min, max)
 A form dialog is used to request more complex user input than is possible by using \luaexpr{gui.inputdialog()}. It can be created by the \luaexpr{gui.createdialog()} function. An example is shown on Figure \ref{fig:formdialog}.
 
 \begin{shellcmds}\begin{luacode}
-form=gui.createdialog("form","Enter user data:")
-form.addtextoption("Name","John Smith")
-form.addlistoption("Gender",{"M","F","Other"})
-form.addfileoption("Photo","open","","JPEG Images (*.jpg *.jpeg);;All files (*)")
+form=gui.createdialog("form","Connection settings:")
+form.addtextoption("Host","192.168.1.100")
+form.addlistoption("Protocol",{"TCP","UDP"})
+form.addfileoption("Picture to send","open","","JPEG Images (*.jpg *.jpeg);;All files (*)")
 r=form.exec()
 if not r then return end
 print("Name is "..form.getoption(1))
@@ -2208,7 +2208,7 @@ print("Photo file path is "..form.getoption(3))
 
 \begin{figure}[htbp]
 \centering
-\includegraphics{images/formdialog.png}
+\includegraphics[width=0.8\textwidth]{images/formdialog.png}
 \caption{Form dialog window}
 \label{fig:formdialog}
 \end{figure}
@@ -2739,7 +2739,7 @@ gui.createdialog("plotter" [, mode])
 y = \mathit{scale} \cdot (x + \mathit{inputOffset}) + \mathit{outputOffset}
 \end{displaymath}
 	
-	Color names can be represented as in HTML or CSS (\luaexpr{"\#RRGGBB"}), SVG named colors are also supported\footnote{\url{http://www.w3.org/TR/SVG/types.html\#ColorKeywords}}.
+	Color names can be represented as in HTML or CSS (\luaexpr{"\#RRGGBB"}), SVG named colors are also supported\footnote{\url{https://www.w3.org/TR/SVG/types.html\#ColorKeywords}}.
 \end{funcremarks}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
