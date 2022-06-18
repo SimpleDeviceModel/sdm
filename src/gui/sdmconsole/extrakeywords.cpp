@@ -31,6 +31,7 @@ void addExtraKeywords(LuaHighlighter *hl) {
 	hl->addKeyword(set,"sdm");
 	hl->addKeyword(set,"sdm.openplugin");
 	hl->addKeyword(set,"sdm.plugins");
+	hl->addKeyword(set,"sdm.findobject");
 	hl->addKeyword(set,"sdm.info");
 	hl->addKeyword(set,"sdm.path");
 	hl->addKeyword(set,"sdm.sleep");

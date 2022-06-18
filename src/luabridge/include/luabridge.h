@@ -88,6 +88,7 @@ protected:
 	virtual std::function<int(LuaServer&)> enumerateLuaMethods(int i,std::string &strName,std::vector<LuaValue> &upvalues) override;
 	int LuaMethod_openplugin(LuaServer &lua);
 	int LuaMethod_plugins(LuaServer &lua);
+	int LuaMethod_findobject(LuaServer &lua);
 	int LuaMethod_info(LuaServer &lua);
 	int LuaMethod_path(LuaServer &lua);
 	int LuaMethod_lock(LuaServer &lua);
@@ -96,6 +97,7 @@ protected:
 	static int LuaMethod_time(LuaServer &lua);
 private:
 	static void lockFinalizer(callback_mutex_t *m,const std::shared_ptr<int> &cnt);
+	static TreeItem *findObject(TreeItem *root,const std::string &name,const std::string &type);
 };
 
 class SDMPluginLua : public TreeItem,public SDMPlugin,public LuaCallbackObject,private BridgePropertyManager {

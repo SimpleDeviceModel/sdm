@@ -840,6 +840,31 @@ sdm.plugins([index])
 \end{funcret}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% sdm.findobject()
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{luafuncprototype}
+sdm.findobject(name [, type])
+\end{luafuncprototype}
+
+\begin{funcdescr}
+	Finds an opened SDM object with the specified name (and type, if present).
+\end{funcdescr}
+
+\begin{funcparams}
+	\funcparam{name} (\luatype{string}): object name
+	\funcparam{type} (\luatype{string}, optional): object type (\luaexpr{"Plugin"}, \luaexpr{"Device"}, \luaexpr{"Channel"} or \luaexpr{"Source"})
+\end{funcparams}
+
+\begin{funcret}
+	Returns the requested object, or \luaexpr{nil} if it cannot be found.
+\end{funcret}
+
+\begin{funcremarks}
+	If there are multiple objects with the same name (and type, if present), it is not specified which of them is returned.
+\end{funcremarks}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % sdm.info()
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
