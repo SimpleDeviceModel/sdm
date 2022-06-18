@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2021 by Microproject LLC
+ * Copyright (c) 2015-2022 Simple Device Model contributors
  * 
  * This file is part of the Simple Device Model (SDM) framework.
  * 
@@ -117,7 +117,7 @@ try
 	QLoggingCategory::setFilterRules("*=false\n");
 	
 // Set application names
-	QCoreApplication::setOrganizationName("Microproject");
+	QCoreApplication::setOrganizationName("SimpleDeviceModel");
 	QCoreApplication::setApplicationName("sdmconsole");
 	
 // Initialize settings

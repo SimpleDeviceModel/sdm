@@ -17,9 +17,9 @@
 
 # Remove user configuration
 
-@EMPTY@rm -f "$ENV{HOME}/.config/Microproject/sdmconsole.ini"
-@EMPTY@rm -rf "$ENV{HOME}/.config/Microproject/sdmconsole"
-@EMPTY@rm -df "$ENV{HOME}/.config/Microproject"
+@EMPTY@rm -f "$ENV{HOME}/.config/SimpleDeviceModel/sdmconsole.ini"
+@EMPTY@rm -rf "$ENV{HOME}/.config/SimpleDeviceModel/sdmconsole"
+@EMPTY@rm -df "$ENV{HOME}/.config/SimpleDeviceModel"
 
 # Remove these directories only if empty
 

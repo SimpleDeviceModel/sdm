@@ -514,9 +514,9 @@
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="464"/>
-        <source>Copyright © 2015-2021 by Microproject LLC
+        <source>Copyright © 2015-2022 Simple Device Model contributors
 </source>
-        <translation>© ООО «Микропроект», 2015-2021
+        <translation>© Авторы Simple Device Model, 2015-2022
 </translation>
     </message>
     <message>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2021 by Microproject LLC
+ * Copyright (c) 2015-2022 Simple Device Model contributors
  * 
  * This file is part of the Simple Device Model (SDM) framework SDK.
  * 
@@ -49,7 +49,7 @@ SDMAbstractPlugin *SDMAbstractPlugin::instance() {
 
 TestPlugin::TestPlugin() {
 	addConstProperty("Name","Software simulated test");
-	addConstProperty("Vendor","Microproject LLC");
+	addConstProperty("Vendor","Simple Device Model");
 	
 	addListItem("Devices","Test device 1");
 	addListItem("Devices","Test device 2");
