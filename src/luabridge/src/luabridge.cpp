@@ -259,7 +259,11 @@ int LuaBridge::LuaMethod_findobject(LuaServer &lua) {
 	if(lua.argc()!=1&&lua.argc()!=2) throw std::runtime_error("findobject() method takes 1 or 2 arguments");
 	std::string name=lua.argv(0).toString();
 	std::string type;
-	if(lua.argc()>=2) type=lua.argv(1).toString();
+	if(lua.argc()>=2) {
+		type=lua.argv(1).toString();
+		if(type!="Plugin"&&type!="Device"&&type!="Channel"&&type!="Source")
+			throw std::runtime_error("Incorrect type \""+type+"\"");
+	}
 	
 	LuaValue handle;
 	
