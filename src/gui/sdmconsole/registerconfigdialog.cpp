@@ -28,6 +28,7 @@
 #include "luahighlighter.h"
 #include "extrakeywords.h"
 #include "vectormodel.h"
+#include "formatnumber.h"
 
 #include <QVBoxLayout>
 #include <QGridLayout>
@@ -405,10 +406,10 @@ FifoPage::FifoPage(RegisterMap::RowData &data,QWidget *parent):
 	QObject::connect(fillButton,&QAbstractButton::clicked,this,&FifoPage::fillWithConstantValue);
 	buttonsLayout->addWidget(fillButton,row++,0,1,2);
 	
-	auto exportButton=new QPushButton(tr("Export to CSV"));
+	auto exportButton=new QPushButton(tr("Export"));
 	QObject::connect(exportButton,&QAbstractButton::clicked,this,&FifoPage::exportToCSV);
 	buttonsLayout->addWidget(exportButton,row++,0,1,2);
-	auto importButton=new QPushButton(tr("Import from CSV"));
+	auto importButton=new QPushButton(tr("Import"));
 	QObject::connect(importButton,&QAbstractButton::clicked,this,&FifoPage::importFromCSV);
 	buttonsLayout->addWidget(importButton,row++,0,1,2);
 	
@@ -516,7 +517,7 @@ void FifoPage::exportToCSV() try {
 	if(dir.isValid()) d.setDirectory(dir.toString());
 	d.setAcceptMode(QFileDialog::AcceptSave);
 	d.setFileMode(QFileDialog::AnyFile);
-	d.setNameFilter(tr("CSV files (*.csv);;All files (*)"));
+	d.setNameFilter(tr("CSV files (*.csv);;Hex files (*.hex)"));
 	if(!d.exec()) return;
 	
 	s.setValue("CSVDirectory",d.directory().absolutePath());
@@ -527,7 +528,12 @@ void FifoPage::exportToCSV() try {
 	if(!f.open(QIODevice::WriteOnly)) throw fruntime_error("Cannot open file");
 	
 	QTextStream ts(&f);
-	for(auto const val: *_tableModel) ts<<val<<endl;
+	if(d.filteredExtension()=="hex") {
+		for(auto const val: *_tableModel) ts<<hexNumber(val)<<endl;
+	}
+	else {
+		for(auto const val: *_tableModel) ts<<val<<endl;
+	}
 }
 catch(std::exception &ex) {
 	QMessageBox::critical(this,QObject::tr("Error"),ex.what(),QMessageBox::Ok);
@@ -542,7 +548,7 @@ void FifoPage::importFromCSV() try {
 	if(dir.isValid()) d.setDirectory(dir.toString());
 	d.setAcceptMode(QFileDialog::AcceptOpen);
 	d.setFileMode(QFileDialog::ExistingFile);
-	d.setNameFilter(tr("CSV files (*.csv);;All files (*)"));
+	d.setNameFilter(tr("CSV files (*.csv);;Hex files (*.hex);;All files (*)"));
 	if(!d.exec()) return;
 	
 	s.setValue("CSVDirectory",d.directory().absolutePath());
@@ -553,15 +559,25 @@ void FifoPage::importFromCSV() try {
 	if(!f.open(QIODevice::ReadOnly)) throw fruntime_error("Cannot open file");
 	
 	QTextStream ts(&f);
-	QRegularExpression numRegex("\\d+");
 	std::vector<sdm_reg_t> data;
-	while(!ts.atEnd()) {
-		QString line=ts.readLine();
-		auto numbers=numRegex.globalMatch(line);
-		while(numbers.hasNext()) {
-			auto number=numbers.next();
-			auto val=number.captured(0);
-			data.push_back(RegisterMap::Number<sdm_reg_t>(val));
+
+	if(d.filteredExtension()=="hex") {
+		while(!ts.atEnd()) {
+			QString line=ts.readLine();
+			auto val=line.toULong(nullptr,16);
+			data.push_back(static_cast<sdm_reg_t>(val));
+		}
+	}
+	else {
+		QRegularExpression numRegex("\\d+");
+		while(!ts.atEnd()) {
+			QString line=ts.readLine();
+			auto numbers=numRegex.globalMatch(line);
+			while(numbers.hasNext()) {
+				auto number=numbers.next();
+				auto val=number.captured(0);
+				data.push_back(RegisterMap::Number<sdm_reg_t>(val));
+			}
 		}
 	}
 	
