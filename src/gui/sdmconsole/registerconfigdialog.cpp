@@ -561,7 +561,7 @@ void FifoPage::importFromCSV() try {
 	QTextStream ts(&f);
 	std::vector<sdm_reg_t> data;
 
-	if(d.filteredExtension()=="hex") {
+	if(filename.endsWith("hex",Qt::CaseInsensitive)) {
 		while(!ts.atEnd()) {
 			QString line=ts.readLine();
 			auto val=line.toULong(nullptr,16);
