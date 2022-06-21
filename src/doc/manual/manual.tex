@@ -212,13 +212,15 @@ Option & Description \\
 
 \shellcmd{OPTION\_NO\_LUAMODULES} & Skip building optional Lua modules. \\
 
-\shellcmd{OPTION\_NO\_QT} & Don't use Qt. Targets dependent on Qt (such as \shellcmd{sdmconsole}) won't be built. \\
+\shellcmd{OPTION\_NO\_QT} & Don't use Qt. \shellcmd{sdmconsole} won't be built. \\
 
 \shellcmd{OPTION\_USE\_VCREDIST} & When building the installer package, deploy the Microsoft Visual \cplusplus{} Runtime using \shellcmd{vcredist\_*.exe} (MSVC only). Default is \shellcmd{OFF} for Microsoft Visual Studio 2013, \shellcmd{ON} for later versions. See also Subsection \ref{subsec:wininstaller}. \\
 
 \shellcmd{OPTION\_VALGRIND} & Enable using \shellcmd{valgrind} by the test suite to track memory leaks (Linux only). \\
 
-\shellcmd{OPTION\_NO\_ICONS} & Skip installation of desktop entries (Linux only). \\
+\shellcmd{OPTION\_NO\_ICONS} & Don't install desktop entries (Linux only). \\
+
+\shellcmd{OPTION\_NO\_LINENOISE} & Don't use the linenoise line editing library for sdmhost (Linux only). \\
 
 \midrule
 \tabcutin{2}{SDM specific variables}\\
