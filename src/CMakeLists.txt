@@ -26,6 +26,7 @@ endif()
 if(UNIX)
 	option(OPTION_VALGRIND "Enable Valgrind in the main test suite")
 	option(OPTION_NO_ICONS "Skip installation of desktop entries")
+	option(OPTION_NO_LINENOISE "Don't use linenoise for sdmhost")
 endif()
 
 include(Version)
@@ -68,6 +69,10 @@ add_subdirectory(luabridge)
 # Optional Lua modules
 if(NOT OPTION_NO_LUAMODULES)
 	add_subdirectory(luamodules)
+endif()
+
+if(UNIX AND NOT OPTION_NO_LINENOISE)
+	add_subdirectory(3rdparty/linenoise)
 endif()
 
 ###########################

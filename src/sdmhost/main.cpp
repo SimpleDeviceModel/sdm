@@ -26,8 +26,13 @@
 #include "u8eio.h"
 #include "u8efile.h"
 #include "u8eenv.h"
+#include "u8ecodec.h"
 #include "textconsole.h"
 #include "luaiterator.h"
+
+#ifdef USE_LINENOISE
+#include "linenoise.h"
+#endif
 
 #include <exception>
 #include <string>
@@ -169,8 +174,32 @@ try
 		TextConsole console(lua);
 		std::string strLine;
 		
-		while(!console.quit()&&std::getline(utf8cin(),strLine))
+#ifdef USE_LINENOISE
+		linenoiseHistorySetMaxLen(100);
+		u8e::Codec codec(u8e::LocalMB,u8e::UTF8);
+#endif
+		
+		while(!console.quit()) {
+#ifdef USE_LINENOISE
+			char *s=linenoise(console.prompt().c_str());
+			if(!s) break;
+			linenoiseHistoryAdd(s);
+			try {
+				strLine=s;
+			}
+			catch(...) {
+				linenoiseFree(s);
+				throw;
+			}
+			linenoiseFree(s);
+			strLine=codec.transcode(strLine);
+			codec.reset();
+#else
+			utf8cout()<<console.prompt()<<flush;
+			if(!std::getline(utf8cin(),strLine)) break;
+#endif
 			console.consoleCommand(strLine);
+		}
 	}
 	
 	return 0;
