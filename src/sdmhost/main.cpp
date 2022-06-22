@@ -188,10 +188,10 @@ try
 				strLine=s;
 			}
 			catch(...) {
-				linenoiseFree(s);
+				std::free(s);
 				throw;
 			}
-			linenoiseFree(s);
+			std::free(s);
 			strLine=codec.transcode(strLine);
 			codec.reset();
 #else
