@@ -30,7 +30,7 @@
 #include "textconsole.h"
 #include "luaiterator.h"
 
-#ifdef USE_LINENOISE
+#ifdef LINENOISE_SUPPORTED
 #include "linenoise.h"
 #endif
 
@@ -174,29 +174,32 @@ try
 		TextConsole console(lua);
 		std::string strLine;
 		
-#ifdef USE_LINENOISE
-		linenoiseHistorySetMaxLen(100);
-		u8e::Codec codec(u8e::LocalMB,u8e::UTF8);
+#ifdef LINENOISE_SUPPORTED
+		bool useLinenoise=u8e::isLocaleUtf8(); // linenoise-ng will only work for UTF8
+		if(useLinenoise) linenoiseHistorySetMaxLen(100);
 #endif
 		
 		while(!console.quit()) {
-#ifdef USE_LINENOISE
-			char *s=linenoise(console.prompt().c_str());
-			if(!s) break;
-			linenoiseHistoryAdd(s);
-			try {
-				strLine=s;
-			}
-			catch(...) {
+#ifdef LINENOISE_SUPPORTED
+			if(useLinenoise) {
+				char *s=linenoise(console.prompt().c_str());
+				if(!s) break;
+				linenoiseHistoryAdd(s);
+				try {
+					strLine=s;
+				}
+				catch(...) {
+					std::free(s);
+					throw;
+				}
 				std::free(s);
-				throw;
 			}
-			std::free(s);
-			strLine=codec.transcode(strLine);
-			codec.reset();
-#else
-			utf8cout()<<console.prompt()<<flush;
-			if(!std::getline(utf8cin(),strLine)) break;
+			else {
+#endif
+				utf8cout()<<console.prompt()<<flush;
+				if(!std::getline(utf8cin(),strLine)) break;
+#ifdef LINENOISE_SUPPORTED
+			}
 #endif
 			console.consoleCommand(strLine);
 		}

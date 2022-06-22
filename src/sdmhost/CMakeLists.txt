@@ -18,7 +18,7 @@ target_link_libraries(sdmhost config sdmplug luaserver luabridge u8e)
 
 if(UNIX AND NOT OPTION_NO_LINENOISE)
 	target_link_libraries(sdmhost linenoise)
-	add_definitions(-DUSE_LINENOISE)
+	add_definitions(-DLINENOISE_SUPPORTED)
 endif()
 
 # Headless executable for Windows

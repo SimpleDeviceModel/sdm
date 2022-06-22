@@ -119,6 +119,8 @@ namespace u8e {
 		std::size_t incomplete() const;
 		void reset();
 	};
+	
+	bool isLocaleUtf8();
 }
 
 #ifdef _WIN32

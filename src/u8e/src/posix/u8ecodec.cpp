@@ -37,6 +37,7 @@
 #include <vector>
 #include <cstring>
 #include <clocale>
+#include <cctype>
 
 #include <iconv.h>
 #include <errno.h>
@@ -305,5 +306,12 @@ namespace u8e {
 	
 	void Codec::reset() {
 		_pimpl->reset();
+	}
+	
+	bool isLocaleUtf8() {
+		std::string enc=Initializer::localEncoding();
+		for(auto &ch: enc) ch=std::toupper(ch);
+		if(enc=="UTF8"||enc=="UTF-8") return true;
+		return false;
 	}
 }
