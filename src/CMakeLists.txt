@@ -72,7 +72,7 @@ if(NOT OPTION_NO_LUAMODULES)
 endif()
 
 if(UNIX AND NOT OPTION_NO_LINENOISE)
-	add_subdirectory(3rdparty/linenoise)
+	add_subdirectory(3rdparty/linenoise-ng)
 endif()
 
 ###########################
