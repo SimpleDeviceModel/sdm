@@ -892,19 +892,19 @@
 <context>
     <name>RegisterMapEngine</name>
     <message>
-        <location filename="../registermapengine.cpp" line="54"/>
+        <location filename="../registermapengine.cpp" line="55"/>
         <source>Page %1</source>
         <translation>Страница %1</translation>
     </message>
     <message>
-        <location filename="../registermapengine.cpp" line="72"/>
-        <location filename="../registermapengine.cpp" line="85"/>
-        <location filename="../registermapengine.cpp" line="90"/>
+        <location filename="../registermapengine.cpp" line="73"/>
+        <location filename="../registermapengine.cpp" line="86"/>
+        <location filename="../registermapengine.cpp" line="91"/>
         <source>RegisterMapEngine: page doesn&apos;t exist</source>
         <translation>RegisterMapEngine: страница не существует</translation>
     </message>
     <message>
-        <location filename="../registermapengine.cpp" line="171"/>
+        <location filename="../registermapengine.cpp" line="172"/>
         <source>Page not selected</source>
         <translation>Страница не выбрана</translation>
     </message>

@@ -35,6 +35,7 @@ using namespace std::placeholders;
 
 RegisterMapEngine::RegisterMapEngine(LuaServer &l,QWidget *w): QTabWidget(w),_lua(l) {
 	_handle=_lua.registerObject(*this);
+	_numMode=RegisterMap::AsIs;
 	setMovable(true);
 	tabBar()->hide();	
 	pageNum=1;
