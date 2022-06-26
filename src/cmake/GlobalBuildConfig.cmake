@@ -107,3 +107,13 @@ if(GCC_CMDLINE_SYNTAX)
 	set(CMAKE_C_VISIBILITY_PRESET hidden)
 	set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 endif()
+
+# Enable timed mutex workaround for libstdc++
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL GNU)
+	if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9.0)
+		message("Activating timed mutex workaround for older libstdc++")
+		include_directories(${CMAKE_CURRENT_LIST_DIR}/workarounds)
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -include timed_mutex_workaround.h")
+	endif()
+endif()

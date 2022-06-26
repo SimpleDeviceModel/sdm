@@ -25,7 +25,7 @@ for k,v in pairs(props) do
 end
 
 assert(rprops["Name"]=="Software simulated test")
-assert(rprops["Vendor"]=="Microproject LLC")
+assert(rprops["Vendor"]=="Simple Device Model")
 assert(rprops["Verbosity"]=="Default")
 
 plugin.Verbosity="Quiet" -- set property using __newindex metamethod
@@ -50,6 +50,8 @@ print("[2] Check that device can be opened and connected")
 dev=plugin.opendevice(0)
 assert(dev.Name=="Test device 1")
 assert(dev.id()==0)
+found=sdm.findobject("Test device 1")
+assert(found.Name=="Test device 1")
 
 print("Device opened, getting list of connection parameters")
 

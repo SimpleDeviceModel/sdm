@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2021 by Microproject LLC
+ * Copyright (c) 2015-2022 Simple Device Model contributors
  * 
  * This file is part of the Simple Device Model (SDM) framework.
  * 
@@ -169,27 +169,40 @@ const LuaValue &LuaBridge::luaHandle() {
 }
 
 SDMPluginLua &LuaBridge::addPluginItem(const std::string &path) {
-	SDMPluginLua &plugin=insertChild(factory().makePlugin(_lua));
+	auto plugin=factory().makePlugin(_lua);
 	
 	for(auto it=_pluginSearchPath.cbegin();it!=_pluginSearchPath.cend();it++) {
-		plugin.addSearchPath(*it);
+		plugin->addSearchPath(*it);
 	}
 	
 	try {
-		plugin.open(path);
+		plugin->open(path);
 	}
-	catch(std::exception &) {
-		removeChild(plugin.pos());
+	catch(...) {
+		delete plugin;
 		throw;
 	}
 	
-	return plugin;
+// Check whether the plugin is already opened
+	for(std::size_t i=0;i<children();i++) {
+		auto p=dynamic_cast<SDMPluginLua*>(&child(i));
+		if(p&&*p) {
+			auto oldPath=Path(p->path()).toAbsolute();
+			auto newPath=Path(plugin->path()).toAbsolute();
+			if(oldPath==newPath) {
+				delete plugin;
+				return *p;
+			}
+		}
+	}
+	
+	return insertChild(plugin);
 }
 
 LuaValue LuaBridge::infoTag(const std::string &name) const {
 	auto it=_infoTags.find(name);
 	if(it!=_infoTags.end()) return it->second;
-	return LuaValue();
+	throw std::runtime_error("Unrecognized argument: \""+name+"\"");
 }
 
 void LuaBridge::setInfoTag(const std::string &name,const LuaValue &value) {
@@ -205,12 +218,15 @@ std::function<int(LuaServer&)> LuaBridge::enumerateLuaMethods(int i,std::string 
 		strName="plugins";
 		return std::bind(&LuaBridge::LuaMethod_plugins,this,_1);
 	case 2:
+		strName="findobject";
+		return std::bind(&LuaBridge::LuaMethod_findobject,this,_1);
+	case 3:
 		strName="info";
 		return std::bind(&LuaBridge::LuaMethod_info,this,_1);
-	case 3:
+	case 4:
 		strName="path";
 		return std::bind(&LuaBridge::LuaMethod_path,this,_1);
-	case 4:
+	case 5:
 		strName="lock";
 		return std::bind(&LuaBridge::LuaMethod_lock,this,_1);
 	default:
@@ -236,6 +252,38 @@ int LuaBridge::LuaMethod_plugins(LuaServer &lua) {
 	auto n=static_cast<std::size_t>(lua.argv(0).toInteger()-1);
 	SDMPluginLua &plugin=child(n).cast<SDMPluginLua>();
 	lua.pushValue(plugin.luaHandle());
+	return 1;
+}
+
+int LuaBridge::LuaMethod_findobject(LuaServer &lua) {
+	if(lua.argc()!=1&&lua.argc()!=2) throw std::runtime_error("findobject() method takes 1 or 2 arguments");
+	std::string name=lua.argv(0).toString();
+	std::string type;
+	if(lua.argc()>=2) {
+		type=lua.argv(1).toString();
+		if(type!="Plugin"&&type!="Device"&&type!="Channel"&&type!="Source")
+			throw std::runtime_error("Incorrect type \""+type+"\"");
+	}
+	
+	LuaValue handle;
+	
+	auto obj=findObject(this,name,type);
+	if(obj) {
+		if(auto plugin=dynamic_cast<SDMPluginLua*>(obj)) {
+			handle=plugin->luaHandle();
+		}
+		else if(auto device=dynamic_cast<SDMDeviceLua*>(obj)) {
+			handle=device->luaHandle();
+		}
+		else if(auto channel=dynamic_cast<SDMChannelLua*>(obj)) {
+			handle=channel->luaHandle();
+		}
+		else if(auto source=dynamic_cast<SDMSourceLua*>(obj)) {
+			handle=source->luaHandle();
+		}
+	}
+	
+	lua.pushValue(handle);
 	return 1;
 }
 
@@ -344,6 +392,46 @@ void LuaBridge::lockFinalizer(callback_mutex_t *m,const std::shared_ptr<int> &cn
 	}
 }
 
+TreeItem *LuaBridge::findObject(TreeItem *root,const std::string &name,const std::string &type) {
+	if(!root) return nullptr;
+	
+	if(type=="Plugin"||type=="") {
+		auto r=dynamic_cast<SDMPluginLua*>(root);
+		try {
+			if(r&&r->getProperty("Name")==name) return root;
+		}
+		catch(std::exception &) {}
+	}
+	if(type=="Device"||type=="") {
+		auto r=dynamic_cast<SDMDeviceLua*>(root);
+		try {
+			if(r&&r->getProperty("Name")==name) return root;
+		}
+		catch(std::exception &) {}
+	}
+	if(type=="Channel"||type=="") {
+		auto r=dynamic_cast<SDMChannelLua*>(root);
+		try {
+			if(r&&r->getProperty("Name")==name) return root;
+		}
+		catch(std::exception &) {}
+	}
+	if(type=="Source"||type=="") {
+		auto r=dynamic_cast<SDMSourceLua*>(root);
+		try {
+			if(r&&r->getProperty("Name")==name) return root;
+		}
+		catch(std::exception &) {}
+	}
+	
+	for(std::size_t i=0;i<root->children();i++) {
+		auto r=findObject(&root->child(i),name,type);
+		if(r) return r;
+	}
+	
+	return nullptr;
+}
+
 /*
  * SDMPluginLua members
  */
@@ -383,7 +471,7 @@ SDMDeviceLua &SDMPluginLua::addDeviceItem(int iDev) {
 	try {
 		device->open(*this,iDev);
 	}
-	catch(std::exception &) {
+	catch(...) {
 		delete device;
 		throw;
 	}
@@ -544,7 +632,7 @@ SDMChannelLua &SDMDeviceLua::addChannelItem(int iChannel) {
 	try {
 		channel->open(*this,iChannel);
 	}
-	catch(std::exception &) {
+	catch(...) {
 		delete channel;
 		throw;
 	}
@@ -578,7 +666,7 @@ SDMSourceLua &SDMDeviceLua::addSourceItem(int iSource) {
 	try {
 		source->open(*this,iSource);
 	}
-	catch(std::exception &) {
+	catch(...) {
 		delete source;
 		throw;
 	}

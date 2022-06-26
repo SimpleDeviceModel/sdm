@@ -15,21 +15,22 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with SDM framework.  If not, see <https://www.gnu.org/licenses/>.
- * 
- * Declares a few simple functions to process strings.
+ *
+ * This header file provides a workaround for a libstdc++ timed
+ * mutex bug.
  */
 
-#ifndef STRINGUTILS_H_INCLUDED
-#define STRINGUTILS_H_INCLUDED
+// Note: Timed mutexes used to be buggy in GCC versions prior to 4.9.0.
 
-#include <string>
-#include <vector>
+#ifndef TIMED_MUTEX_WORKAROUND_H_INCLUDED
+#define TIMED_MUTEX_WORKAROUND_H_INCLUDED
 
-namespace StringUtils {
-	std::vector<std::string> splitString(const std::string &str,char sep);
-	std::string cleanupString(const std::string &str);
-	int compareVersions(const std::string &current,const std::string &required);
-	bool endsWith(const std::string &str,const std::string &suffix,bool caseInsensitive=false);
-}
+// The following line will include bits/c++config.h if we are using libstdc++
+#include <cstddef>
+
+#ifdef _GLIBCXX_USE_CLOCK_MONOTONIC
+// Workaround: don't use monotonic clock
+	#undef _GLIBCXX_USE_CLOCK_MONOTONIC
+#endif
 
 #endif

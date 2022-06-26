@@ -15,21 +15,25 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with SDM framework.  If not, see <https://www.gnu.org/licenses/>.
- * 
- * Declares a few simple functions to process strings.
+ *
+ * This header file defines a simple helper template to format a hexadecimal
+ * number.
  */
 
-#ifndef STRINGUTILS_H_INCLUDED
-#define STRINGUTILS_H_INCLUDED
+#ifndef FORMATNUMBER_H_INCLUDED
+#define FORMATNUMBER_H_INCLUDED
 
-#include <string>
-#include <vector>
+#include <QString>
 
-namespace StringUtils {
-	std::vector<std::string> splitString(const std::string &str,char sep);
-	std::string cleanupString(const std::string &str);
-	int compareVersions(const std::string &current,const std::string &required);
-	bool endsWith(const std::string &str,const std::string &suffix,bool caseInsensitive=false);
+template <typename T> QString hexNumber(const T &x) {
+	QString str;
+	const char *hex="0123456789ABCDEF";
+	int digits=static_cast<int>(sizeof(T))*2;
+	for(int i=digits-1;i>=0;i--) {
+		int d=(x>>(4*i))&0xF;
+		str.append(hex[d]);
+	}
+	return str;
 }
 
 #endif

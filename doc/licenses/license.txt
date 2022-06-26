@@ -1,6 +1,6 @@
 ﻿SIMPLE DEVICE MODEL FRAMEWORK LICENSE NOTICE
 
-Copyright © 2015-2021 by Microproject LLC
+Copyright © 2015-2022 Simple Device Model contributors
 
 SDM framework is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
@@ -26,7 +26,7 @@ SDM plugin development SDK includes the following components:
     * libraries for plugin development,
     * example plugins.
 
-Copyright © 2015-2021 by Microproject LLC
+Copyright © 2015-2022 Simple Device Model contributors
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the "Software"),

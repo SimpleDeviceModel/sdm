@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2021 by Microproject LLC
+ * Copyright (c) 2015-2022 Simple Device Model contributors
  * 
  * This file is part of the Simple Device Model (SDM) framework.
  * 
@@ -31,6 +31,7 @@ void addExtraKeywords(LuaHighlighter *hl) {
 	hl->addKeyword(set,"sdm");
 	hl->addKeyword(set,"sdm.openplugin");
 	hl->addKeyword(set,"sdm.plugins");
+	hl->addKeyword(set,"sdm.findobject");
 	hl->addKeyword(set,"sdm.info");
 	hl->addKeyword(set,"sdm.path");
 	hl->addKeyword(set,"sdm.sleep");

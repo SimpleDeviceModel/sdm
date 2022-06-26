@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2021 by Microproject LLC
+ * Copyright (c) 2015-2022 Simple Device Model contributors
  * 
  * This file is part of the Simple Device Model (SDM) framework.
  * 
@@ -120,8 +120,10 @@ int LuaDialogServer::LuaMethod_messagebox(LuaServer &lua,const std::vector<LuaVa
 		if(i!=std::string::npos) buttons|=QMessageBox::No;
 		if(i==0) defButton=QMessageBox::No;
 		
-		d.setStandardButtons(buttons);
-		d.setDefaultButton(defButton);
+		if(buttons!=QMessageBox::StandardButtons()) {
+			d.setStandardButtons(buttons);
+			d.setDefaultButton(defButton);
+		}
 	}
 	
 	QMessageBox::StandardButton r=static_cast<QMessageBox::StandardButton>(d.exec());

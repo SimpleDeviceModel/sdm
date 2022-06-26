@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2021 by Microproject LLC
+ * Copyright (c) 2015-2022 Simple Device Model contributors
  * 
  * This file is part of the Simple Device Model (SDM) framework.
  * 
@@ -52,7 +52,6 @@ public:
 // Counts number of downward components in the path
 // root directory is counted as a distinct component, ".." - as (-1)
 	int count() const;
-	std::string operator[](std::size_t index) {return path[index];}
 	
 	static char sep();
 	static Path exePath();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2021 by Microproject LLC
+ * Copyright (c) 2015-2022 Simple Device Model contributors
  * 
  * This file is part of the Simple Device Model (SDM) framework.
  * 
@@ -69,7 +69,7 @@ try
 #endif
 {
 	utf8cerr()<<"sdmhost "<<Config::version()<<" ("<<Config::architecture()<<")"<<endl;
-	utf8cerr()<<"Copyright (c) 2015-2021 by Microproject LLC"<<endl;
+	utf8cerr()<<"Copyright (c) 2015-2022 Simple Device Model contributors"<<endl;
 	utf8cerr()<<"This program comes with ABSOLUTELY NO WARRANTY."<<endl;
 	utf8cerr()<<"This is free software, and you are welcome to redistribute it under certain conditions; see license.txt for details."<<endl;
 	

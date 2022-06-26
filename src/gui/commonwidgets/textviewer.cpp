@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2021 by Microproject LLC
+ * Copyright (c) 2015-2022 Simple Device Model contributors
  * 
  * This file is part of the Simple Device Model (SDM) framework.
  * 
@@ -130,7 +130,7 @@ void TextViewer::chooseFont() {
 
 void TextViewer::applyFont(const QFont &f) {
 	QFont newFont=f;
-	_edit->setTabStopWidth(FontUtils::tweakForTabStops(newFont,8));
+	_edit->setTabStopWidth(FontUtils::tweakForTabStops(newFont,4));
 	_edit->setFont(newFont);
 }
 

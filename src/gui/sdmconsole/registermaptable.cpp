@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2021 by Microproject LLC
+ * Copyright (c) 2015-2022 Simple Device Model contributors
  * 
  * This file is part of the Simple Device Model (SDM) framework.
  * 
@@ -53,7 +53,10 @@ void RegisterMapTable::insertRow(int i,const RegisterMap::RowData &data) {
 	QTableWidget::insertRow(i);
 	populateRow(i);
 	
-	setRowData(i,data);
+	auto d(data);
+	d.addr.setMode(numMode);
+	d.data.setMode(numMode);
+	setRowData(i,d);
 	RegisterMapItem *it=checkItem(i,currentColumn());
 	if(it) setCurrentItem(it);
 	checkLastRow();

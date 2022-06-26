@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2021 by Microproject LLC
+ * Copyright (c) 2015-2022 Simple Device Model contributors
  * 
  * This file is part of the Simple Device Model (SDM) framework.
  * 
@@ -222,7 +222,7 @@ void displayusage(const std::string &strProgramName) {
 
 int main(int argc,char *argv[]) {
 	utf8cout()<<"DllDepTool: collects DLLs required for the software to run"<<endl;
-	utf8cout()<<"Copyright (c) 2015 by Microproject LLC"<<endl;
+	utf8cout()<<"Copyright (c) 2015 Simple Device Model contributors"<<endl;
 	utf8cout()<<"Note: please make sure that you are legally allowed to redistribute the DLLs!"<<endl<<endl;
 	
 	auto args=cmdArgs(argc,argv);

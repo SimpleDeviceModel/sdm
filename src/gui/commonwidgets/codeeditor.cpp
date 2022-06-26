@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2021 by Microproject LLC
+ * Copyright (c) 2015-2022 Simple Device Model contributors
  * 
  * This file is part of the Simple Device Model (SDM) framework.
  * 
@@ -38,7 +38,7 @@
 
 CodeEditor::CodeEditor(QWidget *parent):
 	QPlainTextEdit(parent),
-	_tabWidth(8)
+	_tabWidth(4)
 {
 	Q_INIT_RESOURCE(commonwidgets);
 	

@@ -8,7 +8,7 @@
 
 # Main definitions
 
-!define VENDOR_NAME "Microproject"
+!define VENDOR_NAME "Simple Device Model contributors"
 !define PROGRAM_NAME "Simple Device Model"
 !define PROGRAM_SHORT_NAME "SDM"
 !define MAIN_EXECUTABLE "sdmconsole"

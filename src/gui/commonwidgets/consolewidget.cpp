@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2021 by Microproject LLC
+ * Copyright (c) 2015-2022 Simple Device Model contributors
  * 
  * This file is part of the Simple Device Model (SDM) framework.
  * 
@@ -284,7 +284,7 @@ void ConsoleWidget::runCommand(const QString &cmd,bool suppressEcho) {
 
 void ConsoleWidget::applyFont(const QFont &f) {
 	QFont newFont=f;
-	setTabStopWidth(FontUtils::tweakForTabStops(newFont,8));
+	setTabStopWidth(FontUtils::tweakForTabStops(newFont,4));
 	setFont(newFont);
 }
 

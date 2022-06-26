@@ -6,7 +6,7 @@
 
 \hypersetup{
 	pdftitle={Simple Device Model User Manual},
-	pdfauthor={Microproject LLC}
+	pdfauthor={Simple Device Model contributors}
 }
 
 \begin{document}
@@ -23,7 +23,6 @@
 	\LARGE \textbf{User Manual}\par
 	\vspace{1.2\onelineskip}
 	\large Version \productversion\par
-	Microproject LLC
 	\end{center}
 	\vspace*{\fill}
 \end{adjustwidth*}
@@ -116,7 +115,7 @@ SDM can be removed from the system by running \shellcmd{uninstall.sh} from the b
 	\item A toolchain for \cplusplus{} development:
 		\begin{itemize}
 			\item for Microsoft Windows: Microsoft Visual Studio® 2013 or later, or MinGW-w64 GCC 4.8 or later (see notes below). Pre-built Windows packages are created with Microsoft Visual Studio 2013.
-			\item for Linux: GCC 4.9 or later, or Clang 3.4 or later.
+			\item for Linux: GCC 4.8 or later, or Clang 3.4 or later.
 		\end{itemize}
 	\item CMake 3.3 or later;
 	\item Qt® 5.x, x $\ge$ 6 (optional, for \shellcmd{sdmconsole});
@@ -288,7 +287,7 @@ make install
 \subsection{Generating installer for Windows}
 \label{subsec:wininstaller}
 
-Under Microsoft Windows, SDM provides a script, \shellcmd{make\_installer.nsi}, which can be used to generate an installer with NSIS (Nullsoft Scriptable Install System)\footnote{\url{http://nsis.sourceforge.io}}.
+Under Microsoft Windows, SDM provides a script, \shellcmd{make\_installer.nsi}, which can be used to generate an installer with NSIS (Nullsoft Scriptable Install System)\footnote{\url{https://nsis.sourceforge.io}}.
 
 To generate the installer package, SDM must be first built and installed using CMake (possibly to a temporary directory). The NSIS script is configured by the build system and installed alongside program executables. Then, \shellcmd{makensis} program is used to create an installer.
 
@@ -358,7 +357,7 @@ Installation directories for SDM components are listed in Table \ref{tab:install
 \end{tabularx}
 \end{table}
 
-User settings are stored in \shellcmd{\%APPDATA\%\textbackslash{}Microproject} on Microsoft Windows and in \shellcmd{\$HOME/.config/Microproject} on Linux.
+User settings are stored in \shellcmd{\%APPDATA\%\textbackslash{}Simple Device Model} on Microsoft Windows and in \shellcmd{\$HOME/.config/Simple Device Model} on Linux.
 
 On Linux, how desktop entries (shortcuts and icons) are installed depends on the \shellcmd{CMAKE\_INSTALL\_PREFIX} value:
 
@@ -710,7 +709,7 @@ The \uielement{Freeze} button prevents plot data from updating while allowing th
 \chapter{Scripting engine}
 \label{ch:scripting}
 
-SDM integrates a scripting engine based on Lua programming language\footnote{\url{http://www.lua.org/}}. The scripting engine uses Lua extension mechanism to provide bindings for the SDM plugin interface as well as (with \shellcmd{sdmconsole}) means to create dialog windows to interact with the user.
+SDM integrates a scripting engine based on Lua programming language\footnote{\url{https://www.lua.org/}}. The scripting engine uses Lua extension mechanism to provide bindings for the SDM plugin interface as well as (with \shellcmd{sdmconsole}) means to create dialog windows to interact with the user.
 
 The Lua project provides a comprehensive set of documentation which is also shipped with the SDM distribution. The language itself will not be covered in this manual.
 
@@ -839,6 +838,31 @@ sdm.plugins([index])
 \begin{funcret}
 	When called without parameters, returns the number of opened plugins. When called with an \luaexpr{index} parameter, returns a \objtype{Plugin} type object corresponding to an opened plugin with this index.
 \end{funcret}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% sdm.findobject()
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{luafuncprototype}
+sdm.findobject(name [, type])
+\end{luafuncprototype}
+
+\begin{funcdescr}
+	Finds an opened SDM object with the specified name (and type, if present).
+\end{funcdescr}
+
+\begin{funcparams}
+	\funcparam{name} (\luatype{string}): object name
+	\funcparam{type} (\luatype{string}, optional): object type (\luaexpr{"Plugin"}, \luaexpr{"Device"}, \luaexpr{"Channel"} or \luaexpr{"Source"})
+\end{funcparams}
+
+\begin{funcret}
+	Returns the requested object, or \luaexpr{nil} if it cannot be found.
+\end{funcret}
+
+\begin{funcremarks}
+	If there are multiple objects with the same name (and type, if present), it is not specified which of them is returned.
+\end{funcremarks}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % sdm.info()
@@ -2196,10 +2220,10 @@ gui.createdialog("progress", text, min, max)
 A form dialog is used to request more complex user input than is possible by using \luaexpr{gui.inputdialog()}. It can be created by the \luaexpr{gui.createdialog()} function. An example is shown on Figure \ref{fig:formdialog}.
 
 \begin{shellcmds}\begin{luacode}
-form=gui.createdialog("form","Enter user data:")
-form.addtextoption("Name","John Smith")
-form.addlistoption("Gender",{"M","F","Other"})
-form.addfileoption("Photo","open","","JPEG Images (*.jpg *.jpeg);;All files (*)")
+form=gui.createdialog("form","Connection settings:")
+form.addtextoption("Host","192.168.1.100")
+form.addlistoption("Protocol",{"TCP","UDP"})
+form.addfileoption("Picture to send","open","","JPEG Images (*.jpg *.jpeg);;All files (*)")
 r=form.exec()
 if not r then return end
 print("Name is "..form.getoption(1))
@@ -2209,7 +2233,7 @@ print("Photo file path is "..form.getoption(3))
 
 \begin{figure}[htbp]
 \centering
-\includegraphics{images/formdialog.png}
+\includegraphics[width=0.8\textwidth]{images/formdialog.png}
 \caption{Form dialog window}
 \label{fig:formdialog}
 \end{figure}
@@ -2740,7 +2764,7 @@ gui.createdialog("plotter" [, mode])
 y = \mathit{scale} \cdot (x + \mathit{inputOffset}) + \mathit{outputOffset}
 \end{displaymath}
 	
-	Color names can be represented as in HTML or CSS (\luaexpr{"\#RRGGBB"}), SVG named colors are also supported\footnote{\url{http://www.w3.org/TR/SVG/types.html\#ColorKeywords}}.
+	Color names can be represented as in HTML or CSS (\luaexpr{"\#RRGGBB"}), SVG named colors are also supported\footnote{\url{https://www.w3.org/TR/SVG/types.html\#ColorKeywords}}.
 \end{funcremarks}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -4723,6 +4747,8 @@ SDM plugin interface provides an abstraction layer allowing the SDM framework to
 
 SDM plugins are not required to provide reentrancy or thread safety guarantees. Multi-threaded client applications must ensure that plugin functions are not accessed simultaneously from multiple threads.
 
+SDM SDK includes a few example plugins to help you get started. Refer to the \shellcmd{examples/readme.txt} for details.
+
 \section{Application binary interface}
 \label{sec:abi}
 
@@ -4873,8 +4899,6 @@ SDM plugin should define an \cexpr{EXPORT_SDM_SYMBOLS} macro and include \shellc
 
 Functions that should be implemented by the plugin are listed in Section \ref{sec:sdmexport}. Their prototypes and semantics are provided in Chapter \ref{ch:sdmapireference}.
 
-SDM SDK includes a simple example, \shellcmd{simpleplugin.c}, which can be used as a reference.
-
 \section[Developing SDM plugins in C++]{Developing SDM plugins in \cplusplus}
 
 Plugins can be developed in \cplusplus{} as they would in C, with a few caveats:
@@ -4922,8 +4946,6 @@ SDMAbstractPlugin *SDMAbstractPlugin::instance() {
 	\item Derive device, channel and source classes from the respective abstract classes. Override virtual functions and define the necessary properties as above.
 	\item Add the \shellcmd{pluginprovider} sources to the build process.
 \end{enumerate}
-
-SDM SDK includes an example, \shellcmd{uartdemo}, based on \shellcmd{pluginprovider}. It communicates with an Arduino Uno board over the serial port and provides the means to control pin states and capture data from the integrated ADC.
 
 \section{Using SDM with CMake package system}
 \label{sec:cmakeconfig}

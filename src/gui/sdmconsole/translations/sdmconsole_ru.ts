@@ -90,102 +90,106 @@
 <context>
     <name>FifoPage</name>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="381"/>
+        <location filename="../registerconfigdialog.cpp" line="382"/>
         <source>Register</source>
         <translation>Регистр</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="404"/>
+        <location filename="../registerconfigdialog.cpp" line="405"/>
         <source>Fill</source>
         <translation>Заполнить</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="408"/>
-        <source>Export to CSV</source>
-        <translation>Экспорт CSV</translation>
-    </message>
-    <message>
-        <location filename="../registerconfigdialog.cpp" line="411"/>
-        <source>Import from CSV</source>
-        <translation>Импорт CSV</translation>
-    </message>
-    <message>
-        <location filename="../registerconfigdialog.cpp" line="423"/>
+        <location filename="../registerconfigdialog.cpp" line="424"/>
         <source>Hexadecimal data</source>
         <translation>Шестнадцатеричные данные</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="418"/>
+        <location filename="../registerconfigdialog.cpp" line="419"/>
         <source>Hexadecimal address</source>
         <translation>Шестнадцатеричный адрес</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="374"/>
+        <location filename="../registerconfigdialog.cpp" line="375"/>
         <source>Base address: </source>
         <translation>Базовый адрес: </translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="394"/>
+        <location filename="../registerconfigdialog.cpp" line="395"/>
         <source>Data</source>
         <translation>Данные</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="432"/>
+        <location filename="../registerconfigdialog.cpp" line="409"/>
+        <source>Export</source>
+        <translation>Экспорт</translation>
+    </message>
+    <message>
+        <location filename="../registerconfigdialog.cpp" line="412"/>
+        <source>Import</source>
+        <translation>Импорт</translation>
+    </message>
+    <message>
+        <location filename="../registerconfigdialog.cpp" line="433"/>
         <source>Optional ID: </source>
         <translation>Идентификатор (необязательно): </translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="471"/>
+        <location filename="../registerconfigdialog.cpp" line="472"/>
         <source>Value for new items: </source>
         <translation>Значение новых элементов: </translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="585"/>
+        <location filename="../registerconfigdialog.cpp" line="520"/>
+        <source>CSV files (*.csv);;Hex files (*.hex)</source>
+        <translation>Файлы CSV (*.csv);;Файлы Hex (*.hex)</translation>
+    </message>
+    <message>
+        <location filename="../registerconfigdialog.cpp" line="551"/>
+        <source>CSV files (*.csv);;Hex files (*.hex);;All files (*)</source>
+        <translation>Файлы CSV (*.csv);;Файлы Hex (*.hex);;Все файлы (*)</translation>
+    </message>
+    <message>
+        <location filename="../registerconfigdialog.cpp" line="601"/>
         <source>Address: </source>
         <translation>Адрес: </translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="626"/>
+        <location filename="../registerconfigdialog.cpp" line="642"/>
         <source>FIFO size is too large</source>
         <translation>Слишком большой размер FIFO</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="460"/>
-        <location filename="../registerconfigdialog.cpp" line="476"/>
-        <location filename="../registerconfigdialog.cpp" line="501"/>
+        <location filename="../registerconfigdialog.cpp" line="461"/>
+        <location filename="../registerconfigdialog.cpp" line="477"/>
+        <location filename="../registerconfigdialog.cpp" line="502"/>
         <source>Bad value</source>
         <translation>Неправильное значение</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="378"/>
+        <location filename="../registerconfigdialog.cpp" line="379"/>
         <source>Indirect addressing</source>
         <translation>Косвенная адресация</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="386"/>
+        <location filename="../registerconfigdialog.cpp" line="387"/>
         <source>Value</source>
         <translation>Значение</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="396"/>
+        <location filename="../registerconfigdialog.cpp" line="397"/>
         <source>Size: </source>
         <translation>Размер: </translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="400"/>
+        <location filename="../registerconfigdialog.cpp" line="401"/>
         <source>Apply size</source>
         <translation>Применить размер</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="495"/>
+        <location filename="../registerconfigdialog.cpp" line="496"/>
         <source>Value: </source>
         <translation>Значение: </translation>
-    </message>
-    <message>
-        <location filename="../registerconfigdialog.cpp" line="519"/>
-        <location filename="../registerconfigdialog.cpp" line="545"/>
-        <source>CSV files (*.csv);;All files (*)</source>
-        <translation>Файлы CSV (*.csv);;Все файлы (*)</translation>
     </message>
 </context>
 <context>
@@ -207,7 +211,7 @@
 <context>
     <name>LuaProgressDialog</name>
     <message>
-        <location filename="../luadialogserver.cpp" line="251"/>
+        <location filename="../luadialogserver.cpp" line="253"/>
         <source>Operation in progress...</source>
         <translation>Операция в процессе выполнения...</translation>
     </message>
@@ -365,39 +369,39 @@
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="466"/>
-        <source>&lt;p&gt;&lt;a href=&quot;info://doc/licenses/license.txt&quot;&gt;Copyright and licensing information&lt;/a&gt;&lt;/p&gt;
+        <location filename="../mainwindow.cpp" line="467"/>
+        <source>&lt;p&gt;&lt;a href=&quot;info://doc/licenses/license.txt&quot;&gt;Licensing information&lt;/a&gt;&lt;/p&gt;
 </source>
-        <translation>&lt;p&gt;&lt;a href=&quot;info://doc/licenses/license.txt&quot;&gt;Информация об авторских правах и лицензировании&lt;/a&gt;&lt;/p&gt;
+        <translation>&lt;p&gt;&lt;a href=&quot;info://doc/licenses/license.txt&quot;&gt;Информация о лицензировании&lt;/a&gt;&lt;/p&gt;
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="503"/>
+        <location filename="../mainwindow.cpp" line="504"/>
         <source>Build information</source>
         <translation>Информация о сборке</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="507"/>
+        <location filename="../mainwindow.cpp" line="508"/>
         <source>Platform</source>
         <translation>Платформа</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="508"/>
+        <location filename="../mainwindow.cpp" line="509"/>
         <source>Compiler</source>
         <translation>Компилятор</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="510"/>
+        <location filename="../mainwindow.cpp" line="511"/>
         <source>Commit hash</source>
         <translation>Хеш коммита</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="511"/>
+        <location filename="../mainwindow.cpp" line="512"/>
         <source>Commit timestamp</source>
         <translation>Дата/время коммита</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="556"/>
+        <location filename="../mainwindow.cpp" line="557"/>
         <source>Press %1 to exit full screen mode</source>
         <translation>Нажмите %1 для выхода из полноэкранного режима</translation>
     </message>
@@ -413,7 +417,7 @@
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="400"/>
-        <location filename="../mainwindow.cpp" line="475"/>
+        <location filename="../mainwindow.cpp" line="476"/>
         <source>Lua interpreter is busy</source>
         <translation>Интерпретатор Lua занят</translation>
     </message>
@@ -514,33 +518,40 @@
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="464"/>
-        <source>Copyright © 2015-2021 by Microproject LLC
+        <source>&lt;p&gt;Copyright © 2015-2022 Simple Device Model contributors&lt;/p&gt;
 </source>
-        <translation>© ООО «Микропроект», 2015-2021
+        <translation>&lt;p&gt;© Авторы Simple Device Model, 2015-2022&lt;/p&gt;
 </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="478"/>
+        <location filename="../mainwindow.cpp" line="466"/>
+        <source>&lt;p&gt;&lt;a href=&quot;info://doc/contributors.txt&quot;&gt;List of contributors&lt;/a&gt;&lt;/p&gt;
+</source>
+        <translation>&lt;p&gt;&lt;a href=&quot;info://doc/contributors.txt&quot;&gt;Перечень авторов&lt;/a&gt;&lt;/p&gt;
+</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="479"/>
         <source>Cannot open script file &quot;</source>
         <translation>Невозможно открыть файл скрипта &quot;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="506"/>
+        <location filename="../mainwindow.cpp" line="507"/>
         <source>Version</source>
         <translation>Версия</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="509"/>
+        <location filename="../mainwindow.cpp" line="510"/>
         <source>Toolkit version</source>
         <translation>Версия инструментария</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="568"/>
+        <location filename="../mainwindow.cpp" line="569"/>
         <source>Lua status: Busy</source>
         <translation>Интерпретатор Lua: Занят</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="569"/>
+        <location filename="../mainwindow.cpp" line="570"/>
         <source>Lua status: Ready</source>
         <translation>Интерпретатор Lua: Готов</translation>
     </message>
@@ -664,18 +675,18 @@
         <location filename="../docpanels.cpp" line="625"/>
         <location filename="../mainwindow.cpp" line="396"/>
         <location filename="../mainwindow.cpp" line="422"/>
-        <location filename="../mainwindow.cpp" line="485"/>
-        <location filename="../mainwindow.cpp" line="518"/>
+        <location filename="../mainwindow.cpp" line="486"/>
+        <location filename="../mainwindow.cpp" line="519"/>
         <location filename="../openplugindialog.cpp" line="207"/>
         <location filename="../propertyeditor.cpp" line="138"/>
         <location filename="../propertyeditor.cpp" line="155"/>
-        <location filename="../registerconfigdialog.cpp" line="135"/>
-        <location filename="../registerconfigdialog.cpp" line="144"/>
-        <location filename="../registerconfigdialog.cpp" line="261"/>
-        <location filename="../registerconfigdialog.cpp" line="487"/>
-        <location filename="../registerconfigdialog.cpp" line="501"/>
-        <location filename="../registerconfigdialog.cpp" line="533"/>
-        <location filename="../registerconfigdialog.cpp" line="575"/>
+        <location filename="../registerconfigdialog.cpp" line="136"/>
+        <location filename="../registerconfigdialog.cpp" line="145"/>
+        <location filename="../registerconfigdialog.cpp" line="262"/>
+        <location filename="../registerconfigdialog.cpp" line="488"/>
+        <location filename="../registerconfigdialog.cpp" line="502"/>
+        <location filename="../registerconfigdialog.cpp" line="539"/>
+        <location filename="../registerconfigdialog.cpp" line="591"/>
         <location filename="../registermapwidget.cpp" line="167"/>
         <location filename="../registermapwidget.cpp" line="174"/>
         <location filename="../registermapwidget.cpp" line="190"/>
@@ -805,37 +816,37 @@
 <context>
     <name>RegisterActionPage</name>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="644"/>
+        <location filename="../registerconfigdialog.cpp" line="660"/>
         <source>Skip group write</source>
         <translation>Пропускать групповую запись</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="644"/>
+        <location filename="../registerconfigdialog.cpp" line="660"/>
         <source>Skip group read</source>
         <translation>Пропускать групповое чтение</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="646"/>
+        <location filename="../registerconfigdialog.cpp" line="662"/>
         <source>Use custom action</source>
         <translation>Пользовательское действие</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="714"/>
+        <location filename="../registerconfigdialog.cpp" line="730"/>
         <source>Show whitespace</source>
         <translation>Показывать пробелы</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="720"/>
+        <location filename="../registerconfigdialog.cpp" line="736"/>
         <source>Wrap words</source>
         <translation>Перенос по словам</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="727"/>
+        <location filename="../registerconfigdialog.cpp" line="743"/>
         <source>Font...</source>
         <translation>Шрифт...</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="733"/>
+        <location filename="../registerconfigdialog.cpp" line="749"/>
         <source>Tab width: </source>
         <translation>Табуляция: </translation>
     </message>
@@ -843,37 +854,37 @@
 <context>
     <name>RegisterConfigDialog</name>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="69"/>
+        <location filename="../registerconfigdialog.cpp" line="70"/>
         <source>Register properties</source>
         <translation>Свойства регистра</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="82"/>
+        <location filename="../registerconfigdialog.cpp" line="83"/>
         <source>General</source>
         <translation>Общие</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="86"/>
+        <location filename="../registerconfigdialog.cpp" line="87"/>
         <source>FIFO</source>
         <translation>FIFO</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="90"/>
+        <location filename="../registerconfigdialog.cpp" line="91"/>
         <source>Memory</source>
         <translation>Память</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="94"/>
+        <location filename="../registerconfigdialog.cpp" line="95"/>
         <source>Write action</source>
         <translation>Действие записи</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="96"/>
+        <location filename="../registerconfigdialog.cpp" line="97"/>
         <source>Read action</source>
         <translation>Действие чтения</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="150"/>
+        <location filename="../registerconfigdialog.cpp" line="151"/>
         <source>Discard unsaved changes?</source>
         <translation>Отказаться от несохранённых изменений?</translation>
     </message>
@@ -881,19 +892,19 @@
 <context>
     <name>RegisterMapEngine</name>
     <message>
-        <location filename="../registermapengine.cpp" line="54"/>
+        <location filename="../registermapengine.cpp" line="55"/>
         <source>Page %1</source>
         <translation>Страница %1</translation>
     </message>
     <message>
-        <location filename="../registermapengine.cpp" line="72"/>
-        <location filename="../registermapengine.cpp" line="85"/>
-        <location filename="../registermapengine.cpp" line="90"/>
+        <location filename="../registermapengine.cpp" line="73"/>
+        <location filename="../registermapengine.cpp" line="86"/>
+        <location filename="../registermapengine.cpp" line="91"/>
         <source>RegisterMapEngine: page doesn&apos;t exist</source>
         <translation>RegisterMapEngine: страница не существует</translation>
     </message>
     <message>
-        <location filename="../registermapengine.cpp" line="171"/>
+        <location filename="../registermapengine.cpp" line="172"/>
         <source>Page not selected</source>
         <translation>Страница не выбрана</translation>
     </message>
@@ -916,12 +927,12 @@
         <translation>Значение</translation>
     </message>
     <message>
-        <location filename="../registermaptable.cpp" line="70"/>
+        <location filename="../registermaptable.cpp" line="73"/>
         <source>RegisterMapTable: bad row index</source>
         <translation>RegisterMapTable: неправильный номер строки</translation>
     </message>
     <message>
-        <location filename="../registermaptable.cpp" line="99"/>
+        <location filename="../registermaptable.cpp" line="102"/>
         <source>Item doesn&apos;t exist</source>
         <translation>Элемент не существует</translation>
     </message>
@@ -1201,77 +1212,77 @@
 <context>
     <name>RegisterWidgetPage</name>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="185"/>
+        <location filename="../registerconfigdialog.cpp" line="186"/>
         <source>Text input</source>
         <translation>Текстовое поле ввода</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="187"/>
+        <location filename="../registerconfigdialog.cpp" line="188"/>
         <source>Drop-down list (uneditable)</source>
         <translation>Выпадающий список (нередактируемый)</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="189"/>
+        <location filename="../registerconfigdialog.cpp" line="190"/>
         <source>Combobox (editable)</source>
         <translation>Комбобокс (редактируемый)</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="191"/>
+        <location filename="../registerconfigdialog.cpp" line="192"/>
         <source>Push button (write-only)</source>
         <translation>Кнопка (только запись)</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="202"/>
+        <location filename="../registerconfigdialog.cpp" line="203"/>
         <source>Option</source>
         <translation>Параметр</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="202"/>
+        <location filename="../registerconfigdialog.cpp" line="203"/>
         <source>Value</source>
         <translation>Значение</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="215"/>
+        <location filename="../registerconfigdialog.cpp" line="216"/>
         <source>Add</source>
         <translation>Добавить</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="217"/>
+        <location filename="../registerconfigdialog.cpp" line="218"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="219"/>
+        <location filename="../registerconfigdialog.cpp" line="220"/>
         <source>Up</source>
         <translation>Выше</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="221"/>
+        <location filename="../registerconfigdialog.cpp" line="222"/>
         <source>Down</source>
         <translation>Ниже</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="242"/>
+        <location filename="../registerconfigdialog.cpp" line="243"/>
         <source>Widget type:</source>
         <translation>Тип виджета:</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="251"/>
+        <location filename="../registerconfigdialog.cpp" line="252"/>
         <source>Optional ID: </source>
         <translation>Идентификатор (необязательно): </translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="262"/>
+        <location filename="../registerconfigdialog.cpp" line="263"/>
         <source>Push button widget can only have one option</source>
         <translation>Виджет типа «кнопка» может иметь только одну опцию</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="311"/>
+        <location filename="../registerconfigdialog.cpp" line="312"/>
         <source>At least one option must be present</source>
         <translation>Должна присутствовать хотя бы одна опция</translation>
     </message>
     <message>
-        <location filename="../registerconfigdialog.cpp" line="339"/>
+        <location filename="../registerconfigdialog.cpp" line="340"/>
         <source>Row %1: bad option or value</source>
         <translation>Строка %1: неправильный параметр или значение</translation>
     </message>

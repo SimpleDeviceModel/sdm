@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2021 by Microproject LLC
+ * Copyright (c) 2015-2022 Simple Device Model contributors
  * 
  * This file is part of the Simple Device Model (SDM) framework.
  * 
@@ -176,9 +176,19 @@ private:
 	template <typename T2> static QVariant toStringVariant(const T2 &value,int base) {
 		QString res;
 		QTextStream ts(&res);
-		ts.setIntegerBase(base);
-		ts.setNumberFlags(QTextStream::ShowBase|QTextStream::UppercaseDigits);
-		ts<<value;
+		if(base==16) {
+			ts<<"0x";
+			ts.setIntegerBase(16);
+			ts.setNumberFlags(QTextStream::UppercaseDigits);
+			ts.setFieldWidth(2*sizeof(T2));
+			ts.setPadChar('0');
+			ts<<value;
+		}
+		else {
+			ts.setIntegerBase(base);
+			ts.setNumberFlags(QTextStream::ShowBase|QTextStream::UppercaseDigits);
+			ts<<value;
+		}
 		if(ts.status()!=QTextStream::Ok) return QVariant();
 		return res;
 	}
