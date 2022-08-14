@@ -27,25 +27,29 @@
 
 #include "sdmprovider.h"
 
+#include <climits>
+
 /*
  * SDMAbstractChannel members
  */
 
 int SDMAbstractChannel::writeFIFO(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n,int) {
+	if(n>INT_MAX) n=INT_MAX;
 	for(std::size_t i=0;i<n;i++) {
 		int r=writeReg(addr,data[i]);
 		if(r) return SDM_ERROR;
 	}
-	return 0;
+	return static_cast<int>(n);
 }
 
 int SDMAbstractChannel::readFIFO(sdm_addr_t addr,sdm_reg_t *data,std::size_t n,int) {
+	if(n>INT_MAX) n=INT_MAX;
 	for(std::size_t i=0;i<n;i++) {
 		int status;
 		data[i]=readReg(addr,&status);
 		if(status) return SDM_ERROR;
 	}
-	return 0;
+	return static_cast<int>(n);
 }
 
 int SDMAbstractChannel::writeMem(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n) {
