@@ -102,7 +102,7 @@ void RegisterMapWorker::executeCommand(const Command &cmd) try {
 			AppWideLock::lock_t lock=AppWideLock::guiLock();
 			if(fifo.usePreWrite) _channel->writeReg(fifo.preWriteAddr,fifo.preWriteData);
 			if(cmd.data.type==RegisterMap::Fifo)
-				_channel->writeFIFO(cmd.data.addr,fifo.data.data(),fifo.data.size(),SDMChannel::Normal);
+				_channel->writeFIFO(cmd.data.addr,fifo.data.data(),fifo.data.size());
 			else // memory
 				_channel->writeMem(cmd.data.addr,fifo.data.data(),fifo.data.size());
 		}
@@ -132,7 +132,7 @@ void RegisterMapWorker::executeCommand(const Command &cmd) try {
 			AppWideLock::lock_t lock=AppWideLock::guiLock();
 			if(fifo.usePreWrite) _channel->writeReg(fifo.preWriteAddr,fifo.preWriteData);
 			if(cmd.data.type==RegisterMap::Fifo)
-				_channel->readFIFO(cmd.data.addr,d.fifo.data.data(),d.fifo.data.size(),SDMChannel::Normal);
+				_channel->readFIFO(cmd.data.addr,d.fifo.data.data(),d.fifo.data.size());
 			else // memory
 				_channel->readMem(cmd.data.addr,d.fifo.data.data(),d.fifo.data.size());
 		}

@@ -61,16 +61,9 @@ public:
 };
 
 class TestChannel : public SDMAbstractChannel {
-	struct FifoItem {
-		sdm_reg_t word;
-		bool sop;
-		FifoItem(): word(0),sop(false) {}
-		FifoItem(sdm_reg_t w, bool b): word(w),sop(b) {}
-	};
-	
 	int _id;
 	sdm_reg_t _regs[256] {};
-	std::deque<FifoItem> _fifo0;
+	std::deque<sdm_reg_t> _fifo0;
 	bool _fifo0_next=false;
 	const bool &_connected;
 public:
