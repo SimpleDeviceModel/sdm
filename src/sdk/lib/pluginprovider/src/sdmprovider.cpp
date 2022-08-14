@@ -39,6 +39,8 @@ int SDMAbstractChannel::writeFIFO(sdm_addr_t addr,const sdm_reg_t *data,std::siz
 		int r=writeReg(addr,data[i]);
 		if(r) return SDM_ERROR;
 	}
+// Any non-negative return value indicates success. Here we
+// return n for compatibility with older SDM versions.
 	return static_cast<int>(n);
 }
 
@@ -49,6 +51,8 @@ int SDMAbstractChannel::readFIFO(sdm_addr_t addr,sdm_reg_t *data,std::size_t n,i
 		data[i]=readReg(addr,&status);
 		if(status) return SDM_ERROR;
 	}
+// Any non-negative return value indicates success. Here we
+// return n for compatibility with older SDM versions.
 	return static_cast<int>(n);
 }
 
