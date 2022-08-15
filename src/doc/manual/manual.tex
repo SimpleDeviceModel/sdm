@@ -1449,7 +1449,7 @@ device["IPaddress"]="127.0.0.1"
 \end{funcparams}
 
 \begin{funcremarks}
-	FIFO represents a memory block mapped to a single register address. Calling \luaexpr{writefifo()} can be more efficient than calling \luaexpr{writereg()} multiple times depending on how the plugin is implemented.
+	FIFO is a memory block mapped to a single register address. Calling \luaexpr{writefifo()} can be more efficient than calling \luaexpr{writereg()} multiple times depending on how the plugin is implemented.
 \end{funcremarks}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1470,7 +1470,7 @@ device["IPaddress"]="127.0.0.1"
 \end{funcparams}
 
 \begin{funcremarks}
-	FIFO represents a memory block mapped to a single register address. Calling \luaexpr{readfifo()} can be more efficient than calling \luaexpr{readreg()} multiple times depending on how the plugin is implemented.
+	FIFO is a memory block mapped to a single register address. Calling \luaexpr{readfifo()} can be more efficient than calling \luaexpr{readreg()} multiple times depending on how the plugin is implemented.
 \end{funcremarks}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1491,7 +1491,7 @@ device["IPaddress"]="127.0.0.1"
 \end{funcparams}
 
 \begin{funcremarks}
-	A memory block is a block of consecutive registers. Calling \luaexpr{writemem()} can be more efficient than calling \luaexpr{writereg()} multiple times depending on how the plugin is implemented.
+	Calling \luaexpr{writemem()} can be more efficient than calling \luaexpr{writereg()} multiple times depending on how the plugin is implemented.
 \end{funcremarks}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1516,7 +1516,7 @@ device["IPaddress"]="127.0.0.1"
 \end{funcret}
 
 \begin{funcremarks}
-	A memory block is a block of consecutive registers. Calling \luaexpr{readmem()} can be more efficient than calling \luaexpr{readreg()} multiple times depending on how the plugin is implemented.
+	Calling \luaexpr{readmem()} can be more efficient than calling \luaexpr{readreg()} multiple times depending on how the plugin is implemented.
 \end{funcremarks}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -5447,11 +5447,11 @@ SDMAPI int SDMCALL sdmWriteFIFO(void *h, sdm_addr_t addr, const sdm_reg_t *data,
 \end{funcparams}
 
 \begin{funcret}
-	Returns a non-negative value if successful, a negative value otherwise. Note: it used to be required that this function returns the number of words written, but it is no longer necessary.
+	Returns a non-negative value if successful, a negative value otherwise. Note: plugins should return the number of words written if compatibility with SDM $\le$ 1.0.5 is required.
 \end{funcret}
 
 \begin{funcremarks}
-	FIFO represents a memory block that is mapped to a single register address. Writing to a FIFO is conceptually equivalent to performing a set of ordinary register writes in sequence, but can be more efficient for devices supporting block transactions.
+	FIFO is a memory block that is mapped to a single register address. Writing to a FIFO is conceptually equivalent to performing a series of ordinary register writes, but can be more efficient for devices supporting block transactions.
 \end{funcremarks}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -5477,11 +5477,11 @@ SDMAPI int SDMCALL sdmReadFIFO(void *h, sdm_addr_t addr, sdm_reg_t *data, size_t
 \end{funcparams}
 
 \begin{funcret}
-	Returns a non-negative value if successful, a negative value otherwise. Note: it used to be required that this function returns the number of words read, but it is no longer necessary.
+	Returns a non-negative value if successful, a negative value otherwise. Note: plugins should return the number of words read if compatibility with SDM $\le$ 1.0.5 is required.
 \end{funcret}
 
 \begin{funcremarks}
-	FIFO represents a memory block that is mapped to a single register address. Reading from a FIFO is conceptually equivalent to performing a set of ordinary register reads in sequence, but can be more efficient for devices supporting block transactions.
+	FIFO is a memory block that is mapped to a single register address. Reading from a FIFO is conceptually equivalent to performing a series of ordinary register reads, but can be more efficient for devices supporting block transactions.
 \end{funcremarks}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -5510,7 +5510,7 @@ SDMAPI int SDMCALL sdmWriteMem(void *h, sdm_addr_t addr, const sdm_reg_t *data, 
 \end{funcret}
 
 \begin{funcremarks}
-	Writing to memory is conceptually equivalent to performing a set of register writes with incrementing addresses, but can be more efficient for devices supporting block transactions. Depending on address granularity, the address can be incremented by a value other than 1.
+	Writing to memory is conceptually equivalent to performing a series of register writes with incrementing addresses, but can be more efficient for devices supporting block transactions. Depending on address granularity, the address can be incremented by a value other than 1.
 \end{funcremarks}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -5539,7 +5539,7 @@ SDMAPI int SDMCALL sdmReadMem(void *h, sdm_addr_t addr, sdm_reg_t *data, size_t 
 \end{funcret}
 
 \begin{funcremarks}
-	Reading from memory is conceptually equivalent to performing a set of register reads with incrementing addresses, but can be more efficient for devices supporting block transactions. Depending on address granularity, the address can be incremented by a value other than 1.
+	Reading from memory is conceptually equivalent to performing a series of register reads with incrementing addresses, but can be more efficient for devices supporting block transactions. Depending on address granularity, the address can be incremented by a value other than 1.
 \end{funcremarks}
 
 \section{Source functions}
