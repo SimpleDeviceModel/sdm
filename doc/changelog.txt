@@ -1,4 +1,23 @@
 ========================
+SDM 1.0.5
+------------------------
+Released on 2022-06-26
+========================
+
+sdmconsole changes:
+
+* user settings directory name changed (Microproject -> Simple Device Model)
+* data from register map memories can now be exported/imported in hexadecimal format in addition to CSV
+* always use full 32-bit width to display hexadecimal values in the register map
+* default tab stop width changed from 8 to 4
+
+Scripting API changes:
+
+* don't create multiple instances of the same plugin
+* sdm.info() now generates an error when a non-existent field is requested
+* a new method, sdm.findobject(), to find an SDM object by name (and, optionally, type)
+
+========================
 SDM 1.0.4
 ------------------------
 Released on 2022-02-08

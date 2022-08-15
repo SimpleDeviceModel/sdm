@@ -25,14 +25,6 @@
 
 #include <stdexcept>
 
-const SDMChannel::Flags SDMChannel::Normal=0;
-const SDMChannel::Flags SDMChannel::NonBlocking=1;
-const SDMChannel::Flags SDMChannel::AllowPartial=2;
-const SDMChannel::Flags SDMChannel::StartOfPacket=4;
-const SDMChannel::Flags SDMChannel::NextPacket=8;
-
-const int SDMChannel::WouldBlock=SDM_WOULDBLOCK;
-
 /*
  * SDMChannelImpl definition
  */
@@ -61,8 +53,8 @@ public:
 	
 	void writeReg(sdm_addr_t addr,sdm_reg_t data);
 	sdm_reg_t readReg(sdm_addr_t addr);
-	int writeFIFO(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n,SDMChannel::Flags flags);
-	int readFIFO(sdm_addr_t addr,sdm_reg_t *data,std::size_t n,SDMChannel::Flags flags);
+	void writeFIFO(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n);
+	void readFIFO(sdm_addr_t addr,sdm_reg_t *data,std::size_t n);
 	void writeMem(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n);
 	void readMem(sdm_addr_t addr,sdm_reg_t *data,std::size_t n);
 	
@@ -107,49 +99,14 @@ sdm_reg_t SDMChannelImpl::readReg(sdm_addr_t addr) {
 	return val;
 }
 
-int SDMChannelImpl::writeFIFO(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n,SDMChannel::Flags flags) {
-	int f=0;
-	if(flags&SDMChannel::NonBlocking) f|=SDM_FLAG_NONBLOCKING;
-	if(flags&SDMChannel::StartOfPacket) f|=SDM_FLAG_START;
-	
-	if(flags&SDMChannel::NonBlocking||flags&SDMChannel::AllowPartial||n==0) {
-		int r=_pf.ptrWriteFIFO(_hChannel,addr,data,n,f);
-		if(r==SDM_WOULDBLOCK) return SDMChannel::WouldBlock;
-		if(r<0) throw sdmplugin_error("sdmWriteFIFO",r);
-		return r;
-	}
-	else { // write all data in a blocking manner
-		std::size_t wordsWritten=0;
-		while(wordsWritten<n) {
-			int r=_pf.ptrWriteFIFO(_hChannel,addr,data+wordsWritten,n-wordsWritten,f);
-			if(r<=0) throw sdmplugin_error("sdmWriteFIFO",r); // can't return zero in blocking mode
-			wordsWritten+=r;
-		}
-		return static_cast<int>(wordsWritten);
-	}
+void SDMChannelImpl::writeFIFO(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n) {
+	int r=_pf.ptrWriteFIFO(_hChannel,addr,data,n,0);
+	if(r<0) throw sdmplugin_error("sdmWriteFIFO",r);
 }
 
-int SDMChannelImpl::readFIFO(sdm_addr_t addr,sdm_reg_t *data,std::size_t n,SDMChannel::Flags flags) {
-	int f=0;
-	if(flags&SDMChannel::NonBlocking) f|=SDM_FLAG_NONBLOCKING;
-	if(flags&SDMChannel::NextPacket) f|=SDM_FLAG_NEXT;
-	
-	if(flags&SDMChannel::NonBlocking||flags&SDMChannel::AllowPartial||n==0) {
-		int r=_pf.ptrReadFIFO(_hChannel,addr,data,n,f);
-		if(r==SDM_WOULDBLOCK) return SDMChannel::WouldBlock;
-		if(r<0) throw sdmplugin_error("sdmReadFIFO",r);
-		return r;
-	}
-	else { // read all data in a blocking manner
-		std::size_t wordsRead=0;
-		while(wordsRead<n) {
-			int r=_pf.ptrReadFIFO(_hChannel,addr,data+wordsRead,n-wordsRead,f);
-			if(r<0) throw sdmplugin_error("sdmWriteFIFO",r);
-			if(r==0) break; // end of packet
-			wordsRead+=r;
-		}
-		return static_cast<int>(wordsRead);
-	}
+void SDMChannelImpl::readFIFO(sdm_addr_t addr,sdm_reg_t *data,std::size_t n) {
+	int r=_pf.ptrReadFIFO(_hChannel,addr,data,n,0);
+	if(r<0) throw sdmplugin_error("sdmReadFIFO",r);
 }
 
 void SDMChannelImpl::writeMem(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n) {
@@ -224,12 +181,12 @@ sdm_reg_t SDMChannel::readReg(sdm_addr_t addr) {
 	return impl().readReg(addr);
 }
 
-int SDMChannel::writeFIFO(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n,Flags flags) {
-	return impl().writeFIFO(addr,data,n,flags);
+void SDMChannel::writeFIFO(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n) {
+	return impl().writeFIFO(addr,data,n);
 }
 
-int SDMChannel::readFIFO(sdm_addr_t addr,sdm_reg_t *data,std::size_t n,Flags flags) {
-	return impl().readFIFO(addr,data,n,flags);
+void SDMChannel::readFIFO(sdm_addr_t addr,sdm_reg_t *data,std::size_t n) {
+	return impl().readFIFO(addr,data,n);
 }
 
 void SDMChannel::writeMem(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n) {
