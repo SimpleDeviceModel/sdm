@@ -29,9 +29,12 @@
 #include "u8ecodec.h"
 #include "textconsole.h"
 #include "luaiterator.h"
+#include "dirutil.h"
 
 #ifdef LINENOISE_SUPPORTED
 #include "linenoise.h"
+#include <sys/stat.h>
+#include <sys/types.h>
 #endif
 
 #include <exception>
@@ -176,7 +179,13 @@ try
 		
 #ifdef LINENOISE_SUPPORTED
 		bool useLinenoise=u8e::isLocaleUtf8(); // linenoise-ng will only work for UTF8
-		if(useLinenoise) linenoiseHistorySetMaxLen(100);
+		auto const &historyPath=Path::home()+".config/Simple Device Model/sdmhost.log";
+		bool historyLoaded=false;
+		if(useLinenoise) {
+			linenoiseHistorySetMaxLen(500);
+			int r=linenoiseHistoryLoad(historyPath.str().c_str());
+			if(!r) historyLoaded=true;
+		}
 #endif
 		
 		while(!console.quit()) {
@@ -203,6 +212,16 @@ try
 #endif
 			console.consoleCommand(strLine);
 		}
+		
+#ifdef LINENOISE_SUPPORTED
+		if(useLinenoise) {
+			if(!historyLoaded) {
+				mkdir((Path::home()+".config").str().c_str(),0777);
+				mkdir((Path::home()+".config/Simple Device Model").str().c_str(),0777);
+				linenoiseHistorySave(historyPath.str().c_str());
+			}
+		}
+#endif
 	}
 	
 	return 0;
