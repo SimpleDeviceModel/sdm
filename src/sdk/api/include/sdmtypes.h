@@ -116,16 +116,6 @@ typedef double sdm_sample_t;
 #define SDM_USERERROR -1000         /* User defined error */
 
 /********************************************************************
- * Other constants
- *******************************************************************/
-
-/* sdmWriteFIFO() / sdmReadFIFO() / sdmReadStream() flags */
-
-#define SDM_FLAG_NONBLOCKING 1
-#define SDM_FLAG_START 2
-#define SDM_FLAG_NEXT 4
-
-/********************************************************************
  * Function pointer types for import with LoadLibrary()/dlopen()
  *******************************************************************/
 

@@ -165,17 +165,6 @@ public:
 // Control channel class
 
 class SDMChannel : virtual public SDMBase {
-public:
-	typedef SafeFlags<SDMChannel> Flags;
-	
-	static const Flags Normal;
-	static const Flags NonBlocking;
-	static const Flags AllowPartial;
-	static const Flags StartOfPacket;
-	static const Flags NextPacket;
-	
-	static const int WouldBlock;
-private:
 	std::shared_ptr<SDMChannelImpl> _impl;
 	
 	SDMChannelImpl &impl();
@@ -199,8 +188,8 @@ public:
 	
 	virtual void writeReg(sdm_addr_t addr,sdm_reg_t data);
 	virtual sdm_reg_t readReg(sdm_addr_t addr);
-	virtual int writeFIFO(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n,Flags flags=Normal);
-	virtual int readFIFO(sdm_addr_t addr,sdm_reg_t *data,std::size_t n,Flags flags=Normal);
+	virtual void writeFIFO(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n);
+	virtual void readFIFO(sdm_addr_t addr,sdm_reg_t *data,std::size_t n);
 	virtual void writeMem(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n);
 	virtual void readMem(sdm_addr_t addr,sdm_reg_t *data,std::size_t n);
 	

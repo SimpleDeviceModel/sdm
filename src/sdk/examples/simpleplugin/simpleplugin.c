@@ -299,14 +299,11 @@ SDMAPI int SDMCALL sdmWriteFIFO(void *h,sdm_addr_t addr,const sdm_reg_t *data,si
 	
 	if(n>INT_MAX) n=INT_MAX; /* it is allowed to write less than n words */
 	
-/* Note: to simplify things, we emulate a FIFO that never blocks
-   and doesn't support packets. */
-	
 	for(i=0;i<n;i++) {
 		r=sdmWriteReg(h,addr,data[i]);
 		if(r<0) return r;
 	}
-	return (int)n;
+	return 0;
 }
 
 /* Read data from a FIFO (all words are read from a single address) */
@@ -319,14 +316,11 @@ SDMAPI int SDMCALL sdmReadFIFO(void *h,sdm_addr_t addr,sdm_reg_t *data,size_t n,
 	
 	if(n>INT_MAX) n=INT_MAX; /* it is allowed to read less than n words */
 	
-/* Note: to simplify things, we emulate a FIFO that never blocks
-   and doesn't support packets. */
-	
 	for(i=0;i<n;i++) {
 		data[i]=sdmReadReg(h,addr,&status);
 		if(status<0) return status;
 	}
-	return (int)n;
+	return 0;
 }
 
 /* Write data to memory (address is incremented automatically) */
