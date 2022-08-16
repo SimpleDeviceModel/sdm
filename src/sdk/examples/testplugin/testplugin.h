@@ -64,7 +64,6 @@ class TestChannel : public SDMAbstractChannel {
 	int _id;
 	sdm_reg_t _regs[256] {};
 	std::deque<sdm_reg_t> _fifo0;
-	bool _fifo0_next=false;
 	const bool &_connected;
 public:
 	TestChannel(int id,const bool &connected);
