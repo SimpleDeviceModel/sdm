@@ -31,6 +31,7 @@
 #else
 	#include <unistd.h>
 	#include <limits.h>
+	#include <sys/stat.h>
 	#include <sys/types.h>
 	#include <pwd.h>
 #endif
@@ -138,6 +139,13 @@ int Path::count() const {
 
 #ifdef _WIN32
 
+void Path::mkdir() const {
+	auto const &abs=toAbsolute();
+	if(abs.count()>2) abs.up().mkdir();
+	u8e::WCodec codec(u8e::UTF8);
+	CreateDirectoryW(codec.transcode(abs.str()).c_str(),nullptr);
+}
+
 Path Path::exePath() {
 	std::vector<wchar_t> moduleName(1024);
 	
@@ -183,6 +191,13 @@ Path Path::home() {
 }
 
 #else
+
+void Path::mkdir() const {
+	auto const &abs=toAbsolute();
+	if(abs.count()>2) abs.up().mkdir();
+	u8e::Codec codec(u8e::UTF8,u8e::LocalMB);
+	::mkdir(codec.transcode(abs.str()).c_str(),0777);
+}
 
 Path Path::exePath() {
 	u8e::Codec codec(u8e::LocalMB,u8e::UTF8);

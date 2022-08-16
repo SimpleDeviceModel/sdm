@@ -442,6 +442,10 @@ namespace u8e {
 	void Codec::reset() {
 		_pimpl->reset();
 	}
+	
+	bool isLocaleUtf8() {
+		return false;
+	}
 }
 
 /*
