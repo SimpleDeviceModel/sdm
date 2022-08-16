@@ -58,7 +58,6 @@ public:
 	static Path exePath();
 	static Path current();
 	static Path home();
-	static Path appConfigDir();
 private:
 	void normalize();
 	

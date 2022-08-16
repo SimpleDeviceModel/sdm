@@ -31,6 +31,9 @@
 
 #ifdef _WIN32
 	#define SHARED_EXT "dll"
+	#define WIN32_LEAN_AND_MEAN
+	#include <windows.h>
+	#include <shlobj.h>
 #else
 	#define SHARED_EXT "so"
 #endif
@@ -109,6 +112,26 @@ Path Config::scriptsDir() {
 Path Config::dataDir() {
 	return installPrefix()+DATA_INSTALL_DIR;
 }
+
+#ifdef _WIN32
+
+Path Config::appConfigDir() {
+	std::vector<wchar_t> buf(MAX_PATH+1);
+	auto r=SHGetFolderPathW(NULL,CSIDL_APPDATA,NULL,SHGFP_TYPE_CURRENT,buf.data());
+	if(r!=S_OK) { // something is wrong, return the default location
+		return Path::home()+"AppData\\Roaming\\Simple Device Model";
+	}
+	u8e::WCodec codec(u8e::UTF8);
+	return Path(codec.transcode(buf.data()))+"Simple Device Model";
+}
+
+#else
+
+Path Path::appConfigDir() {
+	return Path::home()+".config/Simple Device Model";
+}
+
+#endif
 
 /*
  * SDM represents file names in UTF-8, but Lua won't handle it.

@@ -240,10 +240,6 @@ Path Path::home() {
 	return Path(codec.transcode(initialHomeDir));
 }
 
-Path Path::appConfigDir() {
-	return home()+".config/Simple Device Model";
-}
-
 #endif
 
 void Path::normalize() {

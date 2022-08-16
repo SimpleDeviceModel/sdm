@@ -178,7 +178,7 @@ try
 #ifdef LINENOISE_SUPPORTED
 // linenoise-ng will only work for UTF8 locales
 		bool useLinenoise=u8e::isLocaleUtf8();
-		Path historyPath=Path::appConfigDir()+"sdmhost.log";
+		Path historyPath=Config::appConfigDir()+"sdmhost.log";
 		bool historyLoaded=false;
 		if(useLinenoise) {
 			linenoiseHistorySetMaxLen(1000);
@@ -214,7 +214,7 @@ try
 		
 #ifdef LINENOISE_SUPPORTED
 		if(useLinenoise) {
-			if(!historyLoaded) Path::appConfigDir().mkdir();
+			if(!historyLoaded) Config::appConfigDir().mkdir();
 			linenoiseHistorySave(historyPath.str().c_str());
 		}
 #endif
