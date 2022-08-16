@@ -52,11 +52,13 @@ public:
 // Counts number of downward components in the path
 // root directory is counted as a distinct component, ".." - as (-1)
 	int count() const;
+	void mkdir() const;
 	
 	static char sep();
 	static Path exePath();
 	static Path current();
 	static Path home();
+	static Path appConfigDir();
 private:
 	void normalize();
 	

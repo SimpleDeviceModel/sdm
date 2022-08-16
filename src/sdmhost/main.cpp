@@ -33,8 +33,6 @@
 
 #ifdef LINENOISE_SUPPORTED
 #include "linenoise.h"
-#include <sys/stat.h>
-#include <sys/types.h>
 #endif
 
 #include <exception>
@@ -178,11 +176,12 @@ try
 		std::string strLine;
 		
 #ifdef LINENOISE_SUPPORTED
-		bool useLinenoise=u8e::isLocaleUtf8(); // linenoise-ng will only work for UTF8
-		auto const &historyPath=Path::home()+".config/Simple Device Model/sdmhost.log";
+// linenoise-ng will only work for UTF8 locales
+		bool useLinenoise=u8e::isLocaleUtf8();
+		Path historyPath=Path::appConfigDir()+"sdmhost.log";
 		bool historyLoaded=false;
 		if(useLinenoise) {
-			linenoiseHistorySetMaxLen(500);
+			linenoiseHistorySetMaxLen(1000);
 			int r=linenoiseHistoryLoad(historyPath.str().c_str());
 			if(!r) historyLoaded=true;
 		}
@@ -215,11 +214,8 @@ try
 		
 #ifdef LINENOISE_SUPPORTED
 		if(useLinenoise) {
-			if(!historyLoaded) {
-				mkdir((Path::home()+".config").str().c_str(),0777);
-				mkdir((Path::home()+".config/Simple Device Model").str().c_str(),0777);
-				linenoiseHistorySave(historyPath.str().c_str());
-			}
+			if(!historyLoaded) Path::appConfigDir().mkdir();
+			linenoiseHistorySave(historyPath.str().c_str());
 		}
 #endif
 	}
