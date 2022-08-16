@@ -127,7 +127,7 @@ Path Config::appConfigDir() {
 
 #else
 
-Path Path::appConfigDir() {
+Path Config::appConfigDir() {
 	return Path::home()+".config/Simple Device Model";
 }
 
