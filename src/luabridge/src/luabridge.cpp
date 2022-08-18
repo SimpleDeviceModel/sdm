@@ -304,6 +304,9 @@ int LuaBridge::LuaMethod_path(LuaServer &lua) {
 	else if(arg=="homedir") {
 		lua.pushValue(Path::home().str());
 	}
+	else if(arg=="appconfigdir") {
+		lua.pushValue(Config::appConfigDir().str());
+	}
 	else if(arg=="currentscript"||arg=="currentscriptdir") {
 		auto const &chunkName=lua.currentChunkName();
 		if(chunkName.empty()||chunkName[0]!='@') lua.pushValue(LuaValue());
