@@ -1,4 +1,13 @@
 ========================
+SDM 1.0.6
+------------------------
+Released on 2022-08-28
+========================
+
+* removed unnecessarily complex features from the SDM channel FIFO API
+* use linenoise-ng line editing library on Linux (can be disabled via a build option)
+
+========================
 SDM 1.0.5
 ------------------------
 Released on 2022-06-26
