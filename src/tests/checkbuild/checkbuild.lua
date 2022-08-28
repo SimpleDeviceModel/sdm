@@ -62,7 +62,7 @@ cmake_options={}
 
 if ostype=="windows" then
 	deltree_cmd="for /d %i in (build_*) do rd /s /q %i"
-	toolchains={"mingw32","mingw64","msvc12_32","msvc12_64","msvc14_32","msvc14_64"}
+	toolchains={"mingw32","mingw64","msvc12_32","msvc12_64"}
 
 else
 	deltree_cmd="rm -rf build_*"
