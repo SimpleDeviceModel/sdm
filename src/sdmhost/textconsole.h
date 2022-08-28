@@ -26,13 +26,15 @@
 #include "luaconsole.h"
 
 class TextConsole : public LuaConsole {
+	std::string _prompt;
 	bool q;
 	bool nl;
 	
 public:
 	TextConsole(LuaServer &l);
 	
-	bool quit() {return q;}
+	bool quit() const {return q;}
+	std::string prompt() const {return _prompt;}
 	virtual void consoleCommand(const std::string &cmd);
 
 	virtual void consoleQuit() {q=true;}

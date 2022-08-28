@@ -47,6 +47,8 @@ namespace Config {
 	Path translationsDir();
 	Path scriptsDir();
 	Path dataDir();
+	
+	Path appConfigDir();
 
 	std::string luaModulePath();
 	std::string luaCModulePath(const std::string &versionSuffix="");

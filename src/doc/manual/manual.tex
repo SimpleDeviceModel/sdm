@@ -212,13 +212,15 @@ Option & Description \\
 
 \shellcmd{OPTION\_NO\_LUAMODULES} & Skip building optional Lua modules. \\
 
-\shellcmd{OPTION\_NO\_QT} & Don't use Qt. Targets dependent on Qt (such as \shellcmd{sdmconsole}) won't be built. \\
+\shellcmd{OPTION\_NO\_QT} & Don't use Qt. \shellcmd{sdmconsole} won't be built. \\
 
 \shellcmd{OPTION\_USE\_VCREDIST} & When building the installer package, deploy the Microsoft Visual \cplusplus{} Runtime using \shellcmd{vcredist\_*.exe} (MSVC only). Default is \shellcmd{OFF} for Microsoft Visual Studio 2013, \shellcmd{ON} for later versions. See also Subsection \ref{subsec:wininstaller}. \\
 
 \shellcmd{OPTION\_VALGRIND} & Enable using \shellcmd{valgrind} by the test suite to track memory leaks (Linux only). \\
 
-\shellcmd{OPTION\_NO\_ICONS} & Skip installation of desktop entries (Linux only). \\
+\shellcmd{OPTION\_NO\_ICONS} & Don't install desktop entries (Linux only). \\
+
+\shellcmd{OPTION\_NO\_LINENOISE} & Don't use the linenoise line editing library for sdmhost (Linux only). \\
 
 \midrule
 \tabcutin{2}{SDM specific variables}\\
@@ -916,6 +918,7 @@ sdm.info(key)
 	\begin{itemize}
 		\item \luaexpr{"currentdir"}: current directory;
 		\item \luaexpr{"homedir"}: home directory of the current user;
+		\item \luaexpr{"appconfigdir"}: SDM framework configuration directory;
 		\item \luaexpr{"currentscript"}: a path to the currently executed script, or \luaexpr{nil} if it cannot be obtained;
 		\item \luaexpr{"currentscriptdir"}: a path to the directory containing the currently executed script, or \luaexpr{nil} if it cannot be obtained;
 		\item \luaexpr{"program"}: a path to the host program executable (e.g. \shellcmd{sdmhost} or \shellcmd{sdmconsole});
@@ -1436,7 +1439,7 @@ device["IPaddress"]="127.0.0.1"
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{luafuncprototype}
-\emph{channel}.writefifo(addr, data [, flags])
+\emph{channel}.writefifo(addr, data)
 \end{luafuncprototype}
 
 \begin{funcdescr}
@@ -1446,25 +1449,10 @@ device["IPaddress"]="127.0.0.1"
 \begin{funcparams}
 	\funcparam{addr} (\luatype{integer}): register address
 	\funcparam{data} (\luatype{table}): data to write (table of integers)
-	\funcparam{flags} (\luatype{string}, optional): a comma-separated list of flags:
-		\begin{itemize}
-			\item \luaexpr{"all"}: blocking operation, disallow partial write
-			\item \luaexpr{"part"}: blocking operation, allow partial write
-			\item \luaexpr{"nb"}: non-blocking operation
-			\item \luaexpr{"start"}: this operation starts a new packet
-		\end{itemize}
-	
-	Only one of \luaexpr{"all"}, \luaexpr{"part"} and \luaexpr{"nb"} can be specified. Default is \luaexpr{"all"}. See also the Remarks below.
 \end{funcparams}
 
-\begin{funcret}
-	Returns the number of words written to the FIFO. In the non-blocking mode, returns \luaexpr{nil} if nothing was written because write operation would block.
-\end{funcret}
-
 \begin{funcremarks}
-	FIFO represents a memory block mapped to a single register address. In the blocking mode, if partial write is not allowed, the function returns when (1) all the data is written or (2) an error occurs. If partial write is allowed, in addition, the function can return when at least one word is written and no more data can be written without blocking. In the non-blocking mode, in addition, the function returns when no data can be written without blocking.
-	
-	See Section \ref{sec:channelfunctions} for detailed description of SDM FIFO semantics.
+	FIFO is a memory block mapped to a single register address. Calling \luaexpr{writefifo()} can be more efficient than calling \luaexpr{writereg()} multiple times depending on how the plugin is implemented.
 \end{funcremarks}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1472,7 +1460,7 @@ device["IPaddress"]="127.0.0.1"
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{luafuncprototype}
-\emph{channel}.readfifo(addr, n [, flags])
+\emph{channel}.readfifo(addr, n)
 \end{luafuncprototype}
 
 \begin{funcdescr}
@@ -1482,25 +1470,10 @@ device["IPaddress"]="127.0.0.1"
 \begin{funcparams}
 	\funcparam{addr} (\luatype{integer}): register address
 	\funcparam{n} (\luatype{integer}): number of words to read
-	\funcparam{flags} (\luatype{string}, optional): a comma-separated list of flags:
-		\begin{itemize}
-			\item \luaexpr{"all"}: blocking operation, disallow partial read
-			\item \luaexpr{"part"}: blocking operation, allow partial read
-			\item \luaexpr{"nb"}: non-blocking operation
-			\item \luaexpr{"next"}: proceed to the next packet
-		\end{itemize}
-		
-		Only one of \luaexpr{"all"}, \luaexpr{"part"} and \luaexpr{"nb"} can be specified. Default is \luaexpr{"all"}. See also the Remarks below.
 \end{funcparams}
 
-\begin{funcret}
-	Returns the number of words read from the FIFO. If the FIFO supports the notion of packets, returns \luaexpr{0} at the end of packet. In the non-blocking mode, returns \luaexpr{nil} if nothing was read because the operation would block.
-\end{funcret}
-
 \begin{funcremarks}
-	FIFO represents a memory block mapped to a single register address. In the blocking mode, if partial read is not allowed, the function returns when (1) the requested number of words is read, (2) packet ends or (3) an error occurs. If partial read is allowed, in addition, the function can return when at least one word is read and no more data are available for immediate reading. In the non-blocking mode, in addition, the function returns when no data can be read without blocking.
-	
-	To proceed to the next packet, the function must be called with the \luaexpr{"next"} flag. See Section \ref{sec:channelfunctions} for detailed description of SDM FIFO semantics.
+	FIFO is a memory block mapped to a single register address. Calling \luaexpr{readfifo()} can be more efficient than calling \luaexpr{readreg()} multiple times depending on how the plugin is implemented.
 \end{funcremarks}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1521,7 +1494,7 @@ device["IPaddress"]="127.0.0.1"
 \end{funcparams}
 
 \begin{funcremarks}
-	A memory block is a block of consecutive registers. See Section \ref{sec:channelfunctions} for detailed description of SDM memory block semantics.
+	Calling \luaexpr{writemem()} can be more efficient than calling \luaexpr{writereg()} multiple times depending on how the plugin is implemented.
 \end{funcremarks}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1546,7 +1519,7 @@ device["IPaddress"]="127.0.0.1"
 \end{funcret}
 
 \begin{funcremarks}
-	A memory block is a block of consecutive registers. See also Section \ref{sec:channelfunctions} for detailed description of SDM memory block semantics.
+	Calling \luaexpr{readmem()} can be more efficient than calling \luaexpr{readreg()} multiple times depending on how the plugin is implemented.
 \end{funcremarks}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -5465,7 +5438,7 @@ SDMAPI int SDMCALL sdmWriteFIFO(void *h, sdm_addr_t addr, const sdm_reg_t *data,
 \end{cfuncprototype}
 
 \begin{funcdescr}
-	Writes an array of words to the FIFO.
+	Writes an array of words to a FIFO. This function is blocking.
 \end{funcdescr}
 
 \begin{funcparams}
@@ -5473,25 +5446,15 @@ SDMAPI int SDMCALL sdmWriteFIFO(void *h, sdm_addr_t addr, const sdm_reg_t *data,
 	\funcparam{addr}: register address
 	\funcparam{data}: pointer to an array of words to write
 	\funcparam{n}: number of words to write
-	\funcparam{flags}: zero or any combination of the following:
-		\begin{itemize}
-			\item\cexpr{SDM_FLAG_NONBLOCKING}: perform a non-blocking operation
-			\item\cexpr{SDM_FLAG_START}: this operation starts a new packet
-		\end{itemize}
+	\funcparam{flags}: reserved, must be set to zero
 \end{funcparams}
 
 \begin{funcret}
-	If \cexpr{n} is \cexpr{0}, this function returns \cexpr{0}.
-	
-	In the blocking mode, non-negative value indicates the number of words that has been written, negative value indicates an error. It is not an error when number of words written is less than requested.
-	
-	In the non-blocking mode, in addition to the above, \cexpr{SDM_WOULDBLOCK} indicates that no data have been written because write operation would be blocking.
+	Returns a non-negative value if successful, a negative value otherwise. Note: plugins should return the number of words written if compatibility with SDM $\le$ 1.0.5 is required.
 \end{funcret}
 
 \begin{funcremarks}
-	Conceptually, FIFO represents a memory block that is mapped to a single register address. Writing to a FIFO is roughly equivalent to performing a set of ordinary register writes in sequence, but with the support of packets and non-blocking operations.
-	
-	In the blocking mode, \cexpr{sdmWriteFIFO()} returns when either (1) the requested number of words is written, (2) at least one word is written and no more data can be written at the moment due to lack of free space in FIFO or (3) an error occurs. In the non-blocking mode, in addition, the function returns if no data can be written without blocking.
+	FIFO is a memory block that is mapped to a single register address. Writing to a FIFO is conceptually equivalent to performing a series of ordinary register writes, but can be more efficient for devices supporting block transactions.
 \end{funcremarks}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -5505,7 +5468,7 @@ SDMAPI int SDMCALL sdmReadFIFO(void *h, sdm_addr_t addr, sdm_reg_t *data, size_t
 \end{cfuncprototype}
 
 \begin{funcdescr}
-	Reads an array of words from the FIFO.
+	Reads an array of words from a FIFO. This function is blocking.
 \end{funcdescr}
 
 \begin{funcparams}
@@ -5513,29 +5476,15 @@ SDMAPI int SDMCALL sdmReadFIFO(void *h, sdm_addr_t addr, sdm_reg_t *data, size_t
 	\funcparam{addr}: register address
 	\funcparam{data}: pointer to an array to read to
 	\funcparam{n}: number of words to read
-	\funcparam{flags}: zero or any combination of the following:
-		\begin{itemize}
-			\item\cexpr{SDM_FLAG_NONBLOCKING}: perform a non-blocking operation
-			\item\cexpr{SDM_FLAG_NEXT}: proceed to the next packet
-		\end{itemize}
+	\funcparam{flags}: reserved, must be set to zero
 \end{funcparams}
 
 \begin{funcret}
-	If \cexpr{n} is \cexpr{0}, this function returns \cexpr{0}.
-	
-	In the blocking mode, returns the number of words that has been read (zero if an end of packet is reached), or a negative value in the case of error. It is not an error when number of words read is less than requested.
-	
-	In the non-blocking mode, in addition to the above, the function returns \cexpr{SDM_WOULDBLOCK} when no data have been read because the operation would block.
+	Returns a non-negative value if successful, a negative value otherwise. Note: plugins should return the number of words read if compatibility with SDM $\le$ 1.0.5 is required.
 \end{funcret}
 
 \begin{funcremarks}
-	Conceptually, FIFO represents a memory block that is mapped to a single register address. Reading from a FIFO is roughly equivalent to performing a set of ordinary register reads in sequence, but with the support of packets and non-blocking operations.
-
-	If a FIFO supports the notion of packets, \cexpr{sdmReadFIFO()} will cease reading when all the data from the current packet have been read, regardless of how many words were requested. In order to proceed to the next packet, the function must be called with the \cexpr{SDM_FLAG_NEXT} flag set. If there are still data from the current packet to be read, they are discarded when \cexpr{SDM_FLAG_NEXT} flag is supplied. If the read pointer is already at the start of packet, nothing is discarded.
-
-	In the blocking mode, \cexpr{sdmReadFIFO()} will return when either (1) the requested number of words is read, (2) at least one word is read and no more data are currently available for reading, (3) the packet is finished or (4) an error occurs. In the non-blocking mode, in addition, the function returns when no data can be read without blocking.
-
-	Note that in the context of FIFO operations, ``non-blocking'' means that a function will not block due to the FIFO being full or empty. Blocking can still be caused by connection issues. For true non-blocking operations use streams API.
+	FIFO is a memory block that is mapped to a single register address. Reading from a FIFO is conceptually equivalent to performing a series of ordinary register reads, but can be more efficient for devices supporting block transactions.
 \end{funcremarks}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -5549,7 +5498,7 @@ SDMAPI int SDMCALL sdmWriteMem(void *h, sdm_addr_t addr, const sdm_reg_t *data, 
 \end{cfuncprototype}
 
 \begin{funcdescr}
-	Writes an array of words to a memory block starting at \cexpr{addr}.
+	Writes an array of words to a memory block starting at \cexpr{addr}. This function is blocking.
 \end{funcdescr}
 
 \begin{funcparams}
@@ -5563,6 +5512,10 @@ SDMAPI int SDMCALL sdmWriteMem(void *h, sdm_addr_t addr, const sdm_reg_t *data, 
 	Returns \cexpr{0} if successful, a non-zero value otherwise.
 \end{funcret}
 
+\begin{funcremarks}
+	Writing to memory is conceptually equivalent to performing a series of register writes with incrementing addresses, but can be more efficient for devices supporting block transactions. Depending on address granularity, the address can be incremented by a value other than 1.
+\end{funcremarks}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % sdmReadMem()
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -5574,7 +5527,7 @@ SDMAPI int SDMCALL sdmReadMem(void *h, sdm_addr_t addr, sdm_reg_t *data, size_t 
 \end{cfuncprototype}
 
 \begin{funcdescr}
-	Reads an array of words from a memory block starting at \cexpr{addr}.
+	Reads an array of words from a memory block starting at \cexpr{addr}. This function is blocking.
 \end{funcdescr}
 
 \begin{funcparams}
@@ -5587,6 +5540,10 @@ SDMAPI int SDMCALL sdmReadMem(void *h, sdm_addr_t addr, sdm_reg_t *data, size_t 
 \begin{funcret}
 	Returns \cexpr{0} if successful, a non-zero value otherwise.
 \end{funcret}
+
+\begin{funcremarks}
+	Reading from memory is conceptually equivalent to performing a series of register reads with incrementing addresses, but can be more efficient for devices supporting block transactions. Depending on address granularity, the address can be incremented by a value other than 1.
+\end{funcremarks}
 
 \section{Source functions}
 \label{sec:sourcefunctions}

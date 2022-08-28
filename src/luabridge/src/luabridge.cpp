@@ -304,6 +304,9 @@ int LuaBridge::LuaMethod_path(LuaServer &lua) {
 	else if(arg=="homedir") {
 		lua.pushValue(Path::home().str());
 	}
+	else if(arg=="appconfigdir") {
+		lua.pushValue(Config::appConfigDir().str());
+	}
 	else if(arg=="currentscript"||arg=="currentscriptdir") {
 		auto const &chunkName=lua.currentChunkName();
 		if(chunkName.empty()||chunkName[0]!='@') lua.pushValue(LuaValue());
@@ -888,66 +891,26 @@ int SDMChannelLua::LuaMethod_readreg(LuaServer &lua) {
 }
 
 int SDMChannelLua::LuaMethod_writefifo(LuaServer &lua) {
-	if(lua.argc()<2&&lua.argc()>3) throw std::runtime_error("writefifo() method takes 2-3 arguments");
+	if(lua.argc()!=2) throw std::runtime_error("writefifo() method takes 2 arguments");
 	
 	auto const addr=static_cast<sdm_addr_t>(lua.argv(0).toInteger());
 	auto const &t=lua.argv(1);
 	if(t.type()!=LuaValue::Table) throw std::runtime_error("writefifo() 2nd argument must be of table type");
 	
-	Flags flags=Normal;
-	int modeflags=0;
-	if(lua.argc()==3) {
-		const std::string &str=lua.argv(2).toString();
-		if(str.find("all")!=std::string::npos) modeflags++;
-		if(str.find("part")!=std::string::npos) {
-			flags|=AllowPartial;
-			modeflags++;
-		}
-		if(str.find("nb")!=std::string::npos) {
-			flags|=NonBlocking;
-			modeflags++;
-		}
-		if(str.find("start")!=std::string::npos) flags|=StartOfPacket;
-	}
-	
-	if(modeflags>1) throw std::runtime_error("Only one of \"all\", \"part\" and \"nb\" flags can be specified");
-	
 	std::vector<sdm_reg_t> data;
 	data.reserve(t.size());
 	for(auto const &v: t.table()) data.push_back(static_cast<sdm_reg_t>(v.second.toInteger()));
 	
-	int r=writeFIFO(addr,data.data(),data.size(),flags);
-	
-	if(r==WouldBlock) lua.pushValue(LuaValue());
-	else lua.pushValue(lua_Integer(r));
-	
-	return 1;
+	writeFIFO(addr,data.data(),data.size());
+	return 0;
 }
 
 int SDMChannelLua::LuaMethod_readfifo(LuaServer &lua) {
-	if(lua.argc()<2&&lua.argc()>3) throw std::runtime_error("readfifo() method takes 2-3 arguments");
+	if(lua.argc()!=2) throw std::runtime_error("readfifo() method takes 2 arguments");
 	
 	auto const addr=static_cast<sdm_addr_t>(lua.argv(0).toInteger());
 	auto const n=static_cast<std::size_t>(lua.argv(1).toInteger());
 	
-	Flags flags=Normal;
-	int modeflags=0;
-	if(lua.argc()==3) {
-		const std::string &str=lua.argv(2).toString();
-		if(str.find("all")!=std::string::npos) modeflags++;
-		if(str.find("part")!=std::string::npos) {
-			flags|=AllowPartial;
-			modeflags++;
-		}
-		if(str.find("nb")!=std::string::npos) {
-			flags|=NonBlocking;
-			modeflags++;
-		}
-		if(str.find("next")!=std::string::npos) flags|=NextPacket;
-	}
-	
-	if(modeflags>1) throw std::runtime_error("Only one of \"all\", \"part\" and \"nb\" flags can be specified");
-
 	std::vector<sdm_reg_t> data;
 	
 	sdm_reg_t *buf=nullptr;
@@ -955,14 +918,7 @@ int SDMChannelLua::LuaMethod_readfifo(LuaServer &lua) {
 		data.resize(n);
 		buf=data.data();
 	}
-	int r=readFIFO(addr,buf,n,flags);
-	
-	if(r==WouldBlock) {
-		lua.pushValue(LuaValue());
-		return 1;
-	}
-	
-	data.resize(r);
+	readFIFO(addr,buf,n);
 	
 	LuaValue t;
 	auto &arr=t.newarray();

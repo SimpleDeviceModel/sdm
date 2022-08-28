@@ -146,8 +146,8 @@
     </message>
     <message>
         <location filename="../registerconfigdialog.cpp" line="551"/>
-        <source>CSV files (*.csv);;Hex files (*.hex);;All files (*)</source>
-        <translation>Файлы CSV (*.csv);;Файлы Hex (*.hex);;Все файлы (*)</translation>
+        <source>Supported files (*.csv *.hex);;All files (*)</source>
+        <translation>Поддерживаемые файлы (*.csv *.hex);;Все файлы (*)</translation>
     </message>
     <message>
         <location filename="../registerconfigdialog.cpp" line="601"/>

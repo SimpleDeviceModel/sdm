@@ -26,8 +26,14 @@
 #include "u8eio.h"
 #include "u8efile.h"
 #include "u8eenv.h"
+#include "u8ecodec.h"
 #include "textconsole.h"
 #include "luaiterator.h"
+#include "dirutil.h"
+
+#ifdef LINENOISE_SUPPORTED
+#include "linenoise.h"
+#endif
 
 #include <exception>
 #include <string>
@@ -169,8 +175,49 @@ try
 		TextConsole console(lua);
 		std::string strLine;
 		
-		while(!console.quit()&&std::getline(utf8cin(),strLine))
+#ifdef LINENOISE_SUPPORTED
+// linenoise-ng will only work for UTF8 locales
+		bool useLinenoise=u8e::isLocaleUtf8();
+		Path historyPath=Config::appConfigDir()+"sdmhost.log";
+		bool historyLoaded=false;
+		if(useLinenoise) {
+			linenoiseHistorySetMaxLen(1000);
+			int r=linenoiseHistoryLoad(historyPath.str().c_str());
+			if(!r) historyLoaded=true;
+		}
+#endif
+		
+		while(!console.quit()) {
+#ifdef LINENOISE_SUPPORTED
+			if(useLinenoise) {
+				char *s=linenoise(console.prompt().c_str());
+				if(!s) break;
+				linenoiseHistoryAdd(s);
+				try {
+					strLine=s;
+				}
+				catch(...) {
+					std::free(s);
+					throw;
+				}
+				std::free(s);
+			}
+			else {
+#endif
+				utf8cout()<<console.prompt()<<flush;
+				if(!std::getline(utf8cin(),strLine)) break;
+#ifdef LINENOISE_SUPPORTED
+			}
+#endif
 			console.consoleCommand(strLine);
+		}
+		
+#ifdef LINENOISE_SUPPORTED
+		if(useLinenoise) {
+			if(!historyLoaded) Config::appConfigDir().mkdir();
+			linenoiseHistorySave(historyPath.str().c_str());
+		}
+#endif
 	}
 	
 	return 0;

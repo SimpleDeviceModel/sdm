@@ -39,8 +39,8 @@ void TextConsole::consoleCommand(const std::string &cmd) {
 
 void TextConsole::consolePrompt(const std::string &prompt) {
 	if(!nl) utf8cout()<<std::endl;
-	utf8cout()<<prompt<<flush;
 	nl=false;
+	_prompt=prompt;
 }
 
 void TextConsole::consoleOutput(const std::string &output) {

@@ -205,7 +205,7 @@ int TestChannel::writeReg(sdm_addr_t addr,sdm_reg_t data) {
 		_regs[addr]=data;
 	}
 	else { // dedicated FIFO at address 0
-		_fifo0.emplace_back(data,false);
+		_fifo0.push_back(data);
 	}
 	
 	return 0;
@@ -234,7 +234,7 @@ sdm_reg_t TestChannel::readReg(sdm_addr_t addr,int *status) {
 	}
 	else { // dedicated FIFO at address 0
 		if(!_fifo0.empty()) {
-			data=_fifo0.front().word;
+			data=_fifo0.front();
 			_fifo0.pop_front();
 		}
 		else {
@@ -249,8 +249,6 @@ sdm_reg_t TestChannel::readReg(sdm_addr_t addr,int *status) {
 int TestChannel::writeFIFO(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n,int flags) {
 	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")=="Verbose") {
 		std::cout<<"testplugin: entered sdmWriteFIFO()"<<std::endl;
-		if(flags&SDM_FLAG_NONBLOCKING) std::cout<<"testplugin: a non-blocking operation requested"<<std::endl;
-		if(flags&SDM_FLAG_START) std::cout<<"testplugin: start of packet"<<std::endl;
 		std::cout<<"testplugin: writing "<<n<<" values to the address "<<addr<<std::endl;
 		std::cout<<"testplugin: content: ";
 		for(std::size_t i=0;i<n;i++) std::cout<<data[i]<<" ";
@@ -265,37 +263,20 @@ int TestChannel::writeFIFO(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n,i
 		_regs[addr]=data[n-1];
 	}
 	else { // dedicated FIFO at address 0
-		for(std::size_t i=0;i<n;i++) {
-			bool start=(flags&SDM_FLAG_START)&&(i==0);
-			_fifo0.emplace_back(data[i],start);
-		}
+		for(std::size_t i=0;i<n;i++) _fifo0.push_back(data[i]);
 	}
 	
-	return static_cast<int>(n);
+	return 0;
 }
 
 int TestChannel::readFIFO(sdm_addr_t addr,sdm_reg_t *data,std::size_t n,int flags) {
 	if(SDMAbstractPlugin::instance()->getProperty("Verbosity")=="Verbose") {
 		std::cout<<"testplugin: entered sdmReadFIFO()"<<std::endl;
-		if(flags&SDM_FLAG_NONBLOCKING) std::cout<<"testplugin: a non-blocking operation requested"<<std::endl;
-		if(flags&SDM_FLAG_NEXT) std::cout<<"testplugin: next packet requested"<<std::endl;
 		std::cout<<"testplugin: requested "<<n<<" values from address "<<addr<<std::endl;
 	}
 	
 	if(!_connected) return SDM_ERROR;
 	if(n>INT_MAX) n=INT_MAX;
-	
-	if(flags&SDM_FLAG_NEXT) { // skip data until the next packet, or until fifo is empty
-		if(addr==0) {
-			while(!_fifo0.empty()) {
-				if(_fifo0.front().sop) {
-					_fifo0_next=true;
-					break;
-				}
-				_fifo0.pop_front();
-			}
-		}
-	}
 	
 	std::size_t i;
 	if(addr!=0) { // plain register
@@ -306,30 +287,15 @@ int TestChannel::readFIFO(sdm_addr_t addr,sdm_reg_t *data,std::size_t n,int flag
 	}
 	else { // dedicated FIFO at address 0
 		for(i=0;i<n;i++) {
-			if(_fifo0.empty()) {
-				if(flags&SDM_FLAG_NONBLOCKING) {
-					if(i==0) return SDM_WOULDBLOCK;
-					else break;
-				}
-// Blocking operations allow partial read as long as at least 1 word is available
-				else if(i>0) break;
-				else {
-					std::cout<<"dummmyplugin: FIFO is empty: deadlock!"<<std::endl;
-					return SDM_ERROR;
-				}
+			if(_fifo0.empty()) data[i]=0;
+			else {
+				data[i]=_fifo0.front();
+				_fifo0.pop_front();
 			}
-			if(_fifo0.front().sop) { // new packet
-				if(i>0||!_fifo0_next) {
-					return static_cast<int>(i);
-				}
-				else _fifo0_next=false;
-			}
-			data[i]=_fifo0.front().word;
-			_fifo0.pop_front();
 		}
 	}
 	
-	return static_cast<int>(i);
+	return 0;
 }
 
 int TestChannel::writeMem(sdm_addr_t addr,const sdm_reg_t *data,std::size_t n) {

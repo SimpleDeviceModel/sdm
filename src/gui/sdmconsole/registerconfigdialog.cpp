@@ -548,7 +548,7 @@ void FifoPage::importFromCSV() try {
 	if(dir.isValid()) d.setDirectory(dir.toString());
 	d.setAcceptMode(QFileDialog::AcceptOpen);
 	d.setFileMode(QFileDialog::ExistingFile);
-	d.setNameFilter(tr("CSV files (*.csv);;Hex files (*.hex);;All files (*)"));
+	d.setNameFilter(tr("Supported files (*.csv *.hex);;All files (*)"));
 	if(!d.exec()) return;
 	
 	s.setValue("CSVDirectory",d.directory().absolutePath());
