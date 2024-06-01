@@ -143,7 +143,7 @@ std::string Config::luaModulePath() {
 	u8e::Codec codec(u8e::UTF8,u8e::LocalMB);
 	Path modulesDir=Path(codec.transcode(luaModulesDir().str()));
 	
-	std::vector<Path> paths={modulesDir};
+	std::vector<Path> paths={modulesDir,Path()};
 	std::vector<std::string> fileNames={"?.lua",std::string("?")+Path::sep()+"init.lua"};
 
 	std::ostringstream oss;
