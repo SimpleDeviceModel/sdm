@@ -447,7 +447,7 @@
     <message>
         <location filename="../marshal.h" line="136"/>
         <location filename="../marshal.h" line="168"/>
-        <location filename="../marshal.h" line="272"/>
+        <location filename="../marshal.h" line="284"/>
         <source>Target object has been already destroyed</source>
         <translation>Вызываемый объект уже удалён</translation>
     </message>
