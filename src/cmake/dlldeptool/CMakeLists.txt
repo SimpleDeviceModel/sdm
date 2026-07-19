@@ -8,7 +8,7 @@ target_link_libraries(dlldeptool u8e)
 
 if(NOT OPTION_NO_QT)
 	find_package(Qt6Core)
-	get_target_property(QtCore_location Qt6::Core LOCATION)
+	get_target_property(QtCore_location Qt::Core LOCATION)
 	string(REGEX REPLACE "/[^/]+$" "" QTLIBPATH ${QtCore_location})
 else()
 	set(QTLIBPATH FALSE)
