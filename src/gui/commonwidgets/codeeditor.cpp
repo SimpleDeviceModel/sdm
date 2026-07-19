@@ -82,7 +82,7 @@ void CodeEditor::chooseFont() {
 
 void CodeEditor::applyFont(const QFont &f) {
 	QFont newFont=f;
-	setTabStopWidth(FontUtils::tweakForTabStops(newFont,_tabWidth));
+	setTabStopDistance(FontUtils::tweakForTabStops(newFont,_tabWidth));
 	setFont(newFont);
 }
 

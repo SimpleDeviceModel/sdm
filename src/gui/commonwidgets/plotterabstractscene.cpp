@@ -62,7 +62,6 @@ void PlotterAbstractScene::setGridPen(const QPen &pen) {
 bool PlotterAbstractScene::isVectorDevice(QPainter &painter) {
 	auto const engineType=painter.paintEngine()->type();
 	switch(engineType) {
-	case QPaintEngine::PostScript:
 	case QPaintEngine::Picture:
 	case QPaintEngine::SVG:
 	case QPaintEngine::Pdf:

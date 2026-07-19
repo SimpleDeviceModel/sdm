@@ -201,8 +201,9 @@ void PlotterWidget::saveImage() {
 	QSettings s;
 	s.beginGroup("Plotter");
 	
-	auto const &formats=QImageWriter::supportedImageFormats().toSet();
-	
+	QSet<QByteArray> formats(QImageWriter::supportedImageFormats().begin(),
+		QImageWriter::supportedImageFormats().end());
+
 	auto dir=s.value("SaveImageDirectory");
 	if(dir.isValid()) d.setDirectory(dir.toString());
 	

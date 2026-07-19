@@ -12,7 +12,7 @@ target_include_directories(commonwidgets PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_subdirectory(translations)
 
-target_link_libraries(commonwidgets Qt5::Widgets Qt5::Svg utils)
+target_link_libraries(commonwidgets Qt6::Widgets Qt6::Svg utils)
 
 # Ensure that whatever is linked to this library uses the same optional compiler features
 

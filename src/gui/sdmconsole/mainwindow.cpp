@@ -42,7 +42,7 @@
 #include <QMessageBox>
 #include <QStatusBar>
 #include <QDesktopServices>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QSplitter>
 #include <QLabel>
 #include <QTextStream>
@@ -53,6 +53,8 @@
 #include <QFileInfo>
 #include <QLocale>
 #include <QStyle>
+#include <QAction>
+#include <QActionGroup>
 
 #include <map>
 #include <functional>
@@ -121,7 +123,9 @@ MainWindow::MainWindow(LuaServerQt &l,DocRoot &d,QWidget *parent):
 }
 
 QSize MainWindow::sizeHint() const {
-	auto geometry=QApplication::desktop()->availableGeometry(this);
+	auto s=screen();
+	if(!s) s=QGuiApplication::primaryScreen();
+	auto geometry=s->availableGeometry();
 	auto w=geometry.width()*4/5;
 	auto h=geometry.height()*4/5;
 	return QSize(w,h);
@@ -369,9 +373,9 @@ void MainWindow::menuLuaStats() try {
 	QString str;
 	QTextStream ts(&str);
 	ts<<"<table width=\"100%\">\n";
-	ts<<"<tr><td>"<<tr("Interpreter version")<<"</td><td>"<<QString(LUA_RELEASE).replace("Lua ","")<<"</td></tr>\n"<<endl;
-	ts<<"<tr><td>"<<tr("Number of calls")<<"</td><td>"<<_lua.calls()<<"</td></tr>\n"<<endl;
-	ts<<"<tr><td>"<<tr("Total execution time")<<"</td><td>"<<_lua.msecTotal()<<"&nbsp;"<<tr("ms")<<"</td></tr>\n"<<endl;
+	ts<<"<tr><td>"<<tr("Interpreter version")<<"</td><td>"<<QString(LUA_RELEASE).replace("Lua ","")<<"</td></tr>\n"<<Qt::endl;
+	ts<<"<tr><td>"<<tr("Number of calls")<<"</td><td>"<<_lua.calls()<<"</td></tr>\n"<<Qt::endl;
+	ts<<"<tr><td>"<<tr("Total execution time")<<"</td><td>"<<_lua.msecTotal()<<"&nbsp;"<<tr("ms")<<"</td></tr>\n"<<Qt::endl;
 	
 	try {
 		auto kb=_lua.kbRam();
@@ -504,13 +508,13 @@ void MainWindow::infoUrlHandler(const QUrl &url) try {
 		tv.setWindowTitle(tr("Build information"));
 		QString str;
 		QTextStream ts(&str);
-		ts<<tr("Version")<<": "<<Config::version()<<endl;
-		ts<<tr("Platform")<<": "<<Config::os()<<" ("<<Config::architecture()<<")"<<endl;
-		ts<<tr("Compiler")<<": "<<Config::compiler()<<endl;
-		ts<<tr("Toolkit version")<<": "<<QT_VERSION_STR<<endl;
-		if(*Config::commitHash()) ts<<tr("Commit hash")<<": "<<Config::commitHash()<<endl;
+		ts<<tr("Version")<<": "<<Config::version()<<Qt::endl;
+		ts<<tr("Platform")<<": "<<Config::os()<<" ("<<Config::architecture()<<")"<<Qt::endl;
+		ts<<tr("Compiler")<<": "<<Config::compiler()<<Qt::endl;
+		ts<<tr("Toolkit version")<<": "<<QT_VERSION_STR<<Qt::endl;
+		if(*Config::commitHash()) ts<<tr("Commit hash")<<": "<<Config::commitHash()<<Qt::endl;
 		if(Config::commitTimestamp()) ts<<tr("Commit timestamp")<<": "<<
-			QLocale().toString(QDateTime::fromTime_t(Config::commitTimestamp()))<<endl;
+			QLocale().toString(QDateTime::fromSecsSinceEpoch(Config::commitTimestamp()))<<Qt::endl;
 		tv.loadString(str);
 		tv.exec();
 	}
@@ -589,7 +593,12 @@ void MainWindow::closeEvent(QCloseEvent *) {
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e) {
-	if(_sidebarSize<=0) _sidebarSize=QApplication::desktop()->availableGeometry(this).width()/5;
+	if(_sidebarSize<=0) {
+		auto s=screen();
+		if(!s) s=QGuiApplication::primaryScreen();
+		auto geometry=s->availableGeometry();
+		_sidebarSize=geometry.width()/5;
+	}
 	_splitter->setSizes({_sidebarSize,width()-_sidebarSize});
 	QMainWindow::resizeEvent(e);
 }

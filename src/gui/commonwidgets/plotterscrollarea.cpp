@@ -35,7 +35,6 @@
 #include <QImageWriter>
 #include <QPdfWriter>
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QLayout>
 #include <QLocale>
 #include <QTimer>
@@ -187,7 +186,9 @@ void PlotterScrollArea::setScene(PlotterAbstractScene *s) {
 
 QSize PlotterScrollArea::sizeHint() const {
 // Request a reasonably large area
-	auto geometry=QApplication::desktop()->availableGeometry(this);
+	auto s=screen();
+	if(!s) s=QGuiApplication::primaryScreen();
+	auto geometry=s->availableGeometry();
 	return QSize(geometry.width()/2,geometry.height()*2/5);
 }
 
@@ -246,7 +247,9 @@ void PlotterScrollArea::mouseMoveEvent(QMouseEvent *e) {
 // Wrap mouse cursor position around screen
 			const int delta=logicalDpiX()/5;
 			QPoint globalPos=e->globalPos();
-			QRect screenRect=QApplication::desktop()->screenGeometry(this);
+			auto s=screen();
+			if(!s) s=QGuiApplication::primaryScreen();
+			QRect screenRect=s->geometry();
 			
 			if(qAbs(globalPos.x()-screenRect.left())<delta) {
 				globalPos=QPoint(screenRect.right()-2*delta,globalPos.y());
@@ -289,7 +292,7 @@ void PlotterScrollArea::mouseMoveEvent(QMouseEvent *e) {
 }
 
 void PlotterScrollArea::wheelEvent(QWheelEvent *e) {
-	QPointF invariantDest=e->posF();
+	QPointF invariantDest=e->position();
 	QPointF invariantSrc=_transform.inverted().map(invariantDest);
 
 // Decode keyboard flags
@@ -471,10 +474,11 @@ void PlotterScrollArea::saveImage(const QString &filename,const QString &format,
  // Note: 25.4 is a number of millimeters per inch
 		QSizeF pageSize(25.4*viewport()->rect().width()/logicalDpiX(),
 			25.4*viewport()->rect().height()/logicalDpiY());
-		QSizeF margins=QSizeF(pdf.margins().right+pdf.margins().left,
-			pdf.margins().bottom+pdf.margins().top);
+		QSizeF margins=QSizeF(pdf.pageLayout().margins().right()+pdf.pageLayout().margins().left(),
+			pdf.pageLayout().margins().bottom()+pdf.pageLayout().margins().top());
 		pageSize+=margins;
-		pdf.setPageSizeMM(pageSize);
+		QPageSize pageSizeMm(pageSize,QPageSize::Millimeter);
+		pdf.setPageSize(pageSizeMm);
 		QPainter painter(&pdf);
 		const QRectF visibleArea=_transform.inverted().map(viewport()->rect());
 		const QRectF targetRect=QRectF(0,0,pdf.width(),pdf.height());

@@ -94,14 +94,14 @@ int AutoResizingTable::sizeHintForColumn(int column) const {
 		int itemWidth;
 		
 		QTableWidgetItem *it=item(r,column);
-		if(it) itemWidth=fontMetrics().width(it->text());
+		if(it) itemWidth=fontMetrics().horizontalAdvance(it->text());
 		else itemWidth=horizontalHeader()->defaultSectionSize();
 		
 		QWidget *widget=cellWidget(r,column);
 		if(widget) {
 			int widgetWidth;
 			if(auto edit=dynamic_cast<QLineEdit*>(widget))
-				widgetWidth=fontMetrics().width(edit->text());
+				widgetWidth=fontMetrics().horizontalAdvance(edit->text());
 			else widgetWidth=widget->sizeHint().width();
 			if(widgetWidth>itemWidth) itemWidth=widgetWidth;
 		}

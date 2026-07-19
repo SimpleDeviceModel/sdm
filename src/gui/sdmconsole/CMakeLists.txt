@@ -13,7 +13,7 @@ add_definitions(-DQT_NO_DEPRECATED_WARNINGS)
 add_subdirectory(translations)
 add_subdirectory(scripts)
 
-target_link_libraries(sdmconsole Qt5::Widgets config commonwidgets luaserver sdmplug luabridge utils u8e api)
+target_link_libraries(sdmconsole Qt6::Widgets config commonwidgets luaserver sdmplug luabridge utils u8e api)
 
 if(UNIX)
 	target_link_libraries(sdmconsole pthread)

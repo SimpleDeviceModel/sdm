@@ -35,7 +35,7 @@
 #include <QSettings>
 #include <QFile>
 #include <QTextStream>
-#include <QTextCodec>
+#include <QStringConverter>
 
 const int ConsoleWidget::maxHistorySize=500;
 const int ConsoleWidget::maxBlocks=10000;
@@ -180,9 +180,8 @@ void ConsoleWidget::saveCmdHistory() {
 	QFile f(dir.filePath(strConsoleName+".log"));
 	if(!f.open(QIODevice::WriteOnly)) return;
 	QTextStream ts(&f);
-	auto codec=QTextCodec::codecForName("UTF-8");
-	ts.setCodec(codec);
-	for(auto const &str: history) ts<<str<<endl;
+	ts.setEncoding(QStringConverter::Utf8);
+	for(auto const &str: history) ts<<str<<Qt::endl;
 }
 
 void ConsoleWidget::loadCmdHistory() {
@@ -196,8 +195,7 @@ void ConsoleWidget::loadCmdHistory() {
 	QFile f(dir.filePath(strConsoleName+".log"));
 	if(!f.open(QIODevice::ReadOnly)) return;
 	QTextStream ts(&f);
-	auto codec=QTextCodec::codecForName("UTF-8");
-	ts.setCodec(codec);
+	ts.setEncoding(QStringConverter::Utf8);
 	for(;;) {
 		QString str=ts.readLine();
 		if(!str.isEmpty()) history.push_back(str);
@@ -284,7 +282,7 @@ void ConsoleWidget::runCommand(const QString &cmd,bool suppressEcho) {
 
 void ConsoleWidget::applyFont(const QFont &f) {
 	QFont newFont=f;
-	setTabStopWidth(FontUtils::tweakForTabStops(newFont,4));
+	setTabStopDistance(FontUtils::tweakForTabStops(newFont,4));
 	setFont(newFont);
 }
 
@@ -393,7 +391,7 @@ void ConsoleWidget::keyPressEvent(QKeyEvent *e) {
 void ConsoleWidget::mousePressEvent(QMouseEvent *e) {
 // Under X11, middle mouse button performs paste. We need to block
 // this event if it occurs in non-editable area.
-	if(e->button()==Qt::MidButton) {
+	if(e->button()==Qt::MiddleButton) {
 // Replace middle button event with left button event
 		QMouseEvent ne(e->type(),e->localPos(),Qt::LeftButton,Qt::LeftButton,e->modifiers());
 // Pass left button event to base to update text cursor position based on mouse event

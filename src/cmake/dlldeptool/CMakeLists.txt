@@ -7,8 +7,8 @@ target_link_libraries(dlldeptool u8e)
 # Find Qt DLL directory
 
 if(NOT OPTION_NO_QT)
-	find_package(Qt5Core)
-	get_target_property(QtCore_location Qt5::Core LOCATION)
+	find_package(Qt6Core)
+	get_target_property(QtCore_location Qt6::Core LOCATION)
 	string(REGEX REPLACE "/[^/]+$" "" QTLIBPATH ${QtCore_location})
 else()
 	set(QTLIBPATH FALSE)

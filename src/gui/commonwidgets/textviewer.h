@@ -45,7 +45,7 @@ public slots:
 	void applyFont(const QFont &f);
 	
 	void clear();
-	void loadFile(const QString &filename,const char *encoding="UTF-8");
+	void loadFile(const QString &filename);
 	void loadString(const QString &str);
 	void appendString(const QString &str);
 	void loadStream(QTextStream &s);

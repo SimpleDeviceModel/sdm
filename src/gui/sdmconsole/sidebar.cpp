@@ -63,7 +63,8 @@ namespace {
 			if(end==-1) end=model()->rowCount(item)-1;
 			for(int r=start;r<=end;r++) {
 				for(int c=0;c<model()->columnCount(item);c++) {
-					expandRecursively(item.child(r,c));
+					QModelIndex child=model()->index(r,c,item);
+					expandRecursively(child);
 				}
 			}
 		}

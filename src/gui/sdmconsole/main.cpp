@@ -101,10 +101,6 @@ try
 	
 	QApplication app(argc,argv);
 	
-// Allow QIcon::pixmap() to return high-DPI pixmaps in device pixels
-// as opposed to logical pixels
-	QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-	
 /* 
  * On POSIX platforms QApplication constructor calls setlocale(LC_ALL,"").
  * However, we want Lua to use decimal points regardless of the system locale.

@@ -48,7 +48,7 @@ QFont FontUtils::defaultFixedFont() {
 int FontUtils::tweakForTabStops(QFont &f,int n) {
 	f.setLetterSpacing(QFont::AbsoluteSpacing,0);
 	QString tmp(n,' ');
-	qreal w=QFontMetricsF(f).width(tmp);
+	qreal w=QFontMetricsF(f).horizontalAdvance(tmp);
 	int wi=std::lround(w);
 	qreal err=(w-wi)/n;
 	f.setLetterSpacing(QFont::AbsoluteSpacing,-err);
