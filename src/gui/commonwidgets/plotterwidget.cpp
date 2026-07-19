@@ -201,8 +201,7 @@ void PlotterWidget::saveImage() {
 	QSettings s;
 	s.beginGroup("Plotter");
 	
-	QSet<QByteArray> formats(QImageWriter::supportedImageFormats().begin(),
-		QImageWriter::supportedImageFormats().end());
+	auto formats=QImageWriter::supportedImageFormats();
 
 	auto dir=s.value("SaveImageDirectory");
 	if(dir.isValid()) d.setDirectory(dir.toString());
@@ -210,10 +209,10 @@ void PlotterWidget::saveImage() {
 	d.setAcceptMode(QFileDialog::AcceptSave);
 	d.setFileMode(QFileDialog::AnyFile);
 	QStringList filters;
-	if(formats.find("png")!=formats.cend()) filters<<tr("Portable Network Graphics (*.png)");
-	if(formats.find("tif")!=formats.cend()) filters<<tr("Tagged Image File Format (*.tif)");
-	if(formats.find("jpg")!=formats.cend()) filters<<tr("JPEG Image (*.jpg)");
-	if(formats.find("bmp")!=formats.cend()) filters<<tr("Windows Bitmap (*.bmp)");
+	if(formats.contains("png")) filters<<tr("Portable Network Graphics (*.png)");
+	if(formats.contains("tif")) filters<<tr("Tagged Image File Format (*.tif)");
+	if(formats.contains("jpg")) filters<<tr("JPEG Image (*.jpg)");
+	if(formats.contains("bmp")) filters<<tr("Windows Bitmap (*.bmp)");
 	filters<<tr("Scalable Vector Graphics (*.svg)");
 	filters<<tr("Portable Document Format (*.pdf)");
 	d.setNameFilters(filters);

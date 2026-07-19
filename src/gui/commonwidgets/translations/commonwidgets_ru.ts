@@ -376,8 +376,8 @@
         <translation>Слои</translation>
     </message>
     <message>
-        <location filename="../plotterwidget.cpp" line="222"/>
-        <location filename="../plotterwidget.cpp" line="267"/>
+        <location filename="../plotterwidget.cpp" line="221"/>
+        <location filename="../plotterwidget.cpp" line="266"/>
         <source>Untitled</source>
         <translation>Без имени</translation>
     </message>
@@ -387,57 +387,57 @@
         <translation>Экспортировать данные</translation>
     </message>
     <message>
-        <location filename="../plotterwidget.cpp" line="213"/>
+        <location filename="../plotterwidget.cpp" line="212"/>
         <source>Portable Network Graphics (*.png)</source>
         <translation>Изображение Portable Network Graphics (*.png)</translation>
     </message>
     <message>
-        <location filename="../plotterwidget.cpp" line="214"/>
+        <location filename="../plotterwidget.cpp" line="213"/>
         <source>Tagged Image File Format (*.tif)</source>
         <translation>Изображение Tagged Image File Format (*.tif)</translation>
     </message>
     <message>
-        <location filename="../plotterwidget.cpp" line="215"/>
+        <location filename="../plotterwidget.cpp" line="214"/>
         <source>JPEG Image (*.jpg)</source>
         <translation>Изображение JPEG (*.jpg)</translation>
     </message>
     <message>
-        <location filename="../plotterwidget.cpp" line="216"/>
+        <location filename="../plotterwidget.cpp" line="215"/>
         <source>Windows Bitmap (*.bmp)</source>
         <translation>Растровое изображение Windows (*.bmp)</translation>
     </message>
     <message>
-        <location filename="../plotterwidget.cpp" line="217"/>
+        <location filename="../plotterwidget.cpp" line="216"/>
         <source>Scalable Vector Graphics (*.svg)</source>
         <translation>Масштабируемое векторное изображение SVG (*.svg)</translation>
     </message>
     <message>
-        <location filename="../plotterwidget.cpp" line="218"/>
+        <location filename="../plotterwidget.cpp" line="217"/>
         <source>Portable Document Format (*.pdf)</source>
         <translation>Документ PDF (*.pdf)</translation>
     </message>
     <message>
-        <location filename="../plotterwidget.cpp" line="236"/>
+        <location filename="../plotterwidget.cpp" line="235"/>
         <source>JPEG compression quality (0-100):</source>
         <translation>Качество сжатия JPEG (0-100):</translation>
     </message>
     <message>
-        <location filename="../plotterwidget.cpp" line="266"/>
+        <location filename="../plotterwidget.cpp" line="265"/>
         <source>CSV files (*.csv)</source>
         <translation>Файлы CSV (*.csv)</translation>
     </message>
     <message>
-        <location filename="../plotterwidget.cpp" line="278"/>
+        <location filename="../plotterwidget.cpp" line="277"/>
         <source>Cannot open file</source>
         <translation>Невозможно открыть файл</translation>
     </message>
     <message>
-        <location filename="../plotterwidget.cpp" line="292"/>
+        <location filename="../plotterwidget.cpp" line="291"/>
         <source>Layer</source>
         <translation>Слой</translation>
     </message>
     <message>
-        <location filename="../plotterwidget.cpp" line="313"/>
+        <location filename="../plotterwidget.cpp" line="312"/>
         <source>Layer set is empty</source>
         <translation>Набор слоёв пуст</translation>
     </message>
@@ -459,8 +459,8 @@
     </message>
     <message>
         <location filename="../plotterlayersdialog.cpp" line="126"/>
-        <location filename="../plotterwidget.cpp" line="278"/>
-        <location filename="../plotterwidget.cpp" line="313"/>
+        <location filename="../plotterwidget.cpp" line="277"/>
+        <location filename="../plotterwidget.cpp" line="312"/>
         <location filename="../textviewer.cpp" line="253"/>
         <source>Error</source>
         <translation>Ошибка</translation>
