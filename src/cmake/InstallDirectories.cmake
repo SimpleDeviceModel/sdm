@@ -18,7 +18,7 @@
 #
 # All these paths should be relative to CMAKE_INSTALL_PREFIX
 
-cmake_minimum_required(VERSION 3.3.0)
+cmake_minimum_required(VERSION 3.22)
 
 message("Install prefix: ${CMAKE_INSTALL_PREFIX}")
 

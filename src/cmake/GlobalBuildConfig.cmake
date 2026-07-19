@@ -2,7 +2,7 @@
 # Global build system configuration
 ######################################
 
-cmake_minimum_required(VERSION 3.3.0)
+cmake_minimum_required(VERSION 3.22)
 
 # Check whether we are using a GCC-compatible compiler
 

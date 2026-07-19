@@ -1,6 +1,6 @@
 # Note: this file is NOT a part of the original Lua distribution
 
-cmake_minimum_required(VERSION 3.3.0)
+cmake_minimum_required(VERSION 3.22)
 
 ###########################
 # BUILD SYSTEM TWEAKS

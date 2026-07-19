@@ -1,6 +1,6 @@
 # Sets up version
 
-cmake_minimum_required(VERSION 3.3.0)
+cmake_minimum_required(VERSION 3.22)
 
 set(PRODUCT_VERSION_MAJOR 1)
 set(PRODUCT_VERSION_MINOR 0)
