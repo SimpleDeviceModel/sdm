@@ -246,7 +246,7 @@ void PlotterScrollArea::mouseMoveEvent(QMouseEvent *e) {
 		if(_drag==DragToScroll) {
 // Wrap mouse cursor position around screen
 			const int delta=logicalDpiX()/5;
-			QPoint globalPos=e->globalPos();
+			QPoint globalPos=e->globalPosition().toPoint();
 			auto s=screen();
 			if(!s) s=QGuiApplication::primaryScreen();
 			QRect screenRect=s->geometry();

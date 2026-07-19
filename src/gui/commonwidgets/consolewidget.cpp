@@ -393,7 +393,7 @@ void ConsoleWidget::mousePressEvent(QMouseEvent *e) {
 // this event if it occurs in non-editable area.
 	if(e->button()==Qt::MiddleButton) {
 // Replace middle button event with left button event
-		QMouseEvent ne(e->type(),e->localPos(),Qt::LeftButton,Qt::LeftButton,e->modifiers());
+		QMouseEvent ne(e->type(),e->position(),Qt::LeftButton,Qt::LeftButton,e->modifiers());
 // Pass left button event to base to update text cursor position based on mouse event
 		QPlainTextEdit::mousePressEvent(&ne);
 // If text cursor is in editable area, perform paste
