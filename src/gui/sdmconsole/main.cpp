@@ -98,6 +98,9 @@ try
 	u8e::utf8cin().sync();
 	u8e::utf8cout().flush();
 	u8e::utf8cerr().flush();
+
+// Suppress bogus ICC warnings
+	QLoggingCategory::setFilterRules("qt.gui.icc.warning=false");
 	
 	QApplication app(argc,argv);
 	
