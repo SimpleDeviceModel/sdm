@@ -762,18 +762,18 @@
     </message>
     <message>
         <location filename="../main.cpp" line="93"/>
-        <location filename="../main.cpp" line="193"/>
-        <location filename="../main.cpp" line="198"/>
+        <location filename="../main.cpp" line="195"/>
+        <location filename="../main.cpp" line="200"/>
         <source>Fatal error</source>
         <translation>Неустранимая ошибка</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="167"/>
+        <location filename="../main.cpp" line="169"/>
         <source>Warning: main program and Lua interpreter use different instances of the Standard C library</source>
         <translation>Предупреждение: основная программа и интерпретатор Lua используют разные экземпляры стандартной библиотеки C</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="198"/>
+        <location filename="../main.cpp" line="200"/>
         <source>Unexpected exception</source>
         <translation>Непредвиденное исключение</translation>
     </message>

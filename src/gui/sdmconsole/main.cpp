@@ -121,6 +121,8 @@ try
 	
 // Initialize settings
 	QSettings::setDefaultFormat(QSettings::IniFormat);
+	FString appConfigDir=Config::appConfigDir().up().str();
+	QSettings::setPath(QSettings::IniFormat,QSettings::UserScope,appConfigDir);
 	QSettings s;
 	if(s.value("Main/Reset").toBool()) s.clear();
 

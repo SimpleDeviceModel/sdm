@@ -117,3 +117,10 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL GNU)
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -include timed_mutex_workaround.h")
 	endif()
 endif()
+
+# Add macro for portable install
+
+if(OPTION_PORTABLE)
+	message("Portable installation")
+	add_definitions(-DSDM_PORTABLE_INSTALL)
+endif()
