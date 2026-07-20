@@ -16,7 +16,7 @@ endif()
 
 # Determine whether we need to deploy MSVC runtime locally
 
-if(MSVC AND OPTION_USE_VCREDIST)
+if(MSVC AND OPTION_USE_VCREDIST AND NOT OPTION_PORTABLE)
 	set(NOVCRUNTIME "--no-vc-runtime")
 endif()
 
