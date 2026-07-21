@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 
+if(NOT OPTION_PORTABLE)
+
 ###########################
 # CREATE NSIS PACKAGE
 ###########################
@@ -61,4 +63,6 @@ if(NOT WIN32)
 	file(COPY "${CMAKE_CURRENT_BINARY_DIR}/uninstall.sh"
 		DESTINATION "${PROJECT_BINARY_DIR}"
 		FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ WORLD_READ)
+endif()
+
 endif()
