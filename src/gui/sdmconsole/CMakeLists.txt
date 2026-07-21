@@ -27,7 +27,7 @@ install(TARGETS sdmconsole
 	DESTINATION "${BIN_INSTALL_DIR}")
 
 if(UNIX)
-	if(NOT OPTION_NO_ICONS)
+	if(NOT OPTION_NO_ICONS AND NOT OPTION_PORTABLE)
 		install(FILES "${CMAKE_CURRENT_BINARY_DIR}/sdmconsole.desktop" DESTINATION "${FREEDESKTOP_INSTALL_DIR}/applications")
 		install(FILES resources/icons/appicon.svg DESTINATION "${FREEDESKTOP_INSTALL_DIR}/icons/hicolor/scalable/apps" RENAME sdmconsole.svg)
 		install(FILES freedesktop/48x48/sdmconsole.png DESTINATION "${FREEDESKTOP_INSTALL_DIR}/icons/hicolor/48x48/apps")
