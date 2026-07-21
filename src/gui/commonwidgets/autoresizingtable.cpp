@@ -28,6 +28,7 @@
 #include <QPen>
 #include <QShowEvent>
 #include <QToolTip>
+#include <QMargins>
 
 #include <QLabel>
 #include <QLineEdit>
@@ -47,7 +48,9 @@ AutoResizingTable::AutoResizingTable(QWidget *parent): QTableWidget(parent) {
 QSize AutoResizingTable::sizeHint() const {
 	updateColumnHints();
 	int w=verticalHeader()->sizeHint().width()+allColumns;
-	return QSize(w,QTableWidget::sizeHint().height());
+	const int slack=fontInfo().pixelSize();
+	QMargins margins(slack,slack,slack,slack);
+	return QSize(w,QTableWidget::sizeHint().height()).grownBy(margins);
 }
 
 void AutoResizingTable::setColumnStretchFactor(int c,double f,double e) {
