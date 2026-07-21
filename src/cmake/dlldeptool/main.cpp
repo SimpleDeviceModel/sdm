@@ -47,7 +47,7 @@ struct ModuleInfo {
 
 bool noVCRuntime=false;
 auto const msdlls={"msvcp","msvcr","vccorlib","vcamp","vcomp",
-	"mfc","mfcm","msdia","atl","vcruntime","concrt","api-ms-win-crt-"};
+	"mfc","mfcm","msdia","atl","vcruntime","concrt","api-ms-win-"};
 
 std::vector<ModuleInfo> processedModules;
 std::vector<ModuleInfo> deployedModules;

@@ -37,6 +37,7 @@
 #include <QIcon>
 #include <QSettings>
 #include <QLoggingCategory>
+#include <QStyleFactory>
 
 #include <string>
 #include <exception>
@@ -103,6 +104,10 @@ try
 	QLoggingCategory::setFilterRules("qt.gui.icc.warning=false");
 	
 	QApplication app(argc,argv);
+	
+// Force fusion style if available to ensure consistency on all platforms
+	if(QStyleFactory::keys().contains("Fusion"))
+		app.setStyle(QStyleFactory::create("Fusion"));
 	
 /* 
  * On POSIX platforms QApplication constructor calls setlocale(LC_ALL,"").

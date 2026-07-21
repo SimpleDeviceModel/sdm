@@ -242,6 +242,8 @@ void MainWindow::constructMainMenu() {
 	m->addSeparator();
 	m->addAction(QIcon(":/icons/appicon.svg"),tr("About SDM"),
 		this,SLOT(menuHelpAbout()));
+	
+	m->sizeHint(); // performance workaround for lazy menu construction in Qt6
 }
 
 void MainWindow::populateScriptsMenu(QMenu *menu,const QString &path) {
@@ -480,7 +482,7 @@ void MainWindow::executeScript(const QString &path) try {
 	if(_lua.busy()) throw fruntime_error(tr("Lua interpreter is busy"));
 	const FString filename=Path(FString(path)).toAbsolute().str();
 	u8e::IFileStream in(filename.c_str(),std::ios_base::in|std::ios_base::binary);
-	if(!in) throw fruntime_error(tr("Cannot open script file \"")+filename+"\"");
+	if(!in) throw fruntime_error(tr("Cannot open script file \""));
 	LuaStreamReader reader(in,true);
 	_lua.executeChunkAsync(reader,"@"+filename,
 		prepareMarshaledFunctor<const LuaCallResult&>

@@ -23,8 +23,9 @@ add_subdirectory(sdmconsole)
 # Deploy the essential Qt plugins on Windows
 
 if(WIN32)
-	install(FILES "$<TARGET_FILE:Qt::QWindowsIntegrationPlugin>" DESTINATION "${QT_INSTALL_DIR}/platforms")
-	install(FILES "$<TARGET_FILE:Qt::QSvgIconPlugin>" DESTINATION "${QT_INSTALL_DIR}/iconengines")
-	install(FILES "$<TARGET_FILE:Qt::QJpegPlugin>" DESTINATION "${QT_INSTALL_DIR}/imageformats")
-	install(FILES "$<TARGET_FILE:Qt::QTiffPlugin>" DESTINATION "${QT_INSTALL_DIR}/imageformats")
+	install(FILES "$<TARGET_FILE:Qt6::QWindowsIntegrationPlugin>" DESTINATION "${QT_INSTALL_DIR}/platforms")
+	install(FILES "$<TARGET_FILE:Qt6::QSvgIconPlugin>" DESTINATION "${QT_INSTALL_DIR}/iconengines")
+	install(FILES "$<TARGET_FILE:Qt6::QJpegPlugin>" DESTINATION "${QT_INSTALL_DIR}/imageformats")
+	install(FILES "$<TARGET_FILE:Qt6::QTiffPlugin>" DESTINATION "${QT_INSTALL_DIR}/imageformats")
+	install(FILES "$<TARGET_FILE:Qt6::QModernWindowsStylePlugin>" DESTINATION "${QT_INSTALL_DIR}/styles")
 endif()
