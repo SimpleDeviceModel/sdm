@@ -117,7 +117,7 @@ Path Config::dataDir() {
 #ifdef SDM_PORTABLE_INSTALL
 
 Path Config::appConfigDir() {
-	return installPrefix()+"config"+"Simple Device Model";
+	return installPrefix()+".config"+"Simple Device Model";
 }
 
 #else // SDM_PORTABLE_INSTALL not defined
