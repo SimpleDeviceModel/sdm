@@ -47,7 +47,7 @@ struct ModuleInfo {
 
 bool noVCRuntime=false;
 auto const msdlls={"msvcp","msvcr","vccorlib","vcamp","vcomp",
-	"mfc","mfcm","msdia","atl","vcruntime","concrt","api-ms-win-"};
+	"mfc","mfcm","msdia","atl","vcruntime","concrt"};
 
 std::vector<ModuleInfo> processedModules;
 std::vector<ModuleInfo> deployedModules;
@@ -57,6 +57,7 @@ ModuleValidation validateModule(const std::string &str) {
 	if(strFileName.rfind(".dll")!=strFileName.size()-4) return nodecision;
 	
 	if(strFileName=="msvcrt.dll") return forbid;
+	if(strFileName.find("api-ms-win")==0) return forbid; // UCRT is an OS component
 
 // Compare file names against known Microsoft Visual C++ redistributable DLL names
 	for(auto const &msdll: msdlls) {
