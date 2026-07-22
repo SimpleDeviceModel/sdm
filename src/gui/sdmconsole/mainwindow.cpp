@@ -177,16 +177,35 @@ void MainWindow::constructMainMenu() {
 	QAction *a;
 	
 	m=menuBar()->addMenu(tr("&File"));
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,3,0)
 	m->addAction(QIcon(":/icons/plugin.svg"),tr("&Open plugin")+"...",
 		QKeySequence::Open,_sidebar,SLOT(openPlugin()));
+#else
+	m->addAction(QIcon(":/icons/plugin.svg"),tr("&Open plugin")+"...",
+		_sidebar,SLOT(openPlugin()),QKeySequence::Open);
+#endif
+
 	m->addSeparator();
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,3,0)
 	m->addAction(QIcon(":/icons/quit.svg"),tr("&Exit"),
 		QKeySequence::Quit,this,SLOT(close()));
+#else
+	m->addAction(QIcon(":/icons/quit.svg"),tr("&Exit"),
+		this,SLOT(close()),QKeySequence::Quit);
+#endif
 	
 	m=menuBar()->addMenu(tr("&View"));
 	
+#if QT_VERSION >= QT_VERSION_CHECK(6,3,0)
 	a=m->addAction(tr("Full screen mode"),_fullScreenShortcut,this,
 		SLOT(menuViewFullScreen(bool)));
+#else
+	a=m->addAction(tr("Full screen mode"),this,
+		SLOT(menuViewFullScreen(bool)),_fullScreenShortcut);
+#endif
+
 	a->setCheckable(true);
 	a->setChecked(isFullScreen());
 	m->addSeparator();
@@ -208,11 +227,25 @@ void MainWindow::constructMainMenu() {
 	m=menuBar()->addMenu(tr("S&cripts"));
 	populateScriptsMenu(m,FString(Config::scriptsDir().str()));
 	m->addSeparator();
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,3,0)
 	a=m->addAction(QIcon(":/icons/run.svg"),tr("E&xecute")+"...",
 		QKeySequence("Ctrl+F5"),this,SLOT(menuLuaRunScriptFromFile()));
+#else
+	a=m->addAction(QIcon(":/icons/run.svg"),tr("E&xecute")+"...",
+		this,SLOT(menuLuaRunScriptFromFile()),QKeySequence("Ctrl+F5"));
+#endif
+
 	QObject::connect(&_lua,&LuaServerQt::statusChanged,a,&QAction::setDisabled);
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,3,0)
 	a=m->addAction(QIcon(":/icons/abort.svg"),tr("&Terminate"),
 		QKeySequence("Shift+F5"),this,SLOT(menuLuaTerminateLuaScript()));
+#else
+	a=m->addAction(QIcon(":/icons/abort.svg"),tr("&Terminate"),
+		this,SLOT(menuLuaTerminateLuaScript()),QKeySequence("Shift+F5"));
+#endif
+
 	a->setEnabled(false);
 	QObject::connect(&_lua,&LuaServerQt::statusChanged,a,&QAction::setEnabled);
 	m->addAction(QIcon(":/icons/lua-logo-nolabel.svg"),tr("Statistics"),
@@ -235,10 +268,19 @@ void MainWindow::constructMainMenu() {
 		this,SLOT(menuSettingsReset()));
 	
 	m=menuBar()->addMenu(tr("&Help"));
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,3,0)
 	m->addAction(QIcon(":/icons/help.svg"),tr("User &manual"),
 		QKeySequence::HelpContents,this,SLOT(menuHelpManual()));
 	m->addAction(QIcon(":/icons/lua-logo-nolabel.svg"),tr("Lua &reference"),
 		QKeySequence("Ctrl+L"),this,SLOT(menuHelpLuaHelp()));
+#else
+	m->addAction(QIcon(":/icons/help.svg"),tr("User &manual"),
+		this,SLOT(menuHelpManual()),QKeySequence::HelpContents);
+	m->addAction(QIcon(":/icons/lua-logo-nolabel.svg"),tr("Lua &reference"),
+		this,SLOT(menuHelpLuaHelp()),QKeySequence("Ctrl+L"));
+#endif
+
 	m->addSeparator();
 	m->addAction(QIcon(":/icons/appicon.svg"),tr("About SDM"),
 		this,SLOT(menuHelpAbout()));
