@@ -368,6 +368,13 @@
 </translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="512"/>
+        <source>&lt;p&gt;Copyright © 2015-2026 Simple Device Model contributors&lt;/p&gt;
+</source>
+        <translation>&lt;p&gt;© Авторы Simple Device Model, 2015-2026&lt;/p&gt;
+</translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="513"/>
         <source>&lt;p&gt;This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions. See the link below for details.&lt;/p&gt;
 </source>
@@ -521,13 +528,6 @@
         <source>&lt;p&gt;&lt;a href=&quot;https://simpledevicemodel.github.io/&quot;&gt;Website&lt;/a&gt;&lt;/p&gt;
 </source>
         <translation>&lt;p&gt;&lt;a href=&quot;https://simpledevicemodel.github.io/&quot;&gt;Вебсайт&lt;/a&gt;&lt;/p&gt;
-</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="512"/>
-        <source>&lt;p&gt;Copyright © 2015-2022 Simple Device Model contributors&lt;/p&gt;
-</source>
-        <translation>&lt;p&gt;© Авторы Simple Device Model, 2015-2022&lt;/p&gt;
 </translation>
     </message>
     <message>

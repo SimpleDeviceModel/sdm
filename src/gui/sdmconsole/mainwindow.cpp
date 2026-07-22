@@ -509,7 +509,7 @@ void MainWindow::menuHelpAbout() {
 		tr("<p><a href=\"info://doc/changelog.txt\">Changelog</a></p>\n")+
 		tr("<p><a href=\"https://simpledevicemodel.github.io/\">Website</a></p>\n")+
 		tr("<h4>Legal information</h4>\n")+
-		tr("<p>Copyright © 2015-2022 Simple Device Model contributors</p>\n")+
+		tr("<p>Copyright © 2015-2026 Simple Device Model contributors</p>\n")+
 		tr("<p>This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions. See the link below for details.</p>\n")+
 		tr("<p><a href=\"info://doc/contributors.txt\">List of contributors</a></p>\n")+
 		tr("<p><a href=\"info://doc/licenses/license.txt\">Licensing information</a></p>\n");
