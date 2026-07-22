@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.3.0)
+cmake_minimum_required(VERSION 3.22)
 
 add_library(utils STATIC src/csvparser.cpp src/dirutil.cpp src/ioredirector.cpp src/loadablemodule.cpp src/stringutils.cpp)
 

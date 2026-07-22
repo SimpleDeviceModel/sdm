@@ -239,7 +239,8 @@ Section "-Core"
 # Install Microsoft Visual C++ Redistributable (if requested and not already installed)
 	!ifdef VCREDIST_USE
 		SetOutPath $PLUGINSDIR
-		File "${VCREDIST_PATH}"
+		File /oname=vcredist_${ARCH_STR}.exe "${VCREDIST_PATH}"
+		ClearErrors
 		IfSilent vcredist_install_silent
 		ExecWait '"$PLUGINSDIR\vcredist_${ARCH_STR}.exe" /install /passive /norestart' $0
 		Goto vcredist_check_exit
@@ -251,10 +252,12 @@ vcredist_install_silent:
 # 1638 if a newer version is already installed, 0 if installation is successful.
 
 vcredist_check_exit:
+		IfErrors vcredist_failed
 		IntCmp $0 3010 vcredist_exit_3010 # reboot required
 		IntCmp $0 1638 vcredist_install_fin # a newer version is already installed - ignore
 		IntCmp $0 0 vcredist_install_fin # installation successful
 # Otherwise, display a warning message and proceed
+vcredist_failed:
 		IfSilent +2
 		MessageBox MB_OK|MB_ICONEXCLAMATION $(VCRedistInstallationFailed)
 		Goto vcredist_install_fin

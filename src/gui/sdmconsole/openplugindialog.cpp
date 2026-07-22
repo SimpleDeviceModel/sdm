@@ -105,7 +105,7 @@ OpenPluginDialog::OpenPluginDialog(QWidget *parent): QDialog(parent) {
 	auto const &defaultPlugin=s.value("Plugin").toString();
 	
 	for(int i=0;i<_plugins.size();i++) {
-		if(_plugins[i].shortFileName==defaultPlugin) {
+		if(_plugins[i].shortFileName==FString(defaultPlugin)) {
 			_plugins[i].selectedDevice=s.value("Device",0).toInt();
 			_pluginSelector->setCurrentIndex(i);
 		}
@@ -190,7 +190,7 @@ bool OpenPluginDialog::pluginActivated(int index) try {
 // Do we already have this plugin?
 	auto const &filename=QFileInfo(d.fileName()).absoluteFilePath();
 	for(int i=0;i<_plugins.size();i++) {
-		if(_plugins[i].filename==filename) {
+		if(_plugins[i].filename==FString(filename)) {
 			_pluginSelector->setCurrentIndex(i);
 			return false;
 		}

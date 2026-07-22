@@ -28,6 +28,7 @@
 #include <QPen>
 #include <QShowEvent>
 #include <QToolTip>
+#include <QMargins>
 
 #include <QLabel>
 #include <QLineEdit>
@@ -47,7 +48,9 @@ AutoResizingTable::AutoResizingTable(QWidget *parent): QTableWidget(parent) {
 QSize AutoResizingTable::sizeHint() const {
 	updateColumnHints();
 	int w=verticalHeader()->sizeHint().width()+allColumns;
-	return QSize(w,QTableWidget::sizeHint().height());
+	const int slack=fontInfo().pixelSize();
+	QMargins margins(slack,slack,slack,slack);
+	return QSize(w,QTableWidget::sizeHint().height()).grownBy(margins);
 }
 
 void AutoResizingTable::setColumnStretchFactor(int c,double f,double e) {
@@ -94,14 +97,14 @@ int AutoResizingTable::sizeHintForColumn(int column) const {
 		int itemWidth;
 		
 		QTableWidgetItem *it=item(r,column);
-		if(it) itemWidth=fontMetrics().width(it->text());
+		if(it) itemWidth=fontMetrics().horizontalAdvance(it->text());
 		else itemWidth=horizontalHeader()->defaultSectionSize();
 		
 		QWidget *widget=cellWidget(r,column);
 		if(widget) {
 			int widgetWidth;
 			if(auto edit=dynamic_cast<QLineEdit*>(widget))
-				widgetWidth=fontMetrics().width(edit->text());
+				widgetWidth=fontMetrics().horizontalAdvance(edit->text());
 			else widgetWidth=widget->sizeHint().width();
 			if(widgetWidth>itemWidth) itemWidth=widgetWidth;
 		}

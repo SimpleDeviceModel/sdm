@@ -5,7 +5,7 @@
 # * use safe (bounds-checked) STL iterators if possible
 # * allow assert() even for Release builds
 
-cmake_minimum_required(VERSION 3.3.0)
+cmake_minimum_required(VERSION 3.22)
 
 if(OPTION_DIAGNOSTIC STREQUAL "FULL")
 	message("Diagnostic mode: FULL")

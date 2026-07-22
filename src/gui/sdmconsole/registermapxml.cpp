@@ -71,13 +71,13 @@ void RegisterMapXML::load(const QString &fileName) {
 
 // Find the root element
 	if(!xmlr.readNextStartElement()) throwReadException(tr("no root element"));
-	if(xmlr.name()!="RegisterMap") throwReadException(tr("wrong root element"));
+	if(xmlr.name()!=u"RegisterMap") throwReadException(tr("wrong root element"));
 	
 	regMap.clear();
 	
 // Process all pages
 	while(xmlr.readNextStartElement()) {
-		if(xmlr.name()=="Page") {
+		if(xmlr.name()==u"Page") {
 			processPage();
 		}
 	}
@@ -188,10 +188,10 @@ void RegisterMapXML::processPage() {
 	regMap.setPageName(page,tabName);
 	
 	for(int i=0;xmlr.readNextStartElement();) {
-		if(xmlr.name()=="SectionHeader") processSection(page,i++);
-		else if(xmlr.name()=="Register") processRegister(page,i++);
-		else if(xmlr.name()=="Fifo") processFifo(page,i++,RegisterMap::Fifo);
-		else if(xmlr.name()=="Memory") processFifo(page,i++,RegisterMap::Memory);
+		if(xmlr.name()==u"SectionHeader") processSection(page,i++);
+		else if(xmlr.name()==u"Register") processRegister(page,i++);
+		else if(xmlr.name()==u"Fifo") processFifo(page,i++,RegisterMap::Fifo);
+		else if(xmlr.name()==u"Memory") processFifo(page,i++,RegisterMap::Memory);
 		else xmlr.skipCurrentElement();
 	}
 }
@@ -206,26 +206,26 @@ void RegisterMapXML::processSection(int page,int r) {
 void RegisterMapXML::processRegister(int page,int r) {
 	RegisterMap::RowData d(RegisterMap::Register);
 	while(xmlr.readNextStartElement()) {
-		if(xmlr.name()=="Name") d.name=xmlr.readElementText();
-		else if(xmlr.name()=="Id") d.id=xmlr.readElementText();
-		else if(xmlr.name()=="Address") d.addr=xmlr.readElementText();
-		else if(xmlr.name()=="Data") {
+		if(xmlr.name()==u"Name") d.name=xmlr.readElementText();
+		else if(xmlr.name()==u"Id") d.id=xmlr.readElementText();
+		else if(xmlr.name()==u"Address") d.addr=xmlr.readElementText();
+		else if(xmlr.name()==u"Data") {
 			while(xmlr.readNextStartElement()) {
-				if(xmlr.name()=="Widget") {
-					if(xmlr.attributes().value("type")=="LineEdit") {
+				if(xmlr.name()==u"Widget") {
+					if(xmlr.attributes().value("type")==u"LineEdit") {
 						xmlr.skipCurrentElement();
 						continue;
 					}
 					
-					if(xmlr.attributes().value("type")=="DropDown")
+					if(xmlr.attributes().value("type")==u"DropDown")
 						d.widget=RegisterMap::DropDown;
-					else if(xmlr.attributes().value("type")=="ComboBox")
+					else if(xmlr.attributes().value("type")==u"ComboBox")
 						d.widget=RegisterMap::ComboBox;
-					else if(xmlr.attributes().value("type")=="PushButton")
+					else if(xmlr.attributes().value("type")==u"PushButton")
 						d.widget=RegisterMap::Pushbutton;
 					
 					while(xmlr.readNextStartElement()) {
-						if(xmlr.name()=="Option") {
+						if(xmlr.name()==u"Option") {
 							d.options.emplace_back(
 								xmlr.attributes().value("name").toString(),
 								RegisterMap::Number<sdm_reg_t>(xmlr.attributes().value("value").toString())
@@ -235,23 +235,23 @@ void RegisterMapXML::processRegister(int page,int r) {
 						else xmlr.skipCurrentElement();
 					}
 				}
-				else if(xmlr.name()=="Value") d.data=xmlr.readElementText();
+				else if(xmlr.name()==u"Value") d.data=xmlr.readElementText();
 				else xmlr.skipCurrentElement();
 			}
 		}
-		else if(xmlr.name()=="WriteAction") {
+		else if(xmlr.name()==u"WriteAction") {
 			d.writeAction.use=true;
 			d.writeAction.script=xmlr.readElementText();
 		}
-		else if(xmlr.name()=="ReadAction") {
+		else if(xmlr.name()==u"ReadAction") {
 			d.readAction.use=true;
 			d.readAction.script=xmlr.readElementText();
 		}
-		else if(xmlr.name()=="SkipGroupWrite") {
+		else if(xmlr.name()==u"SkipGroupWrite") {
 			d.skipGroupWrite=true;
 			xmlr.skipCurrentElement();
 		}
-		else if(xmlr.name()=="SkipGroupRead") {
+		else if(xmlr.name()==u"SkipGroupRead") {
 			d.skipGroupRead=true;
 			xmlr.skipCurrentElement();
 		}
@@ -271,25 +271,25 @@ void RegisterMapXML::processFifo(int page,int r,RegisterMap::RowType t) {
 	
 	bool hasPreWriteAddr=false,hasPreWriteData=false;
 	while(xmlr.readNextStartElement()) {
-		if(xmlr.name()=="Name") d.name=xmlr.readElementText();
-		else if(xmlr.name()=="Id") d.id=xmlr.readElementText();
-		else if(xmlr.name()=="Address") d.addr=xmlr.readElementText();
-		else if(xmlr.name()=="PreWriteAddr") {
+		if(xmlr.name()==u"Name") d.name=xmlr.readElementText();
+		else if(xmlr.name()==u"Id") d.id=xmlr.readElementText();
+		else if(xmlr.name()==u"Address") d.addr=xmlr.readElementText();
+		else if(xmlr.name()==u"PreWriteAddr") {
 			d.fifo.preWriteAddr=RegisterMap::Number<sdm_addr_t>(xmlr.readElementText());
 			hasPreWriteAddr=true;
 		}
-		else if(xmlr.name()=="PreWriteData") {
+		else if(xmlr.name()==u"PreWriteData") {
 			d.fifo.preWriteData=RegisterMap::Number<sdm_reg_t>(xmlr.readElementText());
 			hasPreWriteData=true;
 		}
-		else if(xmlr.name()=="Size") {
+		else if(xmlr.name()==u"Size") {
 			size=RegisterMap::Number<std::size_t>(xmlr.readElementText());
 			haveSize=true;
 		}
-		else if(xmlr.name()=="DefaultValue") {
+		else if(xmlr.name()==u"DefaultValue") {
 			defaultValue=RegisterMap::Number<sdm_reg_t>(xmlr.readElementText());
 		}
-		else if(xmlr.name()=="Data") {
+		else if(xmlr.name()==u"Data") {
 			auto str=xmlr.readElementText();
 			QRegularExpression numRegex("\\d+");
 			auto numbers=numRegex.globalMatch(str);
@@ -299,19 +299,19 @@ void RegisterMapXML::processFifo(int page,int r,RegisterMap::RowType t) {
 				d.fifo.data.push_back(RegisterMap::Number<sdm_reg_t>(val));
 			}
 		}
-		else if(xmlr.name()=="WriteAction") {
+		else if(xmlr.name()==u"WriteAction") {
 			d.writeAction.use=true;
 			d.writeAction.script=xmlr.readElementText();
 		}
-		else if(xmlr.name()=="ReadAction") {
+		else if(xmlr.name()==u"ReadAction") {
 			d.readAction.use=true;
 			d.readAction.script=xmlr.readElementText();
 		}
-		else if(xmlr.name()=="SkipGroupWrite") {
+		else if(xmlr.name()==u"SkipGroupWrite") {
 			d.skipGroupWrite=true;
 			xmlr.skipCurrentElement();
 		}
-		else if(xmlr.name()=="SkipGroupRead") {
+		else if(xmlr.name()==u"SkipGroupRead") {
 			d.skipGroupRead=true;
 			xmlr.skipCurrentElement();
 		}

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.3.0)
+cmake_minimum_required(VERSION 3.22)
 
 add_library(luaserver STATIC src/luaserver.cpp src/stackguard.cpp src/luacallbackobject.cpp src/luavalue.cpp src/luaconsole.cpp src/luastreamreader.cpp src/luaiterator.cpp)
 

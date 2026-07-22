@@ -26,14 +26,14 @@
 #include "luaserver.h"
 
 #include <QObject>
-#include <QTime>
+#include <QElapsedTimer>
 
 #include <mutex>
 
 class LuaServerQt : public QObject,public LuaServer {
 	Q_OBJECT
 	
-	QTime _time;
+	QElapsedTimer _time;
 	bool _timerActive=false;
 	int _msecTotal=0;
 	int _calls=0;

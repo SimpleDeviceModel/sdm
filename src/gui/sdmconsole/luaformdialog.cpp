@@ -103,7 +103,7 @@ int LuaFormDialog::LuaMethod_addlistoption(LuaServer &lua,const std::vector<LuaV
 		else {
 			const FString &defName=args[2].toString();
 			for(int i=0;i<static_cast<int>(options.size());i++) {
-				if(options[i]==defName) {
+				if(FString(options[i])==defName) {
 					defaultOption=i;
 					break;
 				}

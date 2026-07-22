@@ -44,7 +44,7 @@ FileSelector::FileSelector(QWidget *parent): QWidget(parent) {
 	layout->addWidget(_edit);
 	const QString &buttonText="...";
 	auto browseButton=new HintedWidget<QPushButton>(buttonText);
-	browseButton->setMaximumWidth(2*browseButton->fontMetrics().width(buttonText));
+	browseButton->setMaximumWidth(2*browseButton->fontMetrics().horizontalAdvance(buttonText));
 	browseButton->overrideHeight(_edit->sizeHint().height());
 	browseButton->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
 	QObject::connect(browseButton,&QAbstractButton::clicked,this,&FileSelector::browse);

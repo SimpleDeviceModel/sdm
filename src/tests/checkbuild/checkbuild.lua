@@ -62,7 +62,8 @@ cmake_options={}
 
 if ostype=="windows" then
 	deltree_cmd="for /d %i in (build_*) do rd /s /q %i"
-	toolchains={"mingw32","mingw64","msvc12_32","msvc12_64"}
+	table.insert(cmake_options,"OPTION_PORTABLE")
+	toolchains={"msvc14_64"}
 
 else
 	deltree_cmd="rm -rf build_*"

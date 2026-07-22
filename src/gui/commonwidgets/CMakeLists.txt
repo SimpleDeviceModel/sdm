@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.3.0)
+cmake_minimum_required(VERSION 3.22)
 
 ###########################
 # LIBRARY
@@ -6,13 +6,11 @@ cmake_minimum_required(VERSION 3.3.0)
 
 add_library(commonwidgets STATIC autoresizingtable.cpp codeeditor.cpp consolewidget.cpp dockwrapper.cpp filedialogex.cpp fileselector.cpp fontutils.cpp formdialog.cpp iconbutton.cpp luahighlighter.cpp optionselectordialog.cpp plotterabstractscene.cpp plotteraddcursordialog.cpp plotterbarscene.cpp plotterbinaryscene.cpp plotterbitmapscene.cpp plottervideoscene.cpp plottercursorwidget.cpp plotterlayersdialog.cpp plotterscrollarea.cpp plotterwidget.cpp statusprogresswidget.cpp textviewer.cpp resources/commonwidgets.qrc)
 
-add_definitions(-DQT_NO_DEPRECATED_WARNINGS)
-
 target_include_directories(commonwidgets PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_subdirectory(translations)
 
-target_link_libraries(commonwidgets Qt5::Widgets Qt5::Svg utils)
+target_link_libraries(commonwidgets Qt::Widgets Qt::Svg utils)
 
 # Ensure that whatever is linked to this library uses the same optional compiler features
 

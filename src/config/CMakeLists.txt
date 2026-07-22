@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.3.0)
+cmake_minimum_required(VERSION 3.22)
 
 configure_file(sdmdirscfg.h.in "${CMAKE_CURRENT_BINARY_DIR}/sdmdirscfg.h")
 configure_file(version.tex.in "${PROJECT_SOURCE_DIR}/doc/manual/version.tex")

@@ -173,7 +173,7 @@ void PlotterCursorWidget::paintEvent(QPaintEvent *e) {
 }
 
 void PlotterCursorWidget::mousePressEvent(QMouseEvent *e) {
-	_dragCursorPos=e->globalPos();
+	_dragCursorPos=e->globalPosition().toPoint();
 	_dragOriginPos=origin();
 	_initialPos=_pos;
 	_lastDragDirection=Unspecified;
@@ -188,8 +188,8 @@ void PlotterCursorWidget::mouseReleaseEvent(QMouseEvent *e) {
 void PlotterCursorWidget::mouseMoveEvent(QMouseEvent *e) {
 	if(!_dragCursorPos.isNull()) {
 		QPoint pos=_dragOriginPos;
-		int offsetx=e->globalPos().x()-_dragCursorPos.x();
-		int offsety=e->globalPos().y()-_dragCursorPos.y();
+		int offsetx=e->globalPosition().x()-_dragCursorPos.x();
+		int offsety=e->globalPosition().y()-_dragCursorPos.y();
 		
 		const int delta=logicalDpiX()/4;
 		

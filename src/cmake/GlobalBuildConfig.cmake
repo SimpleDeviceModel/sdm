@@ -2,7 +2,7 @@
 # Global build system configuration
 ######################################
 
-cmake_minimum_required(VERSION 3.3.0)
+cmake_minimum_required(VERSION 3.22)
 
 # Check whether we are using a GCC-compatible compiler
 
@@ -116,4 +116,11 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL GNU)
 		include_directories(${CMAKE_CURRENT_LIST_DIR}/workarounds)
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -include timed_mutex_workaround.h")
 	endif()
+endif()
+
+# Add macro for portable install
+
+if(OPTION_PORTABLE)
+	message("Portable installation")
+	add_definitions(-DSDM_PORTABLE_INSTALL)
 endif()

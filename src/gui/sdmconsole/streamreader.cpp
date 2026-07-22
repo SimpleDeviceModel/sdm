@@ -45,7 +45,7 @@
 
 #include <QMessageBox>
 #include <QStatusBar>
-#include <QTime>
+#include <QElapsedTimer>
 #include <QCoreApplication>
 
 #include <algorithm>
@@ -141,7 +141,7 @@ void StreamReader::run() try {
 	int readFailures=0;
 	std::map<int,StreamPacket> packets;
 	bool connectionVerified=false;
-	QTime t;
+	QElapsedTimer t;
 	bool haveNewData=false;
 	
 	t.start();
@@ -223,7 +223,7 @@ void StreamReader::run() try {
 		
 		if(ready==nStreams) { // all streams are ready, produce full result
 			_packetSizeHint=DefaultPacketSizeHint;
-			for(auto const &item: packets) _packetSizeHint=std::max(_packetSizeHint,item.second.data.size());
+			for(auto const &item: packets) _packetSizeHint=std::max<int>(_packetSizeHint,item.second.data.size());
 			_src.readNextPacket();
 			_src.readStreamErrors();
 			glock.unlock();
@@ -257,7 +257,7 @@ catch(std::exception &ex) {
 StreamReader::ReadResult StreamReader::readFullPacket(int s,QVector<sdm_sample_t> &data) {
 	static const int MaxRequest=16384;
 	int incomplete=0;
-	QTime t;
+	QElapsedTimer t;
 	t.start();
 	
 	for(;;) {

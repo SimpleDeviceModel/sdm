@@ -37,6 +37,7 @@
 #include <QIcon>
 #include <QSettings>
 #include <QLoggingCategory>
+#include <QStyleFactory>
 
 #include <string>
 #include <exception>
@@ -98,12 +99,15 @@ try
 	u8e::utf8cin().sync();
 	u8e::utf8cout().flush();
 	u8e::utf8cerr().flush();
+
+// Suppress bogus ICC warnings
+	QLoggingCategory::setFilterRules("qt.gui.icc.warning=false");
 	
 	QApplication app(argc,argv);
 	
-// Allow QIcon::pixmap() to return high-DPI pixmaps in device pixels
-// as opposed to logical pixels
-	QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+// Force fusion style if available to ensure consistency on all platforms
+	if(QStyleFactory::keys().contains("Fusion"))
+		app.setStyle(QStyleFactory::create("Fusion"));
 	
 /* 
  * On POSIX platforms QApplication constructor calls setlocale(LC_ALL,"").
@@ -122,6 +126,8 @@ try
 	
 // Initialize settings
 	QSettings::setDefaultFormat(QSettings::IniFormat);
+	FString appConfigDir=Config::appConfigDir().up().str();
+	QSettings::setPath(QSettings::IniFormat,QSettings::UserScope,appConfigDir);
 	QSettings s;
 	if(s.value("Main/Reset").toBool()) s.clear();
 

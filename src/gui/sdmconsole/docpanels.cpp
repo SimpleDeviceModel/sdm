@@ -473,7 +473,7 @@ SourcePanel::SourcePanel(DocSource &src,QWidget *parent):
 	QObject::connect(fileWriterButton,&QAbstractButton::clicked,this,&SourcePanel::fileWriter);
 	layout->addWidget(fileWriterButton,3,0,1,2);
 	
-	auto defWidth=fontMetrics().width("000000000");
+	auto defWidth=fontMetrics().horizontalAdvance("000000000");
 	
 	layout->addWidget(new QLabel(tr("Decimation: ")),4,0);
 	auto dfHinted=new HintedWidget<QSpinBox>;

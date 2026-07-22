@@ -61,14 +61,14 @@ Chapter \ref{ch:sdmapireference}, \styledtitleref{ch:sdmapireference}, provides 
 
 \section{System requirements}
 
-SDM is officially supported on machines with an x86 or x86-64 CPU architecture and one of the following operating systems:
+SDM requires a modern version of Linux or Microsoft Windows. The current release has been tested on a 64-bit machine with the following operating systems:
 
 \begin{itemize}
-	\item Microsoft® Windows® 7 SP1 or later;
-	\item Ubuntu® 18.04 or later.
+	\item Microsoft® Windows® 11;
+	\item Ubuntu® 22.04.
 \end{itemize}
 
-It is also possible that SDM will work on other platforms. In particular, any modern (vendor-supported) Linux® distribution that can install the build system dependencies (Subsection \ref{subsec:dependencies}) is likely capable of building and running SDM.
+Other OS versions supported by Qt\ 6 may work as well.
 
 \section{Installation on Microsoft Windows}
 
@@ -83,14 +83,17 @@ Note that while SDM itself is Unicode-aware, Lua interpreter is not. For that re
 
 Uninstallation is performed, as usual, from the Control Panel or by running \shellcmd{uninstall.exe} directly.
 
+There is also a portable version that stores settings in the application directory and does not require installation.
+
 \section{Installation on Ubuntu}
 
 Installation is performed by building SDM from source. First, build system dependencies must be installed:
 
 \begin{shellcmds}
-sudo apt install build-essential qtbase5-dev qtbase5-dev-tools \textbackslash
-    libqt5svg5-dev qttools5-dev qttools5-dev-tools \textbackslash
-    qttranslations5-l10n qt5-image-formats-plugins cmake
+sudo apt install build-essentials qt6-base-dev \textbackslash
+    qt6-base-dev-tools libqt6svg6-dev qt6-tools-dev \textbackslash
+    qt6-tools-dev-tools qt6-l10n-tools \textbackslash
+    qt6-translations-l10n qt6-image-formats-plugins cmake
 \end{shellcmds}
 
 After that, SDM itself can be built with the following commands (assuming that they are run from the SDM source distribution top-level directory):
@@ -112,22 +115,18 @@ SDM can be removed from the system by running \shellcmd{uninstall.sh} from the b
 \label{subsec:dependencies}
 
 \begin{itemize}
-	\item A toolchain for \cplusplus{} development:
+	\item A toolchain for \cplusplus{} development. This release has been tested with the following toolchains:
 		\begin{itemize}
-			\item for Microsoft Windows: Microsoft Visual Studio® 2013 or later, or MinGW-w64 GCC 4.8 or later (see notes below). Pre-built Windows packages are created with Microsoft Visual Studio 2013.
-			\item for Linux: GCC 4.8 or later, or Clang 3.4 or later.
+			\item For Microsoft Windows: Microsoft Visual Studio® 2022.
+			\item For Linux: GCC 11.4, Clang 14.0.
 		\end{itemize}
-	\item CMake 3.3 or later;
-	\item Qt® 5.x, x $\ge$ 6 (optional, for \shellcmd{sdmconsole});
+	\item CMake 3.22 or later;
+	\item Qt® 6.x (optional, for \shellcmd{sdmconsole});
 	\item NSIS 3.0 or later (optional, for Windows installer);
 	\item TeX Live 2013 or later (optional, for \LaTeX{} documentation).
 \end{itemize}
 
 All tool locations must be added to the \shellcmd{PATH} environment variable.
-
-\subsubsection{Notes on MinGW-w64 toolchains}
-
-The MinGW-w64 project provides multiple flavors of GCC toolchains differing in threading and exception handling models. To build SDM, \emph{posix} threading model is required; SDM doesn't depend on a particular exception handling model, although \emph{sjlj} is recommended for x86 targets and \emph{seh} -- for x86-64 targets.
 
 \subsection{Build procedure}
 
@@ -136,14 +135,11 @@ SDM uses CMake as a build system generator. CMake automatically generates script
 \begin{itemize}
 	\item For Microsoft Windows:
 	\begin{itemize}
-		\item \shellcmd{"MinGW Makefiles"} (Makefile-based, for MinGW)
-		\item \shellcmd{"MSYS Makefiles"} (Makefile-based, for MinGW+MSYS)
 		\item \shellcmd{"NMake Makefiles"} (Makefile-based, for Visual Studio)
-		\item \shellcmd{"Visual Studio 12 2013"} (IDE-based)
-		\item \shellcmd{"Visual Studio 14 2015"} (IDE-based)
+		\item \shellcmd{"NMake Makefiles JOM"} (same with parallel build support)
+		\item \shellcmd{"Visual Studio 17 2022"} (IDE-based)
 	\end{itemize}
 	\item For Linux: \shellcmd{"Unix Makefiles"} (active by default, can be omitted)
-	\item For all platforms: \shellcmd{"Ninja"}
 \end{itemize}
 
 Build system generator is not necessarily tied to a specific compiler. For Makefile-based generators (and Ninja) you can set the compiler with the \shellcmd{-DCMAKE\_C\_COMPILER} and \shellcmd{-DCMAKE\_CXX\_COMPILER} CMake options (see also Subsection \ref{subsec:buildoptions}).
@@ -162,13 +158,13 @@ cmake [ -G \emph{generator} ] [ \emph{options} ] \emph{source\_directory}
 Possible \shellcmd{\emph{generator}} values are provided above. To build a 64-bit version of SDM with Visual Studio IDE-based generators, add \shellcmd{-A x64} option. For a list of other options see Subsection \ref{subsec:buildoptions}.
 
 \begin{enumerate}[resume]
-	\item Build the source code. For Makefile-based generators, a \shellcmd{\emph{make}} command must be invoked. The name of \shellcmd{\emph{make}} command depends on the toolchain: it is usually \shellcmd{make} for Linux; for Microsoft Windows in can be \shellcmd{nmake} for Microsoft Visual Studio, \shellcmd{make} for MSYS and \shellcmd{mingw32-make} for MinGW. Alternatively, the third-party \shellcmd{jom} tool\footnote{\shellcmd{jom} is an \shellcmd{nmake} clone developed by the Qt project. Unlike \shellcmd{nmake}, it supports parallel builds. See \url{https://wiki.qt.io/Jom}.} can be used in place of \shellcmd{nmake} or \shellcmd{mingw32-make}.
+	\item Build the source code. For Makefile-based generators, a \shellcmd{make} command must be invoked (\shellcmd{nmake} or \shellcmd{jom} for Windows)\footnote{\shellcmd{jom} is an \shellcmd{nmake} clone developed by the Qt project. Unlike \shellcmd{nmake}, it supports parallel builds. See \url{https://wiki.qt.io/Jom}.}.
 	
 	For Visual Studio generators, build the \shellcmd{ALL\_BUILD} target.
 	
-	\item To install the project, invoke \shellcmd{\emph{make} install} for Makefile-based generators or build the \shellcmd{INSTALL} target for Visual Studio generators.
+	\item To install the project, invoke \shellcmd{make install} for Makefile-based generators or build the \shellcmd{INSTALL} target for Visual Studio generators.
 	
-	\item Optionally, one can run the SDM test suite by invoking \shellcmd{\emph{make} test} for Makefile-based generators or building the \shellcmd{RUN\_TESTS} target for Visual Studio generators.
+	\item Optionally, one can run the SDM test suite by invoking \shellcmd{make test} for Makefile-based generators or building the \shellcmd{RUN\_TESTS} target for Visual Studio generators.
 \end{enumerate}
 
 The CMake-based build system won't build the Windows installer and this manual. Building the installer is described in Subsection \ref{subsec:wininstaller} below. The user manual is built with \shellcmd{lualatex}.
@@ -214,7 +210,9 @@ Option & Description \\
 
 \shellcmd{OPTION\_NO\_QT} & Don't use Qt. \shellcmd{sdmconsole} won't be built. \\
 
-\shellcmd{OPTION\_USE\_VCREDIST} & When building the installer package, deploy the Microsoft Visual \cplusplus{} Runtime using \shellcmd{vcredist\_*.exe} (MSVC only). Default is \shellcmd{OFF} for Microsoft Visual Studio 2013, \shellcmd{ON} for later versions. See also Subsection \ref{subsec:wininstaller}. \\
+\shellcmd{OPTION\_PORTABLE} & Portable installation (stores configuration in the application directory). \\
+
+\shellcmd{OPTION\_USE\_VCREDIST} & When building the installer package, deploy the Microsoft Visual \cplusplus{} Runtime using \shellcmd{vcredist\_*.exe} (MSVC only). See also Subsection \ref{subsec:wininstaller}. \\
 
 \shellcmd{OPTION\_VALGRIND} & Enable using \shellcmd{valgrind} by the test suite to track memory leaks (Linux only). \\
 
@@ -232,7 +230,7 @@ Option & Description \\
 \end{tabularx}
 \end{table}
 
-On Microsoft Windows the default value of the \shellcmd{CMAKE\_INSTALL\_PREFIX} variable is \shellcmd{C:/Program Files/SDM}. It is used only by the CMake \shellcmd{install} target and doesn't affect compilation.
+On Microsoft Windows the default value of the \shellcmd{CMAKE\_INSTALL\_PREFIX} variable is \shellcmd{C:/Program Files/Simple Device Model}. It is used only by the CMake \shellcmd{install} target and doesn't affect compilation.
 
 The default \shellcmd{CMAKE\_INSTALL\_PREFIX} on Linux is usually \shellcmd{/usr/local} and should be set to the correct path for the software to be able to detect paths to data directories (SDM will try to determine installation path at run time, but Linux lacks a guaranteed portable way to do so).
 
@@ -246,7 +244,7 @@ When linking SDM against an external Lua installation, note that SDM and the Lua
 
 A few examples of building SDM using Makefile-based generators are provided below. The examples are assumed to be run from the SDM source distribution top-level directory.
 
-For Linux:
+Linux:
 
 \begin{shellcmds}
 mkdir build
@@ -256,7 +254,7 @@ make -j
 sudo make install
 \end{shellcmds}
 
-For Microsoft Visual Studio:
+Microsoft Visual Studio (NMake):
 
 \begin{shellcmds}
 mkdir build
@@ -266,24 +264,13 @@ nmake
 nmake install
 \end{shellcmds}
 
-For MinGW:
+Microsoft Visual Studio (MSBuild):
 
 \begin{shellcmds}
 mkdir build
 cd build
-cmake -G "MinGW Makefiles" ../src
-mingw32-make -j
-mingw32-make install
-\end{shellcmds}
-
-For MSYS:
-
-\begin{shellcmds}
-mkdir build
-cd build
-cmake -G "MSYS Makefiles" ../src
-make -j
-make install
+cmake -G "Visual Studio 17 2022" -A x64 ../src
+msbuild /m /p:Configuration=Release INSTALL.vcxproj
 \end{shellcmds}
 
 \subsection{Generating installer for Windows}
@@ -295,38 +282,11 @@ To generate the installer package, SDM must be first built and installed using C
 
 The installer generation script uses the \shellcmd{EnVar} NSIS plugin to modify the \shellcmd{PATH} environment variable in the Windows Registry. This plugin is not included in the NSIS distribution and must be installed separately\footnote{\url{https://nsis.sourceforge.io/EnVar_plug-in}}.
 
-When using a MinGW-based toolchain, it is recommended to use \shellcmd{make install/strip} instead of just \shellcmd{make install} to strip unneeded symbols from the executables:
-
-\begin{shellcmds}
-mkdir build
-cd build
-cmake -G "MinGW Makefiles" -DCMAKE\_INSTALL\_PREFIX=tmp ../src
-mingw32-make -j
-mingw32-make install/strip
-cd tmp
-makensis make\_installer.nsi
-\end{shellcmds}
+Installer script will not be generated when \shellcmd{OPTION\_PORTABLE} is set.
 
 \subsubsection{External DLL dependencies}
 
-To run SDM, a target system must have shared versions of the Standard \cplusplus{} library and Qt libraries installed. On Microsoft Windows, the \shellcmd{install} target will run a helper tool (\shellcmd{dlldeptool.exe}) that automatically copies the required libraries from the host system to the application directory. If you plan to distribute the produced package, ensure that you are allowed to redistribute these libraries. Notably, debug versions of Microsoft Visual \cplusplus{} Runtime are \emph{not} redistributable.
-
-In addition to the above, since Microsoft Visual Studio 2015 compiled binaries require the \emph{Universal CRT} to be present on the target system. This component is shipped with Microsoft Windows 10; previous versions can get it via the Windows Update. The required update package (KB2999226) can also be installed manually\footnote{\url{https://www.microsoft.com/en-us/download/details.aspx?id=48234}}. Alternatively, it is possible to deploy the standard libraries centrally using \shellcmd{vcredist\_x86.exe} (or \shellcmd{vcredist\_x64.exe}), as described in the Subsection \ref{subsec:buildoptions}; these packages also deploy the \emph{Universal CRT} if it is not already present. In this case the standard libraries are not copied to the application directory. This option is active by default when using Microsoft Visual Studio 2015 or later.
-
-\subsection{Cross compilation}
-
-It is possible to build Windows binaries on a Linux host using MinGW-w64 cross compiler toolchain. To do so, some additional CMake variables must be set (replace \shellcmd{i686} with \shellcmd{x86\_64} to build 64-bit executables):
-
-\begin{shellcmds}
-cmake \textbackslash
-    -DCMAKE\_SYSTEM\_NAME=Windows \textbackslash
-    -DCMAKE\_C\_COMPILER=i686-w64-mingw32-gcc \textbackslash
-    -DCMAKE\_CXX\_COMPILER=i686-w64-mingw32-g++ \textbackslash
-    -DCMAKE\_RC\_COMPILER=i686-w64-mingw32-windres \textbackslash
-    ../src
-\end{shellcmds}
-
-To build \shellcmd{sdmconsole}, a cross-compiled version of Qt must be present and available to CMake (the \shellcmd{CMAKE\_PREFIX\_PATH} option can be used to specify its location). \shellcmd{install} and \shellcmd{test} targets require Wine to be installed. \shellcmd{PATH} environment variable in Wine must contain MinGW runtime DLL locations. Note that \shellcmd{PATH} environment variable in Wine is not related to the host environment variable with the same name. In order to set it, create a \shellcmd{PATH} parameter in the \shellcmd{HKEY\_CURRENT\_USER\textbackslash Environment} registry key using \shellcmd{wine regedit}. Directory names must not contain trailing slashes.
+To run SDM, a target system must have shared versions of the Standard \cplusplus{} library and Qt libraries. On Microsoft Windows, the \shellcmd{install} target will run a deployment automation tool (\shellcmd{dlldeptool.exe}) that will collect the necessary DLLs from the host system. Qt libraries are always installed to the application directory. Standard \cplusplus{} runtime libraries are usually deployed centrally with the help of a redistributable package, unless \shellcmd{OPTION\_USE\_VCREDIST} is \shellcmd{OFF} or it's a portable installation. If you plan to distribute the produced package, ensure that you are allowed to redistribute these libraries. Notably, debug versions of Microsoft Visual \cplusplus{} Runtime are \emph{not} redistributable.
 
 \section{Directory hierarchy}
 \label{sec:installdirectories}
@@ -359,7 +319,7 @@ Installation directories for SDM components are listed in Table \ref{tab:install
 \end{tabularx}
 \end{table}
 
-User settings are stored in \shellcmd{\%APPDATA\%\textbackslash{}Simple Device Model} on Microsoft Windows and in \shellcmd{\$HOME/.config/Simple Device Model} on Linux.
+User settings are stored in \shellcmd{\%APPDATA\%\textbackslash{}Simple Device Model} on Microsoft Windows and in \shellcmd{\$HOME/.config/Simple Device Model} on Linux for non-portable builds. Portable builds store settings in the \shellcmd{.config} subdirectory of the application directory.
 
 On Linux, how desktop entries (shortcuts and icons) are installed depends on the \shellcmd{CMAKE\_INSTALL\_PREFIX} value:
 
@@ -3343,7 +3303,7 @@ Unlike most \shellcmd{sdmconsole} GUI objects, \objtype{RegisterMap} objects are
 
 \expr{luadfic} is not loaded automatically; to load it, use the \luaexpr{require()} Lua function.
 
-\expr{luadfic} is a low-level library which by design is able to circumvent most safety mechanisms. Incorrect usage will almost certainly result in program crashes.
+\expr{luadfic} is a low-level library which by design is able to circumvent most safety mechanisms. Incorrect usage may result in program crashes.
 
 The following example imports the \cexpr{getenv()} function from the Standard C library:
 

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.3.0)
+cmake_minimum_required(VERSION 3.22)
 
 if(OPTION_VALGRIND)
 	set(VALGRIND "valgrind" "--leak-check=yes" "--error-exitcode=1")

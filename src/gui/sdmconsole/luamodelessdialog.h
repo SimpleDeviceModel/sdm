@@ -37,7 +37,7 @@
 #include "fstring.h"
 
 #include <QApplication>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QDockWidget>
 
 #include <stdexcept>
@@ -180,7 +180,9 @@ template <typename T> int LuaModelessDialog<T>::LuaMethod_move(LuaServer &lua,co
 	if(args.size()==2) rootWidget()->move(static_cast<int>(args[0].toInteger()),static_cast<int>(args[1].toInteger()));
 	else if(args.size()==1) {
 		if(args[0].toString()=="center") {
-			auto geometry=QApplication::desktop()->screenGeometry(rootWidget());
+			auto s=rootWidget()->screen();
+			if(!s) s=QGuiApplication::primaryScreen();
+			auto geometry=s->availableGeometry();
 			rootWidget()->move(geometry.center()-rootWidget()->rect().center());
 		}
 		else throw std::runtime_error(("Unrecognized argument: "+args[0].toString()).c_str());
