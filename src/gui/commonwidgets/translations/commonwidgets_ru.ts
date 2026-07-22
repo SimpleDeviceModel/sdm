@@ -22,32 +22,32 @@
 <context>
     <name>ConsoleWidget</name>
     <message>
-        <location filename="../consolewidget.cpp" line="445"/>
+        <location filename="../consolewidget.cpp" line="450"/>
         <source>Cut</source>
         <translation>Вырезать</translation>
     </message>
     <message>
-        <location filename="../consolewidget.cpp" line="449"/>
+        <location filename="../consolewidget.cpp" line="454"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../consolewidget.cpp" line="453"/>
+        <location filename="../consolewidget.cpp" line="458"/>
         <source>Paste</source>
         <translation>Вставить</translation>
     </message>
     <message>
-        <location filename="../consolewidget.cpp" line="457"/>
+        <location filename="../consolewidget.cpp" line="462"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../consolewidget.cpp" line="463"/>
+        <location filename="../consolewidget.cpp" line="468"/>
         <source>Select All</source>
         <translation>Выделить всё</translation>
     </message>
     <message>
-        <location filename="../consolewidget.cpp" line="470"/>
+        <location filename="../consolewidget.cpp" line="475"/>
         <source>Choose font...</source>
         <translation>Выбрать шрифт...</translation>
     </message>
@@ -230,27 +230,27 @@
 <context>
     <name>PlotterScrollArea</name>
     <message>
-        <location filename="../plotterscrollarea.cpp" line="497"/>
+        <location filename="../plotterscrollarea.cpp" line="501"/>
         <source>Image generation failed</source>
         <translation>Не удалось сохранить изображение</translation>
     </message>
     <message>
-        <location filename="../plotterscrollarea.cpp" line="504"/>
+        <location filename="../plotterscrollarea.cpp" line="508"/>
         <source>Cursor %1</source>
         <translation>Курсор %1</translation>
     </message>
     <message>
-        <location filename="../plotterscrollarea.cpp" line="557"/>
+        <location filename="../plotterscrollarea.cpp" line="561"/>
         <source>Selected: </source>
         <translation>Выделение: </translation>
     </message>
     <message>
-        <location filename="../plotterscrollarea.cpp" line="559"/>
+        <location filename="../plotterscrollarea.cpp" line="563"/>
         <source>width=</source>
         <translation>ширина=</translation>
     </message>
     <message>
-        <location filename="../plotterscrollarea.cpp" line="560"/>
+        <location filename="../plotterscrollarea.cpp" line="564"/>
         <source>height=</source>
         <translation>высота=</translation>
     </message>
@@ -447,7 +447,7 @@
     <message>
         <location filename="../marshal.h" line="136"/>
         <location filename="../marshal.h" line="168"/>
-        <location filename="../marshal.h" line="272"/>
+        <location filename="../marshal.h" line="284"/>
         <source>Target object has been already destroyed</source>
         <translation>Вызываемый объект уже удалён</translation>
     </message>
@@ -461,7 +461,7 @@
         <location filename="../plotterlayersdialog.cpp" line="126"/>
         <location filename="../plotterwidget.cpp" line="277"/>
         <location filename="../plotterwidget.cpp" line="312"/>
-        <location filename="../textviewer.cpp" line="252"/>
+        <location filename="../textviewer.cpp" line="253"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
@@ -498,27 +498,27 @@
     </message>
     <message>
         <location filename="../textviewer.cpp" line="144"/>
-        <location filename="../textviewer.cpp" line="243"/>
+        <location filename="../textviewer.cpp" line="244"/>
         <source>Cannot open file: &quot;</source>
         <translation>Невозможно открыть файл: &quot;</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="232"/>
+        <location filename="../textviewer.cpp" line="233"/>
         <source>Text files (*.txt)</source>
         <translation>Текстовые файлы (*.txt)</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="232"/>
+        <location filename="../textviewer.cpp" line="233"/>
         <source>All files (*)</source>
         <translation>Все файлы (*)</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="247"/>
+        <location filename="../textviewer.cpp" line="248"/>
         <source>Cannot save document</source>
         <translation>Невозможно сохранить документ</translation>
     </message>
     <message>
-        <location filename="../textviewer.cpp" line="268"/>
+        <location filename="../textviewer.cpp" line="269"/>
         <source>Choose font...</source>
         <translation>Выбрать шрифт...</translation>
     </message>

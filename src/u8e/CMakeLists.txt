@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.3.0)
+cmake_minimum_required(VERSION 3.22)
 
 set(U8E_SRC src/u8efile.cpp src/u8eenv.cpp)
 

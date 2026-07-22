@@ -175,7 +175,7 @@ void PlotterVideoScene::exportData(QTextStream &ts) {
 	for(int i=0;i<_buffer.size();i++) {
 		ts<<_buffer[i];
 		if((i+1)%_videoWidth!=0) ts<<',';
-		else ts<<endl;
+		else ts<<Qt::endl;
 	}
 }
 
@@ -259,7 +259,7 @@ inline QRgb PlotterVideoScene::pixelToRgb(qreal pixel) const {
 }
 
 void PlotterVideoScene::updateRect() {
-	_width=std::min(_buffer.size(),_videoWidth);
+	_width=std::min<int>(_buffer.size(),_videoWidth);
 	auto d=static_cast<double>(_buffer.size())/_width;
 	_height=static_cast<int>(std::ceil(d));
 	_rect=QRectF(-0.5,-0.5,_width,_height);

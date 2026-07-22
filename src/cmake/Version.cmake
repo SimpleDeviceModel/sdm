@@ -1,10 +1,10 @@
 # Sets up version
 
-cmake_minimum_required(VERSION 3.3.0)
+cmake_minimum_required(VERSION 3.22)
 
 set(PRODUCT_VERSION_MAJOR 1)
-set(PRODUCT_VERSION_MINOR 0)
-set(PRODUCT_VERSION_PATCH 6)
+set(PRODUCT_VERSION_MINOR 1)
+set(PRODUCT_VERSION_PATCH 0)
 
 try_compile(CPU_DETECTED "${CMAKE_CURRENT_BINARY_DIR}/try_compile/DetectCPU" "${CMAKE_CURRENT_LIST_DIR}/DetectCPU.c" COPY_FILE "${CMAKE_CURRENT_BINARY_DIR}/try_compile/DetectCPU.bin")
 

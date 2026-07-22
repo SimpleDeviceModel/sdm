@@ -42,7 +42,7 @@
 #include <QMessageBox>
 #include <QStatusBar>
 #include <QDesktopServices>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QSplitter>
 #include <QLabel>
 #include <QTextStream>
@@ -53,6 +53,8 @@
 #include <QFileInfo>
 #include <QLocale>
 #include <QStyle>
+#include <QAction>
+#include <QActionGroup>
 
 #include <map>
 #include <functional>
@@ -121,7 +123,9 @@ MainWindow::MainWindow(LuaServerQt &l,DocRoot &d,QWidget *parent):
 }
 
 QSize MainWindow::sizeHint() const {
-	auto geometry=QApplication::desktop()->availableGeometry(this);
+	auto s=screen();
+	if(!s) s=QGuiApplication::primaryScreen();
+	auto geometry=s->availableGeometry();
 	auto w=geometry.width()*4/5;
 	auto h=geometry.height()*4/5;
 	return QSize(w,h);
@@ -173,16 +177,35 @@ void MainWindow::constructMainMenu() {
 	QAction *a;
 	
 	m=menuBar()->addMenu(tr("&File"));
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,3,0)
+	m->addAction(QIcon(":/icons/plugin.svg"),tr("&Open plugin")+"...",
+		QKeySequence::Open,_sidebar,SLOT(openPlugin()));
+#else
 	m->addAction(QIcon(":/icons/plugin.svg"),tr("&Open plugin")+"...",
 		_sidebar,SLOT(openPlugin()),QKeySequence::Open);
+#endif
+
 	m->addSeparator();
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,3,0)
+	m->addAction(QIcon(":/icons/quit.svg"),tr("&Exit"),
+		QKeySequence::Quit,this,SLOT(close()));
+#else
 	m->addAction(QIcon(":/icons/quit.svg"),tr("&Exit"),
 		this,SLOT(close()),QKeySequence::Quit);
+#endif
 	
 	m=menuBar()->addMenu(tr("&View"));
 	
+#if QT_VERSION >= QT_VERSION_CHECK(6,3,0)
+	a=m->addAction(tr("Full screen mode"),_fullScreenShortcut,this,
+		SLOT(menuViewFullScreen(bool)));
+#else
 	a=m->addAction(tr("Full screen mode"),this,
 		SLOT(menuViewFullScreen(bool)),_fullScreenShortcut);
+#endif
+
 	a->setCheckable(true);
 	a->setChecked(isFullScreen());
 	m->addSeparator();
@@ -204,11 +227,25 @@ void MainWindow::constructMainMenu() {
 	m=menuBar()->addMenu(tr("S&cripts"));
 	populateScriptsMenu(m,FString(Config::scriptsDir().str()));
 	m->addSeparator();
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,3,0)
+	a=m->addAction(QIcon(":/icons/run.svg"),tr("E&xecute")+"...",
+		QKeySequence("Ctrl+F5"),this,SLOT(menuLuaRunScriptFromFile()));
+#else
 	a=m->addAction(QIcon(":/icons/run.svg"),tr("E&xecute")+"...",
 		this,SLOT(menuLuaRunScriptFromFile()),QKeySequence("Ctrl+F5"));
+#endif
+
 	QObject::connect(&_lua,&LuaServerQt::statusChanged,a,&QAction::setDisabled);
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,3,0)
+	a=m->addAction(QIcon(":/icons/abort.svg"),tr("&Terminate"),
+		QKeySequence("Shift+F5"),this,SLOT(menuLuaTerminateLuaScript()));
+#else
 	a=m->addAction(QIcon(":/icons/abort.svg"),tr("&Terminate"),
 		this,SLOT(menuLuaTerminateLuaScript()),QKeySequence("Shift+F5"));
+#endif
+
 	a->setEnabled(false);
 	QObject::connect(&_lua,&LuaServerQt::statusChanged,a,&QAction::setEnabled);
 	m->addAction(QIcon(":/icons/lua-logo-nolabel.svg"),tr("Statistics"),
@@ -231,13 +268,24 @@ void MainWindow::constructMainMenu() {
 		this,SLOT(menuSettingsReset()));
 	
 	m=menuBar()->addMenu(tr("&Help"));
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,3,0)
+	m->addAction(QIcon(":/icons/help.svg"),tr("User &manual"),
+		QKeySequence::HelpContents,this,SLOT(menuHelpManual()));
+	m->addAction(QIcon(":/icons/lua-logo-nolabel.svg"),tr("Lua &reference"),
+		QKeySequence("Ctrl+L"),this,SLOT(menuHelpLuaHelp()));
+#else
 	m->addAction(QIcon(":/icons/help.svg"),tr("User &manual"),
 		this,SLOT(menuHelpManual()),QKeySequence::HelpContents);
 	m->addAction(QIcon(":/icons/lua-logo-nolabel.svg"),tr("Lua &reference"),
 		this,SLOT(menuHelpLuaHelp()),QKeySequence("Ctrl+L"));
+#endif
+
 	m->addSeparator();
 	m->addAction(QIcon(":/icons/appicon.svg"),tr("About SDM"),
 		this,SLOT(menuHelpAbout()));
+	
+	m->sizeHint(); // performance workaround for lazy menu construction in Qt6
 }
 
 void MainWindow::populateScriptsMenu(QMenu *menu,const QString &path) {
@@ -369,9 +417,9 @@ void MainWindow::menuLuaStats() try {
 	QString str;
 	QTextStream ts(&str);
 	ts<<"<table width=\"100%\">\n";
-	ts<<"<tr><td>"<<tr("Interpreter version")<<"</td><td>"<<QString(LUA_RELEASE).replace("Lua ","")<<"</td></tr>\n"<<endl;
-	ts<<"<tr><td>"<<tr("Number of calls")<<"</td><td>"<<_lua.calls()<<"</td></tr>\n"<<endl;
-	ts<<"<tr><td>"<<tr("Total execution time")<<"</td><td>"<<_lua.msecTotal()<<"&nbsp;"<<tr("ms")<<"</td></tr>\n"<<endl;
+	ts<<"<tr><td>"<<tr("Interpreter version")<<"</td><td>"<<QString(LUA_RELEASE).replace("Lua ","")<<"</td></tr>\n"<<Qt::endl;
+	ts<<"<tr><td>"<<tr("Number of calls")<<"</td><td>"<<_lua.calls()<<"</td></tr>\n"<<Qt::endl;
+	ts<<"<tr><td>"<<tr("Total execution time")<<"</td><td>"<<_lua.msecTotal()<<"&nbsp;"<<tr("ms")<<"</td></tr>\n"<<Qt::endl;
 	
 	try {
 		auto kb=_lua.kbRam();
@@ -476,7 +524,7 @@ void MainWindow::executeScript(const QString &path) try {
 	if(_lua.busy()) throw fruntime_error(tr("Lua interpreter is busy"));
 	const FString filename=Path(FString(path)).toAbsolute().str();
 	u8e::IFileStream in(filename.c_str(),std::ios_base::in|std::ios_base::binary);
-	if(!in) throw fruntime_error(tr("Cannot open script file \"")+filename+"\"");
+	if(!in) throw fruntime_error(tr("Cannot open script file \""));
 	LuaStreamReader reader(in,true);
 	_lua.executeChunkAsync(reader,"@"+filename,
 		prepareMarshaledFunctor<const LuaCallResult&>
@@ -504,13 +552,13 @@ void MainWindow::infoUrlHandler(const QUrl &url) try {
 		tv.setWindowTitle(tr("Build information"));
 		QString str;
 		QTextStream ts(&str);
-		ts<<tr("Version")<<": "<<Config::version()<<endl;
-		ts<<tr("Platform")<<": "<<Config::os()<<" ("<<Config::architecture()<<")"<<endl;
-		ts<<tr("Compiler")<<": "<<Config::compiler()<<endl;
-		ts<<tr("Toolkit version")<<": "<<QT_VERSION_STR<<endl;
-		if(*Config::commitHash()) ts<<tr("Commit hash")<<": "<<Config::commitHash()<<endl;
+		ts<<tr("Version")<<": "<<Config::version()<<Qt::endl;
+		ts<<tr("Platform")<<": "<<Config::os()<<" ("<<Config::architecture()<<")"<<Qt::endl;
+		ts<<tr("Compiler")<<": "<<Config::compiler()<<Qt::endl;
+		ts<<tr("Toolkit version")<<": "<<QT_VERSION_STR<<Qt::endl;
+		if(*Config::commitHash()) ts<<tr("Commit hash")<<": "<<Config::commitHash()<<Qt::endl;
 		if(Config::commitTimestamp()) ts<<tr("Commit timestamp")<<": "<<
-			QLocale().toString(QDateTime::fromTime_t(Config::commitTimestamp()))<<endl;
+			QLocale().toString(QDateTime::fromSecsSinceEpoch(Config::commitTimestamp()))<<Qt::endl;
 		tv.loadString(str);
 		tv.exec();
 	}
@@ -589,7 +637,12 @@ void MainWindow::closeEvent(QCloseEvent *) {
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e) {
-	if(_sidebarSize<=0) _sidebarSize=QApplication::desktop()->availableGeometry(this).width()/5;
+	if(_sidebarSize<=0) {
+		auto s=screen();
+		if(!s) s=QGuiApplication::primaryScreen();
+		auto geometry=s->availableGeometry();
+		_sidebarSize=geometry.width()/5;
+	}
 	_splitter->setSizes({_sidebarSize,width()-_sidebarSize});
 	QMainWindow::resizeEvent(e);
 }

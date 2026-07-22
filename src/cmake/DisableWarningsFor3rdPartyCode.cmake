@@ -2,7 +2,7 @@
 # Note: this file should be included only in CMakeLists.txt
 # that are responsible for building third-party code
 
-cmake_minimum_required(VERSION 3.3.0)
+cmake_minimum_required(VERSION 3.22)
 
 if(OPTION_DIAGNOSTIC STREQUAL "FULL")
 # FULL diagnostic mode: enable warnings, but don't treat them as errors

@@ -529,10 +529,10 @@ void FifoPage::exportToCSV() try {
 	
 	QTextStream ts(&f);
 	if(d.filteredExtension()=="hex") {
-		for(auto const val: *_tableModel) ts<<hexNumber(val)<<endl;
+		for(auto const val: *_tableModel) ts<<hexNumber(val)<<Qt::endl;
 	}
 	else {
-		for(auto const val: *_tableModel) ts<<val<<endl;
+		for(auto const val: *_tableModel) ts<<val<<Qt::endl;
 	}
 }
 catch(std::exception &ex) {

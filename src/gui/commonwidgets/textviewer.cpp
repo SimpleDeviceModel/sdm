@@ -39,11 +39,11 @@
 #include <QTextBlock>
 #include <QTextDocumentWriter>
 #include <QTextStream>
-#include <QTextCodec>
+#include <QStringConverter>
 
 #include <QApplication>
 #include <QStyle>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QSettings>
 #include <QClipboard>
 #include <QFile>
@@ -130,7 +130,7 @@ void TextViewer::chooseFont() {
 
 void TextViewer::applyFont(const QFont &f) {
 	QFont newFont=f;
-	_edit->setTabStopWidth(FontUtils::tweakForTabStops(newFont,4));
+	_edit->setTabStopDistance(FontUtils::tweakForTabStops(newFont,4));
 	_edit->setFont(newFont);
 }
 
@@ -138,14 +138,13 @@ void TextViewer::clear() {
 	_edit->document()->clear();
 }
 
-void TextViewer::loadFile(const QString &filename,const char *encoding) {
+void TextViewer::loadFile(const QString &filename) {
 	QFile f(filename);
 	if(!f.open(QIODevice::ReadOnly))
 		throw fruntime_error(tr("Cannot open file: \"")+filename+"\"");
 	
 	QTextStream ts(&f);
-	auto codec=QTextCodec::codecForName(encoding);
-	ts.setCodec(codec);
+	ts.setEncoding(QStringConverter::Utf8);
 	clear();
 	loadStream(ts);
 	_edit->moveCursor(QTextCursor::Start);
@@ -195,7 +194,9 @@ void TextViewer::loadStream(QTextStream &s) {
 	if(!vp) vp=this;
 	
 // Does the text look formatted?
-	auto geometry=QApplication::desktop()->availableGeometry(vp);
+	auto scr=vp->screen();
+	if(!scr) scr=QGuiApplication::primaryScreen();
+	auto geometry=scr->availableGeometry();
 	bool formatted=false;
 	if(docWidth<geometry.width()*3/5) formatted=true;
 	

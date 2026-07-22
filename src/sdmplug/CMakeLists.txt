@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.3.0)
+cmake_minimum_required(VERSION 3.22)
 
 add_library(sdmplug STATIC src/sdmplugbase.cpp src/sdmplugin.cpp src/sdmdevice.cpp src/sdmchannel.cpp src/sdmsource.cpp)
 

@@ -40,7 +40,7 @@ void IconButton::paintEvent(QPaintEvent *) {
 	painter.drawPixmap(x,y,_pixmap);
 }
 
-void IconButton::enterEvent(QEvent *) {
+void IconButton::enterEvent(QEnterEvent *) {
 	_bgBrush=palette().light();
 	update();
 }

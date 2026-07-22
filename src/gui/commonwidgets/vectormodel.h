@@ -28,6 +28,7 @@
 
 #include <vector>
 #include <utility>
+#include <cstring>
 
 template <typename T> class VectorModel : public QAbstractListModel {
 public:
@@ -147,7 +148,7 @@ public:
 		if(i<0||i>=static_cast<int>(_data.size())) return false;
 		if(!value.canConvert<T>()) return false;
 		
-		if(static_cast<QMetaType::Type>(value.type())!=QMetaType::QString) {
+		if(std::strcmp(value.typeName(),"QString")) {
 			_data[i]=value.value<T>();
 		}
 		else { // special handling of QString to recognize non-decimal numbers

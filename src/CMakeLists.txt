@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.3.0)
+cmake_minimum_required(VERSION 3.22)
 project(SDM)
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
@@ -11,6 +11,7 @@ option(OPTION_DIAGNOSTIC "Employ additional diagnostics")
 option(OPTION_LUA_SYSTEM "Link against Lua library installed on this system")
 option(OPTION_NO_LUAMODULES "Don't build optional Lua modules")
 option(OPTION_NO_QT "Don't use Qt")
+option(OPTION_PORTABLE "Portable install (settings in application directory)")
 
 # By default, use app-local deployment of the MSVC runtime for MSVC 2013,
 # central deployment (vcredist_*.exe) for later versions

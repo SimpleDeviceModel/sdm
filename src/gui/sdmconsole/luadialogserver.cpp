@@ -33,7 +33,7 @@
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QApplication>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QSettings>
 
 #include <vector>
@@ -71,7 +71,7 @@ LuaGUIObject::Invoker LuaDialogServer::enumerateGUIMethods(int i,std::string &st
 
 int LuaDialogServer::LuaMethod_screen(LuaServer &lua,const std::vector<LuaValue> &args) {
 	if(!args.empty()) throw std::runtime_error("screen() doesn't take arguments");
-	auto geometry=QApplication::desktop()->screenGeometry();
+	auto geometry=QGuiApplication::primaryScreen()->geometry();
 	lua.pushValue(static_cast<lua_Integer>(geometry.width()));
 	lua.pushValue(static_cast<lua_Integer>(geometry.height()));
 	return 2;

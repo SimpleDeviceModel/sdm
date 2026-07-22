@@ -21,6 +21,7 @@
 
 #include "sdmconfig.h"
 #include "u8ecodec.h"
+#include "u8eenv.h"
 
 #include "sdmdirscfg.h"
 #include "sdmvercfg.h"
@@ -113,6 +114,14 @@ Path Config::dataDir() {
 	return installPrefix()+DATA_INSTALL_DIR;
 }
 
+#ifdef SDM_PORTABLE_INSTALL
+
+Path Config::appConfigDir() {
+	return installPrefix()+".config"+"Simple Device Model";
+}
+
+#else // SDM_PORTABLE_INSTALL not defined
+
 #ifdef _WIN32
 
 Path Config::appConfigDir() {
@@ -125,12 +134,15 @@ Path Config::appConfigDir() {
 	return Path(codec.transcode(buf.data()))+"Simple Device Model";
 }
 
-#else
+#else // not Win32
 
 Path Config::appConfigDir() {
+	auto xdgHome=u8e::envVar("XDG_CONFIG_HOME");
+	if(!xdgHome.empty()) return Path(xdgHome)+"Simple Device Model";
 	return Path::home()+".config/Simple Device Model";
 }
 
+#endif
 #endif
 
 /*

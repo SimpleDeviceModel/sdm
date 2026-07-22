@@ -217,8 +217,13 @@ public:
 	}
 
 // Invoke functor
+#if (__cplusplus>=201703L)
+	template <typename F> typename std::invoke_result_t<F> marshal(F &&functor) {
+		typedef typename std::invoke_result_t<F> R;
+#else
 	template <typename F> typename std::result_of<F()>::type marshal(F &&functor) {
 		typedef typename std::result_of<F()>::type R;
+#endif
 		if(objectThread()==QThread::currentThread()) return functor();
 		MarshalHelpers::CompleterObject<R> completer;
 		auto e=new MarshalHelpers::InvokeEvent<R>(std::forward<F>(functor),objectThread(),this,&completer);
@@ -248,10 +253,17 @@ public:
  * invoked later. It will be invoked from the object's thread. The functor
  * will throw an exception if the target object is already deleted.
  */
-	template <typename... Params,typename F> 
+#if (__cplusplus>=201703L)
+	template <typename... Params,typename F>
+		MarshaledFunctor<typename std::invoke_result_t<F,Params...>,Params...>
+			prepareMarshaledFunctor(F &&functor,bool async=false) {
+		typedef typename std::invoke_result_t<F,Params...> R;
+#else
+	template <typename... Params,typename F>
 		MarshaledFunctor<typename std::result_of<F(Params...)>::type,Params...>
 			prepareMarshaledFunctor(F &&functor,bool async=false) {
 		typedef typename std::result_of<F(Params...)>::type R;
+#endif
 		return MarshaledFunctor<R,Params...>(std::forward<F>(functor),this,objectThread(),async);
 	}
 };

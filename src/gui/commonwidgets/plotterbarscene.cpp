@@ -189,7 +189,7 @@ void PlotterBarScene::exportData(QTextStream &ts) {
 	int maxSize=0;
 	for(auto it=_layers.cbegin();it!=_layers.cend();it++) {
 		if(it.value().enabled) nLayers++;
-		maxSize=std::max(maxSize,it.value().line.size());
+		maxSize=std::max<int>(maxSize,it.value().line.size());
 	}
 	
 // Export data
@@ -202,7 +202,7 @@ void PlotterBarScene::exportData(QTextStream &ts) {
 				if(fields<nLayers) ts<<',';
 			}
 		}
-		ts<<endl;
+		ts<<Qt::endl;
 	}
 }
 

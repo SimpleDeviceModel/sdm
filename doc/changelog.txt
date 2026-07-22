@@ -1,4 +1,15 @@
 ========================
+SDM 1.1.0
+------------------------
+Released on XXXX-XX-XX
+========================
+
+* sdmconsole migrated to Qt6. Qt5 is no longer supported.
+* in line with the Qt6 system requirements, support of certain older OSes was dropped.
+* portable installations are now supported.
+* to streamline maintenance, the number of regularly tested platform and toolchain combinations was reduced.
+
+========================
 SDM 1.0.6
 ------------------------
 Released on 2022-08-28

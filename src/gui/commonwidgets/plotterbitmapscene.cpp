@@ -114,7 +114,7 @@ void PlotterBitmapScene::addData(int layer,const QVector<qreal> &data) {
 		}
 		else {
 			_lineSizeCnt--;
-			_maxLineSize=std::max(_maxLineSize,data.size());
+			_maxLineSize=std::max<int>(_maxLineSize,data.size());
 			if(_lineSizeCnt==0) {
 				_width=_maxLineSize;
 				_rect=QRectF(-0.5,-0.5,_width,_lines);
@@ -212,7 +212,7 @@ void PlotterBitmapScene::exportData(QTextStream &ts) {
 			ts<<v[i];
 			if(i+1<v.size()) ts<<',';
 		}
-		ts<<endl;
+		ts<<Qt::endl;
 	}
 }
 
