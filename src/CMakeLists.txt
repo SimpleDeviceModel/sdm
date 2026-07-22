@@ -13,15 +13,8 @@ option(OPTION_NO_LUAMODULES "Don't build optional Lua modules")
 option(OPTION_NO_QT "Don't use Qt")
 option(OPTION_PORTABLE "Portable install (settings in application directory)")
 
-# By default, use app-local deployment of the MSVC runtime for MSVC 2013,
-# central deployment (vcredist_*.exe) for later versions
-
 if(MSVC)
-	if(MSVC_VERSION GREATER 1800)
-		option(OPTION_USE_VCREDIST "Use central deployment for Microsoft Visual C++ Runtime" ON)
-	else()
-		option(OPTION_USE_VCREDIST "Use central deployment for Microsoft Visual C++ Runtime" OFF)
-	endif()
+	option(OPTION_USE_VCREDIST "Use central deployment for Microsoft Visual C++ Runtime" ON)
 endif()
 
 if(UNIX)
