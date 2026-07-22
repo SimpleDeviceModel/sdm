@@ -178,15 +178,15 @@ void MainWindow::constructMainMenu() {
 	
 	m=menuBar()->addMenu(tr("&File"));
 	m->addAction(QIcon(":/icons/plugin.svg"),tr("&Open plugin")+"...",
-		_sidebar,SLOT(openPlugin()),QKeySequence::Open);
+		QKeySequence::Open,_sidebar,SLOT(openPlugin()));
 	m->addSeparator();
 	m->addAction(QIcon(":/icons/quit.svg"),tr("&Exit"),
-		this,SLOT(close()),QKeySequence::Quit);
+		QKeySequence::Quit,this,SLOT(close()));
 	
 	m=menuBar()->addMenu(tr("&View"));
 	
-	a=m->addAction(tr("Full screen mode"),this,
-		SLOT(menuViewFullScreen(bool)),_fullScreenShortcut);
+	a=m->addAction(tr("Full screen mode"),_fullScreenShortcut,this,
+		SLOT(menuViewFullScreen(bool)));
 	a->setCheckable(true);
 	a->setChecked(isFullScreen());
 	m->addSeparator();
@@ -209,10 +209,10 @@ void MainWindow::constructMainMenu() {
 	populateScriptsMenu(m,FString(Config::scriptsDir().str()));
 	m->addSeparator();
 	a=m->addAction(QIcon(":/icons/run.svg"),tr("E&xecute")+"...",
-		this,SLOT(menuLuaRunScriptFromFile()),QKeySequence("Ctrl+F5"));
+		QKeySequence("Ctrl+F5"),this,SLOT(menuLuaRunScriptFromFile()));
 	QObject::connect(&_lua,&LuaServerQt::statusChanged,a,&QAction::setDisabled);
 	a=m->addAction(QIcon(":/icons/abort.svg"),tr("&Terminate"),
-		this,SLOT(menuLuaTerminateLuaScript()),QKeySequence("Shift+F5"));
+		QKeySequence("Shift+F5"),this,SLOT(menuLuaTerminateLuaScript()));
 	a->setEnabled(false);
 	QObject::connect(&_lua,&LuaServerQt::statusChanged,a,&QAction::setEnabled);
 	m->addAction(QIcon(":/icons/lua-logo-nolabel.svg"),tr("Statistics"),
@@ -236,9 +236,9 @@ void MainWindow::constructMainMenu() {
 	
 	m=menuBar()->addMenu(tr("&Help"));
 	m->addAction(QIcon(":/icons/help.svg"),tr("User &manual"),
-		this,SLOT(menuHelpManual()),QKeySequence::HelpContents);
+		QKeySequence::HelpContents,this,SLOT(menuHelpManual()));
 	m->addAction(QIcon(":/icons/lua-logo-nolabel.svg"),tr("Lua &reference"),
-		this,SLOT(menuHelpLuaHelp()),QKeySequence("Ctrl+L"));
+		QKeySequence("Ctrl+L"),this,SLOT(menuHelpLuaHelp()));
 	m->addSeparator();
 	m->addAction(QIcon(":/icons/appicon.svg"),tr("About SDM"),
 		this,SLOT(menuHelpAbout()));

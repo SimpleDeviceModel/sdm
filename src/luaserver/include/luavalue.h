@@ -76,7 +76,7 @@ private:
 		std::FILE *fh;
 	};
 
-	LuaValueContent v;
+	LuaValueContent v{};
 	Type t;
 	
 public:

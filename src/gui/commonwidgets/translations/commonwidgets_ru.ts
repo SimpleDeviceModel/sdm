@@ -22,32 +22,32 @@
 <context>
     <name>ConsoleWidget</name>
     <message>
-        <location filename="../consolewidget.cpp" line="443"/>
+        <location filename="../consolewidget.cpp" line="450"/>
         <source>Cut</source>
         <translation>Вырезать</translation>
     </message>
     <message>
-        <location filename="../consolewidget.cpp" line="447"/>
+        <location filename="../consolewidget.cpp" line="454"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../consolewidget.cpp" line="451"/>
+        <location filename="../consolewidget.cpp" line="458"/>
         <source>Paste</source>
         <translation>Вставить</translation>
     </message>
     <message>
-        <location filename="../consolewidget.cpp" line="455"/>
+        <location filename="../consolewidget.cpp" line="462"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../consolewidget.cpp" line="461"/>
+        <location filename="../consolewidget.cpp" line="468"/>
         <source>Select All</source>
         <translation>Выделить всё</translation>
     </message>
     <message>
-        <location filename="../consolewidget.cpp" line="468"/>
+        <location filename="../consolewidget.cpp" line="475"/>
         <source>Choose font...</source>
         <translation>Выбрать шрифт...</translation>
     </message>
